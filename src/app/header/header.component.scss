@@ -1,0 +1,309 @@
+@import "/src/assets/base/base.scss";
+
+.env-banner {
+    padding: 5px 10px;
+    z-index: 10000;
+
+    &.red {
+        background-color: #ff8e8e;
+        color: #a70404;
+    }
+
+    &.orange {
+        background-color: #ffd47e;
+        color: #bd7e02;
+    }
+
+    &.yellow {
+        background-color: #f1ef63;
+        color: #98980f;
+    }
+
+    &.green {
+        background-color: #aaf1a0;
+        color: #057713;
+    }
+
+    &.purple {
+        background-color: #d39eff;
+        color: #8c00ff;
+    }
+}
+
+.app-header {
+    background: $header-bg;
+    color: $header-font-color;
+}
+.showForIEorEdge {
+    display: block;
+}
+
+// @media (min-width: 768px) {
+//     .app-header {
+//         position: fixed;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         border-bottom-style: solid;
+//         border-bottom-width: 0;
+//         border-bottom-color: rgba(#5475a7, 0.4);
+//         // background-color: transparent;
+//         transition: all linear 0.2s;
+//     }
+
+//     .app-header--flex {
+//         flex: 0 0 auto;
+//         position: relative;
+//         background: $header-bg;
+//         color: $header-font-color;
+//     }
+
+//     .app-header--solid {
+//         background: $header-bg;
+//         color: $header-font-color;
+//     }
+// }
+
+// Navbar Toggle Button
+.navbar-toggler {
+    margin-right: 0.5rem;
+    padding: 0.5rem 0.4rem;
+    border: 2px solid $gold;
+    color: $gold;
+    font-size: medium;
+    font-weight: 600;
+    outline: none; // override user agent stylesheet default
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.collapsed {
+        border: 2px solid transparent;
+        color: #fff;
+    }
+
+    i {
+        float: left;
+        margin-top: -0.25rem;
+        margin-bottom: -0.25rem;
+
+        + span {
+            display: none;
+            margin-top: 1px;
+            margin-left: 0.25rem;
+            font-size: $mn-font-size;
+            font-weight: 700;
+            vertical-align: top;
+        }
+    }
+}
+
+@media (min-width: 420px) {
+    .navbar-toggler {
+        i {
+            + span {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+// NAVBAR
+.navbar {
+    padding: 0;
+    background-color: $header-bg;
+    z-index: 1000;
+
+    .navbar-nav {
+        margin-top: 0.5rem;
+        padding-right: 30px;
+
+        .nav-link {
+            position: relative;
+            z-index: 1001; // +1 to keep above dropdown menus
+            padding: 0.875rem 1rem;
+            border-top: 1px solid $mn-border-color;
+            color: #fcba18;
+            text-transform: uppercase;
+            font-size: $mn-font-size;
+            font-weight: 700;
+            cursor: pointer;
+
+            span {
+                font-size: 1rem;
+                text-transform: none;
+                font-weight: normal;
+            }
+
+            .icon {
+                margin-top: 0;
+            }
+        }
+
+        .dropdown {
+            &.show {
+                .dropdown-toggle {
+                    color: $gold;
+                }
+            }
+        }
+
+        .dropdown-menu {
+            margin-top: -0.4rem;
+            padding-top: 0;
+            border: none;
+            border-radius: 0;
+            background-color: transparent;
+
+            .dropdown-item {
+                padding: 0.5rem 1rem;
+                color: $mn-color;
+                font-size: $mn-dropdown-menu-size;
+                white-space: normal;
+                cursor: pointer;
+
+                strong {
+                    font-weight: 600;
+                    transition: color 0.2s ease-out;
+                }
+
+                .dd-item-desc {
+                    display: block;
+                    font-size: small;
+                    opacity: 0.5;
+                    transition: opacity 0.2s ease-out;
+                }
+
+                &:focus,
+                &:hover {
+                    background: transparent;
+
+                    strong {
+                        color: $mn-hover-color;
+                    }
+
+                    .dd-item-desc {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        background: transparent;
+
+        .navbar-nav {
+            margin-top: 0;
+
+            .nav-link {
+                height: 4.2rem; // 60px to match the branding height
+                padding: 0.5rem 0.75rem !important;
+                border-top: none;
+                span {
+                    margin-top: 0.9rem;
+                    display: inline-block;
+                }
+                &:hover {
+                    border-bottom: 2px solid #fcba18;
+                }
+            }
+
+            > li {
+                .dropdown-menu {
+                    margin: 0;
+                    padding: 0.5rem;
+                    min-width: 16rem;
+                    background-color: #002663;
+                    &.dm-sm {
+                        min-width: 12rem;
+                    }
+                    .dropdown-item {
+                        padding: 0.5rem;
+                    }
+                }
+
+                &.dropdown {
+                    &.show {
+                        .dropdown-toggle {
+                            color: $mn-color;
+                        }
+                        .dropdown-menu {
+                            display: none;
+                        }
+                    }
+
+                    &:hover {
+                        > a,
+                        > a:hover,
+                        > a:focus {
+                            background-color: #002663;
+                            border: none;
+                        }
+                        .dropdown-menu {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .navbar-collapse {
+        flex-grow: 0;
+    }
+}
+
+// Navbar Brand
+.navbar-brand {
+    height: 3.4375rem;
+    background-image: url("/assets/images/bcgov-header-vert-SM.png");
+    background-position: 8px center;
+    background-repeat: no-repeat;
+    white-space: normal;
+}
+
+.navbar-brand__title {
+    margin-top: 0.78rem;
+    margin-left: 75px;
+    display: inline-block;
+    color: #fff;
+    line-height: 1.1rem;
+    font-weight: 800;
+    font-size: 2rem;
+    .wb {
+        display: block;
+    }
+}
+
+.navbar-brand__version {
+    margin-top: -0.1rem;
+    display: inline-block;
+    color: $gold;
+    font-size: 0.5rem;
+    font-weight: 700;
+    vertical-align: top;
+}
+
+@media (min-width: 1200px) {
+    .navbar-brand {
+        height: 4.2rem;
+        background-image: url("/assets/images/bcgov-header-vert-MD.png");
+        background-position: 10px center;
+    }
+
+    .navbar-brand__title {
+        margin-left: 88px;
+        line-height: 1.2rem;
+        font-weight: 800;
+        font-size: 3rem;
+        margin-top: 17px;
+    }
+
+    .navbar-brand__version {
+        font-size: 0.6rem;
+    }
+}
