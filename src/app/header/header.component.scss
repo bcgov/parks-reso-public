@@ -33,6 +33,7 @@
 .app-header {
     background: $header-bg;
     color: $header-font-color;
+    border-bottom: 2px solid $gold;
 }
 .showForIEorEdge {
     display: block;
@@ -259,21 +260,28 @@
 
 // Navbar Brand
 .navbar-brand {
-    height: 3.4375rem;
-    background-image: url("/assets/images/bcgov-header-vert-SM.png");
-    background-position: 8px center;
-    background-repeat: no-repeat;
+    height: 5rem;
     white-space: normal;
 }
 
+.bc-gov-logo{
+    height:40%;
+    margin: 0 13px 0 0;
+}
+
+.bc-parks-title{
+    height: 40%;
+}
+
 .navbar-brand__title {
-    margin-top: 0.78rem;
-    margin-left: 75px;
     display: inline-block;
     color: #fff;
-    line-height: 1.1rem;
+    margin-left: 10px;
+    line-height: 1.2rem;
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 3rem;
+    margin-top: 17px;
+    font: bc-sans;
     .wb {
         display: block;
     }
@@ -288,15 +296,15 @@
     vertical-align: top;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 576px) {
     .navbar-brand {
-        height: 4.2rem;
-        background-image: url("/assets/images/bcgov-header-vert-MD.png");
-        background-position: 10px center;
+        height: 5rem;
+        white-space: normal;
+        margin-bottom: 5px;
     }
 
     .navbar-brand__title {
-        margin-left: 88px;
+        margin-left: 10px;
         line-height: 1.2rem;
         font-weight: 800;
         font-size: 3rem;
@@ -305,5 +313,14 @@
 
     .navbar-brand__version {
         font-size: 0.6rem;
+    }
+
+    .bc-gov-logo{
+        height:63%;
+        margin: 0 13px 0 0;
+    }
+
+    .bc-parks-title{
+        height: 53%;
     }
 }
