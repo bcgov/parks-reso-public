@@ -1,5 +1,5 @@
 // Main Colors
-$primary:                       #003366;   
+$primary:                       #003366;
 $gold:                          #fcba19;
 $lightgray:                     #eee;
 
@@ -8,10 +8,10 @@ $bg-dark:                       $primary;
 $bg-dark-color:                 #fff;
 $bg-dark-link-color:            $gold;
 $bg-dark-border-color:          #5475a7;
-$bg-default:                    #fff;
+$bg-default:                    #F1F1F1;
 
 // Font Colors
-$font-color:                    #494949;
+$font-color:                    #333;
 $font-gray:                     #666666;
 
 // Links
@@ -20,10 +20,13 @@ $link-color:                    #1a5a96;
 // Header
 $header-font-color:             #fff;
 $header-bg:                     $primary;
+$header-h1:                     #1A5A96;
+$header-hight:                  71px;
 
 // Footer
 $footer-bg:                     $primary;
 $footer-color:                  #fff;
+$footer-hight:                  71px;
 
 // Main Navigation
 $mn-font-size:                  0.875rem; // 14 px

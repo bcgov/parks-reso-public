@@ -34,36 +34,11 @@
     background: $header-bg;
     color: $header-font-color;
     border-bottom: 2px solid $gold;
+    height: $header-hight;
 }
 .showForIEorEdge {
     display: block;
 }
-
-// @media (min-width: 768px) {
-//     .app-header {
-//         position: fixed;
-//         top: 0;
-//         left: 0;
-//         right: 0;
-//         border-bottom-style: solid;
-//         border-bottom-width: 0;
-//         border-bottom-color: rgba(#5475a7, 0.4);
-//         // background-color: transparent;
-//         transition: all linear 0.2s;
-//     }
-
-//     .app-header--flex {
-//         flex: 0 0 auto;
-//         position: relative;
-//         background: $header-bg;
-//         color: $header-font-color;
-//     }
-
-//     .app-header--solid {
-//         background: $header-bg;
-//         color: $header-font-color;
-//     }
-// }
 
 // Navbar Toggle Button
 .navbar-toggler {
@@ -260,17 +235,20 @@
 
 // Navbar Brand
 .navbar-brand {
-    height: 5rem;
+    height: 4rem;
     white-space: normal;
 }
 
 .bc-gov-logo{
-    height:40%;
-    margin: 0 13px 0 0;
+    height:60%;
+    margin: 10px 13px 0 0;
+    padding-right: 10px;
+    border-right:1px solid #ffffff;
 }
 
 .bc-parks-title{
-    height: 40%;
+    height: 60%;
+    margin-top: 10px;
 }
 
 .navbar-brand__title {
@@ -298,7 +276,6 @@
 
 @media (min-width: 576px) {
     .navbar-brand {
-        height: 5rem;
         white-space: normal;
         margin-bottom: 5px;
     }
@@ -313,14 +290,5 @@
 
     .navbar-brand__version {
         font-size: 0.6rem;
-    }
-
-    .bc-gov-logo{
-        height:63%;
-        margin: 0 13px 0 0;
-    }
-
-    .bc-parks-title{
-        height: 53%;
     }
 }
