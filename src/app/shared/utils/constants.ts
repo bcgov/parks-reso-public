@@ -53,6 +53,7 @@ export class Constants {
     _id: 1,
     _schemaName: 'Park',
     name: 'Cypress',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: [10, 11]
   };
