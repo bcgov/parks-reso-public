@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+
 import {CardObject} from './card-object';
 
 @Component({
@@ -12,7 +14,18 @@ import {CardObject} from './card-object';
  */
 export class CardComponent  {
   @Input() data: CardObject;
+  @Output() messageOut: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
+
+  constructor(private router: Router) {
   }
+
+  navigate(id): void {
+    this.router.navigate(['park', id]);
+  }
+
+  onMessageOut(msg): void {
+    this.messageOut.emit(msg);
+  }
+
 }

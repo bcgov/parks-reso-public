@@ -1,19 +1,22 @@
 <div class="card">
-    <a class="img-card" href="https://bcparks.ca/">
+    <a class="img-card" (click)="navigate(this.data._id)">
     <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg" />
     </a>
     <div class="card-content">
         <h4 class="card-title">
-            <a href="https://bcparks.ca/"> {{this.data.parkName}}
+            <a (click)="navigate(this.data._id)"> {{this.data.name  || "somthing"}}
             </a>
         </h4>
-        <p class="">
-            {{this.data.parkDescription}}
+        <p *ngIf="this.data.status">
+            Park is open!
+        </p>
+        <p *ngIf="!this.data.status">
+            Park is closed :(
         </p>
     </div>
     <div class="card-read-more">
-        <a href="https://bcparks.ca/" class="btn btn-link btn-block">
-            Book Now
+        <a (click)="navigate(this.data._id)"  class="btn btn-link btn-block">
+            Book a Pass
         </a>
     </div>
 </div>

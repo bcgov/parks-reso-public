@@ -1,0 +1,17 @@
+@import "/src/assets/base/base.scss";
+@import "/src/assets/base/helpers.scss";
+
+.fake-anchor-tag {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.fake-anchor-tag:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.breadcrumb {
+  background-color: $bg-light-color;
+}

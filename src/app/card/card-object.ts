@@ -1,45 +1,40 @@
 import { Component } from '@angular/core';
 
 export interface ICardObjectParams {
+
+  /**
+   * id of the park
+   */
+   _id?: number;
+
   /**
    * name of the park
    */
-   parkName?: string;
+   name?: string;
 
   /**
-   * Description of a park
+   * status of a park
    */
-   parkDescription?: string;
+   status?: boolean;
 
   /**
-   * Description of a park
+   * image of a park
    */
-   parkStatus?: boolean;
-
-  /**
-   * Description of a park
-   */
-   parkVisibility?: boolean;
-
-  /**
-   * Description of a park
-   */
-   parkImage?: string;
+   image?: string;
 }
 /**
  * Main class that should contain all information needed to render a card.
  */
 export class CardObject {
-  public parkName?: string;
-  public parkDescription?: string;
-  public parkStatus?: boolean;
-  public parkVisibility?: boolean;
-  public parkImage?: string;
+  // tslint:disable-next-line:variable-name
+  public _id?: number;
+  public name?: string;
+  public status?: boolean;
+  public image?: string;
   constructor(params?: ICardObjectParams) {
-    this.parkName = (params && params.parkName) || '';
-    this.parkDescription = (params && params.parkDescription) || '';
-    this.parkStatus = (params && params.parkStatus) || true;
-    this.parkVisibility = (params && params.parkVisibility) || true;
-    this.parkImage = (params && params.parkImage) || '';
+    this._id = (params && params._id) || null;
+    this.name = (params && params.name) || '';
+    this.status = (params && params.status) || true;
+    this.image = (params && params.image) || '';
   }
 }

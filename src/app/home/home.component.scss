@@ -11,20 +11,6 @@ body {
   width: 100%;
 }
 
-.wrapper {
-  display: table;
-  // header and footer heights
-  height: calc( 100% - #{$header-hight} - #{$footer-hight} );
-  width: 100%;
-  background: $bg-default;
-  padding-bottom: 4rem;
-}
-
-.content {
-  background: #fff;
-  padding: 0 1rem;
-}
-
 .card {
   display: block;
     margin-bottom: 20px;
