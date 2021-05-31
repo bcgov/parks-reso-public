@@ -4,7 +4,10 @@
   background: $footer-bg;
   color: $footer-color;
 
-  position: fixed;
+  height: $footer-hight;
+
+  border-top: 2px solid $gold;
+
   right: 0;
   bottom: 0;
   left: 0;
@@ -117,7 +120,6 @@
 }
 
 .app-footer--sm  {
-  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;

@@ -1,3 +1,33 @@
-<div class="container">
-    <p>home works!</p>
+<div class="row">
+    <div class="col header-primary">
+        <h1>Reserve a Day Use Pass</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col text-body-primary">
+        <p>
+            Day use passes are not required to visit the following BC Parks at this time.
+            <br><br>
+            When visiting the great outdoors make sure to:
+        </p>
+            <ul>
+                <li>Do your research and pack your essentials. Nature is unpredictable, so it’s good to be prepared for anything.</li>
+                <li>Make a trip plan and tell someone where you are going and when you expect to be back.</li>
+                <li>Pack out all garbage, recyclables, and organics. Organic matter can attract wildlife.</li>
+            </ul>
+        <p>
+            Please visit <a href="https://bcparks.ca/">BC Parks</a> for more information
+
+            Enjoy your visit to BC Parks!
+        </p>
+    </div>
+</div>
+
+<div *ngIf="mockParkList?.length > 0" class="row">
+    <div *ngFor="let mockPark of mockParkList" class="col-xs-12 col-sm-4">
+        <app-card
+            [data]="mockPark.rowData">
+        </app-card>
+    </div>
 </div>

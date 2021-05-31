@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { IBreadcrumb } from './breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'parks-reso-public';
+  public breadcrumbs: IBreadcrumb[];
+  public activeBreadcrumb: IBreadcrumb;
+
+  constructor(
+    private router: Router,
+  ) {
+    this.breadcrumbs = [];
+  }
+
+  public navigateBreadcrumb(breadcrumbData): void {
+    this.router.navigate([breadcrumbData.url]);
+  }
 }

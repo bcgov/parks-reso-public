@@ -1,3 +1,13 @@
 <app-header></app-header>
-<app-home></app-home>
+<section class="main-wrapper">
+    <div class="container">
+        <div class="content">
+          <router-outlet>
+            <span>
+              <app-breadcrumb (navigateBreadcrumb)="navigateBreadcrumb($event)"></app-breadcrumb>
+            </span>
+          </router-outlet>
+        </div>
+      </div>
+  </section>
 <app-footer></app-footer>

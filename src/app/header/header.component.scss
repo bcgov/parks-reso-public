@@ -33,36 +33,12 @@
 .app-header {
     background: $header-bg;
     color: $header-font-color;
+    border-bottom: 2px solid $gold;
+    height: $header-hight;
 }
 .showForIEorEdge {
     display: block;
 }
-
-// @media (min-width: 768px) {
-//     .app-header {
-//         position: fixed;
-//         top: 0;
-//         left: 0;
-//         right: 0;
-//         border-bottom-style: solid;
-//         border-bottom-width: 0;
-//         border-bottom-color: rgba(#5475a7, 0.4);
-//         // background-color: transparent;
-//         transition: all linear 0.2s;
-//     }
-
-//     .app-header--flex {
-//         flex: 0 0 auto;
-//         position: relative;
-//         background: $header-bg;
-//         color: $header-font-color;
-//     }
-
-//     .app-header--solid {
-//         background: $header-bg;
-//         color: $header-font-color;
-//     }
-// }
 
 // Navbar Toggle Button
 .navbar-toggler {
@@ -259,21 +235,31 @@
 
 // Navbar Brand
 .navbar-brand {
-    height: 3.4375rem;
-    background-image: url("/assets/images/bcgov-header-vert-SM.png");
-    background-position: 8px center;
-    background-repeat: no-repeat;
+    height: 4rem;
     white-space: normal;
 }
 
+.bc-gov-logo{
+    height:60%;
+    margin: 10px 13px 0 0;
+    padding-right: 10px;
+    border-right:1px solid #ffffff;
+}
+
+.bc-parks-title{
+    height: 60%;
+    margin-top: 10px;
+}
+
 .navbar-brand__title {
-    margin-top: 0.78rem;
-    margin-left: 75px;
     display: inline-block;
     color: #fff;
-    line-height: 1.1rem;
+    margin-left: 10px;
+    line-height: 1.2rem;
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 3rem;
+    margin-top: 17px;
+    font: bc-sans;
     .wb {
         display: block;
     }
@@ -288,15 +274,14 @@
     vertical-align: top;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 576px) {
     .navbar-brand {
-        height: 4.2rem;
-        background-image: url("/assets/images/bcgov-header-vert-MD.png");
-        background-position: 10px center;
+        white-space: normal;
+        margin-bottom: 5px;
     }
 
     .navbar-brand__title {
-        margin-left: 88px;
+        margin-left: 10px;
         line-height: 1.2rem;
         font-weight: 800;
         font-size: 3rem;
