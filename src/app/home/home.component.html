@@ -1,33 +1,38 @@
-<div class="row">
-    <div class="col header-primary">
-        <h1>Reserve a Day Use Pass</h1>
+<div class="card text-center mb-5">
+    <div class="card-header">
+        <h1>BC Parks Day Use Pass Reservation System</h1>
     </div>
-</div>
-
-<div class="row">
-    <div class="col text-body-primary">
+    <div class="card-body text-left">
+        <p class="card-text">Some of our most popular parks regularly experience high visitor volumes,
+            resulting in
+            crowding of facilities, packed parking lots, and safety issues. These environments do not easily allow for
+            physical distancing and large numbers of visitors also have increased environmental impacts. The trail
+            systems within these parks can become crowded at narrow pass points and view points which can lead to
+            congestion and difficulties maintaining physical distancing.</p>
+        <br>
         <p>
-            Day use passes are not required to visit the following BC Parks at this time.
-            <br><br>
-            When visiting the great outdoors make sure to:
-        </p>
-            <ul>
-                <li>Do your research and pack your essentials. Nature is unpredictable, so it’s good to be prepared for anything.</li>
-                <li>Make a trip plan and tell someone where you are going and when you expect to be back.</li>
-                <li>Pack out all garbage, recyclables, and organics. Organic matter can attract wildlife.</li>
-            </ul>
-        <p>
-            Please visit <a href="https://bcparks.ca/">BC Parks</a> for more information
-
-            Enjoy your visit to BC Parks!
+            As of June 15, 2021, day use passes will be required to visit 7 of our busiest parks.
         </p>
     </div>
 </div>
 
-<div *ngIf="mockParkList?.length > 0" class="row">
-    <div *ngFor="let mockPark of mockParkList" class="col-xs-12 col-sm-4">
-        <app-card
-            [data]="mockPark.rowData">
+<div class="park-select-header text-center mb-4">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-4">
+            <h2 class="py-2">
+                Select your Park
+            </h2>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
+
+<div *ngIf="mockParkList?.length > 0"
+    class="row">
+    <div *ngFor="let mockPark of mockParkList"
+        class="col-xs-12 col-sm-4">
+        <app-card [data]="mockPark.rowData">
         </app-card>
     </div>
 </div>

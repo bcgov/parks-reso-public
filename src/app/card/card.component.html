@@ -1,21 +1,23 @@
 <div class="card">
-    <a class="img-card" (click)="navigate(this.data._id)">
-    <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg" />
-    </a>
+    <div class="img-card">
+        <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg" />
+    </div>
     <div class="card-content">
         <h4 class="card-title">
-            <a (click)="navigate(this.data._id)"> {{this.data.name  || "somthing"}}
-            </a>
+            <div>
+                {{data.name || "somthing"}}
+            </div>
         </h4>
-        <p *ngIf="this.data.status">
+        <p *ngIf="data.status">
             Park is open!
         </p>
-        <p *ngIf="!this.data.status">
+        <p *ngIf="!data.status">
             Park is closed :(
         </p>
     </div>
     <div class="card-read-more">
-        <a (click)="navigate(this.data._id)"  class="btn btn-link btn-block">
+        <a (click)="navigate(data)"
+            class="btn btn-link btn-block">
             Book a Pass
         </a>
     </div>

@@ -1,0 +1,34 @@
+<form [formGroup]="myForm">
+    <div class="form-group">
+        <label for="visitDate">Visit Date</label>
+        <app-date-picker [control]="myForm.controls.visitDate">
+        </app-date-picker>
+    </div>
+    <div class="form-group">
+        <label for="passType">Pass Type (Trail or Vehicle)</label>
+        <select class="form-control"
+            formControlName="passType"
+            id="passType">
+            <option *ngFor="let facility of facilities"
+                [ngValue]="facility">
+                {{facility.name}} - Moderate Availability
+            </option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="passCount">Number of Passes Required</label>
+        <select class="form-control"
+            formControlName="passCount"
+            id="passCount">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+    </div>
+</form>
+<div class="text-right mt-4">
+    <button type="button"
+        class="btn btn-primary btn-lg"
+        (click)="submit()">Next</button>
+</div>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {CardObject} from './card-object';
+import { CardObject } from './card-object';
 
 @Component({
   selector: 'app-card',
@@ -12,20 +12,12 @@ import {CardObject} from './card-object';
 /**
  * Main class that should contain all information needed to render a card.
  */
-export class CardComponent  {
+export class CardComponent {
   @Input() data: CardObject;
-  @Output() messageOut: EventEmitter<any> = new EventEmitter<any>();
 
+  constructor(private router: Router) { }
 
-  constructor(private router: Router) {
+  navigate(park): void {
+    this.router.navigate(['registration'], { state: { park } });
   }
-
-  navigate(id): void {
-    this.router.navigate(['park', id]);
-  }
-
-  onMessageOut(msg): void {
-    this.messageOut.emit(msg);
-  }
-
 }
