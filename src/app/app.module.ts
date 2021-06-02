@@ -8,8 +8,10 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { CardComponent } from './card/card.component';
-import { ParkComponent } from './park/park.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { RegistrationModule } from './registration/registration.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,17 +20,19 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
     FooterComponent,
     HeaderComponent,
     CardComponent,
-    ParkComponent,
     BreadcrumbComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    RegistrationModule,
+    BrowserAnimationsModule,
+    SharedModule
   ],
   exports: [
     CardComponent
-   ],
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

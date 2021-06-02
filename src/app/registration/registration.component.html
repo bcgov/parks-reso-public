@@ -1,0 +1,22 @@
+<div *ngIf="state !== 'success'"
+    class="mb-3">
+    <button type="button"
+        class="btn btn-primary back-button"
+        (click)="navigate()">
+        <span class="material-icons">
+            arrow_back
+        </span>
+        &nbsp;
+        <span>
+            {{backButtonText}}
+        </span>
+    </button>
+</div>
+<app-park-details *ngIf="state === 'facility-select'"
+    [park]="park"></app-park-details>
+<app-facility-select [facilities]="facilities"
+    (emitter)="getFacilityFormObj($event);"
+    *ngIf="state === 'facility-select'"></app-facility-select>
+<app-contact-form (emitter)="getContactFormObj($event);"
+    *ngIf="state === 'contact-form'"></app-contact-form>
+<app-success [regData]="regData" *ngIf="state === 'success'"></app-success>

@@ -1,0 +1,47 @@
+<div class="text-center">
+    <h2>
+        Please provide the following information to complete your reservation and receive your passes via email
+    </h2>
+</div>
+<form [formGroup]="myForm">
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text"
+            class="form-control"
+            formControlName="firstName"
+            id="firstName">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text"
+            class="form-control"
+            formControlName="lastName"
+            id="lastName">
+    </div>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email"
+            class="form-control"
+            formControlName="email"
+            id="email"
+            placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+        <label for="license">License Plate</label>
+        <input type="text"
+            class="form-control"
+            formControlName="license"
+            id="license">
+    </div>
+</form>
+
+<small class="text-muted">This information is collected by BC Parks, under Section 26(c) and 26 (e) of the Freedom of
+    Information and Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use
+    location and to evaluate the reservation system and process. Questions regarding this collection can be directed to:
+    Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
+
+<div class="text-right mt-4">
+    <button type="button"
+        class="btn btn-primary btn-lg"
+        (click)="submit()">Submit</button>
+</div>

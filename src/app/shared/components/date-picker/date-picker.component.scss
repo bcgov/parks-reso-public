@@ -1,0 +1,72 @@
+$primary1: #006edc;
+$white: #fff;
+
+$fc-invalid-color: #dc3545;
+
+$gray9: #212529;
+$gray7: #495057;
+$gray2: #e9ecef;
+
+.date-input {
+  position: relative;
+}
+
+.date-input__calendar-btn {
+  position: absolute;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  color: $gray7;
+  background: transparent;
+  text-align: right;
+  cursor: pointer;
+  transition: all ease-out 0.2s;
+
+  i {
+    margin-top: 0.2rem;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: $gray9;
+    border-color: $primary1;
+  }
+}
+
+.date-input__clear-btn {
+  position: absolute;
+  top: 0.28rem;
+  right: 0.32em;
+  bottom: 0.28rem;
+  padding: 0.15rem;
+  color: $gray7;
+  background-color: #fff;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: $gray9;
+    background-color: $gray2;
+  }
+}
+
+input {
+  padding-right: 2.5rem;
+  font-size: 0.875rem;
+}
+
+input.form-control {
+  border: none;
+  background: $white;
+}
+
+// Validation
+.is-invalid ~ .invalid-feedback {
+  display: inline-block;
+}
+
+.form-control.is-invalid {
+  border-color: $fc-invalid-color;
+}
