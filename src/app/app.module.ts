@@ -12,6 +12,8 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { RegistrationModule } from './registration/registration.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { ParksListComponent } from './parks-list/parks-list.component';
+import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table-row.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { SharedModule } from './shared/shared.module';
     FooterComponent,
     HeaderComponent,
     CardComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    ParksListComponent,
+    ParksTableRowComponent
   ],
   imports: [
     BrowserModule,

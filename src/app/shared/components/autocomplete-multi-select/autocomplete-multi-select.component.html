@@ -1,0 +1,54 @@
+<div class="form-group">
+    <!-- Filter definition for filters with group options -->
+    <ng-select *ngIf="filter.filterDefinition.group"
+        id="{{filter.name}}"
+        name="{{filter.name}}"
+        multiple="true"
+        bindLabel="name"
+        groupBy="{{filter.filterDefinition.group.name}}"
+        placeholder="Type {{filter.name}}"
+        (add)="onChange()"
+        [items]="filter.filterDefinition.options"
+        [markFirst]="false"
+        [closeOnSelect]="false"
+        [(ngModel)]="filter.filterDefinition.selectedOptions"
+        [compareWith]="filterCompareWith"
+        (clear)=onChange()
+        (remove)=onChange()>
+        <ng-template ng-label-tmp
+            let-item="item">
+            <span class="ng-value-icon left"
+                (click)="clearSelectedItem(filter, item)"
+                aria-hidden="true">×</span>
+            <span class="ng-value-label">{{item.name}} ({{item[filter.filterDefinition.group.name]}})</span>
+        </ng-template>
+        <ng-template ng-optgroup-tmp
+            let-item="item"
+            let-index="index">
+            {{filter.filterDefinition.group.labelPrefix}}{{item[filter.filterDefinition.group.name]}}{{filter.filterDefinition.group.labelPostfix}}
+        </ng-template>
+    </ng-select>
+    <!-- Filter definition for filters without group options -->
+    <ng-select *ngIf="!filter.filterDefinition.group"
+        id="{{filter.name}}"
+        name="{{filter.name}}"
+        multiple="true"
+        bindLabel="name"
+        placeholder="Type {{filter.name}}"
+        (add)="onChange()"
+        [items]="filter.filterDefinition.options"
+        [markFirst]="false"
+        [closeOnSelect]="false"
+        [(ngModel)]="filter.filterDefinition.selectedOptions"
+        [compareWith]="filterCompareWith"
+        (clear)=onChange()
+        (remove)=onChange()>
+    </ng-select>
+    <ng-template ng-label-tmp
+        let-item="item">
+        <span class="ng-value-icon left"
+            (click)="clearSelectedItem(filter, item)"
+            aria-hidden="true">×</span>
+        <span class="ng-value-label">{{item.name}}</span>
+    </ng-template>
+</div>

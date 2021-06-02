@@ -1,0 +1,124 @@
+$select-badge-hover-bg: #d0ebff;
+$select-badge-active-border-color: #74c0fc;
+$select-badge-active-bg: #a5d8ff;
+$gray9: #212529;
+$gray7: #495057;
+$gray2: #e9ecef;
+
+.select-badge {
+  position: relative;
+  margin: 0.2rem 0.15rem;
+  float: left;
+
+  label {
+    position: relative;
+    margin: 0;
+    padding-top: 0.2rem;
+    padding-right: 1rem;
+    padding-bottom: 0.2rem;
+    padding-left: 2rem;
+    color: $gray7;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    background-color: $gray2;
+    background-image: url("/assets/images/baseline-remove-24px.svg");
+    background-position: 8px center;
+    background-repeat: no-repeat;
+    background-size: 18px;
+    font-size: 0.825rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all ease-out 0.2s;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  input:focus,
+  input:active {
+    + label {
+      color: $gray9;
+      border-color: $select-badge-active-border-color;
+      background-color: $select-badge-hover-bg;
+    }
+  }
+
+  input:hover {
+    + label {
+      color: $gray9;
+      background-color: $select-badge-hover-bg;
+    }
+  }
+
+  input:checked {
+    + label {
+      color: $gray9;
+      background-color: $select-badge-active-bg;
+      background-image: url("/assets/images/baseline-check-24px.svg");
+    }
+
+    ~ button {
+      background-color: $select-badge-active-bg;
+    }
+  }
+}
+
+.clear-button:hover {
+  cursor: pointer;
+}
+
+.custom-row-height {
+  height: 200px;
+}
+
+.keyword-search-text {
+  font-size: 1.25rem;
+}
+
+.filter-form {
+  width: 99%;
+}
+
+.filter-panel {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+}
+
+.filter-header {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.reset-button {
+  width: 100%;
+  padding: 10px;
+}
+
+.slide-toggle-margin {
+  margin-left: 0px;
+  margin-top: 7px;
+}
+
+.radio-label {
+  padding-left: 7px;
+}
+
+.start-date-padding {
+  padding-right: 30px;
+}
+
+.end-date-padding {
+  padding-left: 30px;
+}
+
+.disable-div {
+  pointer-events: none;
+  opacity: 0.5;
+}

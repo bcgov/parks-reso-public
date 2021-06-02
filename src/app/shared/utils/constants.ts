@@ -108,13 +108,13 @@ export class Constants {
 
 
   public static readonly mockParkList = [
-    { rowData: Constants.mockPark1 },
-    { rowData: Constants.mockPark2 },
-    { rowData: Constants.mockPark3 },
-    { rowData: Constants.mockPark4 },
-    { rowData: Constants.mockPark5 },
-    { rowData: Constants.mockPark6 },
-    { rowData: Constants.mockPark7 }
+    Constants.mockPark1,
+    Constants.mockPark2,
+    Constants.mockPark3,
+    Constants.mockPark4,
+    Constants.mockPark5,
+    Constants.mockPark6,
+    Constants.mockPark7
   ];
 
   public static readonly mockFacilityList = [
