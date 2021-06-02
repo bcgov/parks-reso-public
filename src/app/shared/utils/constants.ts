@@ -117,4 +117,9 @@ export class Constants {
     { rowData: Constants.mockPark7 }
   ];
 
+  public static readonly mockFacilityList = [
+    Constants.mockFacility1,
+    Constants.mockFacility2
+  ];
+
 }
