@@ -235,27 +235,28 @@
 
 // Navbar Brand
 .navbar-brand {
-    height: 4rem;
+    height:calc(#{$header-hight} - 20px);
     white-space: normal;
 }
 
 .bc-gov-logo{
-    height:60%;
-    margin: 10px 13px 0 0;
-    padding-right: 10px;
-    border-right:1px solid #ffffff;
+    // height: calc(#{$header-hight} - 20px);
+    height: $header-hight;
+    // border-right:1px solid $gold;
 }
 
 .bc-parks-title{
-    height: 60%;
-    margin-top: 10px;
+    height: calc(#{$header-hight} - 40px);
+    padding: 30px 0 10px 20px;
+    border-left:1px solid $gold;
+
 }
 
 .navbar-brand__title {
     display: inline-block;
     color: #fff;
     margin-left: 10px;
-    line-height: 1.2rem;
+    line-height: 50px;
     font-weight: 800;
     font-size: 3rem;
     margin-top: 17px;
@@ -277,7 +278,7 @@
 @media (min-width: 576px) {
     .navbar-brand {
         white-space: normal;
-        margin-bottom: 5px;
+        margin-bottom: 0px;
     }
 
     .navbar-brand__title {
