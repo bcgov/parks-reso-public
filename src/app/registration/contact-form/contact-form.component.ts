@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-form',
@@ -10,8 +10,11 @@ export class ContactFormComponent implements OnInit {
   @Input() facilityType;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
+  public iAgree = false;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -24,10 +27,18 @@ export class ContactFormComponent implements OnInit {
       email: new FormControl(),
       license: new FormControl()
     });
+    this.myForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.maxLength(10), Validators.minLength(10)]],
+        license: ['', Validators.required]
+      }
+    );
   }
 
   submit(): void {
-    // TODO: Validation
     const obj = {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
