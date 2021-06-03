@@ -39,7 +39,6 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.myForm.get('phone').valid)
     const obj = {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
