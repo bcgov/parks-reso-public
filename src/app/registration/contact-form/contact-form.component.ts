@@ -32,17 +32,19 @@ export class ContactFormComponent implements OnInit {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        phone: ['', [Validators.maxLength(10), Validators.minLength(10)]],
+        phone: ['', [Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
         license: ['', Validators.required]
       }
     );
   }
 
   submit(): void {
+    console.log(this.myForm.get('phone').valid)
     const obj = {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
       email: this.myForm.get('email').value,
+      phone: this.myForm.get('phone').value,
       license: this.myForm.get('license').value
     };
     this.emitter.emit(obj);
