@@ -1,0 +1,36 @@
+@import "/src/assets/base/base.scss";
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
+
+.back-button {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.card-header {
+    background-color: #003366;
+    color: white;
+}
+
+.park-select-header {
+    background-color: #003366;
+    color: white;
+}
+
+.registration-details {
+    background-color: #38598a;
+    border-radius: 5px;
+    color: white;
+    margin: 20px;
+    padding: 20px;
+}
+
+.btn-link {
+    cursor:pointer;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%
+    }
+}

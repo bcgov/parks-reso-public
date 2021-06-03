@@ -1,0 +1,56 @@
+<div class="mb-3">
+    <button type="button" class="btn btn-primary back-button" (click)="navigate()">
+        <span class="material-icons">
+            arrow_back
+        </span>
+        &nbsp;
+        <span>
+            {{backButtonText}}
+        </span>
+    </button>
+</div>
+
+<div class="card text-center mb-5">
+    <div class="card-header">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="card-body text-left">
+        <p class="card-text">
+            Please follow these steps to cancel your reservation:
+        </p>
+        <ol>
+            <li [ngClass]="{'font-weight-bold': state === 'blank' || state === 'no-match'}">
+                Enter your confirmation number and the email associated with your reservation in the form below.
+            </li>
+            <li [ngClass]="{'font-weight-bold': state === 'match'}">
+                You will recieve an email containing a cancellation link. Follow the link to the cancellation page.
+            </li>
+            <li [ngClass]="{'font-weight-bold': state === 'found'}">
+                Click 'Cancel Reservation' to confirm cancellation.
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div *ngIf="state === 'blank' || state === 'no-match'">
+    <app-pass-lookup-form (submitEvent)="onSubmit($event)"></app-pass-lookup-form>
+</div>
+
+<div *ngIf="state === 'found'">
+    <div class="registration-details">
+        <app-registration-details [regData]="mockData">
+        </app-registration-details>
+    </div>
+    <div class="d-flex justify-content-end mx-3">
+        <button class="btn btn-danger" (click)="cancelReservation()"> Cancel Reservation </button>
+    </div>
+</div>
+
+<div class="my-3 d-flex justify-content-center text-center">
+    <p *ngIf="state === 'no-match'" class="text-danger">Confirmation number or email is incorrect.
+    </p>
+    <p *ngIf="state === 'match'" class="text-secondary">Cancellation link email sent. Please check your inbox. <a
+            class="btn-link" (click)="changeState('blank')">Retry cancellation form</a></p>
+    <p *ngIf="state === 'cancelled'" class="text-secondary">Reservation cancelled. <a class="btn-link"
+            (click)="changeState('blank')">Cancel another registration</a></p>
+</div>

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Components
 import { HomeComponent } from './home/home.component';
+import { PassLookupComponent } from './pass-lookup/pass-lookup.component';
 import { RegistrationComponent } from './registration/registration.component';
 
 
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent,
+  },
+  {
+    path: 'pass-lookup',
+    component: PassLookupComponent,
   },
   {
     // wildcard route

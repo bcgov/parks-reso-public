@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Utils } from './utils/utils';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { RegistrationDetailsComponent } from './components/registration-details/registration-details.component';
 
 @NgModule({
   imports: [
@@ -20,11 +21,13 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
   ],
   declarations: [
     DatePickerComponent,
+    RegistrationDetailsComponent,
   ],
   entryComponents: [
   ],
   exports: [
     DatePickerComponent,
+    RegistrationDetailsComponent
   ],
   providers: [
     Utils
