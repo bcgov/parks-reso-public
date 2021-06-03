@@ -37,7 +37,7 @@
 </div>
 
 <div *ngIf="state === 'found'">
-    <div class="registration-details">
+    <div class="registration-details-container p-3 m-3">
         <app-registration-details [regData]="mockData">
         </app-registration-details>
     </div>
@@ -54,3 +54,9 @@
     <p *ngIf="state === 'cancelled'" class="text-secondary">Reservation cancelled. <a class="btn-link"
             (click)="changeState('blank')">Cancel another registration</a></p>
 </div>
+
+<button (click)="changeState('blank')">blank</button>
+<button (click)="changeState('no-match')">no-match</button>
+<button (click)="changeState('match')">match</button>
+<button (click)="changeState('cancelled')">cancelled</button>
+<button (click)="changeState('found')">found</button>
