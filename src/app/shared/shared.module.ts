@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Utils } from './utils/utils';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { RegistrationDetailsComponent } from './components/registration-details/registration-details.component';
 import { TableTemplateComponent } from './components/table-template/table-template.component';
 import { PageSizePickerComponent } from './components/page-size-picker/page-size-picker.component';
 import { PageCountDisplayComponent } from './components/page-count-display/page-count-display.component';
@@ -32,6 +33,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     PageCountDisplayComponent,
     AutoCompleteMultiSelectComponent,
     DatePickerComponent,
+    RegistrationDetailsComponent,
     TableTemplateComponent,
     ListComponent,
     TableRowDirective
@@ -43,6 +45,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     PageCountDisplayComponent,
     AutoCompleteMultiSelectComponent,
     DatePickerComponent,
+    RegistrationDetailsComponent
     TableTemplateComponent,
     ListComponent,
     TableRowDirective

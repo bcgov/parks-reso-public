@@ -1,2 +1,18 @@
 @import "/src/assets/styles/abstracts/mixins.scss";
 @import "/src/assets/themes/default.scss";
+
+.card-header {
+    background-color: $primary;
+    color: $card-header-color ;
+}
+
+.park-select-header {
+    background-color: $primary;
+    color: $header-font-color;
+}
+
+.registration-details-container {
+    background-color: $feature-block-bg;
+    border-radius: 5px;
+    color: white;
+}
