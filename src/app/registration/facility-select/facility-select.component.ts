@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Constants } from 'src/app/shared/utils/constants';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-facility-select',
@@ -11,23 +10,27 @@ export class FacilitySelectComponent implements OnInit {
   @Input() facilities;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
+  public canSubmit = false;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
   }
 
   initForm(): void {
-    this.myForm = new FormGroup({
-      visitDate: new FormControl(),
-      passType: new FormControl(),
-      passCount: new FormControl()
-    });
+    this.myForm = this.fb.group(
+      {
+        visitDate: ['', Validators.required],
+        passType: ['', Validators.required],
+        passCount: ['', Validators.required]
+      }
+    );
   }
 
   submit(): void {
-    // TODO: Validation
     const obj = {
       visitDate: this.myForm.get('visitDate').value,
       passType: this.myForm.get('passType').value,

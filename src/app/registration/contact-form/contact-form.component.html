@@ -19,12 +19,20 @@
             id="lastName">
     </div>
     <div class="form-group">
-        <label for="email">Email address</label>
+        <label for="email">Email Address</label>
         <input type="email"
             class="form-control"
             formControlName="email"
             id="email"
             placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+        <label for="phone">Phone Number (Optional)</label>
+        <input type="text"
+            class="form-control"
+            formControlName="phone"
+            id="phone"
+            placeholder="1112223333">
     </div>
     <div class="form-group">
         <label for="license">License Plate</label>
@@ -40,8 +48,17 @@
     location and to evaluate the reservation system and process. Questions regarding this collection can be directed to:
     Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
 
-<div class="text-right mt-4">
+<div class="text-right">
+    <input type="checkbox"
+        [(ngModel)]="iAgree"
+        [ngModelOptions]="{standalone: true}" />
+    <label class="ml-2">I Agree</label>
+
+</div>
+
+<div class="text-right mt-3">
     <button type="button"
+        [disabled]="myForm.status === 'INVALID' || !iAgree"
         class="btn btn-primary btn-lg"
         (click)="submit()">Submit</button>
 </div>

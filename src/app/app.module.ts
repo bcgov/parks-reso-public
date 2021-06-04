@@ -13,6 +13,9 @@ import { RegistrationModule } from './registration/registration.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
 import { PassLookupModule } from './pass-lookup/pass-lookup.module';
+import { ParksListComponent } from './parks-list/parks-list.component';
+import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table-row.component';
+
 
 @NgModule({
   declarations: [
@@ -22,6 +25,8 @@ import { PassLookupModule } from './pass-lookup/pass-lookup.module';
     HeaderComponent,
     CardComponent,
     BreadcrumbComponent,
+    ParksListComponent,
+    ParksTableRowComponent
   ],
   imports: [
     BrowserModule,

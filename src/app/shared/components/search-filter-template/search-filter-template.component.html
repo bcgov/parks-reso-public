@@ -1,0 +1,247 @@
+<div>
+  <!-- Header Row -->
+  <div class="row mb-3"
+    *ngIf="title">
+    <div class="col">
+      <span class="keyword-search-text">{{title}}</span>
+      <span *ngIf="tooltip"
+        class="material-icons align-text-bottom ml-2"
+        [matTooltip]="tooltip"
+        matTooltipPosition="after"
+        aria-label="Icon that displays a tooltip when focused or hovered over">
+        help_outline
+      </span>
+    </div>
+  </div>
+
+  <!-- Filter toggles dropdown, keyword textbox, clear button -->
+  <div class="row">
+    <div class="col">
+      <div class="input-group mb-3">
+        <div *ngIf="subsets"
+          ngbDropdown
+          class="input-group-prepend">
+          <button class="btn btn-outline-secondary"
+            id="dropdown"
+            ngbDropdownToggle>{{ subsets.selectedSubset !== null ?
+            subsets.selectedSubset.subsetLabel : subsets.defaultSubset.subsetLabel }}</button>
+          <div ngbDropdownMenu
+            aria-labelledby="dropdown">
+            <div *ngFor="let subset of subsets.options">
+              <button ngbDropdownItem
+                [disabled]="subsets.selectedSubset.subsetLabel === subset.subsetLabel"
+                (click)="changeSubset(subset)">
+                {{subset.subsetLabel}}
+                <span *ngIf="subsets.selectedSubset === subsets"
+                  class="material-icons material-icons align-text-bottom">
+                  check_circle
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <input type="text"
+          class="form-control"
+          (keyup.enter)="search()"
+          [(ngModel)]="keywordSearchWords"
+          [placeholder]="keywordWatermark || 'Type keyword to search'"
+          (aria-label)="keywordWatermark || 'Type keyword to search'"
+          aria-describedby="basic-addon2">
+        <div *ngIf="keywordSearchWords && keywordSearchWords.length > 0"
+          class="input-group-append">
+          <button class="btn btn-outline-primary"
+            type="button"
+            (click)="clearSearchTerms()">
+            <span class="material-icons align-middle">close</span>
+          </button>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-warning"
+            type="button"
+            (click)="search()"
+            [disabled]="searching">
+            <span class="material-icons align-middle"
+              [hidden]="searching">search</span>
+            <span class="spinner rotating align-middle"
+              [hidden]="!searching"></span>
+            <span class="pl-1">{{searching ? 'Searching...' : 'Search'}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-sm-12 col-md-6 text-md-left text-center mb-md-0 mb-3">
+      <span *ngIf="searchHelpLinkArray">
+        <a class="btn btn-primary"
+          [routerLink]="searchHelpLinkArray"
+          target="_blank">
+          <span class="material-icons md-18">info</span>
+          <span> Search Help</span>
+        </a>
+      </span>
+    </div>
+    <!-- Advanced Filters toggle -->
+    <div class="col-sm-12 col-md-6 text-md-right text-center">
+      <span *ngIf="advancedFilters">
+        <button class="btn btn-primary"
+          (click)="toggleAdvancedFilters()">
+          {{showAdvancedFilters ? 'Close' : 'Open'}} Advanced Filters
+          <span class="material-icons align-middle">{{showAdvancedFilters ? 'keyboard_arrow_up' :
+            'keyboard_arrow_down'}}</span>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <!-- advanced filters panel -->
+  <div id="advancedFilterPanel"
+    *ngIf="advancedFilters"
+    class="row mt-3 border-bottom"
+    [hidden]="!showAdvancedFilters">
+    <form class="filter-form"
+      [formGroup]="formGroup"
+      novalidate>
+      <div *ngIf="advancedFilterTitle && advancedFilterTitle.length > 0"
+        class="row filter-header">
+        <h3>{{advancedFilterTitle}}</h3>
+      </div>
+      <div *ngIf="advancedFilterText && advancedFilterText.length > 0"
+        class="row filter-header">
+        <p>{{advancedFilterText}}</p>
+      </div>
+      <div class="row"
+        [ngClass]="searching ? 'disable-div' : ''">
+        <!-- for each filter, create a block for each filter type -->
+        <div [class]="'pb-1 filter-panel col-md-' + (filter.itemPanelSize ? filter.itemPanelSize : filterItemPanelSize)"
+          *ngFor="let filter of filters">
+          <!-- Date range filter-->
+          <div *ngIf="filter.type === FilterType.DateRange">
+            <label *ngIf="filter.name && filter.name.length > 0"
+              class="control-label font-weight-bold">{{filter.name}}</label>
+            <div class="row">
+              <div class="col-xl-6 start-date-padding">
+                <label (for)="filter.filterDefinition.filterId"
+                  class="control-label font-weight-bold">{{filter.filterDefinition.startDateLabel}}</label>
+                <lib-date-picker [id]="filter.filterDefinition.startDateId"
+                  [control]="formGroup.get(filter.filterDefinition.startDateId)"
+                  [reset]="resetControls"
+                  [minDate]="filter.filterDefinition.minDate"
+                  [maxDate]="filter.filterDefinition.maxDate">
+                </lib-date-picker>
+              </div>
+              <div class="col-xl-6 end-date-padding">
+                <label (for)="filter.filterDefinition.endDateId"
+                  class="control-label font-weight-bold">{{filter.filterDefinition.endDateLabel}}</label>
+                <lib-date-picker [id]="filter.filterDefinition.endDateId"
+                  [control]="formGroup.get(filter.filterDefinition.endDateId)"
+                  [reset]="resetControls"
+                  [minDate]="filter.filterDefinition.minDate"
+                  [maxDate]="filter.filterDefinition.maxDate">
+                </lib-date-picker>
+              </div>
+            </div>
+          </div>
+          <!-- dropdown filter -->
+          <div *ngIf="filter.type === FilterType.Dropdown">
+            <label class="control-label font-weight-bold"
+              *ngIf="filter.name && filter.name.length > 0">{{filter.name}}</label>
+            <mat-select class="border rounded px-2 py-2"
+              [formControlName]="filter.id"
+              [multiple]="filter.filterDefinition.multiselect">
+              <mat-option *ngFor="let option of filter.filterDefinition.options"
+                [value]="option">{{option}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <!-- multi select filter -->
+          <div *ngIf="filter.type === FilterType.MultiSelect">
+            <label class="control-label font-weight-bold"
+              *ngIf="filter.name && filter.name.length > 0"
+              for="activityTypeFilter">{{filter.name}}</label>
+            <app-autocomplete-multi-select [filter]="filter"
+              (changeEvent)="changeMultiSelect()"
+              [control]="formGroup.get(filter.id)">
+            </app-autocomplete-multi-select>
+          </div>
+          <!-- radio button filter -->
+          <div *ngIf="filter.type === FilterType.RadioPicker">
+            <label *ngIf="filter.name && filter.name.length > 0"
+              class="control-label font-weight-bold">{{filter.name}}</label>
+            <div class="row">
+              <div class="col-xl-5"
+                *ngFor="let radio of filter.filterDefinition.options">
+                <div class="radio">
+                  <input type="radio"
+                    [id]="radio.id"
+                    [value]="radio.value"
+                    [formControlName]="filter.id"
+                    [name]="filter.id" />
+                  <label class="radio-label"
+                    [for]="radio.id">{{radio.label}}</label>
+                </div>
+              </div>
+              <div class="col-xl-1">
+                <span class="clear-button"
+                  *ngIf="formGroup.get(filter.id).value"
+                  (click)="resetFilter(filter.id)">
+                  <svg class="bi bi-x-circle"
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path fill-rule="evenodd"
+                      d="M11.854 4.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708-.708l7-7a.5.5 0 0 1 .708 0z" />
+                    <path fill-rule="evenodd"
+                      d="M4.146 4.146a.5.5 0 0 0 0 .708l7 7a.5.5 0 0 0 .708-.708l-7-7a.5.5 0 0 0-.708 0z" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- check box filter -->
+          <div *ngIf="filter.type === FilterType.Checkbox">
+            <label *ngIf="filter.name && filter.name.length > 0"
+              class="control-label font-weight-bold">{{filter.name}}</label>
+            <div class="row">
+              <div *ngFor="let box of filter.filterDefinition.options">
+                <div class="col-xl-3">
+                  <mat-checkbox [id]="box.id"
+                    (unchecked)="!box.isChecked"
+                    [name]="box.id"
+                    [formControlName]="box.id">
+                    {{box.label}}
+                  </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Slider toggle -->
+          <div *ngIf="filter.type === FilterType.SliderToggle">
+            <label *ngIf="filter.name && filter.name.length > 0"
+              class="control-label font-weight-bold">{{filter.name}}</label>
+            <div class="row slide-toggle-margin">
+              <mat-slide-toggle [name]="filter.name"
+                [id]="filter.id"
+                [formControlName]="filter.id"
+                [checked]="filter.filterDefinition.onOption.isChecked">
+                {{ formGroup.get(filter.id).value ? filter.filterDefinition.onOption.label :
+                filter.filterDefinition.offOption.label }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <section class="mb-3 reset-button">
+      <button class="btn btn-primary float-right"
+        (click)="clearFilters()"
+        [disabled]="searching">
+        Reset Filters
+      </button>
+    </section>
+  </div>

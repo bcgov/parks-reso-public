@@ -1,0 +1,37 @@
+.lib-page-size-message {
+  margin-left: 10px;
+}
+
+.size-picker-option {
+  margin-right: 0.0625rem;
+  padding: 0.1875rem 0.625rem;
+  outline: none;
+  box-shadow: none;
+
+  &:not(.current):hover {
+    background: #e6e6e6;
+    border-radius: 6px;
+    border-color: #e6e6e6;
+    text-decoration: underline;
+    transition: none;
+  }
+}
+
+.current {
+  padding: 0.1875rem 0.625rem;
+  color: #fefefe;
+  background: rgb(0, 123, 255);
+  border-radius: 6px;
+  border-color: rgb(0, 123, 255);
+  cursor: default;
+}
+
+@media screen and (max-width: 768px) {
+  .lib-page-size-display {
+    text-align: center;
+  }
+
+  .lib-page-size-message {
+    margin: 0;
+  }
+}
