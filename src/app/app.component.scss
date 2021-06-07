@@ -1,7 +1,16 @@
 @import "/src/assets/base/base.scss";
 @import "/src/assets/base/helpers.scss";
 
-.container {
+.main-content {
     background-color: white;
-    height: 100%
+    height: 100%;
+    padding: 60px 10px;
+    margin-bottom: 120px;
+}
+
+@media (min-width: 576px) {
+    .main-content {
+        padding: 60px 30px;
+        margin-bottom: 240px;
+    }
 }

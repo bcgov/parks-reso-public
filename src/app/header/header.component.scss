@@ -1,4 +1,11 @@
 @import "/src/assets/base/base.scss";
+@import "/src/assets/base/helpers.scss";
+
+
+
+////////////////////////////////////////////////////////////
+// main navbar - dark blue section with logos
+////////////////////////////////////////////////////////////
 
 .env-banner {
     padding: 5px 10px;
@@ -34,7 +41,7 @@
     background: $header-bg;
     color: $header-font-color;
     border-bottom: 2px solid $gold;
-    height: $header-hight;
+    height: $header-hight-mobile;
 }
 .showForIEorEdge {
     display: block;
@@ -235,19 +242,21 @@
 
 // Navbar Brand
 .navbar-brand {
-    height:calc(#{$header-hight} - 20px);
+    height:calc(#{$header-hight-mobile});
+    padding: 0px;
     white-space: normal;
 }
 
+
 .bc-gov-logo{
     // height: calc(#{$header-hight} - 20px);
-    height: $header-hight;
+    height: $header-hight-mobile;
     // border-right:1px solid $gold;
 }
 
 .bc-parks-title{
-    height: calc(#{$header-hight} - 40px);
-    padding: 30px 0 10px 20px;
+    height: calc(#{$header-hight-mobile} - 20px);
+    padding: 15px 0px 0px 10px;
     border-left:1px solid $gold;
 
 }
@@ -277,8 +286,32 @@
 
 @media (min-width: 576px) {
     .navbar-brand {
+        height:calc(#{$header-hight} - 20px);
         white-space: normal;
-        margin-bottom: 0px;
+    }
+
+    .bc-parks-title{
+        height: calc(#{$header-hight} - 40px);
+        padding: 30px 0 10px 20px;
+        border-left:1px solid $gold;
+
+    }
+
+    .bc-gov-logo{
+        // height: calc(#{$header-hight} - 20px);
+        height: $header-hight;
+        // border-right:1px solid $gold;
+    }
+
+    .app-header {
+        background: $header-bg;
+        color: $header-font-color;
+        border-bottom: 2px solid $gold;
+        height: $header-hight;
+    }
+
+    .navbar-links {
+        height: 60px;
     }
 
     .navbar-brand__title {
@@ -292,4 +325,112 @@
     .navbar-brand__version {
         font-size: 0.6rem;
     }
+}
+
+
+////////////////////////////////////////////////////////////
+// navigation bar styling - light blue section with links
+////////////////////////////////////////////////////////////
+
+.navigation-main {
+  display: none;
+  // position: fixed;
+  top: 65px;
+  color: #fcba19;
+  background-color: #38598a;
+  width: 100%;
+  -webkit-box-shadow: 0 6px 8px -4px #b3b1b3;
+  -moz-box-shadow: 0 6px 8px -4px #b3b1b3;
+  box-shadow: 0 6px 8px -4px #b3b1b3;
+}
+
+.navigation-main .container {
+  padding: 10px 0 10px 0;
+}
+
+.navigation-main .container ul {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  color: #fff;
+  list-style: none;
+  margin-left: -25px;
+  /* border-style: dotted;
+  border-width: 1px;
+  border-color: red; */
+}
+
+.navigation-main .container ul li {
+  margin: 5px 0;
+}
+
+.navigation-main .container ul li a {
+  display: flex;
+  font-size: 0.813em;
+  font-weight: normal;  /* 400 */
+  color: #fff;
+  padding: 0 15px 0 15px;
+  text-decoration: none;
+  /* border-style: dotted;
+  border-width: 1px;
+  border-color: green; */
+}
+
+.navigation-main .container ul li a:hover {
+  text-decoration: underline;
+}
+
+.navigation-main .container ul .active {
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+:focus {
+  outline: 4px solid #3B99FC;
+  outline-offset: 1px;
+}
+
+/*
+  These are sample media queries only. Media queries are quite subjective
+  but, in general, should be made for the three different classes of screen
+  size: phone, tablet, full.
+*/
+
+@media screen and (min-width: 768px) {
+  .navigation-main {
+    display: block;
+  }
+
+  .navigation-main .container ul {
+    flex-direction: row;
+  }
+
+  .navigation-main .container ul li {
+    margin: 0;
+  }
+
+  .navigation-main .container ul li a {
+    border-right: 1px solid #9b9b9b;
+  }
+
+  header .nav-btn {
+    display: none;
+    width: auto;
+    margin: 0 0 0 auto;
+    cursor: pointer;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 899px) {
+  header h1 {
+    font-size: calc(7px + 2.2vw);
+    visibility: visible;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  header h1 {
+    font-size: 2.0em;
+    visibility: visible;
+  }
 }

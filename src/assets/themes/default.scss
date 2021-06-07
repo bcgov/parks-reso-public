@@ -1,5 +1,6 @@
 // Main Colors
 $primary:                       #003366;
+$secondary:                     #1A5A96;
 $gold:                          #fcba19;
 $lightgray:                     #eee;
 
@@ -22,8 +23,9 @@ $link-color:                    #1a5a96;
 // Header
 $header-font-color:             #fff;
 $header-bg:                     $primary;
-$header-h1:                     #1A5A96;
+$header-h1:                     $secondary;
 $header-hight:                  120px;
+$navbar-hight:                  60px;
 $header-hight-mobile:           60px;
 
 // Footer
@@ -50,7 +52,7 @@ $aside-bg:                      #f7f8fa;
 
 // Cards
 $card-header-color:             #fff;
-$card-header-bg:                #38598a;
+$card-header-bg:                #1A5A96;
 
 // Feature Blocks
 $feature-block-color:           #fff;

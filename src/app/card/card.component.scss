@@ -1,3 +1,6 @@
+@import "/src/assets/base/base.scss";
+@import "/src/assets/base/helpers.scss";
+
 .card {
   display: block;
     margin-top: 60px;
@@ -45,4 +48,8 @@
   padding:10px;
   font-weight:600;
   text-transform: uppercase
+}
+
+.BC-Gov-PrimaryButton {
+  border-radius: 0;
 }

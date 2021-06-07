@@ -1,15 +1,14 @@
 <div *ngIf="state !== 'success'"
     class="mb-3">
     <button type="button"
-        class="btn btn-primary back-button"
+        class="BC-Gov-PrimaryButton"
         (click)="navigate()">
-        <span class="material-icons">
+        <div class="material-icons">
             arrow_back
-        </span>
-        &nbsp;
-        <span>
+        </div>
+        <div>
             {{backButtonText}}
-        </span>
+        </div>
     </button>
 </div>
 <app-park-details *ngIf="state === 'facility-select'"
