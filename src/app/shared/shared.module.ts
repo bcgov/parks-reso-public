@@ -45,7 +45,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     PageCountDisplayComponent,
     AutoCompleteMultiSelectComponent,
     DatePickerComponent,
-    RegistrationDetailsComponent
+    RegistrationDetailsComponent,
     TableTemplateComponent,
     ListComponent,
     TableRowDirective
