@@ -5,13 +5,13 @@
     <div class="card-content">
         <h4 class="card-title">
             <div>
-                {{data.name || "somthing"}}
+                {{data?.name || "somthing"}}
             </div>
         </h4>
-        <p *ngIf="data.status">
+        <p *ngIf="data?.status">
             Park is open!
         </p>
-        <p *ngIf="!data.status">
+        <p *ngIf="!data?.status">
             Park is closed :(
         </p>
     </div>

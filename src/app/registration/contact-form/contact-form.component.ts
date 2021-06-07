@@ -32,7 +32,7 @@ export class ContactFormComponent implements OnInit {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        phone: ['', [Validators.pattern("^[0-9]{10}$")]],
+        phone: ['', [Validators.pattern('^[0-9]{10}$')]],
         license: ['', Validators.required]
       }
     );

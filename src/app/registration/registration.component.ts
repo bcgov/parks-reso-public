@@ -24,7 +24,8 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
   ) {
     // Prevent us from loading into /registration without going through the root page.
-    if (!this.router.getCurrentNavigation().extras.state) {
+    // tslint:disable-next-line: max-line-length
+    if (!this.router.getCurrentNavigation() || !this.router.getCurrentNavigation().extras || !this.router.getCurrentNavigation().extras.state) {
       this.router.navigate(['']);
     } else {
       this.park = this.router.getCurrentNavigation().extras.state.park;

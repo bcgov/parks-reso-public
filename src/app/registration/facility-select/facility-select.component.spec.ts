@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
+import { RegistrationModule } from '../registration.module';
 
 import { FacilitySelectComponent } from './facility-select.component';
 
@@ -8,9 +10,10 @@ describe('FacilitySelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FacilitySelectComponent ]
+      declarations: [],
+      imports: [RegistrationModule]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

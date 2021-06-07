@@ -2,17 +2,17 @@
     <b>Order Details:</b>
 </p>
 <p class="card-text">
-    Name: {{regData.firstName}} {{regData.lastName}}
+    Name: {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ? regData.lastName : '-'}}
 </p>
 <p class="card-text">
-    Email: {{regData.email}}
+    Email: {{ regData?.email }}
 </p>
 <p class="card-text">
-    Reservation Date: {{regData.visitDate.year}}-{{regData.visitDate.month}}-{{regData.visitDate.day}}
+    Reservation Date: {{ regData?.visitDate?.year }}-{{ regData?.visitDate?.month }}-{{ regData?.visitDate?.day }}
 </p>
 <p class="card-text">
-    Facility Name: {{regData.passType.name}}
+    Facility Name: {{ regData?.passType?.name }}
 </p>
 <p class="card-text">
-    Number of Passes: {{regData.passCount}}
+    Number of Passes: {{ regData?.passCount }}
 </p>
