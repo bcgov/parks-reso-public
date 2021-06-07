@@ -1,11 +1,11 @@
-<div id="success" class="card text-center mb-4">
+<div id="success" class="card mb-4">
     <div class="card-header">
         <h1>Success, your order has been completed!</h1>
     </div>
     <div class="card-body text-left">
         <button type="button" class="BC-Gov-PrimaryButton" (click)="print()">Print</button>
         <br>
-        <br>
+
         <app-registration-details [regData]="regData">
         </app-registration-details>
         <br>
@@ -27,12 +27,10 @@
             Should you need to cancel your booking and link will be provided in your email receipt.
         </p>
     </div>
-    <div class="card-footer text-muted text-center">
-        <p>
+    <div class="card-footer text-center">
+        <p class="mb-0">
             We hope you enjoy your visit
         </p>
     </div>
 </div>
-<div class="text-right">
-    <button type="button" class="BC-Gov-PrimaryButton" (click)="navigate()">Home</button>
-</div>
+<button type="button" class="float-right BC-Gov-PrimaryButton" (click)="navigate()">Home</button>

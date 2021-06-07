@@ -1,16 +1,17 @@
 <div class="mb-3">
-    <button type="button" class="btn btn-primary back-button" (click)="navigate()">
-        <span class="material-icons">
+    <button type="button"
+        class="BC-Gov-SecondaryButton"
+        (click)="navigate()">
+        <div class="material-icons float-left">
             arrow_back
-        </span>
-        &nbsp;
-        <span>
+        </div>
+        <div class="float-right">
             {{backButtonText}}
-        </span>
+        </div>
     </button>
 </div>
 
-<div class="card text-center mb-5">
+<div class="card mb-5">
     <div class="card-header">
         <h1>{{title}}</h1>
     </div>

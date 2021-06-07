@@ -61,7 +61,8 @@ export class Constants {
   public static readonly mockPark2 = {
     _id: 2,
     _schemaName: 'Park',
-    name: 'Mount Seymour',
+    name: 'Garibaldi',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };
@@ -70,6 +71,7 @@ export class Constants {
     _id: 3,
     _schemaName: 'Park',
     name: 'Golden Ears',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };
@@ -78,6 +80,7 @@ export class Constants {
     _id: 4,
     _schemaName: 'Park',
     name: 'Joffre Lakes',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };
@@ -85,7 +88,8 @@ export class Constants {
   public static readonly mockPark5 = {
     _id: 5,
     _schemaName: 'Park',
-    name: 'Stawamus Chief',
+    name: 'Mount Robson',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };
@@ -93,7 +97,8 @@ export class Constants {
   public static readonly mockPark6 = {
     _id: 6,
     _schemaName: 'Park',
-    name: 'Garibaldi',
+    name: 'Mount Seymour',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };
@@ -101,7 +106,8 @@ export class Constants {
   public static readonly mockPark7 = {
     _id: 7,
     _schemaName: 'Park',
-    name: 'Mount Robson',
+    name: 'Stawamus Chief',
+    description: 'The towering North Shore Mountains which form a backdrop to the bustling city of Vancouver have beckoned outdoor recreationists for many years. Until the opening of the Lions Gate Bridge in 1939, a fleet of ferries transported hikers and skiers across Burrard Inlet on the first leg of their journey to Hollyburn Ridge, which is now part of Cypress Provincial Park.',
     status: 'open',
     facilities: []
   };

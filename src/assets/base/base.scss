@@ -1,18 +1,234 @@
 @import "/src/assets/styles/abstracts/mixins.scss";
 @import "/src/assets/themes/default.scss";
 
-.card-header {
-    background-color: $primary;
-    color: $card-header-color ;
-}
-
-.park-select-header {
-    background-color: $primary;
-    color: $header-font-color;
-}
 
 .registration-details-container {
     background-color: $feature-block-bg;
     border-radius: 5px;
     color: white;
+}
+
+
+.main-wrapper {
+    display: table;
+    height: calc( 100% - #{$header-hight-mobile} - #{$footer-hight-mobile} );
+    width: 100%;
+    background: $bg-default;
+}
+
+.content {
+    background: $bg-light-color;
+}
+
+@media (min-width: 576px) {
+    .header-primary {
+        margin-top: 60px;
+    }
+
+    .main-wrapper {
+        // header and footer heights
+        height: calc( 100% - #{$header-hight} - #{$footer-hight} - #{$navbar-hight});
+    }
+
+    .text-body-primary {
+        margin-top: 30px;
+    }
+
+
+    .content {
+        padding: 120px 40px;
+    }
+
+}
+
+// buttons
+
+.BC-Gov-PrimaryButton {
+    background-color: #003366;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.BC-Gov-PrimaryButton:hover {
+  text-decoration: underline;
+  opacity: 0.80;
+}
+
+:focus {
+  outline: 4px solid #3B99FC;
+  outline-offset: 1px;
+}
+
+.BC-Gov-PrimaryButton:active {
+  opacity: 1;
+}
+
+
+.BC-Gov-PrimaryButton-Dark {
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    color: #313132;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.BC-Gov-PrimaryButton-Dark:hover {
+  text-decoration: underline;
+  background-color: #f2f2f2
+}
+
+:focus {
+  outline: 4px solid #3B99FC;
+  outline-offset: 1px;
+}
+
+.BC-Gov-PrimaryButton-Dark:active {
+  background-color: #fff;
+}
+
+.background-colour {
+  background-color: #003366;
+  height: 100px;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.BC-Gov-SecondaryButton {
+    background: none;
+    border-radius: 4px;
+    border: 2px solid #003366;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    Font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #003366;
+    }
+.BC-Gov-SecondaryButton:hover {
+    opacity: 0.80;
+    text-decoration: underline;
+    background-color: #003366;
+    color: #FFFFFF;
+    }
+:focus {
+    outline-offset: 1px;
+    outline: 4px solid #3B99FC;
+    }
+.BC-Gov-SecondaryButton:active {
+    opacity: 1;
+    }
+
+.BC-Gov-SecondaryButton-Dark {
+    background: none;
+    border-radius: 4px;
+    border: 2px solid #fff;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    Font-family: ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: #fff;
+    }
+
+.BC-Gov-SecondaryButton-Dark:hover {
+    text-decoration: underline;
+    background-color: #fff;
+    color: #313132;
+    }
+
+:focus {
+    outline-offset: 1px;
+    outline: 4px solid #3B99FC;
+    }
+
+.BC-Gov-SecondaryButton-Dark:active {
+    background-color: #f2f2f2;
+    color: #313132;
+    }
+
+.background-colour {
+    background-color: #003366;
+    height: 100px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+.material-icons {
+    vertical-align: bottom;
+    padding: 1px
+}
+
+
+// cards
+
+.card-header {
+    background-color: $card-header-bg;
+    color: $card-header-color;
+    font-weight: bold;
+    h1 {
+        font-size: 28px;
+        margin-bottom: 0px;
+    }
+}
+
+  .park-select-header {
+    background-color: $card-header-bg;
+    color: $card-header-color;
+    font-weight: bold;
+    h2 {
+        font-size: 28px;
+        margin-bottom: 0px;
+    }
+}
+
+hr {
+    border: none;
+}
+
+@media (min-width: 576px) {
+    .card-header {
+        background-color: $card-header-bg;
+        color: $card-header-color;
+        h1 {
+            font-size: 42px;
+        }
+    }
+
+      .park-select-header {
+        background-color: $card-header-bg;
+        color: $card-header-color;
+        h2 {
+            font-size: 42px;
+        }
+    }
 }
