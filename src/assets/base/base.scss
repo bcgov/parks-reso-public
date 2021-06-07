@@ -16,6 +16,20 @@
     background: $bg-default;
 }
 
+.main-content {
+    background-color: white;
+    height: 100%;
+    padding: 60px 10px;
+    margin-bottom: 120px;
+}
+
+@media (min-width: 576px) {
+    .main-content {
+        padding: 60px 30px;
+        margin-bottom: 240px;
+    }
+}
+
 .content {
     background: $bg-light-color;
 }
