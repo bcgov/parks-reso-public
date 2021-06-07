@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SuccessComponent } from 'src/app/registration/success/success.component';
 
 import { RegistrationDetailsComponent } from './registration-details.component';
 
@@ -8,7 +9,7 @@ describe('RegistrationDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistrationDetailsComponent ]
+      declarations: [ RegistrationDetailsComponent, SuccessComponent ]
     })
     .compileComponents();
   });

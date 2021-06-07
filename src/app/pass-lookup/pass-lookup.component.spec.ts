@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { PassLookupComponent } from './pass-lookup.component';
 
@@ -8,7 +9,8 @@ describe('PassLookupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PassLookupComponent ]
+      declarations: [ PassLookupComponent ],
+      imports: [RouterTestingModule]
     })
     .compileComponents();
   });

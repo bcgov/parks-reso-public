@@ -31,10 +31,12 @@ export class ListComponent implements OnInit {
 
     // Get data from service
 
-    this.tableData.totalListItems = this.tempData.length;
-    this.tableData.items = this.tempData;
-    this.tableData.options.showHeader = false;
-    this.tableData.options.showPageCountDisplay = false;
+    if ( this.tempData ) {
+      this.tableData.totalListItems = this.tempData.length;
+      this.tableData.items = this.tempData;
+      this.tableData.options.showHeader = false;
+      this.tableData.options.showPageCountDisplay = false;
+    }
 
     // Set columns
     this.tableData.columns = this.tableColumns;
