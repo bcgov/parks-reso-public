@@ -1,0 +1,18 @@
+@import "/src/assets/base/base.scss";
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,900);
+
+.back-button {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.btn-link {
+    cursor:pointer;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%
+    }
+}

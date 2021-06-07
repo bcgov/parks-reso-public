@@ -57,7 +57,7 @@
       "ignore-params"
     ],
     "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
+    "no-redundant-jsdoc": false,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
     "object-literal-key-quotes": [
@@ -83,7 +83,7 @@
       }
     },
     "typedef": [
-      true,
+      false,
       "call-signature"
     ],
     "typedef-whitespace": {
@@ -106,9 +106,7 @@
     },
     "variable-name": {
       "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
+        "ban-keywords"
       ]
     },
     "whitespace": {
@@ -137,14 +135,15 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "no-string-literal": false,
+    "prefer-const": false,
     "directive-selector": [
-      true,
+      false,
       "attribute",
       "app",
       "camelCase"
     ],
     "component-selector": [
-      true,
+      false,
       "element",
       "app",
       "kebab-case"
