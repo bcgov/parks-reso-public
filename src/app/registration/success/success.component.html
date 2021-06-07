@@ -1,32 +1,13 @@
-<div id="success"
-    class="card text-center mb-4">
+<div id="success" class="card text-center mb-4">
     <div class="card-header">
         <h1>Success, your order has been completed!</h1>
     </div>
     <div class="card-body text-left">
-        <button type="button"
-            class="btn btn-primary"
-            (click)="print()">Print</button>
+        <button type="button" class="btn btn-primary" (click)="print()">Print</button>
         <br>
         <br>
-        <p class="card-text">
-            <b>Order Details:</b>
-        </p>
-        <p class="card-text">
-            Name: {{regData.firstName}} {{regData.lastName}}
-        </p>
-        <p class="card-text">
-            Email: {{regData.email}}
-        </p>
-        <p class="card-text">
-            Reservation Date: {{regData.visitDate.year}}-{{regData.visitDate.month}}-{{regData.visitDate.day}}
-        </p>
-        <p class="card-text">
-            Facility Name: {{regData.passType.name}}
-        </p>
-        <p class="card-text">
-            Number of Passes: {{regData.passCount}}
-        </p>
+        <app-registration-details [regData]="regData">
+        </app-registration-details>
         <br>
         <p class="card-text">
             <b>Next Steps:</b>
@@ -53,7 +34,5 @@
     </div>
 </div>
 <div class="text-right">
-    <button type="button"
-        class="btn btn-primary btn-lg"
-        (click)="navigate()">Home</button>
+    <button type="button" class="btn btn-primary btn-lg" (click)="navigate()">Home</button>
 </div>

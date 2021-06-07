@@ -1,0 +1,11 @@
+<section *ngIf="loading">
+    <div class="spinner-container">
+        <div class="spinner-new rotating"></div>
+    </div>
+</section>
+
+<section *ngIf="!loading">
+    <app-table-template [data]="tableData"
+        (messageOut)="onMessageOut($event)">
+    </app-table-template>
+</section>
