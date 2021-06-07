@@ -19,22 +19,14 @@
 .main-content {
     background-color: white;
     height: 100%;
-    padding: 60px 10px;
     margin-bottom: 120px;
 }
 
 @media (min-width: 576px) {
     .main-content {
-        padding: 60px 30px;
         margin-bottom: 240px;
     }
-}
 
-.content {
-    background: $bg-light-color;
-}
-
-@media (min-width: 576px) {
     .header-primary {
         margin-top: 60px;
     }
@@ -47,12 +39,6 @@
     .text-body-primary {
         margin-top: 30px;
     }
-
-
-    .content {
-        padding: 120px 40px;
-    }
-
 }
 
 // buttons
