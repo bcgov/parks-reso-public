@@ -19,7 +19,7 @@ export class CardComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
-    if (this.data.name) {
+    if (this.data?.name) {
       this.altText = this.data.name + ' Park Image';
     }
   }
