@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { CardObject } from './card-object';
@@ -12,10 +12,17 @@ import { CardObject } from './card-object';
 /**
  * Main class that should contain all information needed to render a card.
  */
-export class CardComponent {
-  @Input() data: CardObject;
+export class CardComponent implements OnInit {
+  @Input() data: any;
+  public altText = 'Park Image';
 
   constructor(private router: Router) { }
+
+  ngOnInit() {
+    if (this.data?.name) {
+      this.altText = this.data.name + ' Park Image';
+    }
+  }
 
   navigate(park): void {
     this.router.navigate(['registration'], { state: { park } });

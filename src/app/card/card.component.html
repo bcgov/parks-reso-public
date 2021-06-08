@@ -1,6 +1,7 @@
 <div class="card">
     <div class="img-card">
-        <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg" />
+        <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg"
+            alt="{{altText}}" />
     </div>
     <div class="card-content">
         <h4 class="card-title">
@@ -15,7 +16,8 @@
             Park is closed :(
         </p>
     </div>
-    <div class="card-read-more">
+    <div tabIndex="{{data?.tabindex}}"
+        class="card-read-more">
         <a (click)="navigate(data)"
             class="btn btn-link btn-block">
             Book a Pass
