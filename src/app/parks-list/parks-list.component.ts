@@ -30,9 +30,14 @@ export class ParksListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.tempData = [{ rowData: Constants.mockParkList }];
+    let tempList = [];
+    let tabIndex = 10;
+    Constants.mockParkList.forEach(park => {
+      tempList.push({ ...park, ...{ tabindex: tabIndex } });
+      tabIndex++;
+    });
+    this.tempData = [{ rowData: tempList }];
     this.changeDetectionRef.detectChanges();
     this.loading = false;
   }
-
 }
