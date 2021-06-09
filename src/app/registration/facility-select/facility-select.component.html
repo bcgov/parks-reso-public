@@ -28,7 +28,21 @@
         </select>
     </div>
 </form>
-<button type="button"
-    [disabled]="myForm.status === 'INVALID'"
+
+<button
+    *ngIf="myForm.status === 'INVALID'"
+    type="button"
+    [disabled]="true"
+    class="float-right BC-Gov-PrimaryButton-disabled"
+    (click)="submit()">
+    Next
+</button>
+
+<button
+    *ngIf="!(myForm.status === 'INVALID')"
+    type="button"
+    [disabled]="false"
     class="float-right BC-Gov-PrimaryButton"
-    (click)="submit()">Next</button>
+    (click)="submit()">
+    Next
+</button>

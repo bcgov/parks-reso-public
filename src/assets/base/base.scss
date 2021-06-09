@@ -1,13 +1,15 @@
 @import "/src/assets/styles/abstracts/mixins.scss";
 @import "/src/assets/themes/default.scss";
 
+hr {
+    border: none;
+}
 
 .registration-details-container {
     background-color: $feature-block-bg;
     border-radius: 5px;
     color: white;
 }
-
 
 .main-wrapper {
     display: table;
@@ -20,25 +22,6 @@
     background-color: white;
     height: 100%;
     margin-bottom: 120px;
-}
-
-@media (min-width: 576px) {
-    .main-content {
-        margin-bottom: 240px;
-    }
-
-    .header-primary {
-        margin-top: 60px;
-    }
-
-    .main-wrapper {
-        // header and footer heights
-        height: calc( 100% - #{$header-hight} - #{$footer-hight} - #{$navbar-hight});
-    }
-
-    .text-body-primary {
-        margin-top: 30px;
-    }
 }
 
 // buttons
@@ -183,11 +166,39 @@
     justify-content: center;
     }
 
-.material-icons {
-    vertical-align: bottom;
-    padding: 1px
+.BC-Gov-PrimaryButton-disabled {
+    background-color: #003366;
+    opacity: 0.3;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-family: ‘BCSans’, ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: not-allowed;
 }
 
+.BC-Gov-SecondaryButton-disabled {
+    background-color: white;
+    opacity: 0.3;
+    border: 2px solid #003366;
+    border-radius: 4px;
+    color: #003366;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-family: ‘Noto Sans’, Verdana, Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: not-allowed;
+}
 
 // cards
 
@@ -211,11 +222,23 @@
     }
 }
 
-hr {
-    border: none;
-}
-
 @media (min-width: 576px) {
+    .main-content {
+        margin-bottom: 240px;
+    }
+
+    .header-primary {
+        margin-top: 60px;
+    }
+
+    .main-wrapper {
+        // header and footer heights
+        height: calc( 100% - #{$header-hight} - #{$footer-hight} - #{$navbar-hight});
+    }
+
+    .text-body-primary {
+        margin-top: 30px;
+    }
     .card-header {
         background-color: $card-header-bg;
         color: $card-header-color;
@@ -224,7 +247,7 @@ hr {
         }
     }
 
-      .park-select-header {
+        .park-select-header {
         background-color: $card-header-bg;
         color: $card-header-color;
         h2 {

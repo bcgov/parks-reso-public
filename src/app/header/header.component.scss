@@ -248,9 +248,7 @@
 
 
 .bc-gov-logo{
-    // height: calc(#{$header-hight} - 20px);
     height: $header-hight-mobile;
-    // border-right:1px solid $gold;
 }
 
 .bc-parks-title{
@@ -297,9 +295,7 @@
     }
 
     .bc-gov-logo{
-        // height: calc(#{$header-hight} - 20px);
         height: $header-hight;
-        // border-right:1px solid $gold;
     }
 
     .app-header {
@@ -354,9 +350,6 @@
   color: #fff;
   list-style: none;
   margin-left: -25px;
-  /* border-style: dotted;
-  border-width: 1px;
-  border-color: red; */
 }
 
 .navigation-main .container ul li {
@@ -370,9 +363,6 @@
   color: #fff;
   padding: 0 15px 0 15px;
   text-decoration: none;
-  /* border-style: dotted;
-  border-width: 1px;
-  border-color: green; */
 }
 
 .navigation-main .container ul li a:hover {
