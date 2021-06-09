@@ -38,7 +38,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     RegistrationDetailsComponent,
     TableTemplateComponent,
     ListComponent,
-    TableRowDirective
+    TableRowDirective,
   ],
   entryComponents: [
   ],
@@ -51,7 +51,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     RegistrationDetailsComponent,
     TableTemplateComponent,
     ListComponent,
-    TableRowDirective
+    TableRowDirective,
   ],
   providers: [
     TableTemplate,

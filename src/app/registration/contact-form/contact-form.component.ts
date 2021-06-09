@@ -7,10 +7,16 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./contact-form.component.scss']
 })
 export class ContactFormComponent implements OnInit {
-  @Input() facilityType;
+  @Input() passData;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
   public iAgree = false;
+
+  public months = ['January', 'February', 'March',
+    'April', 'May', 'June',
+    'July', 'August', 'September',
+    'October', 'November', 'December'
+  ];
 
   constructor(
     private fb: FormBuilder
@@ -36,6 +42,15 @@ export class ContactFormComponent implements OnInit {
         license: ['', Validators.required]
       }
     );
+    if (this.passData && this.passData.passType && this.passData.passType.type) {
+      if (this.passData.passType.type !== 'Parking') {
+        this.myForm.controls['license'].clearValidators();
+      }
+    }
+  }
+
+  getMonthString(monthNo): string {
+    return this.months[monthNo - 1];
   }
 
   submit(): void {
