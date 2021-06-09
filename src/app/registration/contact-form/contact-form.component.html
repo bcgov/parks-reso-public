@@ -1,45 +1,46 @@
-<div class="text-center">
-    <h2>
-        Please provide the following information to complete your reservation and receive your passes via email
-    </h2>
+<div class="card text-center mb-5">
+    <div class="card-header">
+        <h1>Contact Information</h1>
+    </div>
+    <div class="card-body text-left">
+        <p class="card-text">
+            Please provide the following information to complete your reservation and receive your pass via email.
+        </p>
+    </div>
+    <div class="card-footer text-muted text-left">
+        <h4>For: <strong>{{passData?.passType?.name}} ({{passData?.passType?.time}})</strong></h4>
+        <h4>Date:
+            <strong>{{passData?.visitDate?.month}}-{{passData?.visitDate?.day}}-{{passData?.visitDate?.year}} </strong>
+        </h4>
+        <h4>Passes: <strong>{{passData?.passCount}}</strong></h4>
+    </div>
 </div>
 <form [formGroup]="myForm">
     <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text"
-            class="form-control"
-            formControlName="firstName"
-            id="firstName">
+        <label for="firstName">First Name*</label>
+        <input type="text" class="form-control" formControlName="firstName" id="firstName">
     </div>
     <div class="form-group">
-        <label for="lastName">Last Name</label>
-        <input type="text"
-            class="form-control"
-            formControlName="lastName"
-            id="lastName">
+        <label for="lastName">Last Name*</label>
+        <input type="text" class="form-control" formControlName="lastName" id="lastName">
     </div>
     <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email"
-            class="form-control"
-            formControlName="email"
-            id="email"
-            placeholder="name@example.com">
+        <label for="email">Email Address*</label>
+        <input type="email" class="form-control" formControlName="email" id="email" placeholder="name@example.com">
+        <label for="email" class="label-info">Your email address will be used to send you your pass. It may also be used
+            to notify you in the event of a park or facility closure based on your selected visitation date.</label>
     </div>
     <div class="form-group">
         <label for="phone">Phone Number (Optional)</label>
-        <input type="text"
-            class="form-control"
-            formControlName="phone"
-            id="phone"
-            placeholder="1112223333">
+        <input type="text" class="form-control" formControlName="phone" id="phone" placeholder="1112223333">
+        <label for="email" class="label-info">You may provide your phone number if you wish to also receive
+            notifications regarding park or facility closures via SMS.</label>
     </div>
-    <div class="form-group">
+    <div *ngIf="passData?.passType?.type === 'parking'" class="form-group">
         <label for="license">License Plate</label>
-        <input type="text"
-            class="form-control"
-            formControlName="license"
-            id="license">
+        <input type="text" class="form-control" formControlName="license" id="license">
+        <label for="email" class="label-info">If you are requesting a parking pass, park rangers may need to verify your
+            vehicle via license plate.</label>
     </div>
 </form>
 
@@ -49,16 +50,12 @@
     Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
 
 <div class="text-right">
-    <input type="checkbox"
-        [(ngModel)]="iAgree"
-        [ngModelOptions]="{standalone: true}" />
+    <input type="checkbox" [(ngModel)]="iAgree" [ngModelOptions]="{standalone: true}" />
     <label class="ml-2">I Agree</label>
 
 </div>
 
 <div class="text-right mt-3">
-    <button type="button"
-        [disabled]="myForm.status === 'INVALID' || !iAgree"
-        class="btn btn-primary btn-lg"
+    <button type="button" [disabled]="myForm.status === 'INVALID' || !iAgree" class="btn btn-primary btn-lg"
         (click)="submit()">Submit</button>
 </div>

@@ -7,7 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./contact-form.component.scss']
 })
 export class ContactFormComponent implements OnInit {
-  @Input() facilityType;
+  @Input() passData;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
   public iAgree = false;
@@ -17,6 +17,7 @@ export class ContactFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log(this.passData);
     this.initForm();
   }
 
@@ -36,6 +37,11 @@ export class ContactFormComponent implements OnInit {
         license: ['', Validators.required]
       }
     );
+    if (this.passData && this.passData.passType && this.passData.passType.type) {
+      if (this.passData.passType.type === 'trail') {
+        this.myForm.controls['license'].clearValidators();
+      }
+    }
   }
 
   submit(): void {

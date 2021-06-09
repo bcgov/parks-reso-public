@@ -17,6 +17,6 @@
 <app-facility-select [facilities]="facilities"
     (emitter)="getFacilityFormObj($event);"
     *ngIf="state === 'facility-select'"></app-facility-select>
-<app-contact-form (emitter)="getContactFormObj($event);"
+<app-contact-form [passData]="facilityFormObj" (emitter)="getContactFormObj($event);"
     *ngIf="state === 'contact-form'"></app-contact-form>
 <app-success [regData]="regData" *ngIf="state === 'success'"></app-success>

@@ -10,6 +10,9 @@
 <p class="card-text">
     Reservation Date: {{ regData?.visitDate?.year }}-{{ regData?.visitDate?.month }}-{{ regData?.visitDate?.day }}
 </p>
+<p *ngIf="regData?.license" class="card-text">
+    License Plate: {{ regData?.license }}
+</p>
 <p class="card-text">
     Facility Name: {{ regData?.passType?.name }}
 </p>
