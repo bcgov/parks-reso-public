@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
+import { ParkService } from '../services/park.service';
 import { IColumnObject } from '../shared/components/table-template/table-object';
-import { Constants } from '../shared/utils/constants';
 import { ParksTableRowComponent } from './parks-table-row/parks-table-row.component';
 
 @Component({
@@ -8,11 +9,15 @@ import { ParksTableRowComponent } from './parks-table-row/parks-table-row.compon
   templateUrl: './parks-list.component.html',
   styleUrls: ['./parks-list.component.scss']
 })
-export class ParksListComponent implements OnInit {
+export class ParksListComponent implements OnInit, OnDestroy {
+  private alive = true;
   // Component
   public loading = true;
   // This will be changed to service.
-  public tempData;
+  public data = null;
+  public totalListItems = 0;
+  public options = { showPagination: false };
+
   public tableRowComponent = ParksTableRowComponent;
 
   // Table
@@ -27,17 +32,30 @@ export class ParksListComponent implements OnInit {
 
   constructor(
     private changeDetectionRef: ChangeDetectorRef,
+    private parkService: ParkService
   ) { }
 
   ngOnInit() {
     let tempList = [];
     let tabIndex = 10;
-    Constants.mockParkList.forEach(park => {
-      tempList.push({ ...park, ...{ tabindex: tabIndex } });
-      tabIndex++;
-    });
-    this.tempData = [{ rowData: tempList }];
-    this.changeDetectionRef.detectChanges();
-    this.loading = false;
+
+    this.parkService.getListValue()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((res) => {
+        this.loading = true;
+        if (res) {
+          res.forEach(park => {
+            tempList.push({ ...park, ...{ tabindex: tabIndex } });
+          });
+          this.data = [{ rowData: tempList }];
+          this.totalListItems = res.length;
+          this.loading = false;
+          this.changeDetectionRef.detectChanges();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 }

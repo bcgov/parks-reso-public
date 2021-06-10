@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,7 +15,20 @@ import { SharedModule } from './shared/shared.module';
 import { PassLookupModule } from './pass-lookup/pass-lookup.module';
 import { ParksListComponent } from './parks-list/parks-list.component';
 import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table-row.component';
+import { ParksListResolverService } from './parks-list/parks-list-resolver.service';
+import { ConfigService } from './services/config.service';
+import { HttpClientModule } from '@angular/common/http';
+import { LoggerService } from './services/logger.service';
+import { ApiService } from './services/api.service';
+import { EventService } from './services/event.service';
+import { ParkService } from './services/park.service';
+import { FacilitiesResolverService } from './registration/facilities-resolver.service';
 
+export function initConfig(configService: ConfigService) {
+  return async () => {
+    await configService.init();
+  };
+}
 
 @NgModule({
   declarations: [
@@ -31,6 +44,7 @@ import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     RegistrationModule,
     BrowserAnimationsModule,
@@ -40,7 +54,21 @@ import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table
   exports: [
     CardComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initConfig,
+      deps: [ConfigService],
+      multi: true
+    },
+    ParksListResolverService,
+    ConfigService,
+    LoggerService,
+    ApiService,
+    EventService,
+    ParkService,
+    FacilitiesResolverService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

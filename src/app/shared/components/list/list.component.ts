@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { TableObject } from '../table-template/table-object';
 import { ITableMessage } from '../table-template/table-row-component';
 
@@ -7,41 +7,38 @@ import { ITableMessage } from '../table-template/table-row-component';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnChanges {
   @Input() tableRowComponent;
   @Input() tableColumns;
 
   // This will turn into fetching data from the service
-  @Input() tempData;
-
-  // Component
-  public loading = true;
+  @Input() data;
+  @Input() totalListItems;
+  @Input() options;
 
   // Table
-  public tableData: TableObject;
+  public tableData: TableObject = new TableObject();
 
-  constructor(
-    private _changeDetectionRef: ChangeDetectorRef,
-  ) {
-  }
+  constructor() { }
 
-  ngOnInit() {
-    this.tableData = new TableObject({ component: this.tableRowComponent });
-    // Get table controls from url and save them in the tableData
+  ngOnInit() { }
 
-    // Get data from service
-
-    if ( this.tempData ) {
-      this.tableData.totalListItems = this.tempData.length;
-      this.tableData.items = this.tempData;
-      this.tableData.options.showHeader = false;
-      this.tableData.options.showPageCountDisplay = false;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.tableRowComponent) {
+      this.tableData.component = changes.tableRowComponent.currentValue;
     }
-
-    // Set columns
-    this.tableData.columns = this.tableColumns;
-    this._changeDetectionRef.detectChanges();
-    this.loading = false;
+    if (changes.tableColumns) {
+      this.tableData.columns = changes.tableColumns.currentValue;
+    }
+    if (changes.data) {
+      this.tableData.items = changes.data.currentValue;
+    }
+    if (changes.totalListItems) {
+      this.tableData.totalListItems = changes.totalListItems.currentValue;
+    }
+    if (changes.options) {
+      this.tableData.options = changes.options.currentValue;
+    }
   }
 
   onMessageOut(msg: ITableMessage) {

@@ -1,3 +1,7 @@
-<app-list *ngIf="!loading" [tableRowComponent]="tableRowComponent"
+<app-list *ngIf="!loading"
+    [tableRowComponent]="tableRowComponent"
     [tableColumns]="tableColumns"
-    [tempData]="tempData"></app-list>
+    [data]="data"
+    [totalListItems]="totalListItems"
+    [options]="options">
+</app-list>
