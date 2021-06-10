@@ -21,11 +21,5 @@ export class FacilitiesResolverService implements Resolve<void> {
       this.facilityService.clearListValue();
       this.facilityService.fetchData(null, park.sk);
     }
-    // if (route.params && route.params.parkId) {
-    //   this.facilityService.clearListValue();
-    //   this.facilityService.fetchData(null, route.params.parkId);
-    // } else {
-    //   this.router.navigate(['']);
-    // }
   }
 }
