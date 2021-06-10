@@ -37,7 +37,7 @@ export class FacilityService {
     try {
       if (!facilitySk && parkSk) {
         // We are getting a facilities of a given park.
-        res = await this.apiService.get('park', { park: parkSk, facilities: true });
+        res = await this.apiService.get('facility', { park: parkSk, facilities: true });
         this.setListValue(res);
       } else if (facilitySk && parkSk) {
         // we're getting a single item for a given park
