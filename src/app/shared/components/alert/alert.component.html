@@ -1,19 +1,19 @@
 <div class="p-5 m-4 text-center"
-    [ngClass]="getAlertClass(data.type)">
+    [ngClass]="getAlertClass(data?.type)">
     <div class="row d-flex justify-content-center">
         <span>
-            <h4 *ngIf="data.type === 'error' && data.code">Error {{ data.code }}:</h4>
-            <h4><strong>{{ data.title }}</strong></h4>
+            <h4 *ngIf="data?.type === 'error' && data?.code">Error {{ data?.code }}:</h4>
+            <h4><strong>{{ data?.title }}</strong></h4>
         </span>
 
     </div>
     <div class="row d-flex m-4 justify-content-center">
-        <i *ngIf="data.type === 'error'" class="material-icons">error</i>
-        <i *ngIf="data.type === 'warning'" class="material-icons">report_problem</i>
-        <i *ngIf="data.type === 'success'" class="material-icons">check_circle</i>
-        <i *ngIf="data.type === 'info'" class="material-icons">info</i>
+        <i *ngIf="data?.type === 'error'" class="material-icons">error</i>
+        <i *ngIf="data?.type === 'warning'" class="material-icons">report_problem</i>
+        <i *ngIf="data?.type === 'success'" class="material-icons">check_circle</i>
+        <i *ngIf="data?.type === 'info'" class="material-icons">info</i>
     </div>
     <div class="row d-flex justify-content-center">
-        <p>{{ data.message }}</p>
+        <p>{{ data?.message }}</p>
     </div>
 </div>

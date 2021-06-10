@@ -136,6 +136,7 @@
     "use-pipe-transform-interface": true,
     "no-string-literal": false,
     "prefer-const": false,
+    "object-literal-shorthand": false,
     "directive-selector": [
       false,
       "attribute",

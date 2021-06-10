@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
+import { FacilityService } from '../services/facility.service';
 import { Constants } from '../shared/utils/constants';
 
 @Component({
@@ -8,9 +10,11 @@ import { Constants } from '../shared/utils/constants';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+  private alive = true;
+
   public park;
 
-  public facilities = Constants.mockFacilityList;
+  public facilities = [];
 
   private facilityFormObj;
   private contactFormObj;
@@ -22,6 +26,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private facilityService: FacilityService
   ) {
     // Prevent us from loading into /registration without going through the root page.
     // tslint:disable-next-line: max-line-length
@@ -32,7 +37,15 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.facilityService.getListValue()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((res) => {
+        if (res) {
+          this.facilities = res;
+        }
+      });
+  }
 
   navigate(): void {
     if (confirm('Are you sure you want to leave, you will lose your data if you continue!')) {
