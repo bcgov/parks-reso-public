@@ -1,26 +1,18 @@
-<div class="card">
+<div [ngClass]="{'card-disabled': data?.status === 'closed', 'card': data?.status === 'open'}" class="my-3">
     <div class="img-card">
-        <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg"
-            alt="{{altText}}" />
+        <img src="assets/images/Akamina-Kishinena-Iain-Robert-Reid-15.jpg" alt="{{altText}}" />
     </div>
-    <div class="card-content">
-        <h4 class="card-title">
-            <div>
-                {{data?.name || "somthing"}}
-            </div>
-        </h4>
-        <p *ngIf="data?.status">
-            Park is open!
-        </p>
-        <p *ngIf="!data?.status">
-            Park is closed :(
-        </p>
+    <div class="p-2 d-flex justify-content-center">
+        <h4 class="title">{{data?.name}}</h4>
     </div>
-    <div tabIndex="{{data?.tabindex}}"
-        class="card-read-more">
-        <a (click)="navigate(data)"
-            class="btn btn-link btn-block">
-            Book a Pass
-        </a>
+    <hr>
+    <div>
+        <p *ngIf="data?.status === 'open'" class="open-banner text-right py-1 pr-3">Open</p>
+        <p *ngIf="data?.status === 'closed'" class="closed-banner text-right py-1 pr-3">Closed</p>
+    </div>
+    <div tabIndex="{{data?.tabindex}}" class="card-read-more">
+        <button (click)="navigate(data)" [disabled]="data?.status === 'closed'" class="btn btn-block btn-primary">
+            BOOK A PASS
+        </button>
     </div>
 </div>
