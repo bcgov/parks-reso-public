@@ -56,7 +56,7 @@
 .main-wrapper {
     display: table;
     // header and footer heights
-    height: calc( 100% - #{$header-hight} - #{$footer-hight} );
+    height: calc( 100% - #{$header-height} - #{$footer-height} );
     width: 100%;
     background: $bg-default;
 }

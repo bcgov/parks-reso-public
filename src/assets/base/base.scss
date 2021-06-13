@@ -1,7 +1,117 @@
 @import "/src/assets/styles/abstracts/mixins.scss";
 @import "/src/assets/themes/default.scss";
+@import "/src/assets/fonts/BCSans";
 
 // From https://developer.gov.bc.ca/Design-System/Alert-Banners
+
+$theme-colors: (
+    "primary": $primary,
+    "danger": $danger,
+    "success": $success
+);
+
+.btn-primary{
+    background-color: $primary;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+
+    &:hover {
+       text-decoration: underline;
+       opacity: 0.80;
+    }
+    &:focus {
+        outline: 4px solid #3b99fc;
+        outline-offset: 1px;
+    }
+    &:active {
+        background-color: $primary !important;
+        opacity: 1;
+    }
+    &:disabled{
+        background-color: $primary;
+        opacity: 0.3;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        padding: 12px 32px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: not-allowed;
+    }
+
+}
+
+.btn-secondary{
+    background: none;
+    border-radius: 4px;
+    border: 2px solid $primary;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: $primary;
+
+    &:hover {
+        opacity: 0.80;
+        background-color: $primary !important;
+        color: #FFFFFF;
+        border: 2px solid $primary;
+    }
+    &:focus {
+        outline-offset: 1px;
+        outline: 4px solid #3B99FC;
+        background-color: $primary !important;
+        box-shadow: none !important;
+        
+    }
+    &:active {
+        background-color: $primary !important;
+        opacity: 1;
+        box-shadow: none !important;
+        
+    }
+    &:disabled{
+        background-color: white;
+        opacity: 0.3;
+        border: 2px solid $primary;
+        border-radius: 4px;
+        color: #003366;
+        padding: 10px 30px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        cursor: not-allowed;
+    }
+}
+
+.btn-primary.btn-block{
+    border-radius: 0px 0px 4px 4px !important;
+
+    &:hover{
+        background-color: $primary;
+    }
+}
+
+.btn-link{
+    color:$link;
+    cursor: pointer;
+}
 
 .card-header {
     background-color: $primary;
@@ -14,9 +124,9 @@
 }
 
 .registration-details-container {
-    background-color: $feature-block-bg;
+    background-color: $bg-secondary;
     border-radius: 5px;
-    color: white;
+    color: $text;
 }
 
 .error-container {
@@ -44,4 +154,21 @@
     background-color: #d9eaf7;
     color: #313132;
     border-radius: 4px;
+}
+.label-info {
+    color:#606060;
+    font-size: 0.8rem;
+    margin-top: 0px;
+}
+
+.back-button {
+    display: inline-flex;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+@media (max-width: 576px){
+    .btn {
+        width: 100%;
+    }
 }

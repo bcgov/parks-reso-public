@@ -14,4 +14,17 @@
 
     // Add any feature-toggles
     // window.__env.coolFeatureActive = false;
+
+    // Number of days in advance a pass is available
+    window.__env.ADVANCE_BOOKING_LIMIT = 1;
+
+    // Hour of day that booking limit advances by 1 day
+    window.__env.ADVANCE_BOOKING_HOUR = 7;
+
+    // Number of people limited on a single trail pass
+    window.__env.TRAIL_PASS_LIMIT = 4;
+
+    // Number of vehicles limited on a single parking pass
+    window.__env.PARKING_PASS_LIMIT = 1;
+
 }(this));

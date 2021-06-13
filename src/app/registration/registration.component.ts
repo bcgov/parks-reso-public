@@ -11,6 +11,7 @@ import { Constants } from '../shared/utils/constants';
 })
 export class RegistrationComponent implements OnInit {
   private alive = true;
+  public loading = true;
 
   public park;
 
@@ -43,6 +44,7 @@ export class RegistrationComponent implements OnInit {
       .subscribe((res) => {
         if (res) {
           this.facilities = res;
+          this.loading = false;
         }
       });
   }
