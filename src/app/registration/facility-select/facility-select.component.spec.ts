@@ -1,5 +1,6 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import { ConfigService } from 'src/app/services/config.service';
 import { RegistrationModule } from '../registration.module';
 
 import { FacilitySelectComponent } from './facility-select.component';
@@ -11,7 +12,12 @@ describe('FacilitySelectComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [],
-      imports: [RegistrationModule]
+      imports: [RegistrationModule],
+      providers: [
+        ConfigService,
+        HttpClient,
+        HttpHandler
+      ]
     })
       .compileComponents();
   });

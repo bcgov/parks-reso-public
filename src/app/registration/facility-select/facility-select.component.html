@@ -1,36 +1,59 @@
 <form [formGroup]="myForm">
-    <div class="form-group">
-        <label for="visitDate">Visit Date</label>
-        <app-date-picker [control]="myForm.controls.visitDate"
-            [isValidate]="true">
-        </app-date-picker>
-    </div>
-    <div class="form-group">
-        <label for="passType">Pass Type (Trail or Vehicle)</label>
-        <select class="form-control"
-            formControlName="passType"
-            id="passType">
-            <option *ngFor="let facility of facilities"
-                [ngValue]="facility">
-                {{facility.name}} - Moderate Availability
+    <fieldset class="form-group">
+        <label for="passType">Park Type (Trail or Parking)</label>
+        <select class="form-control" formControlName="passType" id="passType" (change)="setState('date')">
+            <option *ngFor="let facility of openFacilities" [ngValue]="facility">
+                {{facility?.name}} - Moderate Availability
+            </option>
+            <option disabled *ngFor="let facility of closedFacilities" [ngValue]="facility">
+                {{facility?.name}} - Closed
+            </option>
+            <option disabled *ngIf="facilities?.length === 0" [ngValue]="facility">
+                Passes are not required at this park.
             </option>
         </select>
-    </div>
+    </fieldset>
     <div class="form-group">
-        <label for="passCount">Number of Passes Required</label>
-        <select class="form-control"
-            formControlName="passCount"
-            id="passCount">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
+        <label for="visitDate">Visit Date</label>
+        <app-date-picker [control]="myForm.controls.visitDate" [isValidate]="true" [minDate]="minDate"
+            (formChangeEvent)="setState('time')" [maxDate]="maxDate" [isDisabled]="isDisabled('date')">
+        </app-date-picker>
     </div>
+    <fieldset class="form-group" [disabled]="isDisabled('time')">
+        <label for="visitDate">Booking Time</label>
+        <select class="form-control" formControlName="visitTime" id="visitTime" (change)="setState('passes')"
+            placeholder="Select Booking Time">
+            <option *ngFor="let time of timesAvailable" [value]="time">{{ time }}</option>
+            <option disabled *ngFor="let time of timesFull" [value]="time">{{ time }} (no availability)</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group">
+        <label for="passCount">Number of Passes Required</label>
+        <div *ngIf="state < getStateByString('passes') || !checkPassType()">
+            <input type="text" class="form-control" id="passCount" disabled>
+        </div>
+        <div *ngIf="state >= getStateByString('passes') && checkPassType() === 'Trail'">
+            <select class="form-control" formControlName="passCount" id="passCount"
+                placeholder="Select Number of Passes">
+                <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
+                <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
+                </option>
+            </select>
+            <label class="label-info" for="passCount">You may request up to four trail passes at a time, if remaining
+                capacity allows.</label>
+        </div>
+        <div *ngIf="state === getStateByString('passes') && checkPassType() === 'Parking'">
+
+            <select class="form-control" formControlName="passCount" id="passCount" readonly>
+                <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
+                <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
+                </option>
+            </select>
+            <label class="label-info" for="passCount">You may only request 1 parking pass at a time.</label>
+        </div>
+    </fieldset>
 </form>
 <div class="text-right mt-4">
-    <button type="button"
-        [disabled]="myForm.status === 'INVALID'"
-        class="btn btn-primary btn-lg"
+    <button type="button" [disabled]="myForm.status === 'INVALID'" class="btn btn-primary btn-lg"
         (click)="submit()">Next</button>
 </div>

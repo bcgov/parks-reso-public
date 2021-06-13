@@ -6,7 +6,8 @@ import {
   ChangeDetectorRef,
   OnInit,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  Output
 } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
@@ -27,6 +28,8 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() maxDate: Date = null;
   @Input() reset: EventEmitter<any>;
   @Input() required = false;
+
+  @Output() formChangeEvent = new EventEmitter<string>();
 
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
@@ -60,6 +63,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   onDateChange(ngbDate: NgbDateStruct): void {
     this.control.setValue(ngbDate);
     this.control.markAsDirty();
+    this.formChangeEvent.emit();
   }
 
   clearDate(): void {
