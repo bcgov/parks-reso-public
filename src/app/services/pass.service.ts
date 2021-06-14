@@ -79,7 +79,7 @@ export class PassService {
     if (obj.facilityType === '' || !obj.facilityType) {
       throw ('You must provide a pass facility type');
     }
-    if (obj.facilityType === 'Parking Lot') {
+    if (obj.facilityType === 'Parking') {
       // If the facility is a parking lot than we have to collect license.
       if (obj.license === '' || !obj.license) {
         throw ('You must provide a pass license');
