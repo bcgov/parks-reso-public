@@ -6,11 +6,11 @@
     window.__env.debugMode = false;
 
     // Environment name
-    window.__env.ENVIRONMENT = 'local';  // local | dev | test | prod
+    window.__env.ENVIRONMENT = 'test';  // local | dev | test | prod
 
-    window.__env.API_LOCATION = 'https://pkqlwkdzka.execute-api.ca-central-1.amazonaws.com';
-    window.__env.API_PATH = '/dev';
-    window.__env.API_PUBLIC_PATH = '/dev';
+    window.__env.API_LOCATION = 'https://p41gitzo3l.execute-api.ca-central-1.amazonaws.com';
+    window.__env.API_PATH = '/test';
+    window.__env.API_PUBLIC_PATH = '/test';
 
     // Add any feature-toggles
     // window.__env.coolFeatureActive = false;

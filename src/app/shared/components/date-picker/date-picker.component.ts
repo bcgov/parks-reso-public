@@ -30,6 +30,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() required = false;
 
   @Output() formChangeEvent = new EventEmitter<string>();
+  @Output() clearEvent = new EventEmitter();
 
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
 
@@ -70,6 +71,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
     this.ngbDate = null;
     this.control.setValue(null);
     this.control.markAsDirty();
+    this.clearEvent.emit();
   }
 
   public isValidDate(date: NgbDateStruct): boolean {

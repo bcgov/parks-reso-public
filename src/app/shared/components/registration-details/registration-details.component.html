@@ -1,21 +1,39 @@
-<p class="card-text">
-    <b>Order Details:</b>
-</p>
-<p class="card-text">
-    Name: {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ? regData.lastName : '-'}}
-</p>
-<p class="card-text">
-    Email: {{ regData?.email }}
-</p>
-<p class="card-text">
-    Reservation Date: {{ regData?.visitDate?.year }}-{{ regData?.visitDate?.month }}-{{ regData?.visitDate?.day }}
-</p>
-<p *ngIf="regData?.license" class="card-text">
-    License Plate: {{ regData?.license }}
-</p>
-<p class="card-text">
-    Facility Name: {{ regData?.passType?.name }}
-</p>
-<p class="card-text">
-    Number of Passes: {{ regData?.passCount }}
-</p>
+<div class="registration-details-container m-1"
+    id="registration">
+    <h5 class="text-center">
+        <strong>Your Reservation Number:</strong>
+    </h5>
+    <h5 class="text-center mb-3">
+        {{ regData?.registrationNumber }}
+    </h5>
+    <hr>
+    <div class="row my-3">
+        <div class="col-md-6 mb-3 mb-md-0">
+            <p class="card-text">
+                <strong>Name:</strong> {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+                regData.lastName : '-'}}
+            </p>
+            <p class="card-text">
+                <strong>Email:</strong> {{ regData?.email }}
+            </p>
+            <p class="card-text">
+                <strong>Phone:</strong> {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
+            </p>
+            <p *ngIf="regData?.license"
+                class="card-text">
+                <strong>License Plate:</strong> {{ regData?.license }}
+            </p>
+        </div>
+        <div class='col-md-6'>
+            <p class="card-text">
+                <strong>Facility Name:</strong> {{ regData?.facilityName }} ({{ regData?.type}})
+            </p>
+            <p class="card-text">
+                <strong>Date:</strong> {{ regData?.date | date : 'mediumDate' }}
+            </p>
+            <p class="card-text">
+                <strong>Number of Passes:</strong> {{ regData?.numberOfGuests }}
+            </p>
+        </div>
+    </div>
+</div>

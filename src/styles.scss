@@ -12,6 +12,9 @@
 // Material Icons
 @import "/src/assets/base/material-icons.scss";
 
-body, html {
+@import "~ngx-toastr/toastr";
+
+body,
+html {
   height: 100%;
 }
