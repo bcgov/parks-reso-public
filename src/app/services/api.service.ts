@@ -43,9 +43,9 @@ export class ApiService {
     return throwError(error);
   }
 
-  post(obj, queryParamsObject = null): Promise<any> {
+  post(pk, obj, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.post<any>(`${this.apiPath}/${queryString}`, obj, {}).toPromise();
+    return this.http.post<any>(`${this.apiPath}/${pk}?${queryString}`, obj, {}).toPromise();
   }
 
   get(pk, queryParamsObject = null): Promise<any> {
