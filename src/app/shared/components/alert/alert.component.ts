@@ -12,7 +12,6 @@ export class AlertComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.data);
   }
 
   getAlertClass(type): string {

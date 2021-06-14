@@ -1,7 +1,14 @@
-// Main Colors
+// Main Colors - fromv BC DevHub
 $primary:                       #003366;
 $gold:                          #fcba19;
-$lightgray:                     #eee;
+$text:                          #313132;
+$link:                          #1a5a96;
+$bg-primary:                    #38598A;
+$bg-secondary:                  #f2f2f2;
+$component:                     #606060;
+$danger:                        #D8292F;
+$success:                       #2e8540;
+$bg-header-secondary:           #38598a;
 
 // Background Colors
 $bg-dark:                       $primary;
@@ -23,12 +30,12 @@ $link-color:                    #1a5a96;
 $header-font-color:             #fff;
 $header-bg:                     $primary;
 $header-h1:                     #1A5A96;
-$header-hight:                  71px;
+$header-height:                  100px;
 
 // Footer
 $footer-bg:                     $primary;
 $footer-color:                  #fff;
-$footer-hight:                  71px;
+$footer-height:                  71px;
 
 // Main Navigation
 $mn-font-size:                  0.875rem; // 14 px
@@ -61,7 +68,7 @@ $feature-block-primary:         $primary;
 $fc-height:                     2.75rem;
 $fc-border-color:               #ddd;
 $fc-bg:                         #fff;
-$fc-inner-shadow:               0.1rem 0.1rem 0.1rem $lightgray;
+$fc-inner-shadow:               0.1rem 0.1rem 0.1rem lightgray;
 $fc-placeholder-color:          #aaa;
 $fc-focus-border-color:         #5091cd;
 
@@ -71,7 +78,7 @@ $list-row-bg:                   #f7f8fa;
 $list-row-alt-bg:               #f4f4f4;
 
 // Pagination Control
-$pgn-btn-bg:                    $lightgray;
+$pgn-btn-bg:                    lightgray;
 $pgn-btn-active-bg:             #5091cd;
 $pgn-btn-active-color:          #fff;
 $pgn-btn-border:                1px solid #ccc;
@@ -89,9 +96,9 @@ $spinner-invert-bg:             rgba(#001a33,0.8);
 $tab-color:                     #38598a;
 $tab-nav-border-color:          #ddd;
 $tab-nav-bg:                    #fff;
-$tab-hover-bg:                  $lightgray;
+$tab-hover-bg:                  lightgray;
 $tab-sm-active-color:           #fff;
-$tab-sm-bg:                     $lightgray;
+$tab-sm-bg:                     lightgray;
 $tab-sm-active-bg:              #38598a;
 $tab-active-bg:                 #fff;
 

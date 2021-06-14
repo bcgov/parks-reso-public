@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {Constants} from 'src/app/shared/utils/constants';
 
 @Component({
@@ -11,9 +12,15 @@ export class HomeComponent implements OnInit {
 
 public mockParkList = Constants.mockParkList;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  cancelPass(): void {
+    this.router.navigate(['./pass-lookup']);
   }
 
 }
