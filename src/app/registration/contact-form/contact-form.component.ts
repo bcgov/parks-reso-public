@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class ContactFormComponent implements OnInit {
   @Input() passData;
+  @Input() park;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
   public iAgree = false;

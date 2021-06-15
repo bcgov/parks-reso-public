@@ -3,7 +3,7 @@
         <label for="passType">Park Type (Trail or Parking)</label>
         <select class="form-control" formControlName="passType" id="passType" (change)="setState('date')">
             <option *ngFor="let facility of openFacilities" [ngValue]="facility">
-                {{facility?.name}} - Moderate Availability
+                {{facility?.name}}
             </option>
             <option disabled *ngFor="let facility of closedFacilities" [ngValue]="facility">
                 {{facility?.name}} - Closed

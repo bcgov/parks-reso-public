@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { concat } from 'rxjs';
 import { ConfigService } from 'src/app/services/config.service';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 
@@ -23,6 +24,7 @@ export class FacilitySelectComponent implements OnInit {
   public timesAvailable = [];
   public timesFull = [];
   public passesAvailable = [];
+  public selectedDate = '';
 
   // typically imported from configService, below are default values if no configService
   public openingHour = 7;
@@ -73,13 +75,18 @@ export class FacilitySelectComponent implements OnInit {
     // if facility has a time of day and there is no capacity limit, make all times available.
     this.timesFull = [];
     this.timesAvailable = [];
+    this.selectedDate = '';
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const times = this.myForm.get('passType').value.bookingTimes;
+      this.selectedDate = this.getBookingDateString();
       for (let key in times) {
-        if (times[key].currentCount < times[key].max || !times[key].max) {
-          this.timesAvailable.push(key);
-        } else {
-          this.timesFull.push(key);
+        if (key !== 'reservations') {
+          if (!times.reservations || !times.reservations[this.selectedDate]|| times.reservations[this.selectedDate][key] < times[key].max) {
+            this.timesAvailable.push(key);
+          } else {
+            this.timesFull.push(key);
+          }
+
         }
       }
       if (this.timesAvailable.length === 0) {
@@ -87,6 +94,20 @@ export class FacilitySelectComponent implements OnInit {
         this.timesFull.push('No times available on this date.');
       }
     }
+  }
+
+  getBookingDateString(): string {
+    let year = this.pad(this.myForm.get('visitDate').value.year, 4);
+    let month = this.pad(this.myForm.get('visitDate').value.month-1, 2);
+    let day = this.pad(this.myForm.get('visitDate').value.day, 2);
+    let dateString = (`${year}${month}${day}`);
+    return dateString;
+  }
+
+  pad(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
   }
 
   setPassesArray(): void {
@@ -100,8 +121,8 @@ export class FacilitySelectComponent implements OnInit {
       const pass = this.myForm.get('passType').value;
       if (this.myForm.get('visitTime').value) {
         const time = this.myForm.get('visitTime').value;
-        if (pass.bookingTimes[time] && pass.bookingTimes[time].max && pass.bookingTimes[time].currentCount) {
-          numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes[time].currentCount;
+        if (pass.bookingTimes[time] && pass.bookingTimes.reservation && pass.bookingTimes.reservation[time] && pass.bookingTimes[time].max) {
+          numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes.reservations[time];
         } else {
           numberAvailable = Math.max(this.trailPassLimit, this.parkingPassLimit);
         }

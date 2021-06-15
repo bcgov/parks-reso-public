@@ -1,21 +1,35 @@
-<p class="card-text">
-    <b>Order Details:</b>
-</p>
-<p class="card-text">
-    Name: {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ? regData.lastName : '-'}}
-</p>
-<p class="card-text">
-    Email: {{ regData?.email }}
-</p>
-<p class="card-text">
-    Reservation Date: {{ regData?.visitDate?.year }}-{{ regData?.visitDate?.month }}-{{ regData?.visitDate?.day }}
-</p>
-<p *ngIf="regData?.license" class="card-text">
-    License Plate: {{ regData?.license }}
-</p>
-<p class="card-text">
-    Facility Name: {{ regData?.passType?.name }}
-</p>
-<p class="card-text">
-    Number of Passes: {{ regData?.passCount }}
-</p>
+<div class="registration-details-container p-3 m-1" id="registration">
+    <h5 class="text-center">
+        Your Reservation Number:
+    </h5>
+    <h5 class="text-center confirmation-number-container p-1">
+        {{ regData?.registrationNumber }}
+    </h5>
+    <div class="row mt-2">
+        <div class='col-md-6'>
+            <p class="card-text">
+                Facility Name: <strong>{{ regData?.facilityName }} ({{ regData?.type}})</strong>
+            </p>
+            <p class="card-text">
+                Reservation Date: <strong>{{ regData?.date | date : 'mediumDate' }}</strong>
+            </p>
+            <p class="card-text">
+                Number of Passes: <strong>{{ regData?.numberOfGuests }}</strong>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p class="card-text">
+                Name: {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ? regData.lastName : '-'}}
+            </p>
+            <p class="card-text">
+                Email: {{ regData?.email }}
+            </p>
+            <p class="card-text">
+                Phone: {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
+            </p>
+            <p *ngIf="regData?.license" class="card-text">
+                License Plate: {{ regData?.license }}
+            </p>
+        </div>
+    </div>
+</div>
