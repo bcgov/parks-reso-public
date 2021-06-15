@@ -1,19 +1,82 @@
 <div class="card text-center mb-5">
     <div class="card-header">
-        <h1>BC Parks Day Use Pass Reservation System</h1>
+        <h1>Reserve a Day-Pass</h1>
     </div>
-    <div class="card-body text-left" tabindex="2">
-        <p class="card-text">Some of our most popular parks regularly experience high visitor volumes,
-            resulting in
-            crowding of facilities, packed parking lots, and safety issues. These environments do not easily allow for
-            physical distancing and large numbers of visitors also have increased environmental impacts. The trail
-            systems within these parks can become crowded at narrow pass points and view points which can lead to
-            congestion and difficulties maintaining physical distancing.</p>
-        <p>
-            As of June 15, 2021, day use passes will be required to visit 7 of our busiest parks.
+    <div class="card-body text-left"
+        tabindex="2">
+        <p class="card-text">
+            The BC Parks day use pilot project is back for the 2021 season to help manage visitation levels at five of
+            our most popular day use parks.
         </p>
         <p>
-            <a class="btn-link" (click)="cancelPass()">Click here</a> if you would like to cancel an active pass.
+            Visitors are now required to reserve a day pass to visit participating parks. Depending on the park, a
+            day-use pass may not be required for all trails. If the park is open and the trail or trailhead isn’t
+            listed, you do not need to reserve a day pass. Check the park webpage at <a
+                href="https://bcparks.ca/">www.bcparks.ca</a> for details on where
+            you need a day-use pass.
+        </p>
+
+        <span>
+            Important booking information:
+        </span>
+        <ul>
+            <li>
+                Bookings can be made starting at 7:00am, one day in advance of your planned visit. Same day passes will
+                be available as capacity allows.
+            </li>
+            <li>
+                Passes cannot be transferred to another date, time, or location and your pass cannot be shared beyond
+                the group reserved.
+            </li>
+        </ul>
+
+        <span>
+            Pass types:
+        </span>
+        <ul>
+            <li>
+                Vehicle pass – 1 pass required per vehicle. Maximum of 8 persons (adult or child) per vehicle per day.
+            </li>
+            <li>
+                Trail pass – 1 pass required per person. Maximum of 4 passes per account per day (note: those 18 and
+                under do not require a pass when accompanied by a parent or guardian).
+            </li>
+        </ul>
+
+        <span>
+            When visiting the great outdoors make sure to:
+        </span>
+        <ul>
+            <li>
+                Plan ahead. Download and use the <a href="https://www.adventuresmart.ca/trip-plan-app/">AdventureSmart
+                    trip planning app</a>.
+            </li>
+            <li>
+                Do your research and pack the essentials. Nature is unpredictable, so it’s important to be prepared for
+                anything.
+            </li>
+            <li>
+                Make a trip plan and tell someone where you are going and when you expect to be back.
+            </li>
+            <li>
+                Pack out all garbage, recyclables, and organics. Organic matter can attract wildlife.
+            </li>
+            <li>
+                Always travel within your abilities and prepare for your trip. Follow in-park signage and have your pass
+                accessible while in the park and on the trail.
+            </li>
+        </ul>
+
+        <p>
+            For more information on the day pass pilot program, including what to expect in park, please visit us at
+            <a href="https://bcparks.ca/reserve/day-use/">https://bcparks.ca/reserve/day-use/</a>.
+        </p>
+        <p>
+            <a class="btn-link"
+                (click)="cancelPass()">Click here</a> if you would like to cancel an active pass.
+        </p>
+        <p>
+            Enjoy your visit!
         </p>
     </div>
 </div>
