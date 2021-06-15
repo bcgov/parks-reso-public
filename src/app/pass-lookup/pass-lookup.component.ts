@@ -68,15 +68,6 @@ export class PassLookupComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  debugGetPass() {
-    this.pass = new Pass({
-      registrationNumber: '123456',
-      firstName: 'bob',
-      lastName: 'loblaw'
-    });
-    console.log(this.pass);
-  }
-
   onSubmit(event): void {
     this.populateData(event);
     if (this.resData.confirmation === this.mockData.confirmation && this.resData.email === this.mockData.email) {
