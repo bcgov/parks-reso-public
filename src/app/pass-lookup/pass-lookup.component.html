@@ -20,37 +20,32 @@
         </p>
         <ol>
             <li [ngClass]="{'font-weight-bold': state === 'blank' || state === 'no-match'}">
-                Enter your confirmation number and the email associated with your reservation in the form below.
+                If you provided an email with your reservation, you received an email containing a cancellation link.
+                Please follow the link in the email to the cancellation page.
             </li>
-            <li [ngClass]="{'font-weight-bold': state === 'match'}">
-                You will recieve an email containing a cancellation link. Follow the link to the cancellation page.
-            </li>
+
             <li [ngClass]="{'font-weight-bold': state === 'found'}">
-                Click 'Cancel Reservation' to confirm cancellation.
+                Verify the reservation information and click 'Cancel Reservation' to confirm cancellation.
             </li>
         </ol>
     </div>
 </div>
 
-<div *ngIf="state === 'blank' || state === 'no-match'">
-    <app-pass-lookup-form (submitEvent)="onSubmit($event)"></app-pass-lookup-form>
-</div>
-
 <div *ngIf="state === 'found'">
-    <div class="registration-details-container p-3 m-3">
-        <app-registration-details [regData]="mockData">
+    <div *ngIf="pass">
+        <app-registration-details [regData]="pass">
         </app-registration-details>
     </div>
-    <div class="d-flex justify-content-end mx-3">
-        <button class="btn btn-danger" (click)="cancelReservation()"> Cancel Reservation </button>
+    <div *ngIf="!pass">
+        <app-alert [data]="passNotFound()">
+        </app-alert>
     </div>
 </div>
+<div class="d-flex float-right my-3 mx-1" *ngIf="state === 'found'">
+    <button class="btn btn-danger" (click)="cancelReservation()" [disabled]="!pass"> Cancel Reservation </button>
+</div>
 
-<div class="my-3 d-flex justify-content-center text-center">
-    <p *ngIf="state === 'no-match'" class="text-danger">Confirmation number or email is incorrect.
-    </p>
-    <p *ngIf="state === 'match'" class="text-secondary">Cancellation link email sent. Please check your inbox. <a
-            class="btn-link" (click)="changeState('blank')">Retry cancellation form</a></p>
-    <p *ngIf="state === 'cancelled'" class="text-secondary">Reservation cancelled. <a class="btn-link"
-            (click)="changeState('blank')">Cancel another registration</a></p>
+<div *ngIf="state === 'cancelled'">
+    <app-alert [data]="cancelSuccess()">
+    </app-alert>
 </div>

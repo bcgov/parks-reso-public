@@ -1,5 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Pass } from '../models/pass';
+import { PassService } from '../services/pass.service';
+import { AlertObject } from '../shared/components/alert/alert-object';
 import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.component';
 
 @Component({
@@ -8,6 +11,7 @@ import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.com
   styleUrls: ['./pass-lookup.component.scss']
 })
 export class PassLookupComponent implements OnInit {
+  @Input() pass: Pass
   @ViewChild(PassLookupFormComponent) form: PassLookupFormComponent;
 
   // states: blank, no-match, match, found, cancelled
@@ -36,11 +40,27 @@ export class PassLookupComponent implements OnInit {
   public title = 'Cancel a reservation';
 
   constructor(
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
+  }
 
+  passNotFound(): AlertObject {
+    let alert = new AlertObject({
+      type: 'warning',
+      title: 'Unable to find reservation',
+      message: 'The system was unable to find this reservation. It may have already been cancelled, or it may have expired.'
+    });
+    return alert;
+  }
+
+  cancelSuccess(): AlertObject {
+    let alert = new AlertObject({
+      type: 'info',
+      title: 'Your reservation has been successfully cancelled.',
+    });
+    return alert;
   }
 
   navigate(): void {
