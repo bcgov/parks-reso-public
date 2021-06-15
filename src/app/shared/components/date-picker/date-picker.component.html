@@ -1,6 +1,6 @@
-<fieldset class="date-input" [ngClass]="{ 'is-invalid': isValidate && !isValidDate(ngbDate) }" >
-  <input
-    class="form-control"
+<fieldset class="date-input"
+  [ngClass]="{ 'is-invalid': isValidate && !isValidDate(ngbDate) }">
+  <input class="form-control"
     type="text"
     placeholder="YYYY-MM-DD"
     name="ngbDatepicker"
@@ -12,23 +12,23 @@
     (ngModelChange)="onDateChange($event)"
     [minDate]="minNgbDate"
     [maxDate]="maxNgbDate"
-    [disabled]="isDisabled"
-        
-  />
-  <button
-    class="date-input__calendar-btn form-control"
+    [disabled]="isDisabled" />
+  <button class="date-input__calendar-btn form-control"
     (click)="ngbDatepicker.toggle()"
     type="button"
     title="Select a Date"
-    [disabled]="isDisabled"
-  >
+    [disabled]="isDisabled">
     <span class="material-icons md-18">date_range</span>
   </button>
-  <button class="date-input__clear-btn btn btn-icon" [hidden]="!ngbDate || isDisabled" (click)="clearDate()" title="Clear Date">
+  <button class="date-input__clear-btn"
+    [hidden]="!ngbDate || isDisabled"
+    (click)="clearDate()"
+    title="Clear Date">
     <span class="material-icons md-18">close</span>
   </button>
 </fieldset>
 
-<div class="invalid-feedback bg-danger" *ngIf="isValidate && !isValidDate(ngbDate)">
+<div class="invalid-feedback bg-danger"
+  *ngIf="isValidate && !isValidDate(ngbDate)">
   Enter a valid date
 </div>

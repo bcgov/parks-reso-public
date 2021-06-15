@@ -7,55 +7,81 @@
             Please provide the following information to complete your reservation and receive your pass via email.
         </p>
     </div>
-    <div class="card-footer text-muted text-left">
-        <h4>For: <strong>{{ park?.name }} - {{passData?.passType?.name}} ({{passData?.visitTime}})</strong></h4>
-        <h4>Date:
-            <strong>{{getMonthString(passData?.visitDate?.month)}} {{passData?.visitDate?.day}}, {{passData?.visitDate?.year}} </strong>
-        </h4>
-        <h4>Passes: <strong>{{passData?.passCount}}</strong></h4>
+    <div class="card-footer text-left">
+        <h5>For: <strong>{{passData?.passType?.name}} ({{passData?.visitTime}})</strong></h5>
+        <h5>Date:
+            <strong>{{getMonthString(passData?.visitDate?.month)}} {{passData?.visitDate?.day}},
+                {{passData?.visitDate?.year}} </strong>
+        </h5>
+        <h5>Passes: <strong>{{passData?.passCount}}</strong></h5>
     </div>
 </div>
 <form [formGroup]="myForm">
     <div class="form-group">
-        <label for="firstName">First Name*</label>
-        <input type="text" class="form-control" formControlName="firstName" id="firstName">
+        <label for="firstName">First Name <span class="text-danger">*</span></label>
+        <input type="text"
+            class="form-control"
+            formControlName="firstName"
+            id="firstName">
     </div>
     <div class="form-group">
-        <label for="lastName">Last Name*</label>
-        <input type="text" class="form-control" formControlName="lastName" id="lastName">
+        <label for="lastName">Last Name <span class="text-danger">*</span></label>
+        <input type="text"
+            class="form-control"
+            formControlName="lastName"
+            id="lastName">
     </div>
     <div class="form-group">
-        <label for="email">Email Address*</label>
-        <input type="email" class="form-control" formControlName="email" id="email" placeholder="name@example.com">
-        <label for="email" class="label-info">Your email address will be used to send you your pass. It may also be used
+        <label for="email">Email Address <span class="text-danger">*</span></label>
+        <input type="email"
+            class="form-control"
+            formControlName="email"
+            id="email"
+            placeholder="name@example.com">
+        <label for="email"
+            class="label-info">Your email address will be used to send you your pass. It may also be used
             to notify you in the event of a park or facility closure based on your selected visitation date.</label>
     </div>
     <div class="form-group">
         <label for="phone">Phone Number (Optional)</label>
-        <input type="text" class="form-control" formControlName="phone" id="phone" placeholder="1112223333">
-        <label for="email" class="label-info">You may provide your phone number if you wish to also receive
+        <input type="text"
+            class="form-control"
+            formControlName="phone"
+            id="phone"
+            placeholder="1112223333">
+        <label for="email"
+            class="label-info">You may provide your phone number if you wish to also receive
             notifications regarding park or facility closures via SMS.</label>
     </div>
-    <div *ngIf="passData?.passType?.type === 'parking'" class="form-group">
+    <div *ngIf="passData?.passType?.type === 'parking'"
+        class="form-group">
         <label for="license">License Plate</label>
-        <input type="text" class="form-control" formControlName="license" id="license">
-        <label for="email" class="label-info">If you are requesting a parking pass, park rangers may need to verify your
+        <input type="text"
+            class="form-control"
+            formControlName="license"
+            id="license">
+        <label for="email"
+            class="label-info">If you are requesting a parking pass, park rangers may need to verify your
             vehicle via license plate.</label>
     </div>
 </form>
 
-<small class="text-muted">This information is collected by BC Parks, under Section 26(c) and 26 (e) of the Freedom of
+<small>This information is collected by BC Parks, under Section 26(c) and 26 (e) of the Freedom of
     Information and Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use
     location and to evaluate the reservation system and process. Questions regarding this collection can be directed to:
     Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
 
-<div class="text-right">
-    <input type="checkbox" [(ngModel)]="iAgree" [ngModelOptions]="{standalone: true}" />
-    <label class="ml-2">I Agree</label>
+<div class="mt-4">
+    <input type="checkbox"
+        [(ngModel)]="iAgree"
+        [ngModelOptions]="{standalone: true}" />
+    <label class="ml-2">I have read and agree to the above notice</label>
 
 </div>
 
 <div class="text-right mt-3">
-    <button type="button" [disabled]="myForm.status === 'INVALID' || !iAgree" class="btn btn-primary btn-lg"
+    <button type="button"
+        [disabled]="myForm.status === 'INVALID' || !iAgree"
+        class="btn btn-primary btn-lg"
         (click)="submit()">Submit</button>
 </div>
