@@ -58,12 +58,13 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text"
-                                *ngIf="timeConfig.PM.disabled">
+                                *ngIf="!showTimeText('AM')">
                                 -
                             </p>
-                            <p *ngIf="!timeConfig.PM.disabled"
-                                class="card-text">Pass availability - <span
-                                    [ngClass]="timeConfig.AM.text">{{timeConfig.AM.text}}</span></p>
+                            <p class="card-text"
+                                *ngIf="showTimeText('AM')">
+                                Pass availability - <span [ngClass]="timeConfig.AM.text">{{timeConfig.AM.text}}</span>
+                            </p>
                         </div>
                     </div>
                 </label>
@@ -90,12 +91,13 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text"
-                                *ngIf="timeConfig.PM.disabled">
+                                *ngIf="!showTimeText('PM')">
                                 -
                             </p>
-                            <p *ngIf="!timeConfig.PM.disabled"
-                                class="card-text">Pass availability - <span
-                                    [ngClass]="timeConfig.PM.text">{{timeConfig.PM.text}}</span></p>
+                            <p class="card-text"
+                                *ngIf="showTimeText('PM')">
+                                Pass availability - <span [ngClass]="timeConfig.PM.text">{{timeConfig.PM.text}}</span>
+                            </p>
                         </div>
                     </div>
                 </label>
@@ -118,16 +120,17 @@
                                 class="material-icons md-18">radio_button_unchecked</span>
                             <span [hidden]="!timeConfig.DAY.selected"
                                 class="material-icons md-18">radio_button_checked</span>
-                            <span class="ml-2 time-header">DAY</span>
+                            <span class="ml-2 time-header">All Day</span>
                         </div>
                         <div class="card-body">
                             <p class="card-text"
-                                *ngIf="timeConfig.DAY.disabled">
+                                *ngIf="!showTimeText('DAY')">
                                 -
                             </p>
-                            <p *ngIf="!timeConfig.DAY.disabled"
-                                class="card-text">Pass availability - <span
-                                    [ngClass]="timeConfig.DAY.text">{{timeConfig.DAY.text}}</span></p>
+                            <p class="card-text"
+                                *ngIf="showTimeText('DAY')">
+                                Pass availability - <span [ngClass]="timeConfig.DAY.text">{{timeConfig.DAY.text}}</span>
+                            </p>
                         </div>
                     </div>
                 </label>

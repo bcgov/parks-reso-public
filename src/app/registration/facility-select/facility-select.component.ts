@@ -31,17 +31,17 @@ export class FacilitySelectComponent implements OnInit {
     AM: {
       selected: false,
       disabled: true,
-      text: 'Unavailable'
+      text: ''
     },
     PM: {
       selected: false,
       disabled: true,
-      text: 'Unavailable'
+      text: ''
     },
     DAY: {
       selected: false,
       disabled: true,
-      text: 'Unavailable'
+      text: ''
     }
   };
 
@@ -98,6 +98,7 @@ export class FacilitySelectComponent implements OnInit {
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const times = this.myForm.get('passType').value.bookingTimes;
       this.selectedDate = this.getBookingDateString();
+      this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unavailable';
       for (let key in times) {
         if (key !== 'reservations') {
           if (
@@ -118,16 +119,25 @@ export class FacilitySelectComponent implements OnInit {
             }
             this.timeConfig[key].disabled = false;
           } else {
-            this.timeConfig[key].text = 'Unavailable';
+            this.timeConfig[key].text = 'Full';
             this.timeConfig[key].disabled = true;
             this.timesFull.push(key);
           }
         }
       }
+
       if (this.timesAvailable.length === 0) {
         this.timesFull = [];
         this.timesFull.push('No times available on this date.');
       }
+    }
+  }
+
+  showTimeText(time) {
+    if (!this.timeConfig.DAY.disabled || this.timeConfig.DAY.text === 'Unavailable' || this.timeConfig.DAY.text === 'Full') {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -255,17 +265,17 @@ export class FacilitySelectComponent implements OnInit {
       AM: {
         selected: false,
         disabled: true,
-        text: 'Unavailable'
+        text: '-'
       },
       PM: {
         selected: false,
         disabled: true,
-        text: 'Unavailable'
+        text: '-'
       },
       DAY: {
         selected: false,
         disabled: true,
-        text: 'Unavailable'
+        text: '-'
       }
     };
   }
