@@ -137,6 +137,7 @@
     "no-string-literal": false,
     "prefer-const": false,
     "object-literal-shorthand": false,
+    "no-string-throw": false,
     "directive-selector": [
       false,
       "attribute",
