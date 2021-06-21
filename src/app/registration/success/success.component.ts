@@ -25,7 +25,6 @@ export class SuccessComponent implements OnInit {
     WindowPrt.document.close();
     WindowPrt.focus();
     WindowPrt.print();
-    WindowPrt.close();
   }
 
   navigate(): void {

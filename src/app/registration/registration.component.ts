@@ -89,6 +89,7 @@ export class RegistrationComponent implements OnInit {
       this.submitRes = await this.passService.createPass(postObj, this.park.sk, this.regData.passType.sk);
     } catch (error) {
       alert('An error occured');
+      this.router.navigate(['']);
     }
     this.state = 'success';
   }
