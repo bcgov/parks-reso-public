@@ -25,6 +25,25 @@ export class FacilitySelectComponent implements OnInit {
   public timesFull = [];
   public passesAvailable = [];
   public selectedDate = '';
+  public selectedFacility = null;
+
+  public timeConfig = {
+    AM: {
+      selected: false,
+      disabled: true,
+      text: ''
+    },
+    PM: {
+      selected: false,
+      disabled: true,
+      text: ''
+    },
+    DAY: {
+      selected: false,
+      disabled: true,
+      text: ''
+    }
+  };
 
   // typically imported from configService, below are default values if no configService
   public openingHour = 7;
@@ -79,16 +98,34 @@ export class FacilitySelectComponent implements OnInit {
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const times = this.myForm.get('passType').value.bookingTimes;
       this.selectedDate = this.getBookingDateString();
+      this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unavailable';
       for (let key in times) {
         if (key !== 'reservations') {
-          if (!times.reservations || !times.reservations[this.selectedDate]|| times.reservations[this.selectedDate][key] < times[key].max) {
-            this.timesAvailable.push(key);
+          if (
+            !times.reservations ||
+            !times.reservations[this.selectedDate] ||
+            times.reservations[this.selectedDate][key] < times[key].max
+          ) {
+            const capPercent = 1 - (
+              this.myForm.get('passType').value.bookingTimes[key].currentCount /
+              this.myForm.get('passType').value.bookingTimes[key].max
+            );
+            if (capPercent <= .25) {
+              this.timeConfig[key].text = 'Low';
+            } else if (capPercent <= .5) {
+              this.timeConfig[key].text = 'Moderate';
+            } else {
+              this.timeConfig[key].text = 'High';
+            }
+            this.timeConfig[key].disabled = false;
           } else {
+            this.timeConfig[key].text = 'Full';
+            this.timeConfig[key].disabled = true;
             this.timesFull.push(key);
           }
-
         }
       }
+
       if (this.timesAvailable.length === 0) {
         this.timesFull = [];
         this.timesFull.push('No times available on this date.');
@@ -96,9 +133,17 @@ export class FacilitySelectComponent implements OnInit {
     }
   }
 
+  showTimeText(time) {
+    if (!this.timeConfig.DAY.disabled || this.timeConfig.DAY.text === 'Unavailable' || this.timeConfig.DAY.text === 'Full') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getBookingDateString(): string {
     let year = this.pad(this.myForm.get('visitDate').value.year, 4);
-    let month = this.pad(this.myForm.get('visitDate').value.month-1, 2);
+    let month = this.pad(this.myForm.get('visitDate').value.month - 1, 2);
     let day = this.pad(this.myForm.get('visitDate').value.day, 2);
     let dateString = (`${year}${month}${day}`);
     return dateString;
@@ -106,7 +151,9 @@ export class FacilitySelectComponent implements OnInit {
 
   pad(num, size) {
     num = num.toString();
-    while (num.length < size) num = "0" + num;
+    while (num.length < size) {
+      num = '0' + num;
+    }
     return num;
   }
 
@@ -121,7 +168,12 @@ export class FacilitySelectComponent implements OnInit {
       const pass = this.myForm.get('passType').value;
       if (this.myForm.get('visitTime').value) {
         const time = this.myForm.get('visitTime').value;
-        if (pass.bookingTimes[time] && pass.bookingTimes.reservation && pass.bookingTimes.reservation[time] && pass.bookingTimes[time].max) {
+        if (
+          pass.bookingTimes[time] &&
+          pass.bookingTimes.reservation &&
+          pass.bookingTimes.reservation[time] &&
+          pass.bookingTimes[time].max
+        ) {
           numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes.reservations[time];
         } else {
           numberAvailable = Math.max(this.trailPassLimit, this.parkingPassLimit);
@@ -165,6 +217,31 @@ export class FacilitySelectComponent implements OnInit {
     return false;
   }
 
+  onTimeChange(time) {
+    if (!this.timeConfig[time].disabled) {
+      switch (time) {
+        case 'AM':
+          this.timeConfig.AM.selected = true;
+          this.timeConfig.PM.selected = false;
+          this.timeConfig.DAY.selected = false;
+          break;
+        case 'PM':
+          this.timeConfig.AM.selected = false;
+          this.timeConfig.PM.selected = true;
+          this.timeConfig.DAY.selected = false;
+          break;
+        case 'DAY':
+          this.timeConfig.AM.selected = false;
+          this.timeConfig.PM.selected = false;
+          this.timeConfig.DAY.selected = true;
+          break;
+        default:
+          break;
+      }
+      this.setState('passes');
+    }
+  }
+
   clearFormByState(stateStr): void {
     if (this.getStateByString(stateStr) >= this.getStateByString('passes')) {
       this.myForm.controls['passCount'].reset();
@@ -175,12 +252,32 @@ export class FacilitySelectComponent implements OnInit {
       this.timesFull = [];
     }
     if (this.getStateByString(stateStr) < this.getStateByString('time')) {
+      this.resetTimeConfig();
       this.dateFormChild.clearDate();
     }
     if (this.getStateByString(stateStr) < this.getStateByString('date')) {
       this.myForm.reset();
     }
+  }
 
+  resetTimeConfig() {
+    this.timeConfig = {
+      AM: {
+        selected: false,
+        disabled: true,
+        text: '-'
+      },
+      PM: {
+        selected: false,
+        disabled: true,
+        text: '-'
+      },
+      DAY: {
+        selected: false,
+        disabled: true,
+        text: '-'
+      }
+    };
   }
 
   getStateByString(stateStr): number {
@@ -194,6 +291,7 @@ export class FacilitySelectComponent implements OnInit {
       this.setFacilitiesArrays();
     }
     if (this.state === this.getStateByString('time')) {
+      this.resetTimeConfig();
       this.setTimeArrays();
     }
     if (this.state === this.getStateByString('passes')) {

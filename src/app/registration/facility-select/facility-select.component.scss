@@ -1,0 +1,49 @@
+label {
+    width: 100%;
+}
+
+.card-input-element {
+    display: none;
+}
+
+.card-header-selected {
+    background-color: #003366;
+    color: #f8f9fa;
+    box-shadow: 0 0 1px 1px #003366;
+}
+
+.card-header-enabled {
+    background-color: #d7dee8;
+    color: #003366;
+}
+
+.card-header-disabled {
+    background-color: #e9ecef;
+    color: #383d41;
+}
+
+.enable-pointer:hover {
+    cursor: pointer;
+}
+
+.material-icons {
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+.High {
+    color: green;
+}
+.Moderate {
+    color: orange;
+}
+.Low {
+    color: red;
+}
+.Unavailable {
+    color: grey;
+}
+.Full {
+    color: grey;
+}

@@ -11,7 +11,7 @@ import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.com
   styleUrls: ['./pass-lookup.component.scss']
 })
 export class PassLookupComponent implements OnInit {
-  @Input() pass: Pass
+  @Input() pass: Pass;
   @ViewChild(PassLookupFormComponent) form: PassLookupFormComponent;
 
   // states: blank, no-match, match, found, cancelled
