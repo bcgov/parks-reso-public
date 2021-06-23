@@ -68,6 +68,7 @@ export class RegistrationComponent implements OnInit {
           break;
         case 'contact-form':
           this.state = 'facility-select';
+          this.backButtonText = 'Home';
           break;
         default:
           break;
