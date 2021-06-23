@@ -23,6 +23,8 @@ import { ApiService } from './services/api.service';
 import { EventService } from './services/event.service';
 import { ParkService } from './services/park.service';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastService } from './services/toast.service';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -49,7 +51,12 @@ export function initConfig(configService: ConfigService) {
     RegistrationModule,
     BrowserAnimationsModule,
     SharedModule,
-    PassLookupModule
+    PassLookupModule,
+    ToastrModule.forRoot(
+      {
+        positionClass: 'toast-top-center'
+      }
+    )
   ],
   exports: [
     CardComponent
@@ -67,7 +74,8 @@ export function initConfig(configService: ConfigService) {
     ApiService,
     EventService,
     ParkService,
-    FacilitiesResolverService
+    FacilitiesResolverService,
+    ToastService
   ],
   bootstrap: [AppComponent]
 })

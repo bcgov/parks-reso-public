@@ -14,9 +14,10 @@ export class ParksListComponent implements OnInit, OnDestroy {
   // Component
   public loading = true;
   // This will be changed to service.
-  public data = null;
+  public data = [];
   public totalListItems = 0;
   public options = { showPagination: false };
+  public error = false;
 
   public tableRowComponent = ParksTableRowComponent;
 
@@ -41,17 +42,20 @@ export class ParksListComponent implements OnInit, OnDestroy {
 
     this.parkService.getListValue()
       .pipe(takeWhile(() => this.alive))
-      .subscribe((res) => {
-        this.loading = true;
+      .subscribe(res => {
         if (res) {
-          res.forEach(park => {
-            tempList.push({ ...park, ...{ tabindex: tabIndex } });
-          });
-          this.data = [{ rowData: tempList }];
-          this.totalListItems = res.length;
-          this.loading = false;
-          this.changeDetectionRef.detectChanges();
+          if (res === 'error') {
+            this.error = true;
+          } else {
+            res.forEach(park => {
+              tempList.push({ ...park, ...{ tabindex: tabIndex } });
+            });
+            this.data = [{ rowData: tempList }];
+            this.totalListItems = res.length;
+          }
         }
+        this.loading = false;
+        this.changeDetectionRef.detectChanges();
       });
   }
 

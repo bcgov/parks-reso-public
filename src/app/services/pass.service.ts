@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PostPass } from '../models/pass';
+import { Constants } from '../shared/utils/constants';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ import { EventKeywords, EventObject, EventService } from './event.service';
 export class PassService {
   constructor(
     private apiService: ApiService,
-    private eventService: EventService
+    private eventService: EventService,
+    private toastService: ToastService
   ) {
   }
 
@@ -44,7 +47,7 @@ export class PassService {
       postObj.facilityName = facilitySk;
       res = await this.apiService.post('pass', postObj);
     } catch (e) {
-      console.log('ERROR', e);
+      this.toastService.addMessage(`Please try reserving again.`, `Error`, Constants.ToastTypes.ERROR);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,

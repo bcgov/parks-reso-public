@@ -12,6 +12,7 @@ export class ContactFormComponent implements OnInit {
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
   public iAgree = false;
+  public saving = false;
 
   public months = ['January', 'February', 'March',
     'April', 'May', 'June',
@@ -55,6 +56,7 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(): void {
+    this.saving = true;
     const obj = {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
