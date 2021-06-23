@@ -1,3 +1,5 @@
+@import "/src/assets/base/base.scss";
+
 label {
     width: 100%;
 }
@@ -7,14 +9,14 @@ label {
 }
 
 .card-header-selected {
-    background-color: #003366;
+    background-color: $bg-primary;
     color: #f8f9fa;
-    box-shadow: 0 0 1px 1px #003366;
+    box-shadow: 0 0 1px 1px $bg-primary;
 }
 
 .card-header-enabled {
     background-color: #d7dee8;
-    color: #003366;
+    color: $bg-primary;
 }
 
 .card-header-disabled {

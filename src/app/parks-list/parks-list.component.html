@@ -1,3 +1,9 @@
+<div *ngIf="loading"
+    class=" text-center">
+    <span class="material-icons md-48 spinner rotating">
+        autorenew
+    </span>
+</div>
 <app-list *ngIf="!loading"
     [tableRowComponent]="tableRowComponent"
     [tableColumns]="tableColumns"
@@ -5,3 +11,16 @@
     [totalListItems]="totalListItems"
     [options]="options">
 </app-list>
+
+<div *ngIf="totalListItems === 0">
+    <p>
+        There are no parks to display.
+    </p>
+    <p *ngIf="!error">
+        There are no day passes needed on provincial parks at this time.
+    </p>
+    <p *ngIf="error">
+        Please contact <a href="mailto:parkinfo@Victoria1.gov.bc.ca">parkinfo@Victoria1.gov.bc.ca</a> if you continue to
+        experience issues.
+    </p>
+</div>
