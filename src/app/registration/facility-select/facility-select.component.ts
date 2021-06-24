@@ -315,7 +315,7 @@ export class FacilitySelectComponent implements OnInit {
       visitDate: this.myForm.get('visitDate').value,
       visitTime: this.myForm.get('visitTime').value,
       passType: this.myForm.get('passType').value,
-      passCount: this.myForm.get('passCount').value
+      passCount: parseInt(this.myForm.get('passCount').value, 10)
     };
     this.emitter.emit(obj);
   }

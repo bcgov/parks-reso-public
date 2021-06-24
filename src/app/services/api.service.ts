@@ -53,6 +53,11 @@ export class ApiService {
     return this.http.get<any>(`${this.apiPath}/${pk}?${queryString}`, {}).toPromise();
   }
 
+  delete(pk, queryParamsObject = null): Promise<any> {
+    let queryString = this.generateQueryString(queryParamsObject);
+    return this.http.delete<any>(`${this.apiPath}/${pk}?${queryString}`, {}).toPromise();
+  }
+
   getList(pk): Promise<any> {
     return this.http.get<any>(`${this.apiPath}/${pk}`, {}).toPromise();
   }
