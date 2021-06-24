@@ -1,13 +1,22 @@
-<form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="from-group">
-    <label for="confirmation">Confirmation Number</label>
-    <div class="input-group mb-3">
-        <input type="text" id="confirmation" placeholder="Confirmation number" class="form-control form-control-lg" formControlName="confirmation" required>
-    </div>
-    <label for="email">Email</label>
-    <div class="input-group mb-3">
-        <input type="email" id="email" placeholder="Associated email" class="form-control form-control-lg" formControlName="email" required>
-    </div>
-</form>
-<div class="d-flex justify-content-end">
-    <button class="btn btn-primary" [disabled]="lookupForm.invalid" (click)="onSubmit()">Send Email</button>
+<div class="registration-details-container py-3 mb-2">
+    <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="from-group">
+        <label for="confirmation">Reservation Number:</label>
+        <div class="input-group mb-3">
+            <input type="text" id="passId" placeholder="Reservation number" class="form-control"
+                formControlName="passId" required>
+        </div>
+        <div *ngIf="urlData?.email">
+            <label for="email">Email:</label>
+            <div class="input-group mb-3">
+                <input type="email" id="email" placeholder="Associated email" class="form-control"
+                    formControlName="email" required>
+            </div>
+        </div>
+        <div *ngIf="urlData?.park">
+            <label for="Park">Park:</label>
+            <div class="input-group mb-3">
+                <input type="text" id="park" placeholder="Park" class="form-control" formControlName="park" required>
+            </div>
+        </div>
+    </form>
 </div>
