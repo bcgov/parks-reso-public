@@ -54,7 +54,12 @@
 
 <div class="d-flex float-right mb-5" *ngIf="state === 'verify-populate'">
     <button class="btn btn-primary" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
+
 </div>
+<div class="d-flex float-right my-3 mx-1" *ngIf="state === 'found'">
+    <button class="btn btn-danger" (click)="cancelReservation()" [disabled]="!pass"> Cancel Reservation </button>
+</div>
+
 
 <div class="d-flex float-right my-3" *ngIf="state === 'not-verified' || state === 'not-cancelled'">
     <button class="btn btn-primary" (click)="navigate()">Home</button>

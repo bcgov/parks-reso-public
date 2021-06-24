@@ -56,18 +56,20 @@ $theme-colors: (
         cursor: not-allowed;
     }
 }
-
 .card-header {
+
     background-color: $primary;
     color: $card-header-color;
     border-radius: 0.25rem !important;
 }
+
 
 .park-select-header {
     background-color: $primary;
     color: $card-header-color;
     border-radius: 0.25rem !important;
 }
+
 
 .btn-secondary {
     background: none;
