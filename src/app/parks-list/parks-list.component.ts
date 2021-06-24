@@ -53,9 +53,9 @@ export class ParksListComponent implements OnInit, OnDestroy {
             this.data = [{ rowData: tempList }];
             this.totalListItems = res.length;
           }
+          this.loading = false;
+          this.changeDetectionRef.detectChanges();
         }
-        this.loading = false;
-        this.changeDetectionRef.detectChanges();
       });
   }
 

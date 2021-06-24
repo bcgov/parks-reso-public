@@ -1,6 +1,6 @@
 <form [formGroup]="myForm">
     <fieldset class="form-group">
-        <label for="passType">Park Type (Trail or Parking)</label>
+        <label for="passType">Pass Type (Trail or Parking)</label>
         <select class="form-control"
             formControlName="passType"
             id="passType"
@@ -161,6 +161,9 @@
             <label class="label-info"
                 for="passCount">You may request up to four trail passes at a time, if remaining
                 capacity allows.</label>
+            <label class="label-info"
+                for="passCount">Those 18 and under <strong>do not require a pass</strong> when accompanied by a parent
+                or guardian</label>
         </div>
         <div *ngIf="state === getStateByString('passes') && checkPassType() === 'Parking'">
 

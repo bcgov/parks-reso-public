@@ -12,7 +12,7 @@
     [options]="options">
 </app-list>
 
-<div *ngIf="totalListItems === 0">
+<div *ngIf="totalListItems === 0 && !loading">
     <p>
         There are no parks to display.
     </p>
