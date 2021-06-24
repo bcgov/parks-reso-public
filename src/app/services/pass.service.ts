@@ -60,6 +60,85 @@ export class PassService {
     return res;
   }
 
+  // example obj - GET pass (will send cancellation email):
+  // {
+  //   "email": "fresh@gmail.com",
+  //   "passId": "12345657890",
+  //   "park": "Rathtrevor",
+  // }
+
+  async getPassToCancel(obj) {
+    let res = null;
+    try {
+      if (obj.code || obj.code === '') {
+        delete obj.code;
+      }
+      this.checkPassToCancel(obj);
+      res = await this.apiService.get('pass', obj);
+    } catch (e) {
+      console.log('ERROR: ', e);
+      this.eventService.setError(
+        new EventObject(
+          EventKeywords.ERROR,
+          e,
+          'Pass Service'
+        )
+      );
+      throw e;
+    }
+    return res;
+  }
+
+  // example obj - DELETE pass (will set pass status to cancelled):
+  // {
+  //   "park": "Rathtrevor",
+  //   "passId": "1234567890",
+  //   "code": *JWT token*,
+  // }
+
+  async cancelPass(obj) {
+    let res = null;
+    try {
+      this.checkCancelPass(obj);
+      res = await this.apiService.delete('pass', obj);
+    } catch (e) {
+      console.log('ERROR: ', e);
+      this.eventService.setError(
+        new EventObject(
+          EventKeywords.ERROR,
+          e,
+          'Pass Service'
+        )
+      );
+      throw e;
+    }
+    return res;
+  }
+
+  private checkPassToCancel(obj) {
+    if (!obj.email) {
+      throw ('You must provide a pass email');
+    }
+    if (!obj.passId) {
+      throw ('You must provide a passId');
+    }
+    if (obj.park === '' || !obj.park) {
+      throw ('You must provide a park sk');
+    }
+  }
+
+  private checkCancelPass(obj) {
+    if (!obj.passId) {
+      throw ('You must provide a passId');
+    }
+    if (!obj.park) {
+      throw ('You must provide a park sk');
+    }
+    if (!obj.code || obj.code === '') {
+      throw ('You must provide a cancellation token');
+    }
+  }
+
   private checkManditoryFields(obj) {
     if (!obj.date) {
       throw ('You must provide a pass date');
