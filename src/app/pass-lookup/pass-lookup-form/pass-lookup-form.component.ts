@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -7,21 +7,44 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./pass-lookup-form.component.scss']
 })
 export class PassLookupFormComponent implements OnInit {
+  @Input() urlData: any;
   @Output() submitEvent = new EventEmitter<any>();
 
   public formData = {
-    confirmation: '',
+    passId: '',
     email: '',
+    park: ''
   };
 
   public lookupForm = new FormGroup({
-    confirmation: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.email)
+    passId: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    park: new FormControl('', Validators.required)
   });
 
   constructor() { }
 
   ngOnInit(): void {
+    this.disableForm();
+    if (this.urlData) {
+      this.populateForm(this.urlData);
+    }
+  }
+
+  disableForm(){
+    this.lookupForm.disable();
+  }
+
+  enableForm(){
+    this.lookupForm.enable();
+  }
+
+  populateForm(data): void {
+    for (let key in data){
+      if (this.lookupForm.get(key)){
+        this.lookupForm.controls[key].setValue(data[key]);
+      }
+    }
   }
 
   resetForm(): void {
@@ -34,8 +57,9 @@ export class PassLookupFormComponent implements OnInit {
   }
 
   updateFormData(): void {
-    this.formData.confirmation = this.lookupForm.get('confirmation').value;
+    this.formData.passId = this.lookupForm.get('passId').value;
     this.formData.email = this.lookupForm.get('email').value;
+    this.formData.park = this.lookupForm.get('park').value;
   }
 
 }

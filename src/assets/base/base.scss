@@ -42,7 +42,7 @@ $theme-colors: (
         background-color: $primary;
     }
     &:focus {
-        outline: 4px solid #3b99fc;
+        outline: 4px solid #3b99fc !important;
         outline-offset: 1px;
         background-color: $primary;
     }
