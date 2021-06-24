@@ -1,34 +1,38 @@
-<div class="registration-details-container p-3 m-1" id="registration">
+<div class="registration-details-container m-1"
+    id="registration">
     <h5 class="text-center">
-        Your Reservation Number:
+        <strong>Your Reservation Number:</strong>
     </h5>
-    <h5 class="text-center confirmation-number-container p-1">
+    <h5 class="text-center mb-3">
         {{ regData?.registrationNumber }}
     </h5>
-    <div class="row mt-2">
-        <div class='col-md-6'>
+    <hr>
+    <div class="row my-3">
+        <div class="col-md-6 mb-3 mb-md-0">
             <p class="card-text">
-                Facility Name: <strong>{{ regData?.facilityName }} ({{ regData?.type}})</strong>
+                <strong>Name:</strong> {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+                regData.lastName : '-'}}
             </p>
             <p class="card-text">
-                Reservation Date: <strong>{{ regData?.date | date : 'mediumDate' }}</strong>
+                <strong>Email:</strong> {{ regData?.email }}
             </p>
             <p class="card-text">
-                Number of Passes: <strong>{{ regData?.numberOfGuests }}</strong>
+                <strong>Phone:</strong> {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
+            </p>
+            <p *ngIf="regData?.license"
+                class="card-text">
+                <strong>License Plate:</strong> {{ regData?.license }}
             </p>
         </div>
-        <div class="col-md-6">
+        <div class='col-md-6'>
             <p class="card-text">
-                Name: {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ? regData.lastName : '-'}}
+                <strong>Facility Name:</strong> {{ regData?.facilityName }} ({{ regData?.type}})
             </p>
             <p class="card-text">
-                Email: {{ regData?.email }}
+                <strong>Date:</strong> {{ regData?.date | date : 'mediumDate' }}
             </p>
             <p class="card-text">
-                Phone: {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
-            </p>
-            <p *ngIf="regData?.license" class="card-text">
-                License Plate: {{ regData?.license }}
+                <strong>Number of Passes:</strong> {{ regData?.numberOfGuests }}
             </p>
         </div>
     </div>

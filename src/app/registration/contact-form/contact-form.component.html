@@ -8,12 +8,12 @@
         </p>
     </div>
     <div class="card-footer text-left">
-        <h5>For: <strong>{{passData?.passType?.name}} ({{passData?.visitTime}})</strong></h5>
-        <h5>Date:
-            <strong>{{getMonthString(passData?.visitDate?.month)}} {{passData?.visitDate?.day}},
-                {{passData?.visitDate?.year}} </strong>
+        <h5><strong>For:</strong> {{passData?.passType?.name}} ({{passData?.visitTime}})</h5>
+        <h5><strong>Date:</strong>
+            {{getMonthString(passData?.visitDate?.month)}} {{passData?.visitDate?.day}},
+            {{passData?.visitDate?.year}}
         </h5>
-        <h5>Passes: <strong>{{passData?.passCount}}</strong></h5>
+        <h5><strong>Passes:</strong> {{passData?.passCount}}</h5>
     </div>
 </div>
 <form [formGroup]="myForm">
@@ -53,7 +53,8 @@
             class="label-info">You may provide your phone number if you wish to also receive
             notifications regarding park or facility closures via SMS.</label>
     </div>
-    <div *ngIf="passData?.passType?.type === 'Parking'" class="form-group">
+    <div *ngIf="passData?.passType?.type === 'Parking'"
+        class="form-group">
         <label for="license">License Plate</label>
         <input type="text"
             class="form-control"
@@ -80,7 +81,15 @@
 
 <div class="text-right mt-3">
     <button type="button"
-        [disabled]="myForm.status === 'INVALID' || !iAgree"
+        [disabled]="myForm.status === 'INVALID' || !iAgree || saving"
         class="btn btn-primary btn-lg"
-        (click)="submit()">Submit</button>
+        (click)="submit()">
+        <span *ngIf="!saving">
+            Submit
+        </span>
+        <span *ngIf="saving"
+            class="material-icons rotating">
+            autorenew
+        </span>
+    </button>
 </div>

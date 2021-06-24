@@ -4,6 +4,8 @@ import { takeWhile } from 'rxjs/operators';
 import { PostPass } from '../models/pass';
 import { FacilityService } from '../services/facility.service';
 import { PassService } from '../services/pass.service';
+import { ToastService } from '../services/toast.service';
+import { Constants } from '../shared/utils/constants';
 
 @Component({
   selector: 'app-registration',
@@ -22,6 +24,7 @@ export class RegistrationComponent implements OnInit {
   private facilityFormObj;
   private contactFormObj;
   public regData;
+  public error = false;
 
   // States: facility-select, contact-form, success
   public state = 'facility-select';
@@ -30,7 +33,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
     private facilityService: FacilityService,
-    private passService: PassService
+    private passService: PassService,
+    private toastService: ToastService
   ) {
     // Prevent us from loading into /registration without going through the root page.
     // tslint:disable-next-line: max-line-length
@@ -46,8 +50,12 @@ export class RegistrationComponent implements OnInit {
       .pipe(takeWhile(() => this.alive))
       .subscribe((res) => {
         if (res) {
-          this.facilities = res;
-          this.loading = false;
+          if (res === 'error') {
+            this.error = true;
+          } else {
+            this.facilities = res;
+            this.loading = false;
+          }
         }
       });
   }
@@ -60,6 +68,7 @@ export class RegistrationComponent implements OnInit {
           break;
         case 'contact-form':
           this.state = 'facility-select';
+          this.backButtonText = 'Home';
           break;
         default:
           break;
@@ -77,7 +86,6 @@ export class RegistrationComponent implements OnInit {
     this.contactFormObj = event;
     this.regData = { ... this.facilityFormObj, ...this.contactFormObj };
     this.regData['registrationNumber'] = '1234asdf';
-    this.backButtonText = '';
     this.submit();
   }
 
@@ -87,8 +95,10 @@ export class RegistrationComponent implements OnInit {
       const postObj = new PostPass();
       this.populatePassObj(postObj);
       this.submitRes = await this.passService.createPass(postObj, this.park.sk, this.regData.passType.sk);
+      this.backButtonText = '';
+      this.toastService.addMessage(`Pass successfully registered.`, `Success`, Constants.ToastTypes.SUCCESS);
     } catch (error) {
-      alert('An error occured');
+      this.router.navigate(['']);
     }
     this.state = 'success';
   }

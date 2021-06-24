@@ -122,4 +122,10 @@ export class Constants {
     Constants.mockFacility2
   ];
 
+  public static readonly ToastTypes: any = {
+    SUCCESS: 0,
+    WARNING: 1,
+    INFO: 2,
+    ERROR: 3,
+  };
 }
