@@ -39,8 +39,18 @@ export class PassLookupComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.scrollToTop();
     this.checkUrlHeaders();
   }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
 
   checkUrlHeaders() {
     this.route.queryParams.subscribe(params => {
@@ -115,6 +125,7 @@ export class PassLookupComponent implements OnInit {
   }
 
   changeState(state): void {
+    this.scrollToTop();
     switch (state) {
       case 'loading':
         this.state = 'loading';

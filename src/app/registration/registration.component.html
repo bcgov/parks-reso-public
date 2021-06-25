@@ -1,8 +1,5 @@
-<div *ngIf="state !== 'success'"
-    class="mb-3">
-    <button type="button"
-        class="btn btn-primary back-button btn-lg"
-        (click)="navigate()">
+<div *ngIf="state !== 'success'" class="mb-3">
+    <button type="button" class="btn btn-primary back-button btn-lg" (click)="navigate()">
         <span class="material-icons">
             arrow_back
         </span>
@@ -12,10 +9,8 @@
         </span>
     </button>
 </div>
-<app-park-details *ngIf="state === 'facility-select' && !error"
-    [park]="park"></app-park-details>
-<div *ngIf="loading && !error"
-    class=" text-center">
+<app-park-details *ngIf="state === 'facility-select' && !error" [park]="park"></app-park-details>
+<div *ngIf="loading && !error" class=" text-center">
     <span class="material-icons md-48 spinner rotating">
         autorenew
     </span>
@@ -28,15 +23,12 @@
 </section>
 <section *ngIf="!error && !loading">
     <div *ngIf="state === 'facility-select'">
-        <app-facility-select [facilities]="facilities"
-            (emitter)="getFacilityFormObj($event);">
+        <app-facility-select [facilities]="facilities" (emitter)="getFacilityFormObj($event);">
         </app-facility-select>
     </div>
-    <app-contact-form [park]="park"
-        [passData]="facilityFormObj"
-        (emitter)="getContactFormObj($event);"
+    <app-contact-form [park]="park" [passData]="facilityFormObj" (emitter)="getContactFormObj($event);"
         *ngIf="state === 'contact-form'">
     </app-contact-form>
-    <app-success [regData]="submitRes"
-        *ngIf="state === 'success'"></app-success>
+    <app-success [regData]="submitRes" *ngIf="state === 'success'"></app-success>
+    <app-failure *ngIf="state === 'failure'"></app-failure>
 </section>

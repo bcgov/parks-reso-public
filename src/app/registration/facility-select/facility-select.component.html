@@ -1,51 +1,34 @@
 <form [formGroup]="myForm">
     <fieldset class="form-group">
         <label for="passType">Pass Type (Trail or Parking)</label>
-        <select class="form-control"
-            formControlName="passType"
-            id="passType"
-            (change)="setState('date')">
-            <option *ngFor="let facility of openFacilities"
-                [ngValue]="facility">
-                {{facility?.name}}
+        <select class="form-control" formControlName="passType" id="passType" (change)="setState('date')">
+            <option hidden disabled selected value> --Select a pass type--</option>
+            <option *ngFor="let facility of openFacilities" [ngValue]="facility">
+                {{facility?.name}} - {{facility?.type}}
             </option>
-            <option disabled
-                *ngFor="let facility of closedFacilities"
-                [ngValue]="facility">
+            <option disabled *ngFor="let facility of closedFacilities" [ngValue]="facility">
                 {{facility?.name}} - Closed
             </option>
-            <option disabled
-                *ngIf="facilities?.length === 0"
-                [ngValue]="facility">
+            <option disabled *ngIf="facilities?.length === 0" [ngValue]="facility">
                 Passes are not required at this park.
             </option>
         </select>
     </fieldset>
     <div class="form-group">
         <label for="visitDate">Visit Date</label>
-        <app-date-picker [control]="myForm.controls.visitDate"
-            [isValidate]="true"
-            [minDate]="minDate"
-            (formChangeEvent)="setState('time')"
-            (clearEvent)="resetTimeConfig()"
-            [maxDate]="maxDate"
+        <app-date-picker [control]="myForm.controls.visitDate" [isValidate]="true" [minDate]="minDate"
+            (formChangeEvent)="setState('time')" (clearEvent)="resetTimeConfig()" [maxDate]="maxDate"
             [isDisabled]="isDisabled('date')">
         </app-date-picker>
     </div>
-    <fieldset class="form-group"
-        [disabled]="isDisabled('time')">
+    <fieldset class="form-group" [disabled]="isDisabled('time')">
         <label for="visitDate">Booking Time</label>
         <div class="row">
             <div class="col-lg-4">
                 <label>
-                    <input type="radio"
-                        name="visitTime"
-                        class="card-input-element"
-                        formControlName="visitTime"
-                        value="AM"
-                        (change)="onTimeChange('AM')" />
-                    <div class="card card-primary card-input"
-                        [class.enable-pointer]="!timeConfig.AM.disabled">
+                    <input type="radio" name="visitTime" class="card-input-element" formControlName="visitTime"
+                        value="AM" (change)="onTimeChange('AM')" />
+                    <div class="card card-primary card-input" [class.enable-pointer]="!timeConfig.AM.disabled">
                         <div class="card-header"
                             [class.card-header-selected]="timeConfig.AM.selected && !timeConfig.AM.disabled"
                             [class.card-header-enabled]="!timeConfig.AM.disabled && !timeConfig.AM.selected"
@@ -57,12 +40,10 @@
                             <span class="ml-2 time-header">AM</span>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"
-                                *ngIf="!showTimeText('AM')">
+                            <p class="card-text" *ngIf="!showTimeText('AM')">
                                 -
                             </p>
-                            <p class="card-text"
-                                *ngIf="showTimeText('AM')">
+                            <p class="card-text" *ngIf="showTimeText('AM')">
                                 Pass availability - <span [ngClass]="timeConfig.AM.text">{{timeConfig.AM.text}}</span>
                             </p>
                         </div>
@@ -71,14 +52,9 @@
             </div>
             <div class="col-lg-4">
                 <label>
-                    <input type="radio"
-                        name="visitTime"
-                        class="card-input-element"
-                        formControlName="visitTime"
-                        value="PM"
-                        (change)="onTimeChange('PM')" />
-                    <div class="card card-primary card-input"
-                        [class.enable-pointer]="!timeConfig.PM.disabled">
+                    <input type="radio" name="visitTime" class="card-input-element" formControlName="visitTime"
+                        value="PM" (change)="onTimeChange('PM')" />
+                    <div class="card card-primary card-input" [class.enable-pointer]="!timeConfig.PM.disabled">
                         <div class="card-header"
                             [class.card-header-selected]="timeConfig.PM.selected && !timeConfig.PM.disabled"
                             [class.card-header-enabled]="!timeConfig.PM.disabled && !timeConfig.PM.selected"
@@ -90,12 +66,10 @@
                             <span class="ml-2 time-header">PM</span>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"
-                                *ngIf="!showTimeText('PM')">
+                            <p class="card-text" *ngIf="!showTimeText('PM')">
                                 -
                             </p>
-                            <p class="card-text"
-                                *ngIf="showTimeText('PM')">
+                            <p class="card-text" *ngIf="showTimeText('PM')">
                                 Pass availability - <span [ngClass]="timeConfig.PM.text">{{timeConfig.PM.text}}</span>
                             </p>
                         </div>
@@ -104,14 +78,9 @@
             </div>
             <div class="col-lg-4">
                 <label>
-                    <input type="radio"
-                        name="visitTime"
-                        class="card-input-element"
-                        formControlName="visitTime"
-                        value="DAY"
-                        (change)="onTimeChange('DAY')" />
-                    <div class="card card-primary card-input"
-                        [class.enable-pointer]="!timeConfig.DAY.disabled">
+                    <input type="radio" name="visitTime" class="card-input-element" formControlName="visitTime"
+                        value="DAY" (change)="onTimeChange('DAY')" />
+                    <div class="card card-primary card-input" [class.enable-pointer]="!timeConfig.DAY.disabled">
                         <div class="card-header"
                             [class.card-header-selected]="timeConfig.DAY.selected && !timeConfig.DAY.disabled"
                             [class.card-header-enabled]="!timeConfig.DAY.disabled && !timeConfig.DAY.selected"
@@ -123,12 +92,10 @@
                             <span class="ml-2 time-header">All Day</span>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"
-                                *ngIf="!showTimeText('DAY')">
+                            <p class="card-text" *ngIf="!showTimeText('DAY')">
                                 -
                             </p>
-                            <p class="card-text"
-                                *ngIf="showTimeText('DAY')">
+                            <p class="card-text" *ngIf="showTimeText('DAY')">
                                 Pass availability - <span [ngClass]="timeConfig.DAY.text">{{timeConfig.DAY.text}}</span>
                             </p>
                         </div>
@@ -141,51 +108,35 @@
     <fieldset class="form-group">
         <label for="passCount">Number of Passes Required</label>
         <div *ngIf="state < getStateByString('passes') || !checkPassType()">
-            <input type="text"
-                class="form-control"
-                id="passCount"
-                disabled>
+            <input type="text" class="form-control" id="passCount" disabled>
         </div>
         <div *ngIf="state >= getStateByString('passes') && checkPassType() === 'Trail'">
-            <select class="form-control"
-                formControlName="passCount"
-                id="passCount"
+            <select class="form-control" formControlName="passCount" id="passCount"
                 placeholder="Select Number of Passes">
-                <option *ngFor="let pass of passesAvailable"
-                    [value]="pass">{{ pass }}</option>
-                <option disabled
-                    *ngIf="passesAvailable.length < 1"
-                    [value]="notAvailable">No availability at this time.
+                <option [ngValue]="null" hidden disabled selected value> -- Select number of passes -- </option>
+                <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
+                <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
                 </option>
             </select>
-            <label class="label-info"
-                for="passCount">You may request up to four trail passes at a time, if remaining
+            <label class="label-info" for="passCount">You may request up to four trail passes at a time, if remaining
                 capacity allows.</label>
-            <label class="label-info"
-                for="passCount">Those 18 and under <strong>do not require a pass</strong> when accompanied by a parent
+            <label class="label-info" for="passCount">Those 18 and under <strong>do not require a pass</strong> when
+                accompanied by a parent
                 or guardian</label>
         </div>
         <div *ngIf="state === getStateByString('passes') && checkPassType() === 'Parking'">
 
-            <select class="form-control"
-                formControlName="passCount"
-                id="passCount"
-                readonly>
-                <option *ngFor="let pass of passesAvailable"
-                    [value]="pass">{{ pass }}</option>
-                <option disabled
-                    *ngIf="passesAvailable.length < 1"
-                    [value]="notAvailable">No availability at this time.
+            <select class="form-control" formControlName="passCount" id="passCount" >
+                <option [ngValue]="null" hidden disabled selected value> -- Select number of passes -- </option>
+                <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
+                <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
                 </option>
             </select>
-            <label class="label-info"
-                for="passCount">You may only request 1 parking pass at a time.</label>
+            <label class="label-info" for="passCount">You may only request 1 parking pass at a time.</label>
         </div>
     </fieldset>
 </form>
 <div class="text-right mt-4">
-    <button type="button"
-        [disabled]="myForm.status === 'INVALID'"
-        class="btn btn-primary"
+    <button type="button" [disabled]="myForm.status === 'INVALID'" class="btn btn-primary"
         (click)="submit()">Next</button>
 </div>
