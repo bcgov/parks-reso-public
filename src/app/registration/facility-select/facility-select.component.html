@@ -113,7 +113,7 @@
         <div *ngIf="state >= getStateByString('passes') && checkPassType() === 'Trail'">
             <select class="form-control" formControlName="passCount" id="passCount"
                 placeholder="Select Number of Passes">
-                <option  disabled selected value> -- Select number of passes -- </option>
+                <option [ngValue]="null" hidden disabled selected value> -- Select number of passes -- </option>
                 <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
                 <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
                 </option>
@@ -127,7 +127,7 @@
         <div *ngIf="state === getStateByString('passes') && checkPassType() === 'Parking'">
 
             <select class="form-control" formControlName="passCount" id="passCount" >
-                <option  disabled selected value> -- Select number of passes -- </option>
+                <option [ngValue]="null" hidden disabled selected value> -- Select number of passes -- </option>
                 <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
                 <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">No availability at this time.
                 </option>
