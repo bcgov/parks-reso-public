@@ -46,6 +46,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.scrollToTop();
     this.facilityService.getListValue()
       .pipe(takeWhile(() => this.alive))
       .subscribe((res) => {

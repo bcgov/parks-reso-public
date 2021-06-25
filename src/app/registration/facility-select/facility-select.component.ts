@@ -202,9 +202,6 @@ export class FacilitySelectComponent implements OnInit {
 
   checkPassType(): string {
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.type) {
-      if (this.myForm.get('passType').value.type === 'Parking') {
-        this.myForm.patchValue({ passCount: '1' });
-      }
       return this.myForm.get('passType').value.type;
     }
     return null;

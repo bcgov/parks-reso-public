@@ -13,10 +13,19 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.scrollToTop();
   }
 
   cancelPass(): void {
     this.router.navigate(['./pass-lookup']);
+  }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
 }
