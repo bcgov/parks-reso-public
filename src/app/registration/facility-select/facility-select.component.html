@@ -5,6 +5,7 @@
             formControlName="passType"
             id="passType"
             (change)="setState('date')">
+            <option disabled selected value>Select a pass type</option>
             <option *ngFor="let facility of openFacilities"
                 [ngValue]="facility">
                 {{facility?.name}}
@@ -151,6 +152,7 @@
                 formControlName="passCount"
                 id="passCount"
                 placeholder="Select Number of Passes">
+                <option disabled selected value>Select number of passes</option>
                 <option *ngFor="let pass of passesAvailable"
                     [value]="pass">{{ pass }}</option>
                 <option disabled

@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnInit {
   public regData;
   public error = false;
 
-  // States: facility-select, contact-form, success
+  // States: facility-select, contact-form, success, failure
   public state = 'facility-select';
   public backButtonText = 'Home';
 
@@ -61,24 +61,38 @@ export class RegistrationComponent implements OnInit {
   }
 
   navigate(): void {
-    if (confirm('Are you sure you want to leave? You will lose your data if you continue!')) {
+    if (this.state !== 'failure' && confirm('Are you sure you want to leave? You will lose your data if you continue!')) {
       switch (this.state) {
         case 'facility-select':
           this.router.navigate(['']);
           break;
         case 'contact-form':
           this.state = 'facility-select';
+          this.scrollToTop();
           this.backButtonText = 'Home';
           break;
         default:
           break;
       }
+    } else {
+      this.state = 'facility-select';
+      this.scrollToTop();
+      this.backButtonText = 'Home';
     }
+  }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   getFacilityFormObj(event): void {
     this.facilityFormObj = event;
     this.state = 'contact-form';
+    this.scrollToTop();
     this.backButtonText = 'Facilities';
   }
 
@@ -96,10 +110,23 @@ export class RegistrationComponent implements OnInit {
       this.populatePassObj(postObj);
       this.submitRes = await this.passService.createPass(postObj, this.park.sk, this.regData.passType.sk);
       this.backButtonText = '';
-      this.toastService.addMessage(`Pass successfully registered.`, `Success`, Constants.ToastTypes.SUCCESS);
+      this.toastService.addMessage(
+        `Pass successfully registered.`,
+        `Success`,
+        Constants.ToastTypes.SUCCESS
+      );
     } catch (error) {
-      this.router.navigate(['']);
+      this.scrollToTop();
+      this.toastService.addMessage(
+        `The system was unable to process this reservation.`,
+        `Registration not completed`,
+        Constants.ToastTypes.ERROR
+      );
+      this.backButtonText = 'Retry';
+      this.state = 'failure';
+      return;
     }
+    this.scrollToTop();
     this.state = 'success';
   }
 
