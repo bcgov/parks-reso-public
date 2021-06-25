@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Pass } from '../models/pass';
 import { PassService } from '../services/pass.service';
 import { ToastService } from '../services/toast.service';
-import { AlertObject } from '../shared/components/alert/alert-object';
 import { Constants } from '../shared/utils/constants';
 import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.component';
 
