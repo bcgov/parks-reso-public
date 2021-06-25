@@ -1,22 +1,15 @@
 <form [formGroup]="myForm">
     <fieldset class="form-group">
         <label for="passType">Pass Type (Trail or Parking)</label>
-        <select class="form-control"
-            formControlName="passType"
-            id="passType"
-            (change)="setState('date')">
-            <option *ngFor="let facility of openFacilities"
-                [ngValue]="facility">
-                {{facility?.name}}
+        <select class="form-control" formControlName="passType" id="passType" (change)="setState('date')">
+            <option hidden disabled selected value> --Select a pass type--</option>
+            <option *ngFor="let facility of openFacilities" [ngValue]="facility">
+                {{facility?.name}} - {{facility?.type}}
             </option>
-            <option disabled
-                *ngFor="let facility of closedFacilities"
-                [ngValue]="facility">
+            <option disabled *ngFor="let facility of closedFacilities" [ngValue]="facility">
                 {{facility?.name}} - Closed
             </option>
-            <option disabled
-                *ngIf="facilities?.length === 0"
-                [ngValue]="facility">
+            <option disabled *ngIf="facilities?.length === 0" [ngValue]="facility">
                 Passes are not required at this park.
             </option>
         </select>
