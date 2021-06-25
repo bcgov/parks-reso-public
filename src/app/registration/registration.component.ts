@@ -117,11 +117,6 @@ export class RegistrationComponent implements OnInit {
       );
     } catch (error) {
       this.scrollToTop();
-      this.toastService.addMessage(
-        `The system was unable to process this reservation.`,
-        `Registration not completed`,
-        Constants.ToastTypes.ERROR
-      );
       this.backButtonText = 'Retry';
       this.state = 'failure';
       return;
