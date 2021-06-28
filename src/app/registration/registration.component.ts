@@ -110,7 +110,7 @@ export class RegistrationComponent implements OnInit {
     obj.facilityName = this.regData.passType.name;
     obj.numberOfGuests = this.regData.passCount;
     obj.email = this.regData.email;
-    obj.date = new Date(this.regData.visitDate.year, this.regData.visitDate.month, this.regData.visitDate.day, 12, 0, 0, 0);
+    obj.date = new Date(this.regData.visitDate.year, this.regData.visitDate.month - 1, this.regData.visitDate.day, 12, 0, 0, 0);
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
@@ -127,6 +127,4 @@ export class RegistrationComponent implements OnInit {
       delete obj.license;
     }
   }
-
-
 }
