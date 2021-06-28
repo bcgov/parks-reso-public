@@ -21,8 +21,6 @@ export class FacilitySelectComponent implements OnInit {
   public maxDate = new Date();
   public openFacilities = [];
   public closedFacilities = [];
-  public timesAvailable = [];
-  public timesFull = [];
   public passesAvailable = [];
   public selectedDate = '';
   public selectedFacility = null;
@@ -92,8 +90,6 @@ export class FacilitySelectComponent implements OnInit {
     // if facility has a time of day and it is not yet at capacity, show it and make available.
     // if facility has a time of day and it is at/over capacity, show it but make it unavailable.
     // if facility has a time of day and there is no capacity limit, make all times available.
-    this.timesFull = [];
-    this.timesAvailable = [];
     this.selectedDate = '';
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const times = this.myForm.get('passType').value.bookingTimes;
@@ -121,20 +117,14 @@ export class FacilitySelectComponent implements OnInit {
           } else {
             this.timeConfig[key].text = 'Full';
             this.timeConfig[key].disabled = true;
-            this.timesFull.push(key);
           }
         }
-      }
-
-      if (this.timesAvailable.length === 0) {
-        this.timesFull = [];
-        this.timesFull.push('No times available on this date.');
       }
     }
   }
 
   showTimeText(time) {
-    if (!this.timeConfig.DAY.disabled || this.timeConfig.DAY.text === 'Unavailable' || this.timeConfig.DAY.text === 'Full') {
+    if (!this.timeConfig[time].disabled || this.timeConfig[time].text === 'Unavailable' || this.timeConfig[time].text === 'Full') {
       return true;
     } else {
       return false;
@@ -143,7 +133,7 @@ export class FacilitySelectComponent implements OnInit {
 
   getBookingDateString(): string {
     let year = this.pad(this.myForm.get('visitDate').value.year, 4);
-    let month = this.pad(this.myForm.get('visitDate').value.month - 1, 2);
+    let month = this.pad(this.myForm.get('visitDate').value.month, 2);
     let day = this.pad(this.myForm.get('visitDate').value.day, 2);
     let dateString = (`${year}${month}${day}`);
     return dateString;
@@ -166,17 +156,24 @@ export class FacilitySelectComponent implements OnInit {
     let numberAvailable = 0;
     if (this.myForm.get('passType').value) {
       const pass = this.myForm.get('passType').value;
+      const date = this.getBookingDateString();
       if (this.myForm.get('visitTime').value) {
         const time = this.myForm.get('visitTime').value;
-        if (
-          pass.bookingTimes[time] &&
-          pass.bookingTimes.reservation &&
-          pass.bookingTimes.reservation[time] &&
-          pass.bookingTimes[time].max
-        ) {
-          numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes.reservations[time];
+        // check if there are any bookings for this facilty/date/time combo existing already
+        if (pass.bookingTimes[time]) {
+          if (
+            pass.bookingTimes.reservations &&
+            pass.bookingTimes.reservations[date] &&
+            pass.bookingTimes.reservations[date][time]
+          ) {
+            // if so, check the remaining space available.
+            numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes.reservations[date][time];
+          } else {
+            // if else, this means there is no bookings for that particular day yet.
+            numberAvailable = pass.bookingTimes[time].max;
+          }
         } else {
-          numberAvailable = Math.max(this.trailPassLimit, this.parkingPassLimit);
+          numberAvailable = 0;
         }
       }
       if (pass.type === 'Trail' && numberAvailable > this.trailPassLimit) {
@@ -248,8 +245,6 @@ export class FacilitySelectComponent implements OnInit {
     }
     if (this.getStateByString(stateStr) < this.getStateByString('passes')) {
       this.myForm.controls['visitTime'].reset();
-      this.timesAvailable = [];
-      this.timesFull = [];
     }
     if (this.getStateByString(stateStr) < this.getStateByString('time')) {
       this.resetTimeConfig();
