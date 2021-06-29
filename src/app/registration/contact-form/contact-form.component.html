@@ -48,14 +48,16 @@
             class="form-control"
             formControlName="phone"
             id="phone"
-            placeholder="1112223333">
+            placeholder="1112223333"
+            (keypress)="keyPressNumbers($event)"
+            maxlength="10">
         <label for="email"
             class="label-info">You may provide your phone number if you wish to also receive
             notifications regarding park or facility closures via SMS.</label>
     </div>
     <div *ngIf="passData?.passType?.type === 'Parking'"
         class="form-group">
-        <label for="license">License Plate</label>
+        <label for="license">License Plate <span class="text-danger">*</span></label>
         <input type="text"
             class="form-control"
             formControlName="license"

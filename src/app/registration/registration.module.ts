@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SuccessComponent } from './success/success.component';
+import { FailureComponent } from './failure/failure.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { SuccessComponent } from './success/success.component';
     FacilitySelectComponent,
     ContactFormComponent,
     SuccessComponent,
+    FailureComponent,
   ],
   imports: [
     CommonModule,
