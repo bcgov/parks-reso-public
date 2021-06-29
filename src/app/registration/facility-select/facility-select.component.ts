@@ -102,9 +102,13 @@ export class FacilitySelectComponent implements OnInit {
             !times.reservations[this.selectedDate] ||
             times.reservations[this.selectedDate][key] < times[key].max
           ) {
-            const capPercent = 1 - (
-              this.myForm.get('passType').value.bookingTimes[key].currentCount /
-              this.myForm.get('passType').value.bookingTimes[key].max
+            const currentCount =
+              times.reservations &&
+                times.reservations[this.selectedDate] &&
+                times.reservations[this.selectedDate][key] ? times.reservations[this.selectedDate][key] : 0;
+            let capPercent = 1 - (
+              currentCount /
+              times[key].max
             );
             if (capPercent <= .25) {
               this.timeConfig[key].text = 'Low';
