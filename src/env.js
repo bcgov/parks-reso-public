@@ -11,6 +11,7 @@
     window.__env.API_LOCATION = 'https://p41gitzo3l.execute-api.ca-central-1.amazonaws.com';
     window.__env.API_PATH = '/test';
     window.__env.API_PUBLIC_PATH = '/test';
+    window.__env.ASSETS_S3_URL = 'https://d22es719s10hm5.cloudfront.net';
 
     // Add any feature-toggles
     // window.__env.coolFeatureActive = false;

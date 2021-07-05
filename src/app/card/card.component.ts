@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { CardObject } from './card-object';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-card',
@@ -15,12 +14,18 @@ import { CardObject } from './card-object';
 export class CardComponent implements OnInit {
   @Input() data: any;
   public altText = 'Park Image';
+  public url = '';
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private configService: ConfigService
+  ) { }
 
   ngOnInit() {
-    if (this.data?.name) {
-      this.altText = this.data.name + ' Park Image';
+    if (this.data) {
+      this.altText = this.data.name + ' Image';
+      this.url = this.configService.config['ASSETS_S3_URL'];
+      this.url += `/${this.data.sk}/card.jpg`;
     }
   }
 
