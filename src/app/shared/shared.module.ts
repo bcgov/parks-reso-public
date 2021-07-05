@@ -17,6 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TableTemplate } from './components/table-template/table-template';
 import { ListComponent } from './components/list/list.component';
 import { TableRowDirective } from './components/table-template/table-row.directive';
+import { AlertComponent } from './components/alert/alert.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     TableTemplateComponent,
     ListComponent,
     TableRowDirective,
+    AlertComponent,
   ],
   entryComponents: [
   ],
@@ -49,6 +51,7 @@ import { TableRowDirective } from './components/table-template/table-row.directi
     TableTemplateComponent,
     ListComponent,
     TableRowDirective,
+    AlertComponent
   ],
   providers: [
     TableTemplate,
