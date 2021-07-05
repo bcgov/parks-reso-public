@@ -22,11 +22,11 @@ export class CardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.data?.name) {
+    if (this.data) {
       this.altText = this.data.name + ' Image';
+      this.url = this.configService.config['ASSETS_S3_URL'];
+      this.url += `/${this.data.sk}/card.jpg`;
     }
-    this.url = this.configService.config['ASSETS_S3_URL'];
-    this.url += `/${this.data.sk}/card.jpg`;
   }
 
   navigate(park): void {
