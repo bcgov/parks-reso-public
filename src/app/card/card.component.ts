@@ -21,7 +21,7 @@ export class CardComponent implements OnInit {
     private configService: ConfigService
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (this.data?.name) {
       this.altText = this.data.name + ' Image';
     }
