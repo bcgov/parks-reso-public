@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Pass } from '../models/pass';
 import { PassService } from '../services/pass.service';
 import { ToastService } from '../services/toast.service';
+import { AlertObject } from '../shared/components/alert/alert-object';
 import { Constants } from '../shared/utils/constants';
 import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.component';
 
@@ -72,6 +73,36 @@ export class PassLookupComponent implements OnInit {
       }
     }
     this.changeState('blank');
+  }
+
+  passNotFound(): AlertObject {
+    let alert = new AlertObject({
+      type: 'error',
+      title: 'Unable to find reservation',
+      message: 'The system was unable to find this reservation. It may have already been cancelled, or it may have expired.',
+      smallAlert: true
+    });
+    return alert;
+  }
+
+  passNotCancelled(): AlertObject {
+    let alert = new AlertObject({
+      type: 'error',
+      title: 'Unable to cancel reservation',
+      message: 'The system was unable to cancel this reservation. It may have already been cancelled, or it may have expired.',
+      smallAlert: true
+    });
+    return alert;
+  }
+
+  passSuccessfullyCancelled(): AlertObject {
+    let alert = new AlertObject({
+      type: 'info',
+      title: 'Successful reservation cancel',
+      message: 'Your reservation has been successfully cancelled',
+      smallAlert: true
+    });
+    return alert;
   }
 
   async validateInfo() {

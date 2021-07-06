@@ -128,6 +128,33 @@ $theme-colors: (
     cursor: pointer;
 }
 
+.error-container {
+    background-color: #f2dede;
+    border: 1px solid #ebccd1;
+    color: #a12622;
+    border-radius: 4px;
+}
+
+.warning-container {
+    background-color: #f9f1c6;
+    border: 1px solid #faebcc;
+    color: #6c4a00;
+    border-radius: 4px;
+}
+
+.success-container {
+    background-color: #dff0d8;
+    border: 1px solid #d6e9c6;
+    color: #2d4821;
+    border-radius: 4px;
+}
+
+.info-container {
+    background-color: #d9eaf7;
+    color: #313132;
+    border-radius: 4px;
+}
+
 .park-select-header {
     background-color: $primary;
     color: $header-font-color;
