@@ -14,7 +14,7 @@ terraform {
     hostname = "${local.tfc_hostname}"
     organization = "${local.tfc_organization}"
     workspaces {
-      name = "${local.project}-${local.environment}"
+      name = "${local.project}-${local.environment}-public"
     }
   }
 }
