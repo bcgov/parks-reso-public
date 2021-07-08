@@ -23,7 +23,6 @@ export class FacilitySelectComponent implements OnInit {
   public closedFacilities = [];
   public passesAvailable = [];
   public selectedDate = '';
-  public selectedFacility = null;
 
   public timeConfig = {
     AM: {
@@ -92,36 +91,47 @@ export class FacilitySelectComponent implements OnInit {
     // if facility has a time of day and there is no capacity limit, make all times available.
     this.selectedDate = '';
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
+      const facility = this.myForm.get('passType').value;
       const times = this.myForm.get('passType').value.bookingTimes;
       this.selectedDate = this.getBookingDateString();
       this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unavailable';
       for (let key in times) {
-        if (key !== 'reservations') {
-          if (
-            !times.reservations ||
-            !times.reservations[this.selectedDate] ||
-            times.reservations[this.selectedDate][key] < times[key].max
-          ) {
-            const currentCount =
-              times.reservations &&
-                times.reservations[this.selectedDate] &&
-                times.reservations[this.selectedDate][key] ? times.reservations[this.selectedDate][key] : 0;
-            let capPercent = 1 - (
-              currentCount /
-              times[key].max
-            );
-            if (capPercent <= .25) {
-              this.timeConfig[key].text = 'Low';
-            } else if (capPercent <= .5) {
-              this.timeConfig[key].text = 'Moderate';
-            } else {
-              this.timeConfig[key].text = 'High';
-            }
-            this.timeConfig[key].disabled = false;
+        if (!facility.reservations[this.selectedDate]) {
+          // This happens if there are no existing passes for the day.
+          if (times[key].max > 0) {
+            this.timeConfig[key].text = 'High';
           } else {
             this.timeConfig[key].text = 'Full';
             this.timeConfig[key].disabled = true;
           }
+          this.timeConfig[key].disabled = false;
+        } else if (!facility.reservations[this.selectedDate][key]) {
+          // This happens if there are no existing passes for the specific key.
+          if (times[key].max > 0) {
+            this.timeConfig[key].text = 'High';
+          } else {
+            this.timeConfig[key].text = 'Full';
+            this.timeConfig[key].disabled = true;
+          }
+          this.timeConfig[key].disabled = false;
+        } else if (facility.reservations[this.selectedDate][key] < times[key].max) {
+          // There are one or more passes that exist with a specific key.
+          const currentCount = facility.reservations[this.selectedDate][key] ? facility.reservations[this.selectedDate][key] : 0;
+          let capPercent = 1 - (
+            currentCount /
+            times[key].max
+          );
+          if (capPercent <= .25) {
+            this.timeConfig[key].text = 'Low';
+          } else if (capPercent <= .5) {
+            this.timeConfig[key].text = 'Moderate';
+          } else {
+            this.timeConfig[key].text = 'High';
+          }
+          this.timeConfig[key].disabled = false;
+        } else {
+          this.timeConfig[key].text = 'Full';
+          this.timeConfig[key].disabled = true;
         }
       }
     }
@@ -166,12 +176,12 @@ export class FacilitySelectComponent implements OnInit {
         // check if there are any bookings for this facilty/date/time combo existing already
         if (pass.bookingTimes[time]) {
           if (
-            pass.bookingTimes.reservations &&
-            pass.bookingTimes.reservations[date] &&
-            pass.bookingTimes.reservations[date][time]
+            pass.reservations &&
+            pass.reservations[date] &&
+            pass.reservations[date][time]
           ) {
             // if so, check the remaining space available.
-            numberAvailable = pass.bookingTimes[time].max - pass.bookingTimes.reservations[date][time];
+            numberAvailable = pass.bookingTimes[time].max - pass.reservations[date][time];
           } else {
             // if else, this means there is no bookings for that particular day yet.
             numberAvailable = pass.bookingTimes[time].max;
