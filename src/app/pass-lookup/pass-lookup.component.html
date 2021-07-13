@@ -21,7 +21,7 @@
         <ol>
             <li class="mb-1"
                 [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
-                If you provided an email with your reservation, you received an email containing a cancellation link.
+                When you made your reservation, you should have received an email containing a cancellation link.
                 Please follow the link in the email to the cancellation page.
             </li>
             <li class="mb-1" [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
@@ -29,13 +29,18 @@
                 information below relating to your reservation. If the information is correct, click '{{
                 verificationText }}'.
             </li>
-            <li class="mb-1" [ngClass]="{'font-weight-bold': state === 'verified'}">
+            <li class="mb-1" *ngIf="state !== 'verified'">
                 You will be sent a second email containing a time-sensitive cancellation link. You will have a limited
                 time to click this cancellation link. This step is necessary to prevent someone else accidentally
                 cancelling your reservation.
             </li>
+            <li class="mb-1" *ngIf="state === 'verified'" class="font-weight-bold">
+                You have been sent a second email containing a time-sensitive cancellation link. You have a limited
+                time to click this cancellation link. This step is necessary to prevent someone else accidentally
+                cancelling your reservation.
+            </li>
 
-            <li class="mb-1" *ngIf= "state !== 'cancelled'">
+            <li class="mb-1" *ngIf="state !== 'cancelled'">
                 You will be redirected back to this page where your reservation will be automatically cancelled.
             </li>
             <li class="mb-1" *ngIf="state === 'cancelled'" class="font-weight-bold">
