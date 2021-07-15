@@ -30,6 +30,9 @@ jobs:
         with:
           node-version: 10
 
+      - name: TEST API Pointing
+        run: sed 's/http:\/\/localhost:3000/https:\/\/p41gitzo3l.execute-api.ca-central-1.amazonaws.com/g' src/env.js.template | sed 's/\blocal\b/TEST/g' | sed 's/localAPI_PATH/test/g' | sed 's/localAPI_PUBLIC_PATH/test/g'> src/env.js
+
       - name: Install and run build
         run: |
           npm i

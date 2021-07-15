@@ -18,23 +18,25 @@ export class ConfigService {
    * is configured to pass the /config endpoint to a dynamic service that returns JSON.
    */
   async init() {
-    try {
-      // Attempt to get application via this.httpClient. This uses the url of the application that you are running it from
-      // This will not work for local because it will try and get localhost:4200/api instead of 3000/api...
-      this.configuration = await this.httpClient.get(`api/config`).toPromise();
+    // Initially set the configuration and see if we should be contacting our hostname endpoint for
+    // any configuration data.
+    this.configuration = window['__env'];
 
-      console.log('Configuration:', this.configuration);
-      if (this.configuration['debugMode']) {
-        console.log('Configuration:', this.configuration);
-      }
-    } catch (e) {
-      // If all else fails, use variables found in env.js of the application calling config service.
-      this.configuration = window['__env'];
-      console.log('Error getting local configuration:', e);
-      if (this.configuration['debugMode']) {
-        console.log('Configuration:', this.configuration);
+    if (this.configuration['configEndpoint'] === true) {
+      try {
+        // Attempt to get application via this.httpClient. This uses the url of the application that you are running it from
+        // This will not work for local because it will try and get localhost:4200/api instead of 3000/api...
+        this.configuration = await this.httpClient.get(`api/config`).toPromise();
+      } catch (e) {
+        // If all else fails, we'll just use the variables found in env.js
+        console.error('Error getting local configuration:', e);
       }
     }
+
+    if (this.configuration['debugMode']) {
+      console.log('Configuration:', this.configuration);
+    }
+
     return Promise.resolve();
   }
 

@@ -5,12 +5,15 @@
     // turn on/off the console.log's
     window.__env.debugMode = false;
 
-    // Environment name
-    window.__env.ENVIRONMENT = 'test';  // local | dev | test | prod
+    // Get config from remote host?
+    window.__env.configEndpoint = false;
 
-    window.__env.API_LOCATION = 'https://p41gitzo3l.execute-api.ca-central-1.amazonaws.com';
-    window.__env.API_PATH = '/test';
-    window.__env.API_PUBLIC_PATH = '/test';
+    // Environment name
+    window.__env.ENVIRONMENT = 'local';
+
+    window.__env.API_LOCATION = 'http://localhost:3000';
+    window.__env.API_PATH = '/localAPI_PATH';
+    window.__env.API_PUBLIC_PATH = '/localAPI_PUBLIC_PATH';
     window.__env.ASSETS_S3_URL = 'https://d22ggafw50p6m4.cloudfront.net';
 
     // Add any feature-toggles

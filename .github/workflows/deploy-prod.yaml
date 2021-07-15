@@ -29,7 +29,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 10
-      
+
+      # TODO: Still TEST environment.
+      - name: PROD API Pointing
+        run: sed 's/http:\/\/localhost:3000/https:\/\/p41gitzo3l.execute-api.ca-central-1.amazonaws.com/g' src/env.js.template | sed 's/\blocal\b/prod/g' | sed 's/localAPI_PATH/prod/g' | sed 's/localAPI_PUBLIC_PATH/prod/g'> src/env.js
+
       - name: Install and run build
         run: |
           npm i
