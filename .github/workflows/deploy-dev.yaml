@@ -26,7 +26,9 @@ jobs:
           node-version: 10
 
       - name: DEV API Pointing
-        run: sed 's/http:\/\/localhost:3000/https:\/\/fqp0wgtzjg.execute-api.ca-central-1.amazonaws.com/g' src/env.js.template | sed 's/\blocal\b/DEV/g' | sed 's/localAPI_PATH/dev/g' | sed 's/localAPI_PUBLIC_PATH/dev/g'> src/env.js
+        with:
+          API_URL: ${{ secrets.API_URL }}
+        run: sed 's@http://localhost:3000@'"$API_URL"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
 
       - name: Install and run build
         run: |
