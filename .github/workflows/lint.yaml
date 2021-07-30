@@ -1,4 +1,4 @@
-name: Pull Request
+name: Front-End linting
 
 on: [pull_request]
 
@@ -19,10 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: npm install, and test
+      - name: npm lint
         run: |
-          npm install
-          npm run test
           npm run lint
         env:
           CI: true
