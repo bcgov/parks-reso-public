@@ -31,9 +31,7 @@ jobs:
           node-version: 10
 
       - name: TEST API Pointing
-        with:
-          API_URL: ${{ secrets.API_URL }}
-        run: sed 's@http://localhost:3000@'"$API_URL"'@g' src/env.js.template | sed 's@\blocal\b@TEST@g' | sed 's@localAPI_PATH@test@g' | sed 's@localAPI_PUBLIC_PATH@test@g'> src/env.js
+        run: sed 's@http://localhost:3000@'"${{ secrets.API_URL }}"'@g' src/env.js.template | sed 's@\blocal\b@TEST@g' | sed 's@localAPI_PATH@test@g' | sed 's@localAPI_PUBLIC_PATH@test@g'> src/env.js
 
       - name: Install and run build
         run: |

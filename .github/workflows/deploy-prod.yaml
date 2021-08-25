@@ -32,9 +32,7 @@ jobs:
 
       # TODO: Still TEST environment.
       - name: PROD API Pointing
-        with:
-          API_URL: ${{ secrets.API_URL }}
-        run: sed 's@http://localhost:3000@'"$API_URL"'@g' src/env.js.template | sed 's@\blocal\b@prod@g' | sed 's@localAPI_PATH@prod@g' | sed 's@localAPI_PUBLIC_PATH@prod@g'> src/env.js
+        run: sed 's@http://localhost:3000@'"${{ secrets.API_URL }}"'@g' src/env.js.template | sed 's@\blocal\b@prod@g' | sed 's@localAPI_PATH@prod@g' | sed 's@localAPI_PUBLIC_PATH@prod@g'> src/env.js
 
       - name: Install and run build
         run: |
