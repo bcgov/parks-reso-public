@@ -1,7 +1,6 @@
 terraform {
-  source = "git::https://github.com/bcgov/parks_reso-public-terraform.git//?ref=main"
+  source = "../src"
 }
-
 include {
   path = find_in_parent_folders()
 }
