@@ -29,6 +29,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     origin_id   = var.s3_origin_id
     origin_path = "/${var.app_version}"
 
+    custom_origin_config {
+      http_port              = "80"
+      https_port             = "443"
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+    }
+
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.parks-reso-public-oai.cloudfront_access_identity_path
     }
