@@ -72,7 +72,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   ordered_cache_behavior {
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods   = []
+    cached_methods   = ["GET", "HEAD"]
     path_pattern           = var.api_gateway_path_pattern
     target_origin_id       = var.api_gateway_origin_id
     compress               = true
