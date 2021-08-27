@@ -35,10 +35,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   # This origin is for setting up the api to be accessible from the front-end domain
-  # origin {
-  #   domain_name = var.api_gateway_domain
-  #   origin_id   = var.api_gateway_origin_id
-  # }
+  origin {
+    domain_name = var.api_gateway_domain
+    origin_id   = var.api_gateway_origin_id
+  }
 
   enabled             = true
   is_ipv6_enabled     = true
