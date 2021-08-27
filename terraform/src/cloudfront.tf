@@ -45,14 +45,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
-
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
   }
 
   enabled             = true
@@ -85,6 +77,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     target_origin_id       = var.api_gateway_origin_id
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   default_cache_behavior {
