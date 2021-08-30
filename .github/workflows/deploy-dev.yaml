@@ -27,11 +27,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
           secrets: |
-            dev/ParksResoPublic/GitHub/*
+            dev/ParksResoPublic/GitHub/test_key
           parse-json: true
 
       - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
+        run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
 
       - name: build
         uses: actions/setup-node@v2
