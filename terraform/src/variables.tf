@@ -82,7 +82,6 @@ variable "domain_name" {
 variable "api_gateway_domain" {
   description = "Domain name for the current api gateway endpoint"
   type        = string
-  default     = "fqp0wgtzjg.execute-api.ca-central-1.amazonaws.com"
 }
 
 variable "api_gateway_origin_id" {
