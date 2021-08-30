@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "parks-public-s3-policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.parks-reso-public-oai.iam_arn}"]
+      identifiers = [aws_cloudfront_origin_access_identity.parks-reso-public-oai.iam_arn]
     }
   }
 
@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "parks-public-s3-policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.parks-reso-public-oai.iam_arn}"]
+      identifiers = [aws_cloudfront_origin_access_identity.parks-reso-public-oai.iam_arn]
     }
   }
 }
@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "parks-assets-s3-policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.parks-reso-assets-oai.iam_arn}"]
+      identifiers = [aws_cloudfront_origin_access_identity.parks-reso-assets-oai.iam_arn]
     }
   }
 
@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "parks-assets-s3-policy" {
 
     principals {
       type        = "AWS"
-      identifiers = ["${aws_cloudfront_origin_access_identity.parks-reso-assets-oai.iam_arn}"]
+      identifiers = [aws_cloudfront_origin_access_identity.parks-reso-assets-oai.iam_arn]
     }
   }
 }
