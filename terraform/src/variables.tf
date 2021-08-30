@@ -10,19 +10,8 @@ variable "target_aws_account_id" {
 
 variable "aws_region" {
   description = "The AWS region things are created in"
-  default     = "ca-central-1"
 }
 
-variable "az_count" {
-  description = "Number of AZs to cover in a given region"
-  default     = "2"
-}
-
-variable "app_name" {
-  description = "Name of the application"
-  type        = string
-  default     = "parks_reso-public"
-}
 variable "s3_bucket" {
   description = "S3 Bucket containing static web files for CloudFront distribution"
   type        = string
@@ -38,7 +27,6 @@ variable "s3_bucket_name" {
 variable "s3_bucket_assets" {
   description = "S3 Bucket containing static web files for CloudFront distribution"
   type        = string
-  default     = "parks-reso-assets"
 }
 
 variable "s3_bucket_assets_name" {
@@ -50,8 +38,8 @@ variable "s3_bucket_assets_name" {
 variable "s3_origin_id" {
   description = "S3 Origin Id"
   type        = string
-  default     = "parks-public-s3-origin"
 }
+
 variable "budget_amount" {
   description = "The amount of spend for the budget. Example: enter 100 to represent $100"
   default     = "100.0"
@@ -76,7 +64,6 @@ variable "app_version" {
 variable "domain_name" {
   description = "Domain name for CloudFront distribution"
   type        = string
-  default     = "example.domain.foo"
 }
 
 variable "api_gateway_domain" {

@@ -20,6 +20,19 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: abhilash1in/aws-secrets-manager-action@v1.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          secrets: |
+            dev/ParksResoPublic/GitHub
+          parse-json: true
+
+      - name: Check if env variable is set after fetching secrets
+        run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
+
       - name: build
         uses: actions/setup-node@v2
         with:
@@ -75,6 +88,15 @@ jobs:
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
           app_version: ${{ github.run_number }}
+          target_env: ${{ secrets.TARGET_ENV }}
+          target_aws_account_id: ${{ secrets.TARGET_AWS_ACCOUNT_ID }}
+          aws_region: ${{ secrets.AWS_REGION }}
           s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          s3_bucket_assets: ${{ secrets.AWS_S3_BUCKET_ASSETS }}
+          s3_origin_id: ${{ secrets.S3_ORIGIN_ID }}
+          domain_name: ${{ secrets.DOMAIN_NAME }}
+          api_gateway_domain: ${{ secrets.API_GATEWAY_DOMAIN }}
+          api_gateway_origin_id: ${{ secrets.API_GATEWAY_ORIGIN_ID }}
+          api_gateway_path_pattern: ${{ secrets.API_GATEWAY_PATH_PATTERN }}
         run: terragrunt apply-all --terragrunt-non-interactive
 
