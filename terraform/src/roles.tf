@@ -4,7 +4,7 @@
 data "aws_iam_policy_document" "parks-public-s3-policy" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.bcgov-parks-reso-public.arn}/*"]
+    resources = [aws_s3_bucket.bcgov-parks-reso-assets.arn + "/*"]
 
     principals {
       type        = "AWS"
@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "parks-public-s3-policy" {
 
   statement {
     actions   = ["s3:ListBucket"]
-    resources = ["${aws_s3_bucket.bcgov-parks-reso-public.arn}"]
+    resources = [aws_s3_bucket.bcgov-parks-reso-public.arn]
 
     principals {
       type        = "AWS"
@@ -31,7 +31,7 @@ resource "aws_s3_bucket_policy" "parks-reso-public" {
 data "aws_iam_policy_document" "parks-assets-s3-policy" {
   statement {
     actions   = ["s3:GetObject"]
-    resources = ["${aws_s3_bucket.bcgov-parks-reso-assets.arn}/*"]
+    resources = [aws_s3_bucket.bcgov-parks-reso-assets.arn + "/*"]
 
     principals {
       type        = "AWS"
@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "parks-assets-s3-policy" {
 
   statement {
     actions   = ["s3:ListBucket"]
-    resources = ["${aws_s3_bucket.bcgov-parks-reso-assets.arn}"]
+    resources = [aws_s3_bucket.bcgov-parks-reso-assets.arn]
 
     principals {
       type        = "AWS"
