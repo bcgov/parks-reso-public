@@ -54,7 +54,7 @@ jobs:
 
       - uses: "marvinpinto/action-inject-ssm-secrets@latest"
         with:
-          ssm_parameter: "/parks-reso-api/dev/test-key"
+          ssm_parameter: "/parks-reso-public/test-key"
           env_variable_name: "TEST_VAR"
 
       - name: Check if env variable is set after fetching secrets
