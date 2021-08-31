@@ -20,18 +20,18 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      - name: Read secrets from AWS Secrets Manager into environment variables
-        uses: abhilash1in/aws-secrets-manager-action@v1.1.0
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          secrets: |
-            dev/ParksResoPublic/GitHub/test_key
-          parse-json: true
+      # - name: Read secrets from AWS Secrets Manager into environment variables
+      #   uses: abhilash1in/aws-secrets-manager-action@v1.1.0
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+      #     secrets: |
+      #       dev/ParksResoPublic/GitHub/*
+      #     parse-json: true
 
-      - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
+      # - name: Check if env variable is set after fetching secrets
+      #   run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
 
       - name: build
         uses: actions/setup-node@v2
@@ -40,6 +40,26 @@ jobs:
 
       - name: DEV API Pointing
         run: sed 's@http://localhost:3000@'"${{ secrets.API_URL }}"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 900
+          role-session-name: parks-reso-public-dev-gh-action
+          role-skip-session-tagging: true
+
+      - uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/parks-reso-api/dev/test-key"
+          env_variable_name: "TEST_VAR"
+
+      - name: Check if env variable is set after fetching secrets
+        run: if [ -z ${TEST_VAR+x} ]; then echo "TEST_VAR is unset"; else echo "TEST_VAR is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
+
 
       - name: Install and run build
         run: |
@@ -54,17 +74,6 @@ jobs:
         with:
           name: deploy_dist
           path: dist/parks-reso-public
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-duration-seconds: 900
-          role-session-name: parks-reso-public-dev-gh-action
-          role-skip-session-tagging: true
 
       - name: Deploy to DEV S3
         env:
