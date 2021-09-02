@@ -127,5 +127,6 @@ jobs:
           api_gateway_origin_domain: ${{ env.API_GATEWAY_ORIGIN_DOMAIN }}
           api_gateway_origin_id: ${{ env.API_GATEWAY_ORIGIN_ID }}
           api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
+          automation_role_arn: ${{ secrets.AUTOMATION_ROLE_ARN }}
         run: terragrunt apply-all --terragrunt-non-interactive
 
