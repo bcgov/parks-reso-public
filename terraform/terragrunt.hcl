@@ -32,7 +32,7 @@ provider "aws" {
   region  = "${local.aws_region}"
 
   assume_role {
-    role_arn = "arn:aws:iam::$${local.target_aws_account_id}:role/BCGOV_$${local.target_env}_Automation_Admin_Role"
+    role_arn = "arn:aws:iam::${local.target_aws_account_id}:role/BCGOV_${local.target_env}_Automation_Admin_Role"
   }
 }
 EOF
