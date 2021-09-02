@@ -20,19 +20,6 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      # - name: Read secrets from AWS Secrets Manager into environment variables
-      #   uses: abhilash1in/aws-secrets-manager-action@v1.1.0
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: ${{ secrets.AWS_REGION }}
-      #     secrets: |
-      #       dev/ParksResoPublic/GitHub/*
-      #     parse-json: true
-
-      # - name: Check if env variable is set after fetching secrets
-      #   run: if [ -z ${DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY+x} ]; then echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is unset"; else echo "DEV_PAKRSRESOPUBLIC_GITHUB_TEST_KEY is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
-
       - name: build
         uses: actions/setup-node@v2
         with:
@@ -58,7 +45,7 @@ jobs:
           env_variable_name: "TEST_VAR"
 
       - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${TEST_VAR+x} ]; then echo "TEST_VAR is unset"; else echo "TEST_VAR is set to '$DEV_PAKRSRESOPUBLIC_GITHUB'"; fi
+        run: if [ -z ${TEST_VAR+x} ]; then echo "TEST_VAR is unset"; else echo "TEST_VAR is set to '$TEST_VAR'"; fi
 
 
       - name: Install and run build
