@@ -7,6 +7,7 @@ include {
 
 locals {
   app_version = get_env("app_version", "")
+  target_env = get_env("target_env", "")
   s3_bucket = get_env("s3_bucket", "")
   aws_region = get_env("aws_region", "")
   s3_bucket_assets = get_env("s3_bucket_assets", "")
@@ -23,6 +24,7 @@ generate "dev_tfvars" {
   disable_signature = true
   contents          = <<-EOF
 app_version = "${local.app_version}"
+target_env = "${local.target_env}"
 s3_bucket = "${local.s3_bucket}"
 aws_region = "${local.aws_region}"
 s3_bucket_assets = "${local.s3_bucket_assets}"
