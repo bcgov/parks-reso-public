@@ -89,7 +89,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    origin_id   = "${var.origin_id}-${var.target_env}"
+    target_origin_id   = "${var.origin_id}-${var.target_env}"
 
     forwarded_values {
       query_string = false
