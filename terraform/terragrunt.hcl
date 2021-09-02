@@ -21,6 +21,12 @@ terraform {
 EOF
 }
 
+locals {
+  aws_region = get_env("aws_region", "")
+  api_gateway_origin_id = get_env("target_aws_account_id", "")
+  api_gateway_path_pattern = get_env("target_env", "")
+}
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite"
