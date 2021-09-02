@@ -17,16 +17,7 @@ jobs:
     environment: dev
 
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-
-      - name: build
-        uses: actions/setup-node@v2
-        with:
-          node-version: 10
-
-      - name: DEV API Pointing
-        run: sed 's@http://localhost:3000@'"${{ secrets.API_URL }}"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
+      ### Get environment variables from AWS Parameter Store ###
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -39,14 +30,54 @@ jobs:
           role-session-name: parks-reso-public-dev-gh-action
           role-skip-session-tagging: true
 
-      - uses: "marvinpinto/action-inject-ssm-secrets@latest"
+      # Public variables
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
         with:
-          ssm_parameter: "/parks-reso-public/test-key"
-          env_variable_name: "TEST_VAR"
+          ssm_parameter: "/parks-reso-public/s3-bucket"
+          env_variable_name: "S3_BUCKET"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-public/origin-id"
+          env_variable_name: "ORIGIN_ID"
 
-      - name: Check if env variable is set after fetching secrets
-        run: if [ -z ${TEST_VAR+x} ]; then echo "TEST_VAR is unset"; else echo "TEST_VAR is set to '$TEST_VAR'"; fi
+      # API variables
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: /parks-reso-api/origin-domain
+          env_variable_name: "API_GATEWAY_ORIGIN_DOMAIN"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: /parks-reso-api/origin-id
+          env_variable_name: "API_GATEWAY_ORIGIN_ID"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: /parks-reso-api/gateway-path-pattern
+          env_variable_name: "API_GATEWAY_PATH_PATTERN"
 
+      # Shared variables
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-shared/aws-region"
+          env_variable_name: "AWS_REGION"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-shared/s3-bucket-assets"
+          env_variable_name: "S3_BUCKET_ASSETS"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-shared/target-aws-account-id"
+          env_variable_name: "TARGET_AWS_ACCOUNT_ID"
+
+
+      ### Upload functions to S3 ###
+
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: build
+        uses: actions/setup-node@v2
+        with:
+          node-version: 10
 
       - name: Install and run build
         run: |
@@ -54,6 +85,9 @@ jobs:
           npm run build
         env:
           CI: true
+
+      - name: DEV API Pointing
+        run: sed 's@http://localhost:3000/https://@'"${{ env.API_GATEWAY_ORIGIN_DOMAIN }}"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
 
       - name: Archive build
         if: success()
@@ -64,10 +98,13 @@ jobs:
 
       - name: Deploy to DEV S3
         env:
-          s3_bucket: "${{ secrets.AWS_S3_BUCKET }}-dev"
+          s3_bucket: "${{ env.S3_BUCKET }}-dev"
           dir_name: ${{github.run_number}}
         run: |
           aws s3 sync dist/parks-reso-public/ s3://$s3_bucket/$dir_name/
+
+
+      ### Run Terragrunt ###
 
       - name: Setup Terrafrom
         uses: hashicorp/setup-terraform@v1
@@ -84,15 +121,14 @@ jobs:
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
           app_version: ${{ github.run_number }}
-          target_env: ${{ secrets.TARGET_ENV }}
-          target_aws_account_id: ${{ secrets.TARGET_AWS_ACCOUNT_ID }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
-          s3_bucket_assets: ${{ secrets.AWS_S3_BUCKET_ASSETS }}
-          s3_origin_id: ${{ secrets.S3_ORIGIN_ID }}
-          domain_name: ${{ secrets.DOMAIN_NAME }}
-          api_gateway_domain: ${{ secrets.API_GATEWAY_DOMAIN }}
-          api_gateway_origin_id: ${{ secrets.API_GATEWAY_ORIGIN_ID }}
-          api_gateway_path_pattern: ${{ secrets.API_GATEWAY_PATH_PATTERN }}
+          target_env: ${{ env.TARGET_ENV }}
+          target_aws_account_id: ${{ env.TARGET_AWS_ACCOUNT_ID }}
+          aws_region: ${{ env.AWS_REGION }}
+          s3_bucket: ${{ env.S3_BUCKET }}
+          s3_bucket_assets: ${{ env.S3_BUCKET_ASSETS }}
+          origin_id: ${{ env.ORIGIN_ID }}
+          api_gateway_origin_domain: ${{ env.API_GATEWAY_ORIGIN_DOMAIN }}
+          api_gateway_origin_id: ${{ env.API_GATEWAY_ORIGIN_ID }}
+          api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
         run: terragrunt apply-all --terragrunt-non-interactive
 

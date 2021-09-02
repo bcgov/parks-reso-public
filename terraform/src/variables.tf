@@ -35,8 +35,8 @@ variable "s3_bucket_assets_name" {
   default     = "BC Parks Day Pass Assets"
 }
 
-variable "s3_origin_id" {
-  description = "S3 Origin Id"
+variable "origin_id" {
+  description = "Cloudfront origin name"
   type        = string
 }
 
@@ -61,12 +61,7 @@ variable "app_version" {
   type        = string
 }
 
-variable "domain_name" {
-  description = "Domain name for CloudFront distribution"
-  type        = string
-}
-
-variable "api_gateway_domain" {
+variable "api_gateway_origin_domain" {
   description = "Domain name for the current api gateway endpoint"
   type        = string
 }

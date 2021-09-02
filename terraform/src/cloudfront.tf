@@ -26,7 +26,7 @@ resource "aws_cloudfront_origin_access_identity" "parks-reso-public-oai" {
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.bcgov-parks-reso-public.bucket_regional_domain_name
-    origin_id   = var.s3_origin_id
+    origin_id   = "${var.origin_id}-${var.target_env}"
     origin_path = "/${var.app_version}"
 
     s3_origin_config {
@@ -36,7 +36,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   # This origin is for setting up the api to be accessible from the front-end domain
   origin {
-    domain_name = var.api_gateway_domain
+    domain_name = var.api_gateway_origin_domain
     origin_id   = var.api_gateway_origin_id
     
     custom_origin_config {
@@ -57,7 +57,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     prefix          = "logs"
   }
 
-  # aliases = [ var.domain_name ]
   custom_error_response {
     error_code    = 404
     response_code = 200
@@ -90,7 +89,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = var.s3_origin_id
+    origin_id   = "${var.origin_id}-${var.target_env}"
 
     forwarded_values {
       query_string = false
