@@ -18,6 +18,20 @@ locals {
   api_gateway_path_pattern = get_env("api_gateway_path_pattern", "")
 }
 
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+  provider "aws" {
+    region  = "${local.aws_region}"
+
+    assume_role {
+      role_arn = "arn:aws:iam::${local.target_aws_account_id}:role/BCGOV_${local.target_env}_Automation_Admin_Role"
+    }
+  }
+EOF
+}
+
 generate "dev_tfvars" {
   path              = "dev.auto.tfvars"
   if_exists         = "overwrite"
