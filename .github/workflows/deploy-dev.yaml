@@ -67,10 +67,9 @@ jobs:
       - uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.2
         with:
           ssm-path: /parks-reso-shared/target-aws-account-id # required
-          decryption: true # optional, default false
       - name: check vars
         run: |
-          echo "$AWS_SSM_target-aws-account-id"
+          echo $target-aws-account-id
 
       ### Upload functions to S3 ###
 
