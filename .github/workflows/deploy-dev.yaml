@@ -83,7 +83,7 @@ jobs:
           CI: true
 
       - name: DEV API Pointing
-        run: sed 's@http://localhost:3000@'"https://${{ env.API_GATEWAY_ORIGIN_DOMAIN }}"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
+        run: sed 's@http://localhost:3000@'"${{ env.API_GATEWAY_ORIGIN_DOMAIN }}"'@g' src/env.js.template | sed 's@\blocal\b@DEV@g' | sed 's@localAPI_PATH@dev@g' | sed 's@localAPI_PUBLIC_PATH@dev@g'> src/env.js
 
       - name: Archive build
         if: success()
