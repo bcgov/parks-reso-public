@@ -3,7 +3,7 @@
 variable "target_env" {
   description = "AWS workload account env (e.g. dev, test, prod, sandbox, unclass)"
 }
-\
+
 variable "origin_id_assets" {
   description = "Origin id for assets distribution"
 }

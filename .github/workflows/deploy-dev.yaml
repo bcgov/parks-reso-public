@@ -9,6 +9,7 @@ env:
   TG_VERSION: 0.26.7
   TG_SRC_PATH: terraform
   TFC_WORKSPACE: dev
+  TARGET_ENV: dev
 
 jobs:
   ci:
@@ -69,7 +70,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      - name: build
+      - name: Set up node
         uses: actions/setup-node@v2
         with:
           node-version: 10
@@ -93,7 +94,7 @@ jobs:
 
       - name: Deploy to DEV S3
         env:
-          s3_bucket: "${{ env.S3_BUCKET }}-dev"
+          s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
           dir_name: ${{github.run_number}}
         run: |
           aws s3 sync dist/parks-reso-public/ s3://$s3_bucket/$dir_name/
