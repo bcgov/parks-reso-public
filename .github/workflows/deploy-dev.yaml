@@ -65,6 +65,9 @@ jobs:
           ssm_parameter: "/parks-reso-shared/target-aws-account-id"
           env_variable_name: "TARGET_AWS_ACCOUNT_ID"
 
+      - name: check vars
+        run: |
+          echo "$TARGET_AWS_ACCOUNT_ID"
 
       ### Upload functions to S3 ###
 
