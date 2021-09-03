@@ -75,6 +75,9 @@ jobs:
         with:
           node-version: 10
 
+      - name: Setting configEndpoint to true
+        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template > src/env.js
+
       - name: Install and run build
         run: |
           npm i
