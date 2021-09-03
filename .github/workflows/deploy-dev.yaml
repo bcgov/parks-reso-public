@@ -64,14 +64,14 @@ jobs:
       #   with:
       #     ssm_parameter: "/parks-reso-shared/target-aws-account-id"
       #     env_variable_name: "TARGET_AWS_ACCOUNT_ID"
-    - uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.2
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # required
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # required
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }} # required
-      with:
-        ssm-path: /parks-reso-shared/target-aws-account-id # required
-        decryption: true # optional, default false
+      - uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # required
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # required
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }} # required
+        with:
+          ssm-path: /parks-reso-shared/target-aws-account-id # required
+          decryption: true # optional, default false
       - name: check vars
         run: |
           echo "$target-aws-account-id"
