@@ -9,7 +9,6 @@ env:
   TG_VERSION: 0.26.7
   TG_SRC_PATH: terraform
   TFC_WORKSPACE: dev
-  TARGET_ENV: dev
 
 jobs:
   ci:
@@ -60,16 +59,6 @@ jobs:
         with:
           ssm_parameter: "/parks-reso-shared/s3-bucket-assets"
           env_variable_name: "S3_BUCKET_ASSETS"
-      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
-        with:
-          ssm_parameter: "/parks-reso-shared/target-aws-account-id"
-          env_variable_name: "TARGET_AWS_ACCOUNT_ID"
-      - name: check vars
-        run: |
-          echo ${TARGET_AWS_ACCOUNT_ID} | sed 's/./& /g'
-      - name: check env
-        run: |
-          echo ${{ env.TARGET_AWS_ACCOUNT_ID }}
 
       ### Upload functions to S3 ###
 
@@ -123,9 +112,6 @@ jobs:
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
           app_version: ${{ github.run_number }}
-          target_env: ${{ env.TARGET_ENV }}
-          target_aws_account_id: ${{ env.TARGET_AWS_ACCOUNT_ID }}
-          aws_region: ${{ secrets.AWS_REGION }}
           s3_bucket: ${{ env.S3_BUCKET }}
           s3_bucket_assets: ${{ env.S3_BUCKET_ASSETS }}
           origin_id: ${{ env.ORIGIN_ID }}
