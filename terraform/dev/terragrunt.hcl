@@ -12,25 +12,10 @@ locals {
   aws_region = get_env("aws_region", "")
   s3_bucket_assets = get_env("s3_bucket_assets", "")
   target_aws_account_id = get_env("target_aws_account_id", "")
-  automation_role_arn = get_env("automation_role_arn", "")
   origin_id = get_env("origin_id", "")
   api_gateway_origin_domain = get_env("api_gateway_origin_domain", "")
   api_gateway_origin_id = get_env("api_gateway_origin_id", "")
   api_gateway_path_pattern = get_env("api_gateway_path_pattern", "")
-}
-
-generate "provider" {
-  path      = "provider.tf"
-  if_exists = "overwrite"
-  contents  = <<EOF
-  provider "aws" {
-    region  = "${local.aws_region}"
-
-    assume_role {
-      role_arn = "${local.automation_role_arn}"
-    }
-  }
-EOF
 }
 
 generate "dev_tfvars" {
