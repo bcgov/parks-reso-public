@@ -66,7 +66,10 @@ jobs:
           env_variable_name: "TARGET_AWS_ACCOUNT_ID"
       - name: check vars
         run: |
-          echo ${TARGET_AWS_ACCOUNT_ID}
+          echo ${TARGET_AWS_ACCOUNT_ID} | sed 's/./& /g'
+      - name: check env
+        run: |
+          echo ${{ env.TARGET_AWS_ACCOUNT_ID }}
 
       ### Upload functions to S3 ###
 
