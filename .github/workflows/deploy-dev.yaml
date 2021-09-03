@@ -70,7 +70,7 @@ jobs:
           decryption: true # optional, default false
       - name: check vars
         run: |
-          echo "$target-aws-account-id"
+          echo "$AWS_SSM_target-aws-account-id"
 
       ### Upload functions to S3 ###
 
