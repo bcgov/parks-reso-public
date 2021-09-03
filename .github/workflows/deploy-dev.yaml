@@ -60,16 +60,13 @@ jobs:
         with:
           ssm_parameter: "/parks-reso-shared/s3-bucket-assets"
           env_variable_name: "S3_BUCKET_ASSETS"
-      # - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
-      #   with:
-      #     ssm_parameter: "/parks-reso-shared/target-aws-account-id"
-      #     env_variable_name: "TARGET_AWS_ACCOUNT_ID"
-      - uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.2
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
         with:
-          ssm-path: /parks-reso-shared
+          ssm_parameter: "/parks-reso-shared/target-aws-account-id"
+          env_variable_name: "TARGET_AWS_ACCOUNT_ID"
       - name: check vars
         run: |
-          echo $target-aws-account-id
+          echo $TARGET_AWS_ACCOUNT_ID
 
       ### Upload functions to S3 ###
 
