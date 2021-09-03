@@ -13,6 +13,7 @@ locals {
   api_gateway_origin_domain = get_env("api_gateway_origin_domain", "")
   api_gateway_origin_id = get_env("api_gateway_origin_id", "")
   api_gateway_path_pattern = get_env("api_gateway_path_pattern", "")
+  origin_id_assets = get_env("origin_id_assets", "")
 }
 
 generate "dev_tfvars" {
@@ -27,5 +28,6 @@ origin_id = "${local.origin_id}"
 api_gateway_origin_domain = "${local.api_gateway_origin_domain}"
 api_gateway_origin_id = "${local.api_gateway_origin_id}"
 api_gateway_path_pattern = "${local.api_gateway_path_pattern}"
+origin_id_assets = "${local.origin_id_assets}"
 EOF
 }

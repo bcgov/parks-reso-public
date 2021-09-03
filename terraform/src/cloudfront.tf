@@ -141,7 +141,7 @@ resource "aws_cloudfront_origin_access_identity" "parks-reso-assets-oai" {
 resource "aws_cloudfront_distribution" "s3_assets_distribution" {
    origin {
     domain_name = aws_s3_bucket.bcgov-parks-reso-assets.bucket_regional_domain_name
-    origin_id   = "parks-assets-s3-origin"
+    origin_id   = var.origin_id_assets
     origin_path = "/assets/images"
 
     s3_origin_config {
@@ -162,7 +162,7 @@ resource "aws_cloudfront_distribution" "s3_assets_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "parks-assets-s3-origin"
+    target_origin_id = var.origin_id_assets
 
     forwarded_values {
       query_string = false

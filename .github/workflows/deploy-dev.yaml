@@ -59,6 +59,10 @@ jobs:
         with:
           ssm_parameter: "/parks-reso-shared/s3-bucket-assets"
           env_variable_name: "S3_BUCKET_ASSETS"
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-shared/origin-id-assets"
+          env_variable_name: "ORIGIN_ID_ASSETS"
 
       ### Upload functions to S3 ###
 
@@ -118,5 +122,6 @@ jobs:
           api_gateway_origin_domain: ${{ env.API_GATEWAY_ORIGIN_DOMAIN }}
           api_gateway_origin_id: ${{ env.API_GATEWAY_ORIGIN_ID }}
           api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
+          origin_id_assets: ${{ env.ORIGIN_ID_ASSETS }}
         run: terragrunt apply-all --terragrunt-non-interactive
 
