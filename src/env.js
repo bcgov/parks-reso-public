@@ -12,9 +12,9 @@
     window.__env.ENVIRONMENT = 'local';
 
     window.__env.API_LOCATION = 'http://localhost:3000';
-    window.__env.API_PATH = '/localAPI_PATH';
-    window.__env.API_PUBLIC_PATH = '/localAPI_PUBLIC_PATH';
-    window.__env.ASSETS_S3_URL = 'https://d22ggafw50p6m4.cloudfront.net';
+    window.__env.API_PATH = '/api';
+    window.__env.API_PUBLIC_PATH = '/api';
+    window.__env.ASSETS_S3_URL = 'https://d3ptawfth8sh71.cloudfront.net';
 
     // Add any feature-toggles
     // window.__env.coolFeatureActive = false;
