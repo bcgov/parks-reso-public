@@ -1,4 +1,4 @@
-name: Push
+name: Deploy Dev
 
 on:
   push:
@@ -64,6 +64,7 @@ jobs:
         with:
           ssm_parameter: "/parks-reso-shared/origin-id-assets"
           env_variable_name: "ORIGIN_ID_ASSETS"
+
 
       ### Upload functions to S3 ###
 

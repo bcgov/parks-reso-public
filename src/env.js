@@ -3,7 +3,7 @@
 
     // Ideally in our app we have a wrapper around our logger class in the angular front ends to
     // turn on/off the console.log's
-    window.__env.debugMode = false;
+    window.__env.debugMode = true;
 
     // Get config from remote host?
     window.__env.configEndpoint = false;
