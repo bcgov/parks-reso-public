@@ -1,5 +1,10 @@
 # Parks Reservation - Public
 
+Associated repos:
+* https://github.com/bcgov/parks-reso-public
+* https://github.com/bcgov/parks-reso-admin
+* https://github.com/bcgov/parks-reso-api
+
 # Deployment Pipeline
 
 ## Github Actions
