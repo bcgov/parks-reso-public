@@ -93,7 +93,7 @@ jobs:
           name: deploy_dist
           path: dist/parks-reso-public
 
-      - name: Deploy to DEV S3
+      - name: Deploy to Dev S3
         env:
           s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
           dir_name: ${{github.run_number}}
