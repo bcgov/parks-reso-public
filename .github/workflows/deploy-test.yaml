@@ -93,10 +93,13 @@ jobs:
           name: deploy_dist
           path: dist/parks-reso-public
 
+      - name: Get release version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: Deploy to Test S3
         env:
           s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
-          dir_name: ${{github.run_number}}
+          dir_name: ${{ env.RELEASE_VERSION }}
         run: |
           aws s3 sync dist/parks-reso-public/ s3://$s3_bucket/$dir_name/
 
@@ -117,7 +120,7 @@ jobs:
       - name: Terragrunt Apply
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
-          app_version: ${{ github.run_number }}
+          app_version: ${{ env.RELEASE_VERSION }}
           s3_bucket: ${{ env.S3_BUCKET }}
           s3_bucket_assets: ${{ env.S3_BUCKET_ASSETS }}
           origin_id: ${{ env.ORIGIN_ID }}
