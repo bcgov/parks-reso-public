@@ -22,7 +22,6 @@
     "@angular/router": "~11.2.11",
     "@digitalspace/bcparks-bootstrap-theme": "^1.0.5",
     "@ng-bootstrap/ng-bootstrap": "^9.1.1",
-    "bootstrap": "^5.1.2",
     "guid-typescript": "^1.0.9",
     "ngx-toastr": "^13.2.1",
     "material-icons": "^0.6.3",
