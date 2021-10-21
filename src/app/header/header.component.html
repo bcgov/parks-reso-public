@@ -1,6 +1,6 @@
-<header class="app-header"
+<!-- <header class="app-header"
     id="header">
-    <div class="container">
+    <div class="header-content">
         <a class="navbar-brand"
             title="BC Parks Reservations"
             tabIndex="1"
@@ -13,6 +13,23 @@
                 alt="BC Parks">
         </a>
     </div>
+</header> -->
+<nav class="navbar">
+    <div class="container">
+        <a class="navbar-brand"
+            title="BC Parks Reservations"
+            tabIndex="1"
+            href="https://bcparks.ca/">
+            <img src="/assets/images/bcgov-header-horiz-LG.png"
+                alt=""
+                width="115"
+                height="32"
+                class="d-inline-block align-text-top bc-gov-logo">
+            <img src="https://bcparks.ca/_shared/images/logos/logo-bcparks-text.png"
+                class="d-inline-block align-text-top bc-parks-title"
+                alt="BC Parks">
+        </a>
+    </div>
     <div class="sub-header">
         <div *ngIf="showBanner"
             class="env-banner text-center red">
@@ -20,4 +37,4 @@
             subject to change.
         </div>
     </div>
-</header>
+</nav>

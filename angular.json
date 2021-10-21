@@ -26,12 +26,21 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/env.js"
+              "src/env.js",
+              {
+                "glob": "**/*",
+                "input": "node_modules@digitalspace/bcparks-bootstrap-theme/dist/fonts",
+                "output": "./assets/fonts"
+              }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/css/bootstrap-theme.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/js/bootstrap-theme.min.js"
+            ]
           },
           "configurations": {
             "production": {

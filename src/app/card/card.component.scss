@@ -1,64 +1,69 @@
-@import "/src/assets/base/base.scss";
+@import "/src/assets/themes/default.scss";
 
 .card {
   display: block;
-    line-height: 1.42857143;
-    background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-    transition: box-shadow .25s;
+  line-height: 1.42857143;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.25s;
 }
 .card:hover {
-  box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .card-disabled {
   display: block;
-    line-height: 1.42857143;
-    background-color: lightgray;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 2px 0 rgba(0,0,0,0.12);
-    transition: box-shadow .25s;
-    color: #606060
+  line-height: 1.42857143;
+  background-color: lightgray;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.25s;
+  color: #606060;
 }
 
 .open-banner {
   background: linear-gradient(110deg, #9ecaa7 60%, $success 60%);
-  color: #fff
+  color: #fff;
+  padding-right: 15px;
 }
 
 .closed-banner {
   background: linear-gradient(110deg, rgb(173, 68, 68) 60%, maroon 60%);
-  color: lightgray
+  color: lightgray;
 }
 
-.card-disabled .img-card{
+.card-disabled .img-card {
   -webkit-filter: grayscale(75%);
   filter: grayscale(75%);
   width: 100%;
-  height:200px;
-  border-top-left-radius:2px;
-  border-top-right-radius:2px;
-  display:block;
+  height: 200px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  display: block;
   overflow: hidden;
 }
 
 .img-card {
   width: 100%;
-  height:200px;
-  border-top-left-radius:2px;
-  border-top-right-radius:2px;
-  display:block;
-    overflow: hidden;
+  height: 200px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  display: block;
+  overflow: hidden;
 }
 
-.img-card img{
+.img-card img {
   width: 100%;
   height: 200px;
-  object-fit:cover;
-  transition: all .25s ease;
+  object-fit: cover;
+  transition: all 0.25s ease;
 }
 
 .title {
   font-weight: 700;
   font-size: 1.65em;
+}
+
+.booking-button {
+  border-radius: 0;
 }
