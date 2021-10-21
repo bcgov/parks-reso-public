@@ -1,10 +1,10 @@
-@import "/src/assets/base/base.scss";
+@import "/src/assets/themes/default.scss";
 
 .app-footer {
   background: $footer-bg;
   color: $footer-color;
 
-  border-top: 2px solid $gold;
+  border-top: 2px solid $bcgold;
 
   right: 0;
   bottom: 0;
@@ -60,12 +60,12 @@
     color: $footer-color;
 
     &.feedback-link {
-      color: $gold;
+      color: $bcgold;
     }
 
     &:focus,
     &:hover {
-      color: $gold;
+      color: $bcgold;
     }
   }
 

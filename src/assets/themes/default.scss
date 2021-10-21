@@ -1,20 +1,18 @@
+@import '@digitalspace/bcparks-bootstrap-theme/dist/scss/variables';
+
 // Main Colors - fromv BC DevHub
-$primary:                       #003366;
-$gold:                          #fcba19;
-$text:                          #313132;
 $link:                          #007bff;
 $bg-primary:                    #38598A;
 $bg-secondary:                  #f2f2f2;
 $component:                     #606060;
-$danger:                        #D8292F;
-$success:                       #2e8540;
-$bg-header-secondary:           #38598a;
+$bg-header-secondary:           #D7DEE8;
+$text:                          #313132;
 
 // Background Colors
-$bg-dark:                       $primary;
+$bg-dark:                       #003366;
 $bg-light-color:                #fff;
 $bg-dark-color:                 #fff;
-$bg-dark-link-color:            $gold;
+$bg-dark-link-color:            $bcgold;
 $bg-dark-border-color:          #5475a7;
 $bg-default:                    #F1F1F1;
 $bg-info-box:                   #F2F2F2;
@@ -28,12 +26,12 @@ $link-color:                    #1a5a96;
 
 // Header
 $header-font-color:             #fff;
-$header-bg:                     $primary;
+$header-bg:                     $bg-dark;
 $header-h1:                     #1A5A96;
 $header-height:                  100px;
 
 // Footer
-$footer-bg:                     $primary;
+$footer-bg:                     $bg-dark;
 $footer-color:                  #fff;
 $footer-height:                  71px;
 
@@ -43,8 +41,8 @@ $mn-dropdown-menu-size:         0.875rem; // 14 px
 $mn-color:                      #fff;
 $mn-border-color:               #5f79a2;
 $mn-hover-bg:                   #2b4777;
-$mn-hover-color:                $gold;
-$mn-toggle-color:               $gold;
+$mn-hover-color:                $bcgold;
+$mn-toggle-color:               $bcgold;
 $mn-dropdown-bg:                #2b4777;
 
 // COMPONENTS

@@ -1,125 +1,22 @@
-@import "/src/assets/styles/abstracts/mixins.scss";
 @import "/src/assets/themes/default.scss";
-@import "/src/assets/fonts/BCSans";
 
-// From https://developer.gov.bc.ca/Design-System/Alert-Banners
-
-$theme-colors: (
-    "primary": $primary,
-    "danger": $danger,
-    "success": $success,
-);
-
-.btn-lg,
-.btn-group-lg > .btn {
-    padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    line-height: 1.5;
-    border-radius: 0.3rem;
-}
-
-.btn {
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    vertical-align: middle;
-    user-select: none;
-    background-color: transparent;
-    border: 1px solid transparent;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.6;
-    border-radius: 0.25rem;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: $bg-primary;
-    border-color: $bg-primary;
-    &:hover {
-        background-color: $primary;
-    }
-    &:focus {
-        outline: 4px solid #3b99fc !important;
-        outline-offset: 1px;
-        background-color: $primary;
-    }
-    &:active {
-        background-color: $primary !important;
-        opacity: 1;
-    }
-    &:disabled {
-        background-color: $primary;
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+body,
+html {
+    height: 100%;
 }
 
 .card-header {
-    background-color: $primary;
+    background-color: $bg-dark !important;
     color: $card-header-color;
     border-radius: 0.25rem !important;
-}
-
-.park-select-header {
-    background-color: $primary;
-    color: $card-header-color;
-    border-radius: 0.25rem !important;
-}
-
-.btn-secondary {
-    background: none;
-    border-radius: 4px;
-    border: 2px solid $primary;
-    padding: 10px 30px;
     text-align: center;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    color: $primary;
-
-    &:hover {
-        opacity: 0.8;
-        background-color: $primary !important;
-        color: #ffffff;
-        border: 2px solid $primary;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    h1 {
+        margin: 0;
     }
-    &:focus {
-        outline-offset: 1px;
-        outline: 4px solid #3b99fc;
-        background-color: $primary !important;
-        box-shadow: none !important;
-    }
-    &:active {
-        background-color: $primary !important;
-        opacity: 1;
-        box-shadow: none !important;
-    }
-    &:disabled {
-        background-color: white;
-        opacity: 0.3;
-        border: 2px solid $primary;
-        border-radius: 4px;
-        color: #003366;
-        padding: 10px 30px;
-        text-align: center;
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: not-allowed;
-    }
-}
-
-.btn-primary.btn-block {
-    border-radius: 0px 0px 4px 4px !important;
-
-    &:hover {
-        background-color: $primary;
+    h2 {
+        margin: 0;
     }
 }
 
@@ -155,11 +52,6 @@ $theme-colors: (
     border-radius: 4px;
 }
 
-.park-select-header {
-    background-color: $primary;
-    color: $header-font-color;
-}
-
 .registration-details-container {
     color: $text;
 }
@@ -174,18 +66,11 @@ $theme-colors: (
     margin-top: 0px;
 }
 
-.back-button {
-    display: inline-flex;
-    justify-content: center;
-    vertical-align: middle;
-}
-
 @media (max-width: 576px) {
     .btn {
         width: 100%;
     }
 }
-
 @-webkit-keyframes rotating {
     from {
         -ms-transform: rotate(0deg);
@@ -231,4 +116,8 @@ $theme-colors: (
 .spinner {
     font-size: large;
     color: $bg-primary;
+}
+
+.form-group {
+    padding-bottom: 1rem;
 }

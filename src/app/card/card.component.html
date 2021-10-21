@@ -6,23 +6,21 @@
             onerror="this.onerror=null;this.src='assets/images/image-not-found.svg';"
             alt="{{altText}}" />
     </div>
+
     <div class="p-2 text-center">
         <h4 class="title">{{data?.name}}</h4>
     </div>
 
-    <div>
-        <p *ngIf="data?.status === 'open'"
-            class="open-banner text-right py-1 pr-3 mb-0">Open</p>
-        <p *ngIf="data?.status === 'closed'"
-            class="closed-banner text-right py-1 pr-3 mb-0">Closed</p>
-    </div>
+    <p *ngIf="data?.status === 'open'"
+        class="open-banner text-end py-1 mb-0">Open</p>
+    <p *ngIf="data?.status === 'closed'"
+        class="closed-banner text-end py-1 mb-0">Closed</p>
 
-    <div class="card-read-more">
-        <button tabIndex="{{data?.tabindex}}"
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary booking-button"
+            type="button"
+            tabIndex="{{data?.tabindex}}"
             (click)="navigate(data)"
-            [disabled]="data?.status === 'closed'"
-            class="btn btn-block btn-primary">
-            BOOK A PASS
-        </button>
+            [disabled]="data?.status === 'closed'">BOOK A PASS</button>
     </div>
 </div>

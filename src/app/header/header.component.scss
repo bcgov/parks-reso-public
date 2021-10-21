@@ -1,4 +1,4 @@
-@import "/src/assets/base/base.scss";
+@import "/src/assets/themes/default.scss";
 
 .env-banner {
     padding: 5px 10px;
@@ -30,11 +30,11 @@
     }
 }
 
-.sub-header{
+.sub-header {
     height: 40px;
-    width:100%;
+    width: 100%;
     background-color: $bg-header-secondary;
-    border-top: 2px solid $gold;
+    border-top: 2px solid $bcgold;
 }
 
 .app-header {
@@ -50,8 +50,8 @@
 .navbar-toggler {
     margin-right: 0.5rem;
     padding: 0.5rem 0.4rem;
-    border: 2px solid $gold;
-    color: $gold;
+    border: 2px solid $bcgold;
+    color: $bcgold;
     font-size: medium;
     font-weight: 600;
     outline: none; // override user agent stylesheet default
@@ -94,7 +94,7 @@
 // NAVBAR
 .navbar {
     padding: 0;
-    background-color: $header-bg;
+    background-color: $header-bg !important; 
     z-index: 1000;
 
     .navbar-nav {
@@ -126,7 +126,7 @@
         .dropdown {
             &.show {
                 .dropdown-toggle {
-                    color: $gold;
+                    color: $bcgold;
                 }
             }
         }
@@ -245,14 +245,14 @@
     white-space: normal;
 }
 
-.bc-gov-logo{
-    height:60%;
+.bc-gov-logo {
+    height: 60%;
     margin: 10px 13px 0 0;
     padding-right: 10px;
-    border-right:1px solid #ffffff;
+    border-right: 1px solid #ffffff;
 }
 
-.bc-parks-title{
+.bc-parks-title {
     height: 60%;
     margin-top: 10px;
 }
@@ -274,7 +274,7 @@
 .navbar-brand__version {
     margin-top: -0.1rem;
     display: inline-block;
-    color: $gold;
+    color: $bcgold;
     font-size: 0.5rem;
     font-weight: 700;
     vertical-align: top;

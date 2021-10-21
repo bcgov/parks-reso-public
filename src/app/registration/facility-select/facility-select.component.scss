@@ -1,4 +1,4 @@
-@import "/src/assets/base/base.scss";
+@import "/src/assets/themes/default.scss";
 
 label {
     width: 100%;
@@ -9,19 +9,22 @@ label {
 }
 
 .card-header-selected {
-    background-color: $bg-primary;
+    background-color: $bg-primary !important;
     color: #f8f9fa;
-    box-shadow: 0 0 1px 1px $bg-primary;
+    box-shadow: 0 0 1px 1px $bg-primary !important;
+    text-align: left;
 }
 
 .card-header-enabled {
-    background-color: #d7dee8;
+    background-color: $bg-header-secondary !important;
     color: $bg-primary;
+    text-align: left;
 }
 
 .card-header-disabled {
-    background-color: #e9ecef;
-    color: #383d41;
+    background-color: #e9ecef !important;
+    color: #383d41 !important;
+    text-align: left;
 }
 
 .enable-pointer:hover {
