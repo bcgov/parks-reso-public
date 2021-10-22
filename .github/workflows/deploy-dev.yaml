@@ -155,6 +155,17 @@ jobs:
           ssm_parameter: "/parks-reso-shared/origin-id-assets"
           env_variable_name: "ORIGIN_ID_ASSETS"
 
+      - name: Setup Terrafrom
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+
+      - name: Setup terragrunt
+        uses: peter-murray/terragrunt-github-action@v1.0.0
+        with:
+          terragrunt_version: ${{ env.TG_VERSION }}
+
       - name: Terragrunt Apply
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
