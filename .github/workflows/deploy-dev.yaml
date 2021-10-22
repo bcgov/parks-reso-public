@@ -2,7 +2,7 @@ name: Deploy Dev
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 env:
   TF_VERSION: 0.14.7
