@@ -2,7 +2,7 @@ name: Deploy Dev
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 env:
   TF_VERSION: 0.14.7
@@ -12,13 +12,103 @@ env:
   TARGET_ENV: dev
 
 jobs:
-  ci:
-    name: Deploy Dev
+  lint:
+    name: Lint
     runs-on: ubuntu-20.04
     environment: dev
-
+    strategy:
+      matrix:
+        node-version: [14.x]
     steps:
-      ### Get environment variables from AWS Parameter Store ###
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts
+      - run: npm run lint
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
+  
+  test:
+    name: Test
+    runs-on: ubuntu-20.04
+    environment: dev
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm ci --ignore-scripts
+      - run: npm run test-ci
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
+
+  build:
+    name: Build and Upload S3 Sandbox
+    needs: [lint, test]
+    runs-on: ubuntu-20.04
+    environment: dev
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - run: npm ci --ignore-scripts
+
+      - name: Setting configEndpoint to true
+        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template > src/env.js
+
+      - run: npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_SANDBOX }}
+          role-duration-seconds: 900
+          role-session-name: parks-reso-public-sandbox-gh-action
+          role-skip-session-tagging: true
+
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-sandbox/s3-bucket-public-artifacts"
+          env_variable_name: "S3_BUCKET_ARTIFACTS"
+
+      - name: Save artifact to S3
+        env:
+          s3_bucket: "${{ env.S3_BUCKET_ARTIFACTS }}"
+          dir_name: ${{ github.sha }}
+        run: |
+          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/
+      
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
+
+  terragrunt:
+    name: Run Terragrunt
+    runs-on: ubuntu-20.04
+    environment: dev
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -65,55 +155,6 @@ jobs:
           ssm_parameter: "/parks-reso-shared/origin-id-assets"
           env_variable_name: "ORIGIN_ID_ASSETS"
 
-
-      ### Upload functions to S3 ###
-
-      - name: Check out the repo
-        uses: actions/checkout@v2
-
-      - name: Set up node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 10
-
-      - name: Setting configEndpoint to true
-        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template > src/env.js
-
-      - name: Install and run build
-        run: |
-          npm i
-          npm run build
-        env:
-          CI: true
-
-      - name: Archive build
-        if: success()
-        uses: actions/upload-artifact@v1
-        with:
-          name: deploy_dist
-          path: dist/parks-reso-public
-
-      - name: Deploy to Dev S3
-        env:
-          s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
-          dir_name: ${{github.run_number}}
-        run: |
-          aws s3 sync dist/parks-reso-public/ s3://$s3_bucket/$dir_name/
-
-
-      ### Run Terragrunt ###
-
-      - name: Setup Terrafrom
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
-
-      - name: Setup terragrunt
-        uses: peter-murray/terragrunt-github-action@v1.0.0
-        with:
-          terragrunt_version: ${{ env.TG_VERSION }}
-
       - name: Terragrunt Apply
         working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
         env:
@@ -126,4 +167,62 @@ jobs:
           api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
           origin_id_assets: ${{ env.ORIGIN_ID_ASSETS }}
         run: terragrunt apply-all --terragrunt-non-interactive
+      
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
 
+  s3:
+    name: Upload to S3 Dev
+    needs: [build, terragrunt]
+    runs-on: ubuntu-20.04
+    environment: dev
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_SANDBOX }}
+          role-duration-seconds: 900
+          role-session-name: parks-reso-public-sandbox-gh-action
+          role-skip-session-tagging: true
+
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-sandbox/s3-bucket-public-artifacts"
+          env_variable_name: "S3_BUCKET_ARTIFACTS"
+
+      - name: Copy from s3 sandbox
+        env:
+          s3_bucket: "${{ env.S3_BUCKET_ARTIFACTS }}"
+          dir_name: ${{ github.sha }}
+        run: |
+          aws s3 sync s3://$s3_bucket/$dir_name/ dist/parks-reso-public
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_DEV }}
+          role-duration-seconds: 900
+          role-session-name: parks-reso-public-dev-gh-action
+          role-skip-session-tagging: true
+
+      - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
+        with:
+          ssm_parameter: "/parks-reso-public/s3-bucket"
+          env_variable_name: "S3_BUCKET"
+
+      - name: Deploy to Dev S3
+        env:
+          s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
+          dir_name: ${{ github.sha }}
+        run: |
+          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/
