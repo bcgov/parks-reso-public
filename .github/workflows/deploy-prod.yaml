@@ -1,24 +1,24 @@
-name: Deploy Test
+name: Deploy Prod
 
 on:
   workflow_dispatch:
     inputs:
       releaseTag:
-        description: 'Tag of version to be promoted to test'     
+        description: 'Tag of version to be promoted to prod'     
         required: true
 
 env:
   TF_VERSION: 0.14.7
   TG_VERSION: 0.26.7
   TG_SRC_PATH: terraform
-  TFC_WORKSPACE: test
-  TARGET_ENV: test
+  TFC_WORKSPACE: prod
+  TARGET_ENV: prod
 
 jobs:
   terragrunt:
     name: Run Terragrunt
     runs-on: ubuntu-20.04
-    environment: test
+    environment: prod
     strategy:
       matrix:
         node-version: [14.x]
@@ -35,7 +35,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 900
-          role-session-name: parks-reso-public-test-gh-action
+          role-session-name: parks-reso-public-prod-gh-action
           role-skip-session-tagging: true
 
       # Public variables
@@ -100,7 +100,7 @@ jobs:
     name: Upload to S3
     needs: terragrunt
     runs-on: ubuntu-20.04
-    environment: test
+    environment: prod
     strategy:
       matrix:
         node-version: [14.x]
@@ -136,7 +136,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           role-duration-seconds: 900
-          role-session-name: parks-reso-public-test-gh-action
+          role-session-name: parks-reso-public-prod-gh-action
           role-skip-session-tagging: true
 
       - uses: "marvinpinto/action-inject-ssm-secrets@v1.2.1"
@@ -144,7 +144,7 @@ jobs:
           ssm_parameter: "/parks-reso-public/s3-bucket"
           env_variable_name: "S3_BUCKET"
 
-      - name: Deploy to Test S3
+      - name: Deploy to Prod S3
         env:
           s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
           dir_name: ${{ github.event.inputs.releaseTag }}
