@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       releaseTag:
-        description: 'Tag of version to be promoted to prod'     
+        description: "Tag of version to be promoted to prod"
         required: true
 
 env:
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-            ref: ${{ github.event.inputs.releaseTag }}
+          ref: ${{ github.event.inputs.releaseTag }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -94,6 +94,9 @@ jobs:
           api_gateway_origin_id: ${{ env.API_GATEWAY_ORIGIN_ID }}
           api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
           origin_id_assets: ${{ env.ORIGIN_ID_ASSETS }}
+          auth_user: ${{ secrets.BASIC_AUTH_USER }}
+          auth_pass: ${{ secrets.BASIC_AUTH_PASS }}
+          ssl_cert_arn: ${{ secrets.PARKS_SSL_CERT_ARN }}
         run: terragrunt apply-all --terragrunt-non-interactive
 
   s3:

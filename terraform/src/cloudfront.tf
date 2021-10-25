@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "bcgov-parks-reso-public" {
   bucket = "${var.s3_bucket}-${var.target_env}"
   acl    = "private"
 
-  tags   = {
+  tags = {
     Name = var.s3_bucket_name
   }
 }
@@ -13,13 +13,29 @@ resource "aws_s3_bucket" "parks-reso-public-logs" {
   bucket = "${var.s3_bucket}-logs-${var.target_env}"
   acl    = "private"
 
-  tags   = {
+  tags = {
     Name = "${var.s3_bucket_name} Logs"
   }
 }
 
 resource "aws_cloudfront_origin_access_identity" "parks-reso-public-oai" {
   comment = "Cloud front OAI for BC Parks reservations public delivery"
+}
+
+data "template_file" "basic_auth" {
+  template = file("scripts/basicAuth.js")
+  vars = {
+    auth_user = var.auth_user
+    auth_pass = var.auth_pass
+  }
+}
+
+resource "aws_cloudfront_function" "parks_basic_auth" {
+  name    = "parks-basic-auth"
+  runtime = "cloudfront-js-1.0"
+  comment = "Basic auth handler"
+  publish = true
+  code    = data.template_file.basic_auth.rendered
 }
 
 #setup a cloudfront distribution to serve out the frontend files from s3 (github actions will push builds there)
@@ -38,7 +54,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = var.api_gateway_origin_domain
     origin_id   = var.api_gateway_origin_id
-    
+
     custom_origin_config {
       http_port              = "80"
       https_port             = "443"
@@ -58,20 +74,20 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   custom_error_response {
-    error_code    = 404
-    response_code = 200
+    error_code         = 404
+    response_code      = 200
     response_page_path = "/index.html"
   }
 
   custom_error_response {
-    error_code    = 403
-    response_code = 200
+    error_code         = 403
+    response_code      = 200
     response_page_path = "/index.html"
   }
 
   ordered_cache_behavior {
-    allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods         = ["GET", "HEAD"]
     path_pattern           = var.api_gateway_path_pattern
     target_origin_id       = var.api_gateway_origin_id
     compress               = true
@@ -89,7 +105,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id   = "${var.origin_id}-${var.target_env}"
+    target_origin_id = "${var.origin_id}-${var.target_env}"
 
     forwarded_values {
       query_string = false
@@ -103,6 +119,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
     viewer_protocol_policy = "redirect-to-https"
+
+    dynamic "function_association" {
+      for_each = var.enable_auth ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.parks_basic_auth.arn
+      }
+    }
   }
 
   price_class = "PriceClass_100"
@@ -119,9 +143,27 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     Name        = "BC Parks DUP Public"
   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
+  # Not using vanity
+  dynamic "viewer_certificate" {
+    for_each = var.enable_vanity_domain ? [] : [1]
+
+    content {
+      cloudfront_default_certificate = true
+    }
   }
+
+  # Using vanity
+  dynamic "viewer_certificate" {
+    for_each = var.enable_vanity_domain ? [1] : []
+
+    content {
+      acm_certificate_arn = var.vanity_domain_certs_arn
+      ssl_support_method = "sni-only"
+      minimum_protocol_version = "TLSv1.2_2021"
+    }
+  }
+
+  aliases = var.vanity_domain
 }
 
 #Distrubtion and bucket for parks assets such as images
@@ -129,7 +171,7 @@ resource "aws_s3_bucket" "bcgov-parks-reso-assets" {
   bucket = "${var.s3_bucket_assets}-${var.target_env}"
   acl    = "private"
 
-  tags   = {
+  tags = {
     Name = var.s3_bucket_assets_name
   }
 }
@@ -139,7 +181,7 @@ resource "aws_cloudfront_origin_access_identity" "parks-reso-assets-oai" {
 }
 
 resource "aws_cloudfront_distribution" "s3_assets_distribution" {
-   origin {
+  origin {
     domain_name = aws_s3_bucket.bcgov-parks-reso-assets.bucket_regional_domain_name
     origin_id   = var.origin_id_assets
     origin_path = "/assets/images"
