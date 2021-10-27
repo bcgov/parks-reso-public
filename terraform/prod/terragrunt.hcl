@@ -37,6 +37,6 @@ auth_user = "${local.auth_user}"
 auth_pass = "${local.auth_pass}"
 enable_vanity_domain = true
 vanity_domain_certs_arn = "${local.ssl_cert_arn}"
-vanity_domain = ["parkingpass.bcparks.ca"]
+vanity_domain = ["parkingpass.bcparks.ca", "reserve.bcparks.ca"]
 EOF
 }

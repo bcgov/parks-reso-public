@@ -65,7 +65,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  default_root_object = "index.html"
+  default_root_object = "dayuse/index.html"
 
   logging_config {
     include_cookies = false
@@ -76,13 +76,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   custom_error_response {
     error_code         = 404
     response_code      = 200
-    response_page_path = "/index.html"
+    response_page_path = "/dayuse/index.html"
   }
 
   custom_error_response {
     error_code         = 403
     response_code      = 200
-    response_page_path = "/index.html"
+    response_page_path = "/dayuse/index.html"
   }
 
   ordered_cache_behavior {
@@ -92,6 +92,31 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     target_origin_id       = var.api_gateway_origin_id
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+
+  ordered_cache_behavior {
+    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods         = ["GET", "HEAD"]
+    path_pattern           = "/dayuse/*"
+    target_origin_id       = "${var.origin_id}-${var.target_env}"
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+
+    dynamic "function_association" {
+      for_each = var.enable_auth ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.parks_basic_auth.arn
+      }
+    }
 
     forwarded_values {
       query_string = false
