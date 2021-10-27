@@ -28,13 +28,13 @@
               "src/env.js",
               {
                 "glob": "**/*",
-                "input": "node_modules@digitalspace/bcparks-bootstrap-theme/dist/fonts",
+                "input": "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/fonts",
                 "output": "./assets/fonts"
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/css/bootstrap-theme.min.css"
+              "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/css/bootstrap-theme.min.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
