@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "ng serve --base-href /dayuse/ --deploy-url /dayuse/",
+    "build": "ng build --base-href /dayuse/ --deploy-url /dayuse/",
     "test": "ng test --watch=false",
     "test-ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",

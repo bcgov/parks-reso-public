@@ -185,7 +185,7 @@ jobs:
 
   s3:
     name: Upload to S3 Dev
-    needs: [build, terragrunt]
+    needs: [build]
     runs-on: ubuntu-20.04
     environment: dev
     strategy:
@@ -236,4 +236,4 @@ jobs:
           s3_bucket: "${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}"
           dir_name: ${{ github.sha }}
         run: |
-          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/
+          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
