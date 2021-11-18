@@ -121,9 +121,9 @@ export class FacilitySelectComponent implements OnInit {
             currentCount /
             times[key].max
           );
-          if (capPercent <= .25) {
+          if (capPercent < .25) {
             this.timeConfig[key].text = 'Low';
-          } else if (capPercent <= .5) {
+          } else if (capPercent < .75) {
             this.timeConfig[key].text = 'Moderate';
           } else {
             this.timeConfig[key].text = 'High';
