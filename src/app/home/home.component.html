@@ -1,88 +1,97 @@
 <div class="card mb-5">
-    <div class="card-header">
-        <h1>Reserve a Day-Pass</h1>
-    </div>
-    <div class="card-body text-left" tabindex="2">
-        <p class="card-text">
-            The BC Parks day use pilot project is back for the 2021 season to help manage visitation levels at five of
-            our most popular day use parks.
-        </p>
-        <p>
-            Visitors are now required to reserve a day pass to visit participating parks. Depending on the park, a
-            day-use pass may not be required for all trails. If the park is open and the trail or trailhead isn’t
-            listed, you do not need to reserve a day pass. Check the park webpage at <a
-                href="https://bcparks.ca/">www.bcparks.ca</a> for details on where
-            you need a day-use pass.
-        </p>
+  <div class="card-header">
+    <h1>Reserve a Day Use Pass</h1>
+  </div>
+  <div class="card-body text-left" tabindex="2">
+    <p class="card-text">
+      The BC Parks Day Use Pilot Project is continuing for the 2021 winter
+      season to help manage visitation levels at Mount Seymour Provincial Park,
+      one of British Columbia's most popular winter day use parks.
+    </p>
+    <p class="card-text">
+      Visitors are now required to reserve an a.m. or p.m. day use parking pass
+      for their visit to Mount Seymour, as this park will have no available
+      first come, first serve parking during the day (7:00am&ndash;4:00pm) from
+      December 1, 2021 to March 31, 2022.
+    </p>
 
-        <span>
-            Important booking information:
-        </span>
-        <ul>
-            <li>
-                Bookings can be made starting at 7:00am, one day in advance of your planned visit. Same day passes will
-                be available as capacity allows.
-            </li>
-            <li>
-                Passes cannot be transferred to another date, time, or location and your pass cannot be shared beyond
-                the group reserved.
-            </li>
-        </ul>
+    <strong>Important Booking Information:</strong>
+    <ul>
+      <li>
+        Bookings can be made starting at 7:00am, two days in advance of your
+        planned visit.
+      </li>
+      <li>
+        Passes will remain available until capacity is met &mdash; additional
+        passes may be released each day at 7:00am, dependent on weather
+        conditions.
+      </li>
+      <li>
+        Passes cannot be transferred to another date, time, or location and your
+        pass cannot be shared beyond the group reserved.
+      </li>
+      <li>
+        The A.M. pass permits parking from 7:00am to noon. The P.M. pass starts
+        at noon and reserves a spot until 4:00pm. After 4:00pm, day-use parking
+        spots will be claimed on a first come, first serve basis.
+      </li>
+    </ul>
 
-        <span>
-            Pass types:
-        </span>
-        <ul>
-            <li>
-                Vehicle pass – 1 pass required per vehicle. Maximum of 8 persons (adult or child) per vehicle per day.
-            </li>
-            <li>
-                Trail pass – 1 pass required per person. Maximum of 4 passes per account per day (note: those 18 and
-                under do not require a pass when accompanied by a parent or guardian).
-            </li>
-        </ul>
+    <strong>Day Use Vehicle Pass: </strong>
+    <ul>
+      <li>
+        1 pass required per vehicle. Maximum of 8 persons (adult or child) per
+        pass per day.
+      </li>
+      <li>
+        Maximum of one A.M. and one P.M. vehicle pass can be booked per account,
+        per day.
+      </li>
+    </ul>
 
-        <span>
-            When visiting the great outdoors make sure to:
-        </span>
-        <ul>
-            <li>
-                Plan ahead. Download and use the <a href="https://www.adventuresmart.ca/trip-plan-app/">AdventureSmart
-                    trip planning app</a>.
-            </li>
-            <li>
-                Do your research and pack the essentials. Nature is unpredictable, so it’s important to be prepared for
-                anything.
-            </li>
-            <li>
-                Make a trip plan and tell someone where you are going and when you expect to be back.
-            </li>
-            <li>
-                Pack out all garbage, recyclables, and organics. Organic matter can attract wildlife.
-            </li>
-            <li>
-                Always travel within your abilities and prepare for your trip. Follow in-park signage and have your pass
-                accessible while in the park and on the trail.
-            </li>
-        </ul>
-
-        <p>
-            For more information on the day pass pilot program, including what to expect in park, please visit us at
-            <a href="https://bcparks.ca/reserve/day-use/">https://bcparks.ca/reserve/day-use/</a>.
-        </p>
-        <p>
-            <a class="btn-link" (click)="cancelPass()">Click here</a> if you would like to cancel an active pass.
-        </p>
-        <p>
-            Enjoy your visit!
-        </p>
-    </div>
+    <strong>Keys to Visiting the Great Outdoors:</strong>
+    <ul>
+      <li>
+        Plan ahead. Download and use the
+        <a href="https://www.adventuresmart.ca/trip-plan-app/"
+          >AdventureSmart trip planning app</a
+        >.
+      </li>
+      <li>
+        Nature is unpredictable; do your own research and pack the essentials -
+        be prepared for anything.
+      </li>
+      <li>
+        Share your plan with a friend. Let them know where you are going and
+        when you expect to be back.
+      </li>
+      <li>
+        Pack out all garbage, recyclables, and organics. Organic matter can
+        attract wildlife.
+      </li>
+      <li>
+        Always travel within your abilities and prepare for your trip. Follow
+        in-park signage and have your pass accessible while in the park and on
+        the trail.
+      </li>
+    </ul>
+    <p class="card-text">
+      For more information on the day pass pilot program, including what to
+      expect in park, please visit us at
+      <a href="https://bcparks.ca/reserve/day-use/"
+        >https://bcparks.ca/reserve/day-use/</a
+      >.
+    </p>
+    <p class="card-text">
+      <a class="btn-link" (click)="cancelPass()">Click here</a> if you would
+      like to cancel an active pass.
+    </p>
+    <p class="card-text">Enjoy your visit!</p>
+  </div>
 </div>
 
 <div class="card-header mb-4">
-    <h2>
-        Select a Park
-    </h2>
+  <h2>Select a Park</h2>
 </div>
 
 <app-parks-list></app-parks-list>
