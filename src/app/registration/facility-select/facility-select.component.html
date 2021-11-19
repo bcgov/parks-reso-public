@@ -4,7 +4,8 @@
         <select class="form-control"
             formControlName="passType"
             id="passType"
-            (change)="setState('date')">
+            (change)="setState('date')"
+            data-testid="passtype-select">
             <option hidden
                 disabled
                 selected
@@ -131,11 +132,13 @@
                         </div>
                         <div class="card-body">
                             <p class="card-text"
-                                *ngIf="!showTimeText('DAY')">
+                                *ngIf="!showTimeText('DAY')"
+                                data-testid="day-availability-text">
                                 -
                             </p>
                             <p class="card-text"
-                                *ngIf="showTimeText('DAY')">
+                                *ngIf="showTimeText('DAY')"
+                                data-testid="day-availability-text">
                                 Pass availability - <span [ngClass]="timeConfig.DAY.text">{{timeConfig.DAY.text}}</span>
                             </p>
                         </div>
