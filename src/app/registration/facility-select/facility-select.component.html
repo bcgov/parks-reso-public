@@ -1,6 +1,6 @@
 <form [formGroup]="myForm">
     <fieldset class="form-group">
-        <label for="passType">Pass Type (Trail or Parking)</label>
+        <label for="passType">Pass Type</label>
         <select class="form-control"
             formControlName="passType"
             id="passType"
@@ -59,7 +59,7 @@
                             <span [hidden]="!timeConfig.AM.selected"
                                 class="material-icons md-18">radio_button_checked</span>
                             &nbsp;
-                            <span class="ml-2 time-header">AM</span>
+                            <span class="ml-2 time-header">AM - (depart by noon)</span>
                         </div>
                         <div class="card-body">
                             <p class="card-text"
@@ -93,7 +93,7 @@
                             <span [hidden]="!timeConfig.PM.selected"
                                 class="material-icons md-18">radio_button_checked</span>
                             &nbsp;
-                            <span class="ml-2 time-header">PM</span>
+                            <span class="ml-2 time-header">PM - (arrival no earlier than noon)</span>
                         </div>
                         <div class="card-body">
                             <p class="card-text"
