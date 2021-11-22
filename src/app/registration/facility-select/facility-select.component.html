@@ -40,8 +40,11 @@
     <fieldset class="form-group"
         [disabled]="isDisabled('time')">
         <label for="visitDate">Booking Time</label>
+        <div *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
+            <p class="text-muted">Please select a date to see available passes for that day.</p>
+        </div>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-4" *ngIf="timeConfig.AM.offered">
                 <label>
                     <input type="radio"
                         name="visitTime"
@@ -75,7 +78,7 @@
                     </div>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" *ngIf="timeConfig.PM.offered">
                 <label>
                     <input type="radio"
                         name="visitTime"
@@ -109,7 +112,7 @@
                     </div>
                 </label>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-4" *ngIf="timeConfig.DAY.offered">
                 <label>
                     <input type="radio"
                         name="visitTime"
