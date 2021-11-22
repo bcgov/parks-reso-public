@@ -28,15 +28,18 @@ export class FacilitySelectComponent implements OnInit {
     AM: {
       selected: false,
       disabled: true,
+      offered: false,
       text: ''
     },
     PM: {
       selected: false,
+      offered: false,
       disabled: true,
       text: ''
     },
     DAY: {
       selected: false,
+      offered: false,
       disabled: true,
       text: ''
     }
@@ -93,8 +96,17 @@ export class FacilitySelectComponent implements OnInit {
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const facility = this.myForm.get('passType').value;
       const times = this.myForm.get('passType').value.bookingTimes;
+      if (times.AM) {
+        this.timeConfig.AM.offered = true;
+      }
+      if (times.PM) {
+        this.timeConfig.PM.offered = true;
+      }
+      if (times.DAY) {
+        this.timeConfig.DAY.offered = true;
+      }
       this.selectedDate = this.getBookingDateString();
-      this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unavailable';
+      this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unoffered';
       for (let key in times) {
         if (!facility.reservations[this.selectedDate]) {
           // This happens if there are no existing passes for the day.
@@ -270,16 +282,19 @@ export class FacilitySelectComponent implements OnInit {
     this.timeConfig = {
       AM: {
         selected: false,
+        offered: false,
         disabled: true,
         text: '-'
       },
       PM: {
         selected: false,
+        offered: false,
         disabled: true,
         text: '-'
       },
       DAY: {
         selected: false,
+        offered: false,
         disabled: true,
         text: '-'
       }
