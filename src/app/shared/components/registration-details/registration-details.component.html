@@ -1,11 +1,23 @@
 <div class="registration-details-container m-1"
     id="registration">
-    <h5 class="text-center">
-        <strong>Your Reservation Number:</strong>
-    </h5>
-    <h5 class="text-center mb-3">
-        {{ regData?.registrationNumber }}
-    </h5>
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h1>
+                <strong>{{ regData?.facilityName }}</strong>
+            </h1>
+            <h2>
+                <strong>{{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})</strong>
+            </h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <h2>
+                <strong>Your Reservation Number:</strong>
+            </h2>
+            <h2 class="mb-3">
+                {{ regData?.registrationNumber }}
+            </h2>
+        </div>
+    </div>
     <hr>
     <div class="row my-3">
         <div class="col-md-6 mb-3 mb-md-0">
@@ -26,10 +38,13 @@
         </div>
         <div class='col-md-6'>
             <p class="card-text">
-                <strong>Facility Name:</strong> {{ regData?.facilityName }} ({{ regData?.type}})
+                <strong>Facility Name:</strong> {{ regData?.facilityName }}
             </p>
             <p class="card-text">
                 <strong>Date:</strong> {{ regData?.date | date : 'mediumDate' }}
+            </p>
+            <p class="card-text">
+                <strong>Booking time:</strong> {{ regData?.type}}
             </p>
             <p class="card-text">
                 <strong>Number of Passes:</strong> {{ regData?.numberOfGuests }}
