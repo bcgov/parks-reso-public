@@ -158,19 +158,10 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   getBookingDateString(): string {
-    let year = this.pad(this.myForm.get('visitDate').value.year, 4);
-    let month = this.pad(this.myForm.get('visitDate').value.month, 2);
-    let day = this.pad(this.myForm.get('visitDate').value.day, 2);
-    let dateString = (`${year}${month}${day}`);
-    return dateString;
-  }
-
-  pad(num, size) {
-    num = num.toString();
-    while (num.length < size) {
-      num = '0' + num;
-    }
-    return num;
+    const { year, month, day } = this.myForm.get('visitDate').value;
+    // NgbDate uses 1-indexed months
+    const date = new Date(year, month - 1, day);
+    return date.toISOString().split('T')[0];
   }
 
   setPassesArray(): void {
