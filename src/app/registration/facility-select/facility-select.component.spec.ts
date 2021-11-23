@@ -46,7 +46,8 @@ describe('FacilitySelectComponent', () => {
       component.myForm.patchValue({
         visitDate: {
           year: visitDate.getFullYear(),
-          month: visitDate.getMonth(),
+          // NgbDate is 1-indexed, Date is 0-indexed
+          month: visitDate.getMonth() + 1,
           day: visitDate.getDate(),
         },
       });
@@ -95,7 +96,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [`${date.getFullYear()}${date.getMonth()}${date.getDate()}`]: {
+              [date.toISOString().split('T')[0]]: {
                 DAY: 25,
               },
             },
@@ -125,7 +126,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [`${date.getFullYear()}${date.getMonth()}${date.getDate()}`]: {
+              [date.toISOString().split('T')[0]]: {
                 DAY: 75,
               },
             },
@@ -155,7 +156,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [`${date.getFullYear()}${date.getMonth()}${date.getDate()}`]: {
+              [date.toISOString().split('T')[0]]: {
                 DAY: 76,
               },
             },
@@ -185,7 +186,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [`${date.getFullYear()}${date.getMonth()}${date.getDate()}`]: {
+              [date.toISOString().split('T')[0]]: {
                 DAY: 100,
               },
             },
@@ -215,7 +216,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [`${date.getFullYear()}${date.getMonth()}${date.getDate()}`]: {
+              [date.toISOString().split('T')[0]]: {
                 DAY: 110,
               },
             },
