@@ -3,8 +3,8 @@
         <h1>{{park?.name}}</h1>
     </div>
     <div class="card-body text-left">
-        <p class="card-text">
-            {{park?.description}}
+        <p class="card-text"
+            [innerHTML]="park?.description">
         </p>
         <p class="card-text">
             For more information about {{ park?.name }}, visit the BC Parks page <a href="{{ park?.bcParksLink }}"
