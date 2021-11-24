@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -11,7 +12,10 @@ export class ContactFormComponent implements OnInit {
   @Input() park;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   public myForm: FormGroup;
-  public iAgree = false;
+  public collectionNoticeCheck = false;
+  public weatherStatementCheck = false;
+  public liabilityNoticeCheck = false;
+  public assetsUrl;
   public saving = false;
 
   public months = ['January', 'February', 'March',
@@ -21,11 +25,14 @@ export class ContactFormComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private configService: ConfigService
   ) { }
 
   ngOnInit(): void {
     this.initForm();
+
+    this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
   }
 
   initForm(): void {

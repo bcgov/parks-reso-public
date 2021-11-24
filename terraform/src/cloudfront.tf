@@ -209,7 +209,7 @@ resource "aws_cloudfront_distribution" "s3_assets_distribution" {
   origin {
     domain_name = aws_s3_bucket.bcgov-parks-reso-assets.bucket_regional_domain_name
     origin_id   = var.origin_id_assets
-    origin_path = "/assets/images"
+    origin_path = "/assets"
 
     s3_origin_config {
       origin_access_identity = aws_cloudfront_origin_access_identity.parks-reso-assets-oai.cloudfront_access_identity_path
