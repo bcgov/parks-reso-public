@@ -12,12 +12,19 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/cache@v2
         with:
-          node-version: '14'
-          cache: 'npm'
-      - run: npm ci --ignore-scripts
-      - run: npm run lint
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+      
+      - run: yarn lint
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2
   
   test:
     name: Test
@@ -28,9 +35,16 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/cache@v2
         with:
-          node-version: '14'
-          cache: 'npm'
-      - run: npm ci --ignore-scripts
-      - run: npm run test-ci
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile
+
+      - run: yarn test-ci
+      - name: Cancelling workflow due to error
+        if: ${{ failure() }}
+        uses: andymckay/cancel-action@0.2

@@ -68,7 +68,7 @@ We run this step to generate env.js which a variable configEndpoint to true. Thi
 
 ## Install, build and upload to S3
 
-S3 requires the static files generated from Angular. To get these files we ```npm i``` and ```ng build```. By doing this, a directory named ```dist``` which holds the static version of the site. This dist folder is uploaded to S3.
+S3 requires the static files generated from Angular. To get these files we ```yarn install``` and ```yarn build```. By doing this, a directory named ```dist``` which holds the static version of the site. This dist folder is uploaded to S3.
 
 ## Terragrunt and Terraform Cloud
 
