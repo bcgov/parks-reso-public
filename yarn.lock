@@ -1233,10 +1233,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@digitalspace/bcparks-bootstrap-theme@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@digitalspace/bcparks-bootstrap-theme/-/bcparks-bootstrap-theme-1.0.5.tgz#704eddea25997e0c4b4749a887dfec2b88c97b29"
-  integrity sha512-tSN3PMYOpTy6O2qSOmAI7T+PIQEVzZruy3qRcWoCsxHEG/9P7kHKWODM0D9oVp823lWRkahgxdNQTFYN8P1zaw==
+"@digitalspace/bcparks-bootstrap-theme@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@digitalspace/bcparks-bootstrap-theme/-/bcparks-bootstrap-theme-1.0.6.tgz#7728b0f32d52bea2f1e9506b8b2a0fdec592fd12"
+  integrity sha512-oZ+Sq7OhViu5UZBb4W9IFizWR6yUZuLoGFEwVy6h67vj6twa55xe4kKIWv+b12S2j1BqZxF1g9q9b/psIYlnCA==
   dependencies:
     "@popperjs/core" "^2.10.2"
     bootstrap "^5.1.2"
