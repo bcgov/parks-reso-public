@@ -17,6 +17,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/dayuse/",
+            "deployUrl": "/dayuse/",
             "outputPath": "dist/parks-reso-public",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -26,6 +28,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/env.js",
+              "src/snowplow.js",
               {
                 "glob": "**/*",
                 "input": "node_modules/@digitalspace/bcparks-bootstrap-theme/dist/fonts",
