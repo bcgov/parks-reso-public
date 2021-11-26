@@ -4,6 +4,26 @@ label {
     width: 100%;
 }
 
+input[type='radio']:after{
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    content: '';
+    display: inline-block;
+    background-color: #d7dee8;
+    border: 1px solid #38598a;
+    visibility: visible;
+}
+
+input[type='radio']:checked:after {
+    background-color: #38598a;
+    border: 2px solid white;
+    visibility: visible;
+}
+
 .card-input-element {
     display: none;
 }

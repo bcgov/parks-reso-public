@@ -235,16 +235,19 @@ export class FacilitySelectComponent implements OnInit {
           this.timeConfig.AM.selected = true;
           this.timeConfig.PM.selected = false;
           this.timeConfig.DAY.selected = false;
+          this.myForm.controls['visitTime'].setValue('AM');
           break;
         case 'PM':
           this.timeConfig.AM.selected = false;
           this.timeConfig.PM.selected = true;
           this.timeConfig.DAY.selected = false;
+          this.myForm.controls['visitTime'].setValue('PM');
           break;
         case 'DAY':
           this.timeConfig.AM.selected = false;
           this.timeConfig.PM.selected = false;
           this.timeConfig.DAY.selected = true;
+          this.myForm.controls['visitTime'].setValue('DAY');
           break;
         default:
           break;
