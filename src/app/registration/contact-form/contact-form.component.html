@@ -73,13 +73,13 @@
     location and to evaluate the reservation system and process. Questions regarding this collection can be directed to:
     Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
 
-<div class="mt-2 mb-3">
-    <input type="checkbox"
-        [(ngModel)]="collectionNoticeCheck"
-        [ngModelOptions]="{standalone: true}" />
-    &nbsp;
-    <label class="ml-2">I have read and agree to the above notice <span class="text-danger">*</span></label>
-
+<div class="mt-2 mb-3">    
+    <label class="ml-2">
+        <input type="checkbox"
+            [(ngModel)]="collectionNoticeCheck"
+            [ngModelOptions]="{standalone: true}" />
+        &nbsp;I have read and agree to the above notice&nbsp;<span class="text-danger">*</span>
+    </label>
 </div>
 
 <small>Plan ahead for variations in weather.  Extreme winter conditions, including  snow and ice, can exist at any time 
@@ -88,24 +88,25 @@
     be aware of your surroundings from the moment you exit your vehicle or the shuttle bus.  Please ensure all members of 
     your party accompanying you are aware of he same information and area also prepare for winter condition.</small>
 
-<div class="mt-2 mb-3">
-    <input type="checkbox"
-        [(ngModel)]="weatherStatementCheck"
-        [ngModelOptions]="{standalone: true}" />
-    &nbsp;
-    <label class="ml-2">Please tick this box to acknowledge the above statement <span class="text-danger">*</span></label>
-
+<div class="mt-2 mb-3">    
+    <label class="ml-2">
+        <input type="checkbox"
+            [(ngModel)]="weatherStatementCheck"
+            [ngModelOptions]="{standalone: true}" />
+        &nbsp;Please tick this box to acknowledge the above statement&nbsp;<span class="text-danger">*</span>
+    </label>
 </div>
 
 <small><a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">Exclusion of Liability Notice</a></small>
 
-<div class="mt-2">
-    <input type="checkbox"
-        [(ngModel)]="liabilityNoticeCheck"
-        [ngModelOptions]="{standalone: true}" />
-    &nbsp;
-    <label class="ml-2">I have READ and AGREE to the Exclusion of Liability Notice above <span class="text-danger">*</span></label>
-
+<div class="mt-2">    
+    <label class="ml-2">
+        <input type="checkbox"
+            [(ngModel)]="liabilityNoticeCheck"
+            [ngModelOptions]="{standalone: true}" />
+        &nbsp;
+        I have READ and AGREE to the Exclusion of Liability Notice above&nbsp;<span class="text-danger">*</span>
+    </label>
 </div>
 
 <div class="d-flex justify-content-end">
