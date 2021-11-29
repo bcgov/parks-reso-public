@@ -45,10 +45,9 @@ describe('FacilitySelectComponent', () => {
 
       component.myForm.patchValue({
         visitDate: {
-          year: visitDate.getFullYear(),
-          // NgbDate is 1-indexed, Date is 0-indexed
-          month: visitDate.getMonth() + 1,
-          day: visitDate.getDate(),
+          year: visitDate.toLocaleString('en-US', { year: 'numeric', timeZone: 'America/Vancouver' }),
+          month: visitDate.toLocaleString('en-US', { month: 'numeric', timeZone: 'America/Vancouver' }),
+          day: visitDate.toLocaleString('en-US', { day: 'numeric', timeZone: 'America/Vancouver' }),
         },
       });
 
@@ -73,7 +72,7 @@ describe('FacilitySelectComponent', () => {
             type: 'Parking',
           },
         ],
-        new Date()
+        new Date('2021-11-23T20:02:00.000-08:00')
       );
 
       const textElement = fixture.debugElement.query(
@@ -85,7 +84,7 @@ describe('FacilitySelectComponent', () => {
     });
 
     it('should show high availability with 75% of spots available', () => {
-      const date = new Date();
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
       setupVisitTimeState(
         [
           {
@@ -96,7 +95,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [date.toISOString().split('T')[0]]: {
+              '2021-11-23': {
                 DAY: 25,
               },
             },
@@ -115,7 +114,7 @@ describe('FacilitySelectComponent', () => {
     });
 
     it('should show moderate availability with 25% of spots available', () => {
-      const date = new Date();
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
       setupVisitTimeState(
         [
           {
@@ -126,7 +125,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [date.toISOString().split('T')[0]]: {
+              '2021-11-23': {
                 DAY: 75,
               },
             },
@@ -145,7 +144,7 @@ describe('FacilitySelectComponent', () => {
     });
 
     it('should show low availability with 24% of spots available', () => {
-      const date = new Date();
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
       setupVisitTimeState(
         [
           {
@@ -156,7 +155,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [date.toISOString().split('T')[0]]: {
+              '2021-11-23': {
                 DAY: 76,
               },
             },
@@ -175,7 +174,7 @@ describe('FacilitySelectComponent', () => {
     });
 
     it('should show as full with no spots available', () => {
-      const date = new Date();
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
       setupVisitTimeState(
         [
           {
@@ -186,7 +185,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [date.toISOString().split('T')[0]]: {
+              '2021-11-23': {
                 DAY: 100,
               },
             },
@@ -205,7 +204,7 @@ describe('FacilitySelectComponent', () => {
     });
 
     it('should show as full when overbooked', () => {
-      const date = new Date();
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
       setupVisitTimeState(
         [
           {
@@ -216,7 +215,7 @@ describe('FacilitySelectComponent', () => {
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
             reservations: {
-              [date.toISOString().split('T')[0]]: {
+              '2021-11-23': {
                 DAY: 110,
               },
             },
