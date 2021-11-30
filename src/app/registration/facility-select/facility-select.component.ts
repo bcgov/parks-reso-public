@@ -17,8 +17,6 @@ export class FacilitySelectComponent implements OnInit {
 
   public myForm: FormGroup;
   public canSubmit = false;
-  public minDate = new Date();
-  public maxDate = new Date();
   public openFacilities = [];
   public closedFacilities = [];
   public passesAvailable = [];
@@ -46,8 +44,8 @@ export class FacilitySelectComponent implements OnInit {
   };
 
   // typically imported from configService, below are default values if no configService
-  public openingHour = 7;
-  public dateLimit = 1;
+  public defaultOpeningHour = 7;
+  public defaultDateLimit = 1;
   public trailPassLimit = 4;
   public parkingPassLimit = 1;
 
@@ -65,13 +63,37 @@ export class FacilitySelectComponent implements OnInit {
     if (this.configService) {
       this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT'];
       this.parkingPassLimit = this.configService.config['PARKING_PASS_LIMIT'];
-      this.dateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
-      this.openingHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
+      this.defaultDateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
+      this.defaultOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
     }
     this.initForm();
     this.checkPassType();
-    this.setAvailableDates();
     this.setFacilitiesArrays();
+  }
+
+  get minDate(): Date {
+    return new Date();
+  }
+
+  get maxDate(): Date {
+    const date = new Date();
+    const facility = this.myForm.get('passType').value;
+    const bookingOpeningHour = (facility && facility.bookingOpeningHour) || this.defaultOpeningHour;
+    const bookingDaysAhead = (facility && facility.bookingDaysAhead) || this.defaultDateLimit;
+
+    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
+    const currentHour = date.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
+    let daysAhead: number;
+    // if it is after the opening time in America/Vancouver, allow booking the full window.
+    // Otherwise, subtract 1 from the window.
+    if (parseInt(currentHour, 10) >= bookingOpeningHour) {
+      daysAhead = bookingDaysAhead;
+    } else {
+      daysAhead = bookingDaysAhead - 1;
+    }
+    date.setDate(date.getDate() + daysAhead);
+
+    return date;
   }
 
   setFacilitiesArrays() {
@@ -205,15 +227,6 @@ export class FacilitySelectComponent implements OnInit {
     }
   }
 
-  setAvailableDates(): void {
-    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    const currentHour = new Date().toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
-    // if it is after 'openingHour' in America/Vancouver, allow booking up to 'dateLimit' days in advance
-    if (parseInt(currentHour, 10) >= this.openingHour) {
-      this.maxDate.setDate(this.maxDate.getDate() + this.dateLimit);
-    }
-  }
-
   checkPassType(): string {
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.type) {
       return this.myForm.get('passType').value.type;
@@ -235,16 +248,19 @@ export class FacilitySelectComponent implements OnInit {
           this.timeConfig.AM.selected = true;
           this.timeConfig.PM.selected = false;
           this.timeConfig.DAY.selected = false;
+          this.myForm.controls['visitTime'].setValue('AM');
           break;
         case 'PM':
           this.timeConfig.AM.selected = false;
           this.timeConfig.PM.selected = true;
           this.timeConfig.DAY.selected = false;
+          this.myForm.controls['visitTime'].setValue('PM');
           break;
         case 'DAY':
           this.timeConfig.AM.selected = false;
           this.timeConfig.PM.selected = false;
           this.timeConfig.DAY.selected = true;
+          this.myForm.controls['visitTime'].setValue('DAY');
           break;
         default:
           break;
