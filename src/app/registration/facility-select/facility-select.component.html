@@ -30,7 +30,8 @@
         <div class="row row-cols-1 row cols-md-3 g-4">
             <div class="col-lg-4" *ngIf="timeConfig.AM.offered">
                 <div class="card h-100 card-primary card-input" (click)="onTimeChange('AM')"
-                    [class.enable-pointer]="!timeConfig.AM.disabled">
+                    [class.enable-pointer]="!timeConfig.AM.disabled"
+                    [class.card-enabled]="!timeConfig.AM.disabled">
                     <div class="card-header"
                         [class.card-header-selected]="timeConfig.AM.selected && !timeConfig.AM.disabled"
                         [class.card-header-enabled]="!timeConfig.AM.disabled && !timeConfig.AM.selected"
@@ -39,7 +40,7 @@
                             <input type="radio" id="visitTimeAM" name="visitTime" class="custom-control-label"
                                 formControlName="visitTime" value="AM" (change)="onTimeChange('AM')" />
                             &nbsp;
-                            <span class="ml-2 time-header">AM - (depart by noon)</span>
+                            <span class="ml-2 time-header">AM</span>
                         </label>
                     </div>
                     <div class="card-body">
@@ -49,12 +50,16 @@
                         <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('AM')">
                             Pass availability - <span [ngClass]="timeConfig.AM.text">{{timeConfig.AM.text}}</span>
                         </p>
+                        <p class="card-text">
+                            7am&ndash;12pm (Depart by noon)
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4" *ngIf="timeConfig.PM.offered">
                 <div class="card h-100 card-primary card-input" (click)="onTimeChange('PM')"
-                    [class.enable-pointer]="!timeConfig.PM.disabled">
+                    [class.enable-pointer]="!timeConfig.PM.disabled"
+                    [class.card-enabled]="!timeConfig.PM.disabled">                    
                     <div class="card-header"
                         [class.card-header-selected]="timeConfig.PM.selected && !timeConfig.PM.disabled"
                         [class.card-header-enabled]="!timeConfig.PM.disabled && !timeConfig.PM.selected"
@@ -63,7 +68,7 @@
                             <input type="radio" id="visitTimePM" name="visitTime" class="custom-control-label"
                                 formControlName="visitTime" value="PM" (change)="onTimeChange('PM')" />
                             &nbsp;
-                            <span class="ml-2 time-header">PM - (arrival no earlier than noon)</span>
+                            <span class="ml-2 time-header">PM</span>
                         </label>
                     </div>
                     <div class="card-body">
@@ -73,12 +78,16 @@
                         <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('PM')">
                             Pass availability - <span [ngClass]="timeConfig.PM.text">{{timeConfig.PM.text}}</span>
                         </p>
+                        <p class="card-text">
+                            12pm&ndash;4pm (Arrive no earlier than noon)
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4" *ngIf="timeConfig.DAY.offered">
                 <div class="card h-100 card-primary card-input" (click)="onTimeChange('DAY')"
-                    [class.enable-pointer]="!timeConfig.DAY.disabled">
+                    [class.enable-pointer]="!timeConfig.DAY.disabled"
+                    [class.card-enabled]="!timeConfig.DAY.disabled">
                     <div class="card-header"
                         [class.card-header-selected]="timeConfig.DAY.selected && !timeConfig.DAY.disabled"
                         [class.card-header-enabled]="!timeConfig.DAY.disabled && !timeConfig.DAY.selected"
@@ -97,6 +106,9 @@
                         <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('DAY')">
                             
                             Pass availability - <span [ngClass]="timeConfig.DAY.text">{{timeConfig.DAY.text}}</span>
+                        </p>
+                        <p class="card-text">
+                            Arrive and depart within park operating hours.
                         </p>
                     </div>
                 </div>
