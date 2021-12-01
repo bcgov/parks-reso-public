@@ -5,7 +5,7 @@ label {
 }
 
 .card-enabled:hover{
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
   }
 
 input[type='radio']:after{
@@ -18,7 +18,7 @@ input[type='radio']:after{
     content: '';
     display: inline-block;
     background-color: white;
-    border: 1px solid #38598a;
+    border: 2px solid #003366;
     visibility: visible;
 }
 
@@ -40,7 +40,7 @@ input[type='radio']:checked:after {
 }
 
 .card-header-enabled {
-    background-color: $bg-header-secondary !important;
+    background-color: white !important;
     color: $bg-primary;
     text-align: left;
 }

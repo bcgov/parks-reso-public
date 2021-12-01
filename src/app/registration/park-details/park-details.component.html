@@ -1,28 +1,14 @@
-<div class="card mb-5">
-    <div class="card-header">
-        <h1>{{park?.name}}</h1>
-    </div>
-    <div class="card-body text-left">
-        <p class="card-text"
-            [innerHTML]="park?.description">
-        </p>
-        <p class="card-text">
-            For more information about {{ park?.name }}, visit the BC Parks page <a href="{{ park?.bcParksLink }}"
-                class="btn-link" target="_blank">here.</a>
-        </p>
-    </div>
-    <div class="card-footer text-left">
-        <p>
-            Passes are available to book starting at 7:00am, two days in advance of your planned visit. They will remain
-            available until capacity is met - additional passes <em>may</em> be made available each day at 7:00am. Once
-            reserved,
-            passes cannot be transferred to another date, time, or location and your pass cannot be shared beyond the
-            group reserved. Please cancel according to the instructions in your confirmation email if the passes you’ve
-            reserved are no longer needed. 
-        </p>
-        <p>
-            Always travel within your ability and prepare for your trip. Follow in-park signage and have your pass
-            available when you arrive to the park.  
-        </p>
-    </div>
-</div>
+<h1>
+    {{park?.name}}
+</h1>
+
+<p [innerHTML]="park?.description"></p>
+
+<p>
+    For more information about {{park?.name}} visit BC Parks.
+</p>
+
+<img class="img-fluid rounded"
+    src="{{url}}"
+    onerror="this.onerror=null;this.src='assets/images/image-not-found.svg';"
+    alt="{{altText}}" />

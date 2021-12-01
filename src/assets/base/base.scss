@@ -25,6 +25,13 @@ html {
     cursor: pointer;
 }
 
+.btn-primary {
+    background-color: #003366;
+    font-weight: bold;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
 .error-container {
     background-color: #f2dede;
     border: 1px solid #ebccd1;
@@ -120,4 +127,9 @@ html {
 
 .form-group {
     padding-bottom: 1rem;
+}
+
+.btn-link {
+    text-decoration: none !important;
+    color: #003366 !important;
 }

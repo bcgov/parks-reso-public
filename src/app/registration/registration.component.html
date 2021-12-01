@@ -1,5 +1,8 @@
-<div *ngIf="state !== 'success'" class="mb-3">
-    <button type="button" class="btn btn-primary" (click)="navigate()">
+<div *ngIf="state !== 'success'"
+    class="container mt-5 mb-2">
+    <button type="button"
+        class="btn btn-link"
+        (click)="navigate()">
         <span class="material-icons align-text-bottom">
             arrow_back
         </span>
@@ -9,26 +12,52 @@
         </span>
     </button>
 </div>
-<app-park-details *ngIf="state === 'facility-select' && !error" [park]="park"></app-park-details>
-<div *ngIf="loading && !error" class=" text-center">
+<!-- <div *ngIf="loading && !error"
+    class=" text-center">
     <span class="material-icons md-48 spinner rotating">
         autorenew
     </span>
-</div>
+</div> -->
 <section *ngIf="error">
     <p>
         Please contact <a href="mailto:parkinfo@Victoria1.gov.bc.ca">parkinfo@Victoria1.gov.bc.ca</a> if you continue to
         experience issues.
     </p>
 </section>
-<section *ngIf="!error && !loading">
+<div class="container"
+    *ngIf="!error">
+    <!-- Facility select page -->
     <div *ngIf="state === 'facility-select'">
-        <app-facility-select [facilities]="facilities" (emitter)="getFacilityFormObj($event);">
-        </app-facility-select>
+        <div class="row">
+            <div class="col-6 left-col">
+                <app-park-details [park]="park"></app-park-details>
+            </div>
+            <div class="col-6 right-col">
+                <app-facility-select *ngIf="!loading"
+                    [facilities]="facilities"
+                    (emitter)="getFacilityFormObj($event);">
+                </app-facility-select>
+                <div *ngIf="loading"
+                    class="text-center loading-container">
+                    <span class="material-icons md-48 spinner rotating">
+                        autorenew
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <app-guidelines></app-guidelines>
     </div>
-    <app-contact-form [park]="park" [passData]="facilityFormObj" (emitter)="getContactFormObj($event);"
+
+    <!-- Contact information page -->
+    <app-contact-form [park]="park"
+        [passData]="facilityFormObj"
+        (emitter)="getContactFormObj($event);"
         *ngIf="state === 'contact-form'">
     </app-contact-form>
-    <app-success [regData]="submitRes" *ngIf="state === 'success'"></app-success>
+
+    <!-- Success -->
+    <app-success [regData]="submitRes"
+        *ngIf="state === 'success'"></app-success>
     <app-failure *ngIf="state === 'failure'"></app-failure>
-</section>
+</div>

@@ -1,4 +1,6 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ConfigService } from 'src/app/services/config.service';
 import { RegistrationModule } from '../registration.module';
 
 import { ParkDetailsComponent } from './park-details.component';
@@ -9,10 +11,15 @@ describe('ParkDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ParkDetailsComponent ],
-      imports: [RegistrationModule]
+      declarations: [ParkDetailsComponent],
+      imports: [RegistrationModule],
+      providers: [
+        ConfigService,
+        HttpClient,
+        HttpHandler
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
+import { GuidelinesComponent } from './guidelines/guidelines.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FailureComponent } from './failure/failure.component';
     ContactFormComponent,
     SuccessComponent,
     FailureComponent,
+    GuidelinesComponent
   ],
   imports: [
     CommonModule,
