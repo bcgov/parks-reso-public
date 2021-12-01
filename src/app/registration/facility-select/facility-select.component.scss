@@ -4,6 +4,10 @@ label {
     width: 100%;
 }
 
+.card-enabled:hover{
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
 input[type='radio']:after{
     width: 16px;
     height: 16px;
@@ -13,14 +17,15 @@ input[type='radio']:after{
     position: relative;
     content: '';
     display: inline-block;
-    background-color: #d7dee8;
+    background-color: white;
     border: 1px solid #38598a;
     visibility: visible;
 }
 
 input[type='radio']:checked:after {
-    background-color: #38598a;
-    border: 2px solid white;
+    outline: 2px solid white;
+    background-color: white;
+    border: 4px solid #38598a;
     visibility: visible;
 }
 
@@ -30,8 +35,7 @@ input[type='radio']:checked:after {
 
 .card-header-selected {
     background-color: $bg-primary !important;
-    color: #f8f9fa;
-    box-shadow: 0 0 1px 1px $bg-primary !important;
+    color: white;
     text-align: left;
 }
 
