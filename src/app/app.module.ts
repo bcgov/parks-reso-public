@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { ParkService } from './services/park.service';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from './services/toast.service';
+import { CaptchaDataService } from './services/captcha-data.service';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -56,7 +58,8 @@ export function initConfig(configService: ConfigService) {
       {
         positionClass: 'toast-top-center'
       }
-    )
+    ),
+    FormsModule
   ],
   exports: [
     CardComponent
@@ -75,7 +78,8 @@ export function initConfig(configService: ConfigService) {
     EventService,
     ParkService,
     FacilitiesResolverService,
-    ToastService
+    ToastService,
+    CaptchaDataService
   ],
   bootstrap: [AppComponent]
 })

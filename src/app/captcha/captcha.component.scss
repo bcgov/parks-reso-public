@@ -1,0 +1,43 @@
+@import "/src/assets/themes/default.scss";
+
+.captcha-container {
+  max-width: 350px;
+
+  .captcha-image {
+    display: inline-block;
+    border: 1px solid gray;
+    width: fit-content;
+    margin-right: 8px;
+    margin-top: 8px;
+    width: 190px;
+    height: 70px;
+  }
+
+  .captcha-buttons-container {
+    height: 70px;
+    width: 150px;
+    margin-top: 8px;
+
+    button {
+      width: 100%;
+      height: 34px;
+      padding: 0;
+
+      .material-icons {
+        font-size: 22px;
+        color: white;
+      }
+    }
+  }
+
+  .captcha-valid {
+    .material-icons {
+        font-size: 48px;
+        color: $success;
+      }
+  }
+
+  .error-container {
+      padding: 8px;
+  }
+}

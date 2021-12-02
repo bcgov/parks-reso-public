@@ -4,6 +4,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { ContactFormComponent } from './contact-form.component';
+import { CaptchaDataService } from '../../services/captcha-data.service';
 
 describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
@@ -13,7 +14,7 @@ describe('ContactFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [SharedModule, HttpClientTestingModule],
-      providers: [ConfigService]
+      providers: [ConfigService, CaptchaDataService]
     })
     .compileComponents();
   });

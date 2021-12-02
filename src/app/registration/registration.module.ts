@@ -9,6 +9,7 @@ import { ContactFormComponent } from './contact-form/contact-form.component';
 import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
+import { CaptchaComponent } from '../captcha/captcha.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { GuidelinesComponent } from './guidelines/guidelines.component';
     ContactFormComponent,
     SuccessComponent,
     FailureComponent,
-    GuidelinesComponent
+    GuidelinesComponent,
+    CaptchaComponent,
   ],
   imports: [
     CommonModule,
