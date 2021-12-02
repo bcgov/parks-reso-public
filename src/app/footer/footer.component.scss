@@ -12,10 +12,13 @@
   z-index: 5;
 
   .container {
-    padding-top: 1.5rem;
-    padding-right: 1.5rem;
-    padding-bottom: 1.5rem;
-    padding-left: 1.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .container-top {
+    padding-top: 2.5rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
 
   section {
@@ -44,11 +47,18 @@
 
   ul {
     padding: 0;
-    font-size: 0.875rem;
+
     list-style-type: none;
 
     li {
       margin-bottom: 0.25rem;
+      font-family: BC Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.72);
     }
   }
 
@@ -70,10 +80,10 @@
   }
 
   .footer-admin {
-  text-align: center;
+    text-align: bottom;
 
     .gov-links {
-      text-align: center;
+      text-align: left;
       margin: 0;
       padding: 0;
 
@@ -88,7 +98,7 @@
           display: inline-block;
           margin-left: 0.5rem;
           margin-right: 0.25rem;
-          content: '|';
+          content: "|";
         }
 
         &:last-child {
@@ -117,7 +127,15 @@
   }
 }
 
-.app-footer--sm  {
+.bc-parks-title {
+  height: 2rem;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid $bcgold;
+}
+
+.app-footer--sm {
   right: 0;
   bottom: 0;
   left: 0;

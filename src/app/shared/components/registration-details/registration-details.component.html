@@ -1,54 +1,79 @@
-<div class="registration-details-container m-1"
-    id="registration">
-    <div class="row">
-        <div class="col-md-6 text-center">
-            <h1>
-                <strong>{{ regData?.facilityName }}</strong>
-            </h1>
-            <h2>
-                <strong>{{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})</strong>
-            </h2>
-        </div>
-        <div class="col-md-6 text-center">
-            <h2>
-                <strong>Your Reservation Number:</strong>
-            </h2>
-            <h2 class="mb-3">
-                {{ regData?.registrationNumber }}
-            </h2>
-        </div>
+<div class="registration-details-container m-1" id="registration">
+    <div class="text-center my-5">
+        <h1>
+            <strong>{{ regData?.facilityName }}</strong>
+        </h1>
+        <h2>
+            <strong>{{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})</strong>
+        </h2>
+        <p class="text-muted">
+            Your Reservation Number:
+        </p>
+        <h2 class="mb-3">
+            {{ regData?.registrationNumber }}
+        </h2>
     </div>
-    <hr>
-    <div class="row my-3">
-        <div class="col-md-6 mb-3 mb-md-0">
-            <p class="card-text">
-                <strong>Name:</strong> {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
-                regData.lastName : '-'}}
-            </p>
-            <p class="card-text">
-                <strong>Email:</strong> {{ regData?.email }}
-            </p>
-            <p class="card-text">
-                <strong>Phone:</strong> {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
-            </p>
-            <p *ngIf="regData?.license"
-                class="card-text">
-                <strong>License Plate:</strong> {{ regData?.license }}
-            </p>
-        </div>
-        <div class='col-md-6'>
-            <p class="card-text">
-                <strong>Facility Name:</strong> {{ regData?.facilityName }}
-            </p>
-            <p class="card-text">
-                <strong>Date:</strong> {{ regData?.date | date : 'mediumDate' }}
-            </p>
-            <p class="card-text">
-                <strong>Booking time:</strong> {{ regData?.type}}
-            </p>
-            <p class="card-text">
-                <strong>Number of Passes:</strong> {{ regData?.numberOfGuests }}
-            </p>
+
+    <div class="container reservation-info">
+        <div class="row my-3">
+            <div class='col-md-6'>
+                <div>
+                    <p class="card-text text-muted">
+                        Facility Name
+                    </p>
+                    <h3>
+                        {{ regData?.facilityName }}
+                    </h3>
+                    <hr>
+                </div>
+                <div>
+                    <p class="card-text text-muted">
+                        Date
+                    </p>
+                    <h3>
+                        {{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})
+                    </h3>
+                    <hr>
+                </div>
+                <div>
+                    <p class="card-text text-muted">
+                        Number of Passes
+                    </p>
+                    <h3>
+                        {{ regData?.numberOfGuests }}
+                    </h3>
+                    <hr class="d-sm-block d-md-none">
+                </div>
+            </div>
+            <div class='col-md-6'>
+                <div>
+                    <p class="card-text text-muted">
+                        Name
+                    </p>
+                    <h3>
+                        {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+                        regData.lastName : '-'}}
+                    </h3>
+                    <hr>
+                </div>
+                <div>
+                    <p class="card-text text-muted">
+                        Email
+                    </p>
+                    <h3>
+                        {{ regData?.email }}
+                    </h3>
+                    <hr>
+                </div>
+                <div>
+                    <p class="card-text text-muted">
+                        Phone
+                    </p>
+                    <h3>
+                        {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
+                    </h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>
