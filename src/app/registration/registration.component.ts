@@ -137,6 +137,7 @@ export class RegistrationComponent implements OnInit {
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
+    obj.captchaJwt = this.regData.captchaJwt;
 
     // Optional fields:
     if (this.regData.phone) {

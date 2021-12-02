@@ -52,6 +52,8 @@ export class PostPass {
     facilityName: string;
     parkName: string;
 
+    captchaJwt: string;
+
     constructor(obj?: any) {
         this.email = obj && obj.email || null;
         this.firstName = obj && obj.firstName || null;
@@ -66,5 +68,7 @@ export class PostPass {
 
         this.facilityName = obj && obj.facilityName || null;
         this.parkName = obj && obj.parkName || null;
+
+        this.captchaJwt = obj?.captchaJwt || null;
     }
 }

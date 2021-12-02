@@ -1,0 +1,54 @@
+<div class="captcha-container mb-2">
+  <div *ngIf="state === 'loading'">
+    <span class="material-icons md-24 spinner rotating">autorenew</span>
+    Loading new CAPTCHA...
+  </div>
+  <div *ngIf="state !== 'loading' && state !== 'error' && state !== 'valid'">
+    <div class="d-flex flex-row flex-wrap">
+      <div class="captcha-image" [innerHTML]="captchaImage"></div>
+      <div class="d-flex flex-column justify-content-between captcha-buttons-container">
+        <button type="button" class="btn btn-primary btn-sm" (click)="playAudio()">
+          <span class="material-icons align-text-bottom" *ngIf="!fetchingAudio">play_circle_outline</span>
+          <span class="material-icons align-text-bottom spinner rotating" *ngIf="fetchingAudio">autorenew</span>
+          &nbsp;
+          <span>Play Audio</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="newCaptcha()">
+          <span class="material-icons align-text-bottom">refresh</span>
+          &nbsp;
+          <span>Try New Image</span>
+        </button>
+      </div>
+    </div>
+    <div class="captcha-input-container mt-2" *ngIf="state !== 'verifying'">
+      <div class="form-group">
+        <label for="answer">Enter the letters or numbers you see or hear</label>
+        <input
+          class="form-control"
+          [class.is-invalid]="state === 'invalid'"
+          type="text"
+          name="answer"
+          placeholder="Enter captcha"
+          [(ngModel)]="answer"
+          (input)="answerChanged($event)" />
+        <div class="invalid-feedback">Incorrect answer, please try again.</div>
+      </div>
+    </div>
+    <div *ngIf="state === 'verifying'" class="mt-2">
+      <span class="material-icons spinner rotating">autorenew</span>
+      Verifying CAPTCHA...
+    </div>
+  </div>
+  <div *ngIf="state === 'valid'" class="captcha-valid">
+    <span class="material-icons success align-text-bottom">check</span>
+    CAPTCHA verified.
+  </div>
+  <div *ngIf="state === 'error'" class="error-container">
+    <span class="material-icons align-text-bottom">error</span>
+    Error loading CAPTCHA, please retry.
+    <div class="d-grid">
+      <button type="button" class="btn btn-primary btn-sm" (click)="newCaptcha()">Try Again</button>
+    </div>
+  </div>
+  <audio #audioElement [src]="captchaAudio"></audio>
+</div>

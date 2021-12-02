@@ -137,6 +137,10 @@
             </label>
         </div>
 
+        <div class="mt-4">
+            <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
+        </div>
+
         <div class="d-flex justify-content-end my-5">
             <button type="button"
                 [disabled]="myForm.status === 'INVALID' || !collectionNoticeCheck || !weatherStatementCheck || !liabilityNoticeCheck || saving"

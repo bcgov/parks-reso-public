@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfigService } from 'src/app/services/config.service';
 
@@ -17,6 +17,7 @@ export class ContactFormComponent implements OnInit {
   public liabilityNoticeCheck = false;
   public assetsUrl;
   public saving = false;
+  public captchaJwt: string;
 
   public months = ['January', 'February', 'March',
     'April', 'May', 'June',
@@ -26,7 +27,8 @@ export class ContactFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private changeDetectionRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -80,8 +82,14 @@ export class ContactFormComponent implements OnInit {
       lastName: this.myForm.get('lastName').value,
       email: this.myForm.get('email').value,
       phone: this.myForm.get('phone').value,
-      license: this.myForm.get('license').value
+      license: this.myForm.get('license').value,
+      captchaJwt: this.captchaJwt
     };
     this.emitter.emit(obj);
+  }
+
+  captchaValidated(event): void {
+    this.captchaJwt = event;
+    this.changeDetectionRef.detectChanges();
   }
 }
