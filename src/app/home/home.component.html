@@ -1,7 +1,7 @@
 <div class="header-container">
   <div class="container">
-    <div class="row">
-      <div class="col-6 my-5">
+    <div class="row py-5">
+      <div class="col-md-6 col-sm-12">
         <h1>Reserve a Day Use Pass</h1>
         <p>
           The BC Parks Day Use Pilot Project is continuing for the 2021 winter season to help manage visitation levels
@@ -16,8 +16,8 @@
           during the day (7:00am–4:00pm) from December 7, 2021 to March 31, 2022.
         </p>
       </div>
-      <div class="col-6">
-        <div class="camp-car my-5">
+      <div class="col-md-6 col-sm-12">
+        <div class="camp-car">
           <img src="assets/images/camp-car.png"
             class="img-fluid"
             alt="...">
@@ -43,7 +43,7 @@
         </button>
       </h2>
       <div id="collapseOne"
-        class="accordion-collapse collapse collapsed"
+        class="accordion-collapse collapse show"
         aria-labelledby="headingOne"
         data-bs-parent="#accordionExample">
         <div class="accordion-body">
@@ -72,7 +72,7 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-8">
+    <div class="col-md-8 col-sm-12 mb-2">
       <h2>
         Select a Park
       </h2>
@@ -83,7 +83,7 @@
         A.M. and one P.M. vehicle pass can be booked per account, per day.
       </p>
     </div>
-    <div class="col-4 d-flex justify-content-end">
+    <div class="col-md-4 col-sm-12 d-flex justify-content-end">
       <a [routerLink]="['/pass-lookup/']">
         Cancel an active pass
       </a>
@@ -91,7 +91,7 @@
   </div>
 </div>
 
-<div class="container mt-5">
+<div class="container mt-1">
   <app-parks-list></app-parks-list>
 </div>
 
@@ -101,8 +101,8 @@
   </h2>
   <div class="visiting-container rounded">
     <div class="container px-4 py-5">
-      <div class="row row-cols-3 gy-3">
-        <div class="col">
+      <div class="row gy-3">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
@@ -120,7 +120,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
@@ -137,7 +137,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
@@ -154,7 +154,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
@@ -173,7 +173,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
@@ -190,7 +190,7 @@
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-sm-12 col-md-6 col-lg-4">
           <div class="row">
             <div class="col-2">
               <div class="numberCircle">
