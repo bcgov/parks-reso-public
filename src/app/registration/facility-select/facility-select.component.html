@@ -44,14 +44,13 @@
     </fieldset>
     <div class="form-group">
         <label for="visitDate">Visit Date</label>
-        <app-date-picker [control]="myForm.controls.visitDate"
-            [isValidate]="true"
-            [minDate]="minDate"
-            (formChangeEvent)="setState('time')"
-            (clearEvent)="resetTimeConfig()"
-            [maxDate]="maxDate"
-            [isDisabled]="isDisabled('date')">
+        <app-date-picker [control]="myForm.controls.visitDate" [isValidate]="true" [minDate]="minDate"
+            (formChangeEvent)="setState('time')" (clearEvent)="resetTimeConfig()" [maxDate]="maxDate"
+            [isDisabled]="isDisabled('date') || (!isOpeningHourPast && bookingDaysAhead < 1)">
         </app-date-picker>
+        <small *ngIf="!isDisabled('date') && !isOpeningHourPast && bookingDaysAhead < 1" class="form-text text-muted">
+            Passes are not yet available to book for this facility.
+        </small>
     </div>
     <fieldset class="form-group"
         [disabled]="isDisabled('time')">

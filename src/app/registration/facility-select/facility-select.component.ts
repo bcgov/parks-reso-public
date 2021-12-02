@@ -71,27 +71,50 @@ export class FacilitySelectComponent implements OnInit {
     this.setFacilitiesArrays();
   }
 
+  get bookingDaysAhead(): number {
+    const facility = this.myForm.get('passType').value;
+    let bookingDaysAhead = this.defaultDateLimit;
+
+    if (facility && (facility.bookingDaysAhead || facility.bookingDaysAhead === 0)) {
+      bookingDaysAhead = facility.bookingDaysAhead;
+    }
+
+    return bookingDaysAhead;
+  }
+
+  get bookingOpeningHour(): number {
+    const facility = this.myForm.get('passType').value;
+    let bookingOpeningHour = this.defaultOpeningHour;
+
+    if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
+      bookingOpeningHour = facility.bookingOpeningHour;
+    }
+
+    return bookingOpeningHour;
+  }
+
+  get isOpeningHourPast(): boolean {
+    const date = new Date();
+    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
+    const currentHour = date.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
+    return Boolean(parseInt(currentHour, 10) >= this.bookingOpeningHour);
+  }
+
   get minDate(): Date {
     return new Date();
   }
 
   get maxDate(): Date {
     const date = new Date();
-    const facility = this.myForm.get('passType').value;
-    const bookingOpeningHour = (facility && facility.bookingOpeningHour) || this.defaultOpeningHour;
-    const bookingDaysAhead = (facility && facility.bookingDaysAhead) || this.defaultDateLimit;
+    const bookingDaysAhead = this.bookingDaysAhead;
 
-    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    const currentHour = date.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
-    let daysAhead: number;
     // if it is after the opening time in America/Vancouver, allow booking the full window.
     // Otherwise, subtract 1 from the window.
-    if (parseInt(currentHour, 10) >= bookingOpeningHour) {
-      daysAhead = bookingDaysAhead;
-    } else {
-      daysAhead = bookingDaysAhead - 1;
+    if (this.isOpeningHourPast) {
+      date.setDate(date.getDate() + bookingDaysAhead);
+    } else if (bookingDaysAhead > 0) {
+      date.setDate(date.getDate() + bookingDaysAhead - 1);
     }
-    date.setDate(date.getDate() + daysAhead);
 
     return date;
   }
