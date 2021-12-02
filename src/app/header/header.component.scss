@@ -94,7 +94,7 @@
 // NAVBAR
 .navbar {
     padding: 0;
-    background-color: $header-bg !important; 
+    background-color: $header-bg !important;
     z-index: 1000;
 
     .navbar-nav {
@@ -106,7 +106,7 @@
             z-index: 1001; // +1 to keep above dropdown menus
             padding: 0.875rem 1rem;
             border-top: 1px solid $mn-border-color;
-            color: #fcba18;
+            color: $bcgold;
             text-transform: uppercase;
             font-size: $mn-font-size;
             font-weight: 700;
@@ -190,7 +190,7 @@
                     display: inline-block;
                 }
                 &:hover {
-                    border-bottom: 2px solid #fcba18;
+                    border-bottom: 2px solid $bcgold;
                 }
             }
 
@@ -255,6 +255,9 @@
 .bc-parks-title {
     height: 60%;
     margin-top: 10px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid $bcgold;
 }
 
 .navbar-brand__title {

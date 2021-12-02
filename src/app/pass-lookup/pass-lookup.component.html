@@ -1,5 +1,7 @@
-<div class="mb-3">
-    <button type="button" class="btn btn-primary" (click)="navigate()">
+<div class="container my-5">
+    <button type="button"
+        class="btn btn-link"
+        (click)="navigate()">
         <span class="material-icons align-text-bottom">
             arrow_back
         </span>
@@ -8,74 +10,48 @@
             {{backButtonText}}
         </span>
     </button>
-</div>
 
-<div class="card mb-4">
-    <div class="card-header">
-        <h1>{{title}}</h1>
-    </div>
-    <div class="card-body">
-        <p class="card-text">
-            Please follow these steps to cancel your reservation:
-        </p>
-        <ol>
-            <li class="mb-1"
+    <div class="mt-4 row gx-5">
+        <div class="col-6">
+            <h1>
+                {{title}}
+            </h1>
+            <p>
+                Please follow these steps to cancel your reservation:
+            </p>
+            <p
                 [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
                 When you made your reservation, you should have received an email containing a cancellation link.
                 Please follow the link in the email to the cancellation page.
-            </li>
-            <li class="mb-1" [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
+            </p>
+            <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
                 If you are arriving on this page from the cancellation link in your reservation email, please review the
                 information below relating to your reservation. If the information is correct, click '{{
                 verificationText }}'.
-            </li>
-            <li class="mb-1" *ngIf="state !== 'verified'">
+            </p>
+
+            <p *ngIf="state !== 'verified'">
                 You will be sent a second email containing a time-sensitive cancellation link. You will have a limited
                 time to click this cancellation link. This step is necessary to prevent someone else accidentally
                 cancelling your reservation.
-            </li>
-            <li class="mb-1" *ngIf="state === 'verified'" class="font-weight-bold">
+            </p>
+            <p *ngIf="state === 'verified'">
                 You have been sent a second email containing a time-sensitive cancellation link. You have a limited
                 time to click this cancellation link. This step is necessary to prevent someone else accidentally
                 cancelling your reservation.
-            </li>
+            </p>
 
-            <li class="mb-1" *ngIf="state !== 'cancelled'">
+            <p *ngIf="state !== 'cancelled'">
                 You will be redirected back to this page where your reservation will be automatically cancelled.
-            </li>
-            <li class="mb-1" *ngIf="state === 'cancelled'" class="font-weight-bold">
+            </p>
+            <p *ngIf="state === 'cancelled'">
                 Your reservation has been cancelled.
-            </li>
-        </ol>
+            </p>
+        </div>
+        <div class="col-6">
+            <img src="assets/images/hotrod.jpg"
+                class="img-fluid rounded"
+                alt="fastest car in the world">
+        </div>
     </div>
-</div>
-
-<div *ngIf="state === 'loading'" class=" text-center">
-    <span class="material-icons md-48 spinner rotating">
-        autorenew
-    </span>
-</div>
-
-<div *ngIf="state === 'not-verified'">
-    <app-alert [data]="passNotFound()"></app-alert>
-</div>
-
-<div *ngIf="state === 'not-cancelled'">
-    <app-alert [data]="passNotCancelled()"></app-alert>
-</div>
-
-<div *ngIf="state === 'cancelled'">
-    <app-alert [data]="passSuccessfullyCancelled()"></app-alert>
-</div>
-
-<div *ngIf="state === 'verify-populate' || state === 'not-verified' || state === 'not-cancelled'">
-    <app-pass-lookup-form [urlData]="urlData"></app-pass-lookup-form>
-</div>
-
-<div class="d-flex float-right mb-5" *ngIf="state === 'verify-populate'">
-    <button class="btn btn-primary" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
-</div>
-
-<div class="d-flex float-right my-3" *ngIf="state === 'not-verified' || state === 'not-cancelled'">
-    <button class="btn btn-primary" (click)="navigate()">Home</button>
 </div>

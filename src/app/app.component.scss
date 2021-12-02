@@ -10,7 +10,6 @@
     // header and footer heights
     height: calc(100% - #{$header-height} - #{$footer-height});
     width: 100%;
-    background: $bg-default;
 }
 
 .bg-dark {
@@ -32,16 +31,16 @@
 
     &:focus,
     &:hover {
-      text-decoration: underline !important;
+        text-decoration: underline !important;
     }
 }
 
 // Named Anchors
 .pg-anchor[id]:before {
-    content:" ";
-    display:block;
+    content: " ";
+    display: block;
     height: 98px;
-    margin:-98px 0 0;
+    margin: -98px 0 0;
 }
 
 .amp {
@@ -64,16 +63,8 @@
     margin-top: 60px;
 }
 
-.info-box{
+.info-box {
     background-color: $bg-info-box;
-}
-
-.main-wrapper {
-    display: table;
-    // header and footer heights
-    height: calc( 100% - #{$header-height} - #{$footer-height} );
-    width: 100%;
-    background: $bg-default;
 }
 
 .content {
@@ -89,9 +80,7 @@
         margin-top: 30px;
     }
 
-
     .content {
         padding: 120px 40px;
     }
-
 }

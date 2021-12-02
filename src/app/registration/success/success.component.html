@@ -1,43 +1,44 @@
-<div id="success"
-    class="card mb-4">
-    <div class="card-header">
-        <h1>Success, your reservation has been completed!</h1>
+<div class="container">
+
+    <div class="my-5">
+        <div class="d-flex justify-content-center my-3">
+            <h1>Success, your reservation has been completed!</h1>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="print()">Print</button>
+        </div>
     </div>
-    <div class="card-body mb-3">
-        <button type="button"
-            class="btn btn-primary"
-            (click)="print()">Print</button>
-        <br>
-        <br>
-        <app-registration-details [regData]="regData">
-        </app-registration-details>
-        <hr>
-        <p class="card-text">
-            <b>Next Steps:</b>
-        </p>
-        <p class="card-text">
-            You will receive a receipt and passes to the email address provided soon, if you do not receive an email
-            please contact <a href="mailto:parkinfo@gov.bc.ca ">parkinfo@gov.bc.ca</a> for
-            assistance.
-        </p>
-        <p class="card-text">
-            Please print or save a copy of your pass to your phone.
-        </p>
-        <p class="card-text">
-            Please check for updates (notices, closures, trail conditions) on the park webpage.
-        </p>
-        <p class="card-text">
-            Should you need to cancel your booking, a link will be provided in your email receipt.
-        </p>
-    </div>
-    <div class="card-footer text-center">
+
+
+    <app-registration-details [regData]="regData">
+    </app-registration-details>
+
+    <div class="my-5 d-flex justify-content-center">
         <p>
             We hope you enjoy your visit!
         </p>
     </div>
-</div>
-<div class="float-end">
-    <button type="button"
-        class="btn btn-primary"
-        (click)="navigate()">Home</button>
+
+    <div>
+        <h4>Next steps</h4>
+        <p>
+            You will receive a receipt and passes to the email address provided soon, if you do not receive an
+            email
+            please contact <a href="mailto:parkinfo@gov.bc.ca ">parkinfo@gov.bc.ca</a> for
+            assistance.
+        </p>
+        <p>
+            Please print or save a copy of your pass to your phone.
+        </p>
+        <p>
+            Please check for updates (notices, closures, trail conditions) on the park webpage.
+        </p>
+        <p>
+            Should you need to cancel your booking, a link will be provided in your email receipt.
+        </p>
+    </div>
+
+    <div class="my-5 d-flex justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="navigate()">Home</button>
+    </div>
 </div>

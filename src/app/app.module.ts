@@ -41,7 +41,7 @@ export function initConfig(configService: ConfigService) {
     CardComponent,
     BreadcrumbComponent,
     ParksListComponent,
-    ParksTableRowComponent
+    ParksTableRowComponent,
   ],
   imports: [
     BrowserModule,
