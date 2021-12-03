@@ -34,14 +34,14 @@ input[type='radio']:checked:after {
 }
 
 .card-header-selected {
-    background-color: $bg-primary !important;
+    background-color: $primary !important;
     color: white;
     text-align: left;
 }
 
 .card-header-enabled {
     background-color: white !important;
-    color: $bg-primary;
+    color: $primary;
     text-align: left;
 }
 
