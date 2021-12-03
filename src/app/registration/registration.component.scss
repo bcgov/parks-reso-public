@@ -1,8 +1,23 @@
 .left-col {
     border-right: 2px solid lightgray;
+    padding-left: none;
     padding-right: 4rem;
 }
 
 .right-col {
     padding-left: 4rem;
+    padding-right: none;
+}
+
+@media screen and (max-width: 992px) {
+    .left-col {
+        border-right: none;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .right-col {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }

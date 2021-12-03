@@ -59,7 +59,7 @@
   flex-shrink: 0;
   min-width: 100%;
   min-height: auto;
-  max-height:300px;
+  max-height:250px;
   object-fit: cover;
 }
 
@@ -86,4 +86,12 @@
   &:focus{
     box-shadow: none;
   }
+}
+
+@media screen and (max-width: 440px) {
+  .fill img {
+    min-width: 0%;
+    max-width: 100%;
+  }
+
 }

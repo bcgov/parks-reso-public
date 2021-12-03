@@ -1,6 +1,6 @@
-<div class="header-container">
+<div class="header-container mb-4">
   <div class="container">
-    <div class="row py-5">
+    <div class="row p-4">
       <div class="col-md-6 col-sm-12">
         <h1>Reserve a Day Use Pass</h1>
         <p>
@@ -16,18 +16,33 @@
           during the day (7:00am–4:00pm) from December 7, 2021 to March 31, 2022.
         </p>
       </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="camp-car">
+      <div class="col-md-6 col-sm-12 camp-car-container">
+        <div class="camp-card d-none d-md-block">
           <img src="assets/images/camp-car.png"
             class="img-fluid"
             alt="...">
+        </div>
+        <div class="img-blurb p-2">
+          <strong class="px-2">Vehicle Pass</strong>
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <ul>
+                <li>1 pass required per vehicle. Maximum of 8 persons (adult or child) per pass per day.</li>
+              </ul>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <ul>
+                <li>Maximum of one A.M. and one P.M. vehicle pass can be booked per account, per day.</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="container mt-5">
+<div class="container p-4 mb-4">
   <div class="accordion"
     id="accordionExample">
     <div class="accordion-item bg-warning">
@@ -70,32 +85,24 @@
   </div>
 </div>
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-8 col-sm-12 mb-2">
-      <h2>
+<div class="container px-4">
+      <h1 class="mb-0">
         Select a Park
-      </h2>
-      <p>
-        <b>Vehicle Passes:</b> 1 pass required per vehicle. Maximum of 8 persons (adult or child) per pass per day.
-        Maximum
-        of one
-        A.M. and one P.M. vehicle pass can be booked per account, per day.
-      </p>
-    </div>
-    <div class="col-md-4 col-sm-12 d-flex justify-content-end">
-      <a [routerLink]="['/pass-lookup/']">
-        Cancel an active pass
-      </a>
-    </div>
-  </div>
+      </h1>
 </div>
 
 <div class="container mt-1">
   <app-parks-list></app-parks-list>
 </div>
 
-<div class="container my-5">
+<div class="text-center mb-4">
+  <p class="mb-0"><strong>Need to cancel?</strong></p>
+  <a [routerLink]="['/pass-lookup/']">
+    Cancel an active pass
+  </a>
+</div>
+
+<div class="container p-4">
   <h2>
     Keys to Visiting the Great Outdoors
   </h2>

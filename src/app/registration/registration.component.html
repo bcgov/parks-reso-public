@@ -12,12 +12,7 @@
         </span>
     </button>
 </div>
-<!-- <div *ngIf="loading && !error"
-    class=" text-center">
-    <span class="material-icons md-48 spinner rotating">
-        autorenew
-    </span>
-</div> -->
+
 <section *ngIf="error">
     <p>
         Please contact <a href="mailto:parkinfo@Victoria1.gov.bc.ca">parkinfo@Victoria1.gov.bc.ca</a> if you continue to
@@ -29,10 +24,10 @@
     <!-- Facility select page -->
     <div *ngIf="state === 'facility-select'">
         <div class="row">
-            <div class="col-6 left-col">
+            <div class="col-md-12 col-lg-6 left-col mb-5">
                 <app-park-details [park]="park"></app-park-details>
             </div>
-            <div class="col-6 right-col">
+            <div class="col-md-12 col-lg-6 right-col">
                 <app-facility-select *ngIf="!loading"
                     [facilities]="facilities"
                     (emitter)="getFacilityFormObj($event);">
