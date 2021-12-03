@@ -1,26 +1,13 @@
 @import "@digitalspace/bcparks-bootstrap-theme/dist/scss/variables";
 
-// Main Colors - fromv BC DevHub
-$link: #007bff;
-$bg-primary: #38598a;
-$bg-secondary: #f2f2f2;
-$bg-info: #e4f2ff;
-$component: #606060;
+$info: #e3f2ff;
+$dark: #003366;
+$bg-dark: $dark;
+$bg-info: $info;
 $bg-header-secondary: #d7dee8;
-$text: #313132;
 
 // Background Colors
-$bg-dark: #003366;
-$bg-light-color: #fff;
-$bg-dark-color: #fff;
-$bg-dark-link-color: $bcgold;
-$bg-dark-border-color: #5475a7;
 $bg-default: #f1f1f1;
-$bg-info-box: #f2f2f2;
-
-// Font Colors
-$font-color: #333;
-$font-gray: #666666;
 
 // Links
 $link-color: #1a5a96;
@@ -29,16 +16,13 @@ $link-color: #1a5a96;
 $header-font-color: #fff;
 $header-bg: $bg-dark;
 $header-h1: #1a5a96;
-$header-height: 100px;
 
 // Footer
 $footer-bg: $bg-dark;
 $footer-color: #fff;
-$footer-height: 71px;
+$bg-dark-border-color: #5475a7;
 
-// Main Navigation
-$mn-font-size: 0.875rem; // 14 px
-$mn-dropdown-menu-size: 0.875rem; // 14 px
+// Main navigation
 $mn-color: #fff;
 $mn-border-color: #5f79a2;
 $mn-hover-bg: #2b4777;
@@ -46,86 +30,13 @@ $mn-hover-color: $bcgold;
 $mn-toggle-color: $bcgold;
 $mn-dropdown-bg: #2b4777;
 
-// COMPONENTS
+$custom-colors: (
+    "white": #fff,
+);
 
-// Aside
-$aside-title-color: #38598a;
-$aside-bg: #f7f8fa;
-
-// Cards
-$card-header-color: #fff;
-$card-header-bg: #38598a;
-
-// Feature Blocks
-$feature-block-color: #fff;
-$feature-block-bg: #244278;
-$feature-block-light-bg: #fff;
-$feature-block-light-color: #666;
-$feature-block-primary: $primary;
-
-// Form Controls
-$fc-height: 2.75rem;
-$fc-border-color: #ddd;
-$fc-bg: #fff;
-$fc-inner-shadow: 0.1rem 0.1rem 0.1rem lightgray;
-$fc-placeholder-color: #aaa;
-$fc-focus-border-color: #5091cd;
-
-// List Variants
-$nv-list-bg: #f7f8fa;
-$list-row-bg: #f7f8fa;
-$list-row-alt-bg: #f4f4f4;
-
-// Pagination Control
-$pgn-btn-bg: lightgray;
-$pgn-btn-active-bg: #5091cd;
-$pgn-btn-active-color: #fff;
-$pgn-btn-border: 1px solid #ccc;
-$pgn-btn-color: #000;
-
-// Spinner
-$spinner-lg: 50px;
-$spinner-sm: 30px;
-$spinner-color: #5091cd;
-$spinner-bg: #fff;
-$spinner-invert-color: #fff;
-$spinner-invert-bg: rgba(#001a33, 0.8);
-
-// Tab Navigation
-$tab-color: #38598a;
-$tab-nav-border-color: #ddd;
-$tab-nav-bg: #fff;
-$tab-hover-bg: lightgray;
-$tab-sm-active-color: #fff;
-$tab-sm-bg: lightgray;
-$tab-sm-active-bg: #38598a;
-$tab-active-bg: #fff;
-
-// Tables
-$table-header-bg: #fff;
-$table-header-hover-bg: #ddd;
-$table-header-sort-active: #003366;
-$table-row-bg: #f7f8fa;
-$table-row-border: 3px solid #fff;
-$table-alt-row-bg: #f4f4f4;
-$table-sort-icon-color: #ccc;
-$table-sort-icon-active-color: #000;
-$table-sort-icon-size: 0.25rem;
-
-// Map Components
-$map-bg: #445a71;
-
-// Map Popup
-$map-popup-color: #fff;
-$map-popup-bg: #244278;
-$map-popup-footer-bg: $primary;
-$map-popup-header-bg: $primary;
-$map-popup-font-size: 0.9375rem; // 15 px
-$map-popup-menu-active-bg: #5091cd;
-$map-popup-btn-color: #fff;
-$map-popup-border-color: #fff;
-
-// Search Widget
-$map-search-height: 3rem;
-$map-search-font-family: "myriad-pro";
-$map-search-font-size: medium; // 16 px
+$theme-colors: (
+    "info": $info,
+    "dark": $dark,
+);
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);

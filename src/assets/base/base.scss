@@ -6,8 +6,8 @@ html {
 }
 
 .card-header {
-    background-color: $bg-dark !important;
-    color: $card-header-color;
+    background-color: $bg-dark;
+    color: white;
     border-radius: 0.25rem !important;
     text-align: center;
     padding-top: 1rem !important;
@@ -18,11 +18,6 @@ html {
     h2 {
         margin: 0;
     }
-}
-
-.btn-link {
-    color: $link;
-    cursor: pointer;
 }
 
 .btn-primary {
@@ -59,25 +54,12 @@ html {
     border-radius: 4px;
 }
 
-.registration-details-container {
-    color: $text;
-}
-
-.confirmation-number-container {
-    color: $text;
-}
-
 .label-info {
     color: #606060;
     font-size: 0.8rem;
     margin-top: 0px;
 }
 
-@media (max-width: 576px) {
-    .btn {
-        width: 100%;
-    }
-}
 @-webkit-keyframes rotating {
     from {
         -ms-transform: rotate(0deg);
@@ -122,7 +104,7 @@ html {
 
 .spinner {
     font-size: large;
-    color: $bg-primary;
+    color: $primary;
 }
 
 .form-group {
@@ -131,5 +113,19 @@ html {
 
 .btn-link {
     text-decoration: none !important;
-    color: #003366 !important;
+    color: $primary !important;
 }
+
+.a {
+    color: $link-color;
+}
+
+// Main Navigation
+$mn-font-size: 0.875rem; // 14 px
+$mn-dropdown-menu-size: 0.875rem; // 14 px
+
+// Header
+$header-height: 100px;
+
+// Footer
+$footer-height: 71px;

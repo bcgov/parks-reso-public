@@ -1,4 +1,4 @@
-@import "/src/assets/themes/default.scss";
+@import "/src/assets/base/base.scss";
 
 .container {
     background-color: white;
@@ -10,19 +10,6 @@
     // header and footer heights
     height: calc(100% - #{$header-height} - #{$footer-height});
     width: 100%;
-}
-
-.bg-dark {
-    color: $bg-dark-color;
-    background-color: $bg-dark;
-}
-
-.bg-default {
-    background-color: $bg-default;
-}
-
-.bg-dark-link {
-    color: $bg-dark-link-color;
 }
 
 .clickable {
@@ -63,14 +50,6 @@
     margin-top: 60px;
 }
 
-.info-box {
-    background-color: $bg-info-box;
-}
-
-.content {
-    background: $bg-light-color;
-}
-
 @media (min-width: 576px) {
     .header-primary {
         margin-top: 60px;
@@ -78,9 +57,5 @@
 
     .text-body-primary {
         margin-top: 30px;
-    }
-
-    .content {
-        padding: 120px 40px;
     }
 }
