@@ -60,6 +60,11 @@ html {
     margin-top: 0px;
 }
 
+@media (max-width: 576px) {
+    .btn-primary {
+        width: 100%;
+    }
+}
 @-webkit-keyframes rotating {
     from {
         -ms-transform: rotate(0deg);

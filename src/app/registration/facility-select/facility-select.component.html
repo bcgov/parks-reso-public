@@ -97,11 +97,12 @@
                                 class="custom-control-label"
                                 formControlName="visitTime"
                                 value="AM"
+                                [attr.disabled]="timeConfig.AM.disabled ? true : null"
                                 (change)="onTimeChange('AM')" />
                             &nbsp;
                             <span class="ml-2 time-header"><strong>AM</strong></span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" [class.card-body-disabled]="timeConfig.AM.disabled">
                         <p class="card-text"
                             data-testid="day-availability-text"
                             *ngIf="!showTimeText('AM')">
@@ -134,11 +135,12 @@
                                 class="custom-control-label"
                                 formControlName="visitTime"
                                 value="PM"
+                                [attr.disabled]="timeConfig.PM.disabled ? true : null"
                                 (change)="onTimeChange('PM')" />
                             &nbsp;
                             <span class="ml-2 time-header"><strong>PM</strong></span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" [class.card-body-disabled]="timeConfig.PM.disabled">
                         <p class="card-text"
                             data-testid="day-availability-text"
                             *ngIf="!showTimeText('PM')">
@@ -171,11 +173,12 @@
                                 class="custom-control-label"
                                 formControlName="visitTime"
                                 value="DAY"
+                                [attr.disabled]="timeConfig.DAY.disabled ? true : null"
                                 (change)="onTimeChange('DAY')" />
                             &nbsp;
                             <span class="ml-2 time-header"><strong>DAY</strong></span>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" [class.card-body-disabled]="timeConfig.DAY.disabled">
                         <p class="card-text"
                             data-testid="day-availability-text"
                             *ngIf="!showTimeText('DAY')">

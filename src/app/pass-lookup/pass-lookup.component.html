@@ -11,8 +11,8 @@
         </span>
     </button>
 
-    <div class="mt-4 row gx-5">
-        <div class="col-6">
+    <div class="p-4 row gx-5">
+        <div class="col-lg-6 col-md-12">
             <h1>
                 {{title}}
             </h1>
@@ -47,11 +47,44 @@
             <p *ngIf="state === 'cancelled'">
                 Your reservation has been cancelled.
             </p>
+
+            <div *ngIf="state === 'loading'" class=" text-center">
+                <span class="material-icons md-48 spinner rotating">
+                    autorenew
+                </span>
+            </div>
+            
+            <div *ngIf="state === 'not-verified'">
+                <app-alert [data]="passNotFound()"></app-alert>
+            </div>
+            
+            <div *ngIf="state === 'not-cancelled'">
+                <app-alert [data]="passNotCancelled()"></app-alert>
+            </div>
+
+            <div *ngIf="state === 'verified'">
+                <app-alert [data]="passSuccessfullyVerified()"></app-alert>
+            </div>
+            
+            <div *ngIf="state === 'cancelled'">
+                <app-alert [data]="passSuccessfullyCancelled()"></app-alert>
+            </div>
+            
+            <div *ngIf="state === 'verify-populate' || state === 'not-verified' || state === 'not-cancelled'">
+                <app-pass-lookup-form [urlData]="urlData"></app-pass-lookup-form>
+            </div>
+            
+            <div class="d-flex float-right mb-5" *ngIf="state === 'verify-populate'">
+                <button class="btn btn-primary w-100" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
+            </div>
+            
+            <div class="d-flex float-right my-3" *ngIf="state === 'not-verified' || state === 'not-cancelled'">
+                <button class="btn btn-primary w-100" (click)="navigate()">Home</button>
+            </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 d-none d-lg-block">
             <img src="assets/images/hotrod.jpg"
                 class="img-fluid rounded"
                 alt="fastest car in the world">
         </div>
-    </div>
 </div>
