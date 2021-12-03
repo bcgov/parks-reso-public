@@ -105,6 +105,16 @@ export class PassLookupComponent implements OnInit {
     return alert;
   }
 
+  passSuccessfullyVerified(): AlertObject {
+    let alert = new AlertObject({
+      type: 'info',
+      title: 'Please check your email',
+      message: 'A cancellation email has been sent to the address associated with this pass. Please check your inbox.',
+      smallAlert: true
+    });
+    return alert;
+  }
+
   async validateInfo() {
     if (this.urlData) {
       let res = null;
