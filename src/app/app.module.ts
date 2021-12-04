@@ -27,6 +27,7 @@ import { FacilitiesResolverService } from './registration/facilities-resolver.se
 import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from './services/toast.service';
 import { CaptchaDataService } from './services/captcha-data.service';
+import { TipsComponent } from './tips/tips.component';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -44,6 +45,7 @@ export function initConfig(configService: ConfigService) {
     BreadcrumbComponent,
     ParksListComponent,
     ParksTableRowComponent,
+    TipsComponent,
   ],
   imports: [
     BrowserModule,

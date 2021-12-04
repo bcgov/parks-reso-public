@@ -50,15 +50,14 @@
 .fill {
   min-height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   overflow: hidden;
 }
 .fill img {
   flex-shrink: 0;
-  min-width: 100%;
-  min-height: auto;
-  max-height: 250px;
+  min-width: 555px;
+  max-height: 275px;
   object-fit: cover;
 }
 
@@ -83,15 +82,15 @@
   }
 }
 
-@media screen and (max-width: 440px) {
-  .fill img {
-    min-width: 0%;
-    max-width: 100%;
-  }
-}
-
 @media (max-width: 767px) {
   .btn {
+    width: 100%;
+  }
+  .fill {
+    justify-content: center;
+  }
+  .fill img {
+    min-width: 0%;
     width: 100%;
   }
 }

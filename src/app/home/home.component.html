@@ -1,6 +1,6 @@
-<div class="header-container mb-4">
-  <div class="container">
-    <div class="row p-4">
+<div class="header-container pt-5 pb-4 mb-4">
+  <div class="container-md">
+    <div class="row p-2 p-md-4">
       <div class="col-md-6 col-sm-12">
         <h1>Reserve a Day Use Pass</h1>
         <p>
@@ -25,12 +25,12 @@
         <div class="img-blurb p-2">
           <strong class="px-2">Vehicle Pass</strong>
           <div class="row">
-            <div class="col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-12">
               <ul>
                 <li>1 pass required per vehicle. Maximum of 8 persons (adult or child) per pass per day.</li>
               </ul>
             </div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-lg-6 col-md-12">
               <ul>
                 <li>Maximum of one A.M. and one P.M. vehicle pass can be booked per account, per day.</li>
               </ul>
@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class="container p-4 mb-4">
+<div class="container-md p-4 mb-4">
   <div class="accordion"
     id="accordionExample">
     <div class="accordion-item bg-warning">
@@ -67,15 +67,18 @@
               Bookings can be made starting at 7:00am, two days in advance of your planned visit.
             </li>
             <li>
-              Passes will remain available until capacity is met — additional passes may be released each day at 7:00am,
+              Passes will remain available until capacity is met — additional passes may be released each day at
+              7:00am,
               dependent on weather conditions.
             </li>
             <li>
-              Passes cannot be transferred to another date, time, or location and your pass cannot be shared beyond the
+              Passes cannot be transferred to another date, time, or location and your pass cannot be shared beyond
+              the
               group reserved.
             </li>
             <li>
-              The A.M. pass permits parking from 7:00am to noon. The P.M. pass starts at noon and reserves a spot until
+              The A.M. pass permits parking from 7:00am to noon. The P.M. pass starts at noon and reserves a spot
+              until
               4:00pm. After 4:00pm, day-use parking spots will be claimed on a first come, first serve basis.
             </li>
           </ul>
@@ -85,141 +88,20 @@
   </div>
 </div>
 
-<div class="container px-4">
-      <h1 class="mb-0">
-        Select a Park
-      </h1>
-</div>
-
-<div class="container mt-1">
+<div class="container-md">
+  <h1 class="mx-2">
+    Select a Park
+  </h1>
   <app-parks-list></app-parks-list>
 </div>
 
 <div class="text-center mb-4">
-  <p class="mb-0"><strong>Need to cancel?</strong></p>
+  <p class="mb-0"><strong>Need to cancel an active pass?</strong></p>
   <a [routerLink]="['/pass-lookup/']">
-    Cancel an active pass
+    Click here.
   </a>
 </div>
 
-<div class="container p-4">
-  <h2>
-    Keys to Visiting the Great Outdoors
-  </h2>
-  <div class="visiting-container rounded">
-    <div class="container px-4 py-5">
-      <div class="row gy-3">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                1
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Trip plan
-              </h3>
-              <p>
-                Check bcparks.ca for updates. Know what the weather and conditions will be. Download and use
-                AdventureSmart's Trip Plan app to share your plan with a trusted contact.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                2
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Train
-              </h3>
-              <p>
-                Obtain knowledge and skills you need before heading out. Know and stay within your limits.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                3
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Take the essentials
-              </h3>
-              <p>
-                Pack the basic survival items you should have in any outdoor situation.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                4
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Responsible Recreation
-              </h3>
-              <p>
-                Parks aren't self cleaning. Leave natural and cultural objects undisturbed. Keep pets on leash. Nice
-                people make nature nicer. Learn more <a
-                  href="https://bcparks.ca/beresponsible">bcparks.ca/beresponsible</a>.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                5
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Keep wildlife wild
-              </h3>
-              <p>
-                Wild animals are supposed to eat wild things. Please give wildlife space and store your food properly.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div class="row">
-            <div class="col-2">
-              <div class="numberCircle">
-                6
-              </div>
-            </div>
-            <div class="col-8">
-              <h3>
-                Enjoy your visit
-              </h3>
-              <p>
-                Enjoy your visit For more information on the day pass pilot program, including what to expect in park,
-                please visit us at
-                <a href="https://bcparks.ca/reserve/day-use/">
-                  bcparks.ca/reserve/day-use/
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="mb-0 mb-md-5">
+  <app-tips></app-tips>
 </div>

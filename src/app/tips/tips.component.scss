@@ -1,0 +1,24 @@
+@import "/src/assets/themes/default.scss";
+
+.numberCircle {
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    padding-top: 3px;
+
+    background: #fff;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    background: $bg-default;
+}
+
+.visiting-container {
+    background: $bg-default;
+}
+
+@media (max-width: 768px) {
+    .header {
+        background: $bg-default;
+    }
+}
