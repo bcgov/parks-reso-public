@@ -1,61 +1,8 @@
 @import "/src/assets/base/base.scss";
 
-.container {
-    background-color: white;
-    height: 100%;
-}
-
 .main-wrapper {
     display: table;
     // header and footer heights
     height: calc(100% - #{$header-height} - #{$footer-height});
     width: 100%;
-}
-
-.clickable {
-    cursor: pointer !important;
-    color: $link-color !important;
-
-    &:focus,
-    &:hover {
-        text-decoration: underline !important;
-    }
-}
-
-// Named Anchors
-.pg-anchor[id]:before {
-    content: " ";
-    display: block;
-    height: 98px;
-    margin: -98px 0 0;
-}
-
-.amp {
-    font-size: 72%;
-    font-weight: 400;
-}
-
-.no-scroll {
-    overflow: hidden;
-}
-
-.header-primary {
-    color: $header-h1;
-    text-align: left;
-    font-size: 42px;
-    font-weight: bold;
-}
-
-.text-body-primary {
-    margin-top: 60px;
-}
-
-@media (min-width: 576px) {
-    .header-primary {
-        margin-top: 60px;
-    }
-
-    .text-body-primary {
-        margin-top: 30px;
-    }
 }

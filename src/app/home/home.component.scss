@@ -4,7 +4,7 @@
     background: $bg-default;
 }
 
-.camp-car-container{
+.camp-car-container {
     position: relative;
 }
 
@@ -23,24 +23,6 @@
     position: absolute;
 }
 
-.visiting-container {
-    background: $bg-default;
-}
-
-.numberCircle {
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    padding-top: 3px;
-
-    background: #fff;
-    border: 2px solid black;
-    color: black;
-    text-align: center;
-    background: $bg-default;
-}
-
-
 @media screen and (max-width: 1200px) {
     .img-blurb {
         position: relative;
@@ -50,5 +32,4 @@
         bottom: 0px;
         margin-bottom: 1rem;
     }
-  
-  }
+}
