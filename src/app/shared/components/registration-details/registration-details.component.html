@@ -1,79 +1,84 @@
-<div class="m-1" id="registration">
-    <div class="text-center my-5">
-        <h1>
-            <strong>{{ regData?.facilityName }}</strong>
-        </h1>
-        <h2>
-            <strong>{{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})</strong>
-        </h2>
-        <p class="text-muted">
-            Your Reservation Number:
+<!-- Order: Park, lot, date, license, name, reservation number, email, phone -->
+<div class="reservation-info p-4" id="registration">
+    <div class='row' *ngIf="regData?.park?.name">
+        <p class="card-text text-muted">
+            Park Name
         </p>
-        <h2 class="mb-3">
-            {{ regData?.registrationNumber }}
-        </h2>
+        <h3>
+            {{ regData?.park?.name }}
+        </h3>
+        <hr>
     </div>
-
-    <div class="container reservation-info">
-        <div class="row my-3">
-            <div class='col-md-6'>
-                <div>
-                    <p class="card-text text-muted">
-                        Facility Name
-                    </p>
-                    <h3>
-                        {{ regData?.facilityName }}
-                    </h3>
-                    <hr>
-                </div>
-                <div>
-                    <p class="card-text text-muted">
-                        Date
-                    </p>
-                    <h3>
-                        {{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})
-                    </h3>
-                    <hr>
-                </div>
-                <div>
-                    <p class="card-text text-muted">
-                        Number of Passes
-                    </p>
-                    <h3>
-                        {{ regData?.numberOfGuests }}
-                    </h3>
-                    <hr class="d-sm-block d-md-none">
-                </div>
-            </div>
-            <div class='col-md-6'>
-                <div>
-                    <p class="card-text text-muted">
-                        Name
-                    </p>
-                    <h3>
-                        {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
-                        regData.lastName : '-'}}
-                    </h3>
-                    <hr>
-                </div>
-                <div>
-                    <p class="card-text text-muted">
-                        Email
-                    </p>
-                    <h3>
-                        {{ regData?.email }}
-                    </h3>
-                    <hr>
-                </div>
-                <div>
-                    <p class="card-text text-muted">
-                        Phone
-                    </p>
-                    <h3>
-                        {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
-                    </h3>
-                </div>
-            </div>
-        </div>
+    <div class='row' *ngIf="regData?.facilityName">
+        <p class="card-text text-muted">
+            Lot Name
+        </p>
+        <h3>
+            {{ regData?.facilityName }}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.date">
+        <p class="card-text text-muted">
+            Date
+        </p>
+        <h3>
+            {{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.license">
+        <p class="card-text text-muted">
+            License Plate
+        </p>
+        <h3>
+            {{ regData?.license.toUpperCase() }}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.firstName || regData?.lastName">
+        <p class="card-text text-muted">
+            Name
+        </p>
+        <h3>
+            {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+            regData.lastName : '-'}}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.registrationNumber">
+        <p class="card-text text-muted">
+            Registration Number
+        </p>
+        <h3>
+            {{ regData?.registrationNumber }}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.email">
+        <p class="card-text text-muted">
+            Email
+        </p>
+        <h3>
+            {{ regData?.email }}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.phoneNumber">
+        <p class="card-text text-muted">
+            Phone
+        </p>
+        <h3>
+            {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
+        </h3>
+        <hr>
+    </div>
+    <div class='row' *ngIf="regData?.numberOfGuests">
+        <p class="card-text text-muted">
+            Number of Passes
+        </p>
+        <h3>
+            {{ regData?.numberOfGuests }}
+        </h3>
     </div>
 </div>

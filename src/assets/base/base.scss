@@ -27,6 +27,12 @@ html {
     padding-right: 4rem;
 }
 
+.btn-outline-primary {
+    font-weight: bold;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
 .error-container {
     background-color: #f2dede;
     border: 1px solid #ebccd1;
@@ -61,7 +67,7 @@ html {
 }
 
 @media (max-width: 576px) {
-    .btn-primary {
+    .btn-primary, .btn-outline-primary {
         width: 100%;
     }
 }

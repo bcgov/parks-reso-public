@@ -1,44 +1,62 @@
-<div class="container">
+<div class="container-md">
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 left-col mb-5">
+                <div class="my-3">
+                    <div class="d-flex success-title my-3">
+                        <h1>Success, your reservation has been completed!</h1>
+                    </div>
+                </div>
+                <div class="d-none d-lg-block">
+                    <p class="mb-1">
+                        We hope you enjoy your visit,
+                    </p>
+                    <p><strong>{{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+                            regData.lastName : '-'}}</strong></p>
+                </div>
+                <div class="row">
+                    <div class="col-12 success-title my-3">
+                        <p class="mb-1">Your Reservation Number</p>
+                        <p class="d-none d-lg-block"><strong>{{ regData?.registrationNumber }}</strong></p>
+                        <h1 class="d-block d-lg-none">{{ regData?.registrationNumber }}</h1>
+                    </div>
+                    <div class="col-12 success-title my-3">
+                        <button type="button" class="btn btn-primary" (click)="print()">Print</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-mg-12 col-lg-6 right-col">
+                <div class="mb-5">
+                    <app-registration-details [regData]="regData">
+                    </app-registration-details>
+                </div>
+                <div class="text-center m-4">
+                    <p class="d-block d-lg-none ">We hope you enjoy your visit!</p>
+                </div>
+                <div>
+                    <h4>Next steps</h4>
+                    <p>
+                        You will receive a receipt and passes to the email address provided soon, if you do not receive
+                        an
+                        email
+                        please contact <a href="mailto:parkinfo@gov.bc.ca ">parkinfo@gov.bc.ca</a> for
+                        assistance.
+                    </p>
+                    <p>
+                        Please print or save/screenshot a copy of your pass to your phone
+                    </p>
+                    <p>
+                        Please check for updates (notices, closures, trail conditions) on the park webpage.
+                    </p>
+                    <p>
+                        Should you need to cancel your booking, a link will be provided in your email receipt.
+                    </p>
+                </div>
 
-    <div class="my-5">
-        <div class="d-flex justify-content-center my-3">
-            <h1>Success, your reservation has been completed!</h1>
+                <div class="my-5 d-flex justify-content-right">
+                    <button type="button" class="btn btn-outline-primary" (click)="navigate()">Home</button>
+                </div>
+            </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-primary" (click)="print()">Print</button>
-        </div>
-    </div>
-
-
-    <app-registration-details [regData]="regData">
-    </app-registration-details>
-
-    <div class="my-5 d-flex justify-content-center">
-        <p>
-            We hope you enjoy your visit!
-        </p>
-    </div>
-
-    <div>
-        <h4>Next steps</h4>
-        <p>
-            You will receive a receipt and passes to the email address provided soon, if you do not receive an
-            email
-            please contact <a href="mailto:parkinfo@gov.bc.ca ">parkinfo@gov.bc.ca</a> for
-            assistance.
-        </p>
-        <p>
-            Please print or save a copy of your pass to your phone.
-        </p>
-        <p>
-            Please check for updates (notices, closures, trail conditions) on the park webpage.
-        </p>
-        <p>
-            Should you need to cancel your booking, a link will be provided in your email receipt.
-        </p>
-    </div>
-
-    <div class="my-5 d-flex justify-content-center">
-        <button type="button" class="btn btn-primary" (click)="navigate()">Home</button>
     </div>
 </div>
