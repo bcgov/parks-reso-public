@@ -28,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from './services/toast.service';
 import { CaptchaDataService } from './services/captcha-data.service';
 import { TipsComponent } from './tips/tips.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -46,6 +47,7 @@ export function initConfig(configService: ConfigService) {
     ParksListComponent,
     ParksTableRowComponent,
     TipsComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

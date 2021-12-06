@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 // Components
 import { HomeComponent } from './home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { ParksListResolverService } from './parks-list/parks-list-resolver.service';
 import { PassLookupComponent } from './pass-lookup/pass-lookup.component';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
@@ -29,11 +30,9 @@ const routes: Routes = [
     component: PassLookupComponent,
   },
   {
-    // wildcard route
-    path: '**',
-    redirectTo: '/',
-    pathMatch: 'full'
-  }
+    path: '**', pathMatch: 'full',
+    component: NotFoundComponent
+  },
 ];
 
 @NgModule({
