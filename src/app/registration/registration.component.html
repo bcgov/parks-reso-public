@@ -1,5 +1,5 @@
 <div *ngIf="state !== 'success'"
-    class="container mt-5 mb-2">
+    class="container-md mt-5 mb-2">
     <button type="button"
         class="btn btn-link"
         (click)="navigate()">
@@ -19,24 +19,25 @@
         experience issues.
     </p>
 </section>
-<div class="container"
-    *ngIf="!error">
+<div *ngIf="!error">
     <!-- Facility select page -->
     <div *ngIf="state === 'facility-select'">
-        <div class="row">
-            <div class="col-md-12 col-lg-6 left-col mb-5">
-                <app-park-details [park]="park"></app-park-details>
-            </div>
-            <div class="col-md-12 col-lg-6 right-col">
-                <app-facility-select *ngIf="!loading"
-                    [facilities]="facilities"
-                    (emitter)="getFacilityFormObj($event);">
-                </app-facility-select>
-                <div *ngIf="loading"
-                    class="text-center loading-container">
-                    <span class="material-icons md-48 spinner rotating">
-                        autorenew
-                    </span>
+        <div class="container-md">
+            <div class="row">
+                <div class="col-md-12 col-lg-6 left-col mb-5">
+                    <app-park-details [park]="park"></app-park-details>
+                </div>
+                <div class="col-md-12 col-lg-6 right-col">
+                    <app-facility-select *ngIf="!loading"
+                        [facilities]="facilities"
+                        (emitter)="getFacilityFormObj($event);">
+                    </app-facility-select>
+                    <div *ngIf="loading"
+                        class="text-center loading-container">
+                        <span class="material-icons md-48 spinner rotating">
+                            autorenew
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -45,14 +46,18 @@
     </div>
 
     <!-- Contact information page -->
-    <app-contact-form [park]="park"
-        [passData]="facilityFormObj"
-        (emitter)="getContactFormObj($event);"
-        *ngIf="state === 'contact-form'">
-    </app-contact-form>
+    <div class="container-md">
+        <app-contact-form [park]="park"
+            [passData]="facilityFormObj"
+            (emitter)="getContactFormObj($event);"
+            *ngIf="state === 'contact-form'">
+        </app-contact-form>
+    </div>
 
     <!-- Success -->
-    <app-success [regData]="submitRes"
-        *ngIf="state === 'success'"></app-success>
-    <app-failure *ngIf="state === 'failure'"></app-failure>
+    <div class="container-md">
+        <app-success [regData]="submitRes"
+            *ngIf="state === 'success'"></app-success>
+        <app-failure *ngIf="state === 'failure'"></app-failure>
+    </div>Z
 </div>
