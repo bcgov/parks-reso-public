@@ -1,4 +1,26 @@
 
+@import "/src/assets/themes/default.scss";
+
 .img-fluid{
   width: 100%
+}
+
+.parking-button{
+  justify-content: left;
+  text-align: left;
+}
+
+.parking-icon{
+  font-size: 4rem;
+  background-color: white;
+  color: #003366;
+  border-radius: 5px;
+}
+
+.rotate-45{
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }

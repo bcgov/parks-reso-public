@@ -20,4 +20,10 @@ export class ParkDetailsComponent implements OnInit {
     }
   }
 
+  openMap(): void {
+    if (this.park?.mapLink) {
+      window.open(this.park.mapLink);
+    }
+  }
+
 }
