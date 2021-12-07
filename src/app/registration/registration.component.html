@@ -55,7 +55,11 @@
     </div>
 
     <!-- Success -->
-    <app-success [regData]="submitRes" [park]="park"
-        *ngIf="state === 'success'"></app-success>
-    <app-failure *ngIf="state === 'failure'"></app-failure>
+    <app-success
+      [regData]="submitRes"
+      [park]="park"
+      *ngIf="state === 'success'"></app-success>
+    <app-failure
+      *ngIf="state === 'failure'"
+      [errorContent]="errorContent"></app-failure>
 </div>
