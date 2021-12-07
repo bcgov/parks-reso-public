@@ -1,7 +1,7 @@
 <!-- Order: Park, lot, date, license, name, reservation number, email, phone -->
 <div class="reservation-info p-4" id="registration">
     <div class='row' *ngIf="regData?.park?.name">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Park Name
         </p>
         <h3>
@@ -10,7 +10,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.facilityName">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Lot Name
         </p>
         <h3>
@@ -19,7 +19,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.date">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Date
         </p>
         <h3>
@@ -28,7 +28,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.license">
-        <p class="card-text text-muted">
+        <p class="card-text">
             License Plate
         </p>
         <h3>
@@ -37,7 +37,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.firstName || regData?.lastName">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Name
         </p>
         <h3>
@@ -47,7 +47,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.registrationNumber">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Registration Number
         </p>
         <h3>
@@ -56,7 +56,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.email">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Email
         </p>
         <h3>
@@ -65,7 +65,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.phoneNumber">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Phone
         </p>
         <h3>
@@ -74,7 +74,7 @@
         <hr>
     </div>
     <div class='row' *ngIf="regData?.numberOfGuests">
-        <p class="card-text text-muted">
+        <p class="card-text">
             Number of Passes
         </p>
         <h3>

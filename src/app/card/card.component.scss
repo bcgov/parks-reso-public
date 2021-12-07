@@ -38,7 +38,6 @@
   background-color: #f1f1f1;
   border-radius: 2px;
   transition: box-shadow 0.25s;
-  color: #a1a1a1;
   overflow: hidden;
 }
 
@@ -69,13 +68,13 @@
   border-radius: 1.5rem;
   cursor: default;
   min-width: 224px;
+  color: $text-default;
   &:hover {
     background-color: transparent;
-    color: #797979;
+    cursor: not-allowed;
   }
   &:active {
     background-color: transparent;
-    color: #797979;
   }
   &:focus {
     box-shadow: none;
@@ -93,4 +92,8 @@
     min-width: 0%;
     width: 100%;
   }
+}
+
+.text-override {
+  color: $text-default;
 }

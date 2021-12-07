@@ -4,7 +4,7 @@
         <p>
             Please provide the following information to complete your reservation and receive your pass via email.
         </p>
-        <div class="container rounded py-3 details-container">
+        <div class="container-md rounded py-3 details-container">
             <div class="border-bottom border-secondary">
                 <p>
                     Facility Name
@@ -35,28 +35,27 @@
     <div class="col-md-12 col-lg-6 right-col">
         <form [formGroup]="myForm">
             <div class="form-group">
-                <label for="firstName">First Name <span class="text-danger">*</span></label>
+                <label for="firstName">First Name <span class="asteriks">*</span></label>
                 <input type="text"
                     class="form-control"
                     formControlName="firstName"
                     id="firstName">
             </div>
             <div class="form-group">
-                <label for="lastName">Last Name <span class="text-danger">*</span></label>
+                <label for="lastName">Last Name <span class="asteriks">*</span></label>
                 <input type="text"
                     class="form-control"
                     formControlName="lastName"
                     id="lastName">
             </div>
             <div class="form-group">
-                <label for="email">Email Address <span class="text-danger">*</span></label>
-                <input type="email"
+                <label for="email">Email Address <span class="asteriks">*</span></label>
+                <input id="email"
+                    type="email"
                     class="form-control"
                     formControlName="email"
-                    id="email"
                     placeholder="name@example.com">
-                <label for="email"
-                    class="label-info">Your email address will be used to send you your pass. It may also be used
+                <label class="label-info">Your email address will be used to send you your pass. It may also be used
                     to notify you in the event of a park or facility closure based on your selected visitation
                     date.</label>
             </div>
@@ -69,19 +68,17 @@
                     placeholder="1112223333"
                     (keypress)="keyPressNumbers($event)"
                     maxlength="10">
-                <label for="email"
-                    class="label-info">You may provide your phone number if you wish to also receive
+                <label class="label-info">You may provide your phone number if you wish to also receive
                     notifications regarding park or facility closures via SMS.</label>
             </div>
             <div *ngIf="passData?.passType?.type === 'Parking'"
                 class="form-group">
-                <label for="license">License Plate <span class="text-danger">*</span></label>
+                <label for="license">License Plate <span class="asteriks">*</span></label>
                 <input type="text"
                     class="form-control"
                     formControlName="license"
                     id="license">
-                <label for="email"
-                    class="label-info">If you are requesting a parking pass, park rangers may need to verify your
+                <label class="label-info">If you are requesting a parking pass, park rangers may need to verify your
                     vehicle via license plate.</label>
             </div>
         </form>
@@ -93,12 +90,12 @@
             directed to:
             Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</small>
 
-        <div class="mt-2 mb-3">
+        <div class="mt-3 mb-3">
             <label class="ml-2">
                 <input type="checkbox"
                     [(ngModel)]="collectionNoticeCheck"
                     [ngModelOptions]="{standalone: true}" />
-                &nbsp;I have read and agree to the collection notice above&nbsp;<span class="text-danger">*</span>
+                &nbsp;I have read and agree to the collection notice above&nbsp;<span class="asteriks">*</span>
             </label>
         </div>
 
@@ -114,12 +111,12 @@
             your party accompanying you are aware of he same information and area also prepare for winter
             condition.</small>
 
-        <div class="mt-2 mb-3">
+        <div class="mt-3 mb-3">
             <label class="ml-2">
                 <input type="checkbox"
                     [(ngModel)]="weatherStatementCheck"
                     [ngModelOptions]="{standalone: true}" />
-                &nbsp;Please tick this box to acknowledge the above statement&nbsp;<span class="text-danger">*</span>
+                &nbsp;Please tick this box to acknowledge the above statement&nbsp;<span class="asteriks">*</span>
             </label>
         </div>
 
@@ -127,13 +124,13 @@
                 target="_blank"
                 rel="noreferrer noopener">Exclusion of Liability Notice</a></small>
 
-        <div class="mt-2">
+        <div class="mt-3">
             <label class="ml-2">
                 <input type="checkbox"
                     [(ngModel)]="liabilityNoticeCheck"
                     [ngModelOptions]="{standalone: true}" />
                 &nbsp;
-                I have READ and AGREE to the Exclusion of Liability Notice above&nbsp;<span class="text-danger">*</span>
+                I have READ and AGREE to the Exclusion of Liability Notice above&nbsp;<span class="asteriks">*</span>
             </label>
         </div>
 

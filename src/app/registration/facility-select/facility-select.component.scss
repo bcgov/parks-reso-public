@@ -4,18 +4,18 @@ label {
     width: 100%;
 }
 
-.card-enabled:hover{
+.card-enabled:hover {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
-  }
+}
 
-input[type='radio']:after{
+input[type="radio"]:after {
     width: 16px;
     height: 16px;
     border-radius: 16px;
     top: -2px;
     left: -1px;
     position: relative;
-    content: '';
+    content: "";
     display: inline-block;
     background-color: white;
     border: 2px solid #003366;
@@ -23,7 +23,7 @@ input[type='radio']:after{
     cursor: pointer;
 }
 
-input[type='radio']:checked:after {
+input[type="radio"]:checked:after {
     outline: 2px solid white;
     background-color: white;
     border: 4px solid #38598a;
@@ -31,17 +31,17 @@ input[type='radio']:checked:after {
     cursor: pointer;
 }
 
-.card-header-disabled input[type='radio']:after{
+.card-header-disabled input[type="radio"]:after {
     border: 1px solid white;
-    cursor: default;    
+    cursor: default;
 }
 
 .card-input-element {
     display: none;
 }
 
-.card-body-disabled{
-    background-color: #F1F1F1;
+.card-body-disabled {
+    background-color: #f1f1f1;
     color: #a1a1a1;
 }
 
@@ -58,7 +58,7 @@ input[type='radio']:checked:after {
 }
 
 .card-header-disabled {
-    background-color: #C7C7C7 !important;
+    background-color: #c7c7c7 !important;
     color: white !important;
     text-align: left;
 }

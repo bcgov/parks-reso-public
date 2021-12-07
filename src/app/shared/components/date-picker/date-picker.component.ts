@@ -28,6 +28,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() maxDate: Date = null;
   @Input() reset: EventEmitter<any>;
   @Input() required = false;
+  @Input() label = '';
 
   @Output() formChangeEvent = new EventEmitter<string>();
   @Output() clearEvent = new EventEmitter();

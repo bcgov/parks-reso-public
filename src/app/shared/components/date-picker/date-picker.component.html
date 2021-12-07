@@ -1,6 +1,7 @@
 <fieldset class="date-input"
   [ngClass]="{ 'is-invalid': isValidate && !isValidDate(ngbDate) }">
   <input class="form-control"
+    [attr.id]="label"
     type="text"
     placeholder="YYYY-MM-DD"
     name="ngbDatepicker"
