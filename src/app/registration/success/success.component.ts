@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PassService } from 'src/app/services/pass.service';
 
 @Component({
   selector: 'app-success',
@@ -9,12 +8,16 @@ import { PassService } from 'src/app/services/pass.service';
 })
 export class SuccessComponent implements OnInit {
   @Input() regData;
+  @Input() park;
+
   constructor(
     private router: Router,
-    private passService: PassService
   ) { }
 
   ngOnInit(): void {
+    if (this.regData){
+      this.regData['park'] = this.park || null;
+    }
   }
 
   print(): void {

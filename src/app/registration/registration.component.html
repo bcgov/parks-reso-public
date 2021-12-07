@@ -55,9 +55,7 @@
     </div>
 
     <!-- Success -->
-    <div class="container-md">
-        <app-success [regData]="submitRes"
-            *ngIf="state === 'success'"></app-success>
-        <app-failure *ngIf="state === 'failure'"></app-failure>
-    </div>
+    <app-success [regData]="submitRes" [park]="park"
+        *ngIf="state === 'success'"></app-success>
+    <app-failure *ngIf="state === 'failure'"></app-failure>
 </div>
