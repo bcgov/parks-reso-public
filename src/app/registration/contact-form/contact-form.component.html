@@ -4,7 +4,7 @@
         <p>
             Please provide the following information to complete your reservation and receive your pass via email.
         </p>
-        <div class="container rounded py-3 details-container">
+        <div class="container-md rounded py-3 details-container">
             <div class="border-bottom border-secondary">
                 <p>
                     Facility Name
@@ -68,8 +68,7 @@
                     placeholder="1112223333"
                     (keypress)="keyPressNumbers($event)"
                     maxlength="10">
-                <label
-                    class="label-info">You may provide your phone number if you wish to also receive
+                <label class="label-info">You may provide your phone number if you wish to also receive
                     notifications regarding park or facility closures via SMS.</label>
             </div>
             <div *ngIf="passData?.passType?.type === 'Parking'"
@@ -79,8 +78,7 @@
                     class="form-control"
                     formControlName="license"
                     id="license">
-                <label
-                    class="label-info">If you are requesting a parking pass, park rangers may need to verify your
+                <label class="label-info">If you are requesting a parking pass, park rangers may need to verify your
                     vehicle via license plate.</label>
             </div>
         </form>
