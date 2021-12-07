@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 })
 export class FailureComponent implements OnInit {
   @Input() errorContent = {
-    title: "We're sorry! An error occured.",
-    msg: "An error occurred while trying to submit your reservation information. Please try again."
+    title: 'We\'re sorry! An error occured.',
+    msg: 'An error occurred while trying to submit your reservation information. Please try again.'
   };
   public sanitizedContent: SafeHtml;
 
