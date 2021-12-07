@@ -4,8 +4,8 @@
 
 <p [innerHTML]="park?.description"></p>
 
-<p>
-    For more information about {{park?.name}} visit BC Parks.
+<p *ngIf="park?.bcParksLink">
+    For more information about {{park?.name}}, visit the BC Parks page <a href="{{park?.bcParksLink}}" target="_blank">here</a>.
 </p>
 
 <img class="img-fluid rounded mb-5"
