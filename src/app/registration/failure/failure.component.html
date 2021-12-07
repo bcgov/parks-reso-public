@@ -1,11 +1,7 @@
 <div id="failure"
     class="d-flex align-items-center">
     <div class="container text-center">
-        <h1>
-            We're sorry! An error occured.
-        </h1>
-        <p>
-            An error occurred while trying to submit your reservation information. Please try again.
-        </p>
+      <h1>{{errorContent.title}}</h1>
+      <div [innerHtml]="sanitizedContent"></div>
     </div>
 </div>

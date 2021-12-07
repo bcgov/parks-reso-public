@@ -24,25 +24,6 @@ export class ApiService {
     this.env = this.configService.config['ENVIRONMENT'];
   }
 
-  handleError(error: any): Observable<never> {
-    let errorMessage = 'Unknown Server Error';
-
-    if (error) {
-      if (error.message) {
-        if (error.error) {
-          errorMessage = `${error.message} - ${error.error.message}`;
-        } else {
-          errorMessage = error.message;
-        }
-      } else if (error.status) {
-        errorMessage = `${error.status} - ${error.statusText}`;
-      }
-    }
-
-    this.logger.log(`Server Error: ${errorMessage}`);
-    return throwError(error);
-  }
-
   post(pk, obj, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
     return this.http.post<any>(`${this.apiPath}/${pk}?${queryString}`, obj, {}).toPromise();

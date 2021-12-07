@@ -25,6 +25,7 @@ export class RegistrationComponent implements OnInit {
   private contactFormObj;
   public regData;
   public error = false;
+  public errorContent = {};
 
   // States: facility-select, contact-form, success, failure
   public state = 'facility-select';
@@ -120,6 +121,7 @@ export class RegistrationComponent implements OnInit {
       this.scrollToTop();
       this.backButtonText = 'Retry';
       this.state = 'failure';
+      this.errorContent = error.error;
       return;
     }
     this.scrollToTop();

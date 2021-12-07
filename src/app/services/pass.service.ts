@@ -47,7 +47,6 @@ export class PassService {
       postObj.facilityName = facilitySk;
       res = await this.apiService.post('pass', postObj);
     } catch (e) {
-      this.toastService.addMessage(`Please try again.`, `Registration not completed`, Constants.ToastTypes.ERROR);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,
