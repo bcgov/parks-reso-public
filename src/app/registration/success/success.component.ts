@@ -15,7 +15,9 @@ export class SuccessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.regData['park'] = this.park;
+    if (this.regData){
+      this.regData['park'] = this.park || null;
+    }
   }
 
   print(): void {
