@@ -67,7 +67,8 @@ html {
 }
 
 @media (max-width: 576px) {
-    .btn-primary, .btn-outline-primary {
+    .btn-primary,
+    .btn-outline-primary {
         width: 100%;
     }
 }
@@ -140,3 +141,16 @@ $header-height: 101px;
 
 // Footer
 $footer-height: 220px;
+
+label {
+    font-weight: 550;
+}
+
+.asteriks {
+    font-weight: 700;
+    color: black;
+}
+
+.form-group {
+    padding-bottom: 1.5rem;
+}

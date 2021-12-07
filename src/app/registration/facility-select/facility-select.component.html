@@ -70,7 +70,8 @@
     </fieldset>
     <div class="form-group">
         <label for="visitDate">Visit Date</label>
-        <app-date-picker [control]="myForm.controls.visitDate"
+        <app-date-picker [label]="'visitDate'"
+            [control]="myForm.controls.visitDate"
             [isValidate]="true"
             [minDate]="minDate"
             (formChangeEvent)="setState('time')"
@@ -85,12 +86,13 @@
     </div>
     <fieldset class="form-group"
         [disabled]="isDisabled('time')">
-        <label for="visitDate">Booking Time</label>
-        <div *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
+        <label for="bookingTime">Booking Time</label>
+        <div id="bookingTime"
+            *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
             <p class="text-muted">Please select a date to see available passes for that day.</p>
         </div>
         <div class="row row-cols-1 row cols-md-3 g-4">
-            <label class="col-lg-12"
+            <label class="col-lg-12 fw-normal"
                 *ngIf="timeConfig.AM.offered">
                 <div class="card h-100 card-primary card-input"
                     (click)="onTimeChange('AM')"
@@ -129,7 +131,7 @@
                     </div>
                 </div>
             </label>
-            <label class="col-lg-12"
+            <label class="col-lg-12 fw-normal"
                 *ngIf="timeConfig.PM.offered">
                 <div class="card h-100 card-primary card-input"
                     (click)="onTimeChange('PM')"
@@ -168,7 +170,7 @@
                     </div>
                 </div>
             </label>
-            <label class="col-lg-12"
+            <label class="col-lg-12 fw-normal"
                 *ngIf="timeConfig.DAY.offered">
                 <div class="card h-100 card-primary card-input"
                     (click)="onTimeChange('DAY')"
@@ -248,7 +250,7 @@
         </div>
     </fieldset>
     <div *ngIf="checkPassType() === 'Parking'">
-        <p><b>You may only reserve one vehicle pass per booking time.</b></p>
+        <p class="fw-bold">You may only reserve one vehicle pass per booking time.</p>
     </div>
 </form>
 <div class="d-flex justify-content-end">
