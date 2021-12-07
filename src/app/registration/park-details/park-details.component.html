@@ -8,7 +8,23 @@
     For more information about {{park?.name}} visit BC Parks.
 </p>
 
-<img class="img-fluid rounded"
+<img class="img-fluid rounded mb-5"
     src="{{url}}"
     onerror="this.onerror=null;this.src='assets/images/image-not-found.svg';"
     alt="{{altText}}" />
+
+<div class="mb-3" *ngIf="park?.mapLink" (click)="openMap()">
+    <button class="btn btn-primary p-3 w-100 justify-content-between parking-button">
+        <div class="row align-items-center">
+            <div class="col-8 justify-content-right">
+                <h2 class="mb-0">Parking Map <span class="material-icons rotate-45 d-none d-md-inline-block">link</span></h2>
+                <p class="my-0 d-none d-md-block mt-1">Where to park when you arrive</p>
+            </div>
+            <div class="col-4">
+                <div class="float-end">
+                    <span class="material-icons parking-icon p-2">local_parking</span>
+                </div>
+            </div>
+        </div>
+    </button>
+</div>
