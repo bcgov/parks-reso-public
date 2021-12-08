@@ -14,7 +14,7 @@
             Lot Name
         </p>
         <h3>
-            {{ regData?.facilityName }}
+            {{ regData?.facilityName }} ({{ regData?.type }})
         </h3>
         <hr>
     </div>
@@ -23,7 +23,7 @@
             Date
         </p>
         <h3>
-            {{ regData?.date | date : 'mediumDate' }} ({{ regData?.type}})
+            {{ regData?.date | date : 'mediumDate' }}
         </h3>
         <hr>
     </div>
@@ -48,37 +48,10 @@
     </div>
     <div class='row' *ngIf="regData?.registrationNumber">
         <p class="card-text">
-            Registration Number
+            Reservation Number
         </p>
         <h3>
             {{ regData?.registrationNumber }}
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.email">
-        <p class="card-text">
-            Email
-        </p>
-        <h3>
-            {{ regData?.email }}
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.phoneNumber">
-        <p class="card-text">
-            Phone
-        </p>
-        <h3>
-            {{ regData?.phoneNumber ? regData.phoneNumber : '-' }}
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.numberOfGuests">
-        <p class="card-text">
-            Number of Passes
-        </p>
-        <h3>
-            {{ regData?.numberOfGuests }}
         </h3>
     </div>
 </div>
