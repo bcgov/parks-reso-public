@@ -243,11 +243,16 @@ export class FacilitySelectComponent implements OnInit {
       }
       if (pass.type === 'Parking' && numberAvailable > this.parkingPassLimit) {
         numberAvailable = this.parkingPassLimit;
-        this.myForm.controls['passCount'].setValue(1);
       }
     }
-    for (let i = 1; i <= numberAvailable; i++) {
-      this.passesAvailable.push(i);
+
+    if (numberAvailable > 0 && this.checkPassType() === 'Parking') {
+      // Biz Rule: You can only get 1 parking pass at a time.
+      this.myForm.controls['passCount'].setValue(1);
+    } else {
+      for (let i = 1; i <= numberAvailable; i++) {
+        this.passesAvailable.push(i);
+      }
     }
   }
 
