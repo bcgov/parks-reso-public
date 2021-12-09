@@ -37,11 +37,8 @@
 <form class="mt-4"
     [formGroup]="myForm">
     <fieldset class="form-group">
-        <label for="passType">Pass Type</label>
-        <select class="form-control"
-            formControlName="passType"
-            id="passType"
-            (change)="setState('date')"
+        <label class="mb-2" for="passType">Pass Type</label>
+        <select class="form-control" formControlName="passType" id="passType" (change)="setState('date')"
             data-testid="passtype-select">
             <option hidden
                 disabled
@@ -64,7 +61,7 @@
         </select>
     </fieldset>
     <div class="form-group">
-        <label for="visitDate">Visit Date</label>
+        <label class="mb-2" for="visitDate">Visit Date</label>
         <app-date-picker [label]="'visitDate'"
             [control]="myForm.controls.visitDate"
             [isValidate]="true"
@@ -81,7 +78,7 @@
     </div>
     <fieldset class="form-group"
         [disabled]="isDisabled('time')">
-        <label for="bookingTime">Booking Time</label>
+        <label class="mb-2" for="bookingTime">Booking Time</label>
         <div id="bookingTime"
             *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
             <p class="text-muted">Please select a date to see available passes for that day.</p>
