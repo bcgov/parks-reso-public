@@ -15,6 +15,7 @@ export class ContactFormComponent implements OnInit {
   public collectionNoticeCheck = false;
   public weatherStatementCheck = false;
   public liabilityNoticeCheck = false;
+  public captchaCheck = false;
   public assetsUrl;
   public saving = false;
   public captchaJwt: string;
@@ -90,6 +91,7 @@ export class ContactFormComponent implements OnInit {
 
   captchaValidated(event): void {
     this.captchaJwt = event;
+    this.captchaCheck = true;
     this.changeDetectionRef.detectChanges();
   }
 }

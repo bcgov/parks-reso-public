@@ -141,7 +141,7 @@
 
             <div class="d-flex justify-content-end">
                 <button type="button"
-                    [disabled]="myForm.status === 'INVALID' || !collectionNoticeCheck || !weatherStatementCheck || !liabilityNoticeCheck || saving"
+                    [disabled]="myForm.status === 'INVALID' || !collectionNoticeCheck || !weatherStatementCheck || !liabilityNoticeCheck || !captchaCheck || saving"
                     class="btn btn-primary"
                     (click)="submit()">
                     <span *ngIf="!saving">
