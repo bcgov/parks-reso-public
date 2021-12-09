@@ -8,9 +8,8 @@
     position: relative;
 }
 
-.camp-car {
-    width: 100%;
-    height: 100%;
+.car-img {
+    border-radius: 8px;
 }
 
 .img-blurb {
@@ -23,7 +22,7 @@
     position: absolute;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1400px) {
     .img-blurb {
         position: relative;
         top: 1rem;

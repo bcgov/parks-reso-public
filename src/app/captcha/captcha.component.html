@@ -30,7 +30,7 @@
     <div class="captcha-input-container mt-2"
       *ngIf="state !== 'verifying'">
       <div class="form-group">
-        <label for="answer">Enter the letters or numbers you see or hear</label>
+        <label class="mb-2" for="answer">Enter the letters or numbers you see or hear</label>
         <input id="answer"
           class="form-control"
           [class.is-invalid]="state === 'invalid'"
