@@ -1,30 +1,33 @@
-<div *ngIf="state !== 'success'"
-    class="container-md mt-5 mb-2">
-    <button type="button"
-        class="btn btn-link"
-        (click)="navigate()">
-        <span class="material-icons align-text-bottom">
-            arrow_back
-        </span>
-        &nbsp;
-        <span>
-            {{backButtonText}}
-        </span>
-    </button>
-</div>
+<div class="d-flex flex-column h-100 mt-4"
+    [ngClass]="{'pb-4': !(state === 'facility-select' && !error)}">
+    <div *ngIf="state !== 'success'"
+        class="container-md mb-2">
+        <button type="button"
+            class="btn btn-link"
+            (click)="navigate()">
+            <span class="material-icons align-text-bottom">
+                arrow_back
+            </span>
+            &nbsp;
+            <span>
+                {{backButtonText}}
+            </span>
+        </button>
+    </div>
 
-<section *ngIf="error">
-    <p>
-        Please contact <a href="mailto:parkinfo@Victoria1.gov.bc.ca">parkinfo@Victoria1.gov.bc.ca</a> if you continue to
-        experience issues.
-    </p>
-</section>
-<div *ngIf="!error">
+    <div *ngIf="error">
+        <p>
+            Please contact <a href="mailto:parkinfo@Victoria1.gov.bc.ca">parkinfo@Victoria1.gov.bc.ca</a> if you
+            continue to
+            experience issues.
+        </p>
+    </div>
+
     <!-- Facility select page -->
-    <div *ngIf="state === 'facility-select'">
+    <div *ngIf="state === 'facility-select' && !error">
         <div class="container-md">
             <div class="row">
-                <div class="col-md-12 col-lg-6 left-col mb-5">
+                <div class="col-md-12 col-lg-6 left-col mb-4">
                     <app-park-details [park]="park"></app-park-details>
                 </div>
                 <div class="col-md-12 col-lg-6 right-col">
@@ -46,20 +49,19 @@
     </div>
 
     <!-- Contact information page -->
-    <div class="container-md">
-        <app-contact-form [park]="park"
-            [passData]="facilityFormObj"
-            (emitter)="getContactFormObj($event);"
-            *ngIf="state === 'contact-form'">
-        </app-contact-form>
-    </div>
+    <app-contact-form [park]="park"
+        [passData]="facilityFormObj"
+        (emitter)="getContactFormObj($event);"
+        *ngIf="state === 'contact-form' && !error">
+    </app-contact-form>
 
     <!-- Success -->
-    <app-success
-      [regData]="submitRes"
-      [park]="park"
-      *ngIf="state === 'success'"></app-success>
-    <app-failure
-      *ngIf="state === 'failure'"
-      [errorContent]="errorContent"></app-failure>
+    <app-success [regData]="submitRes"
+        [park]="park"
+        *ngIf="state === 'success' && !error"></app-success>
+
+    <div *ngIf="state === 'failure' && !error"
+        class="flex-fill pb-4">
+        <app-failure [errorContent]="errorContent"></app-failure>
+    </div>
 </div>
