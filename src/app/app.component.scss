@@ -1,8 +1,0 @@
-@import "/src/assets/base/base.scss";
-
-.main-wrapper {
-    display: table;
-    // header and footer heights
-    height: calc(100% - #{$header-height} - #{$footer-height});
-    width: 100%;
-}

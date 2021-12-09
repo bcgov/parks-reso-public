@@ -1,9 +1,33 @@
 @import "/src/assets/themes/default.scss";
 
-body,
-html {
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.box {
+    display: flex;
+    flex-flow: column;
     height: 100%;
 }
+
+.box .header {
+    flex: 0 1 auto;
+}
+
+.box .content {
+    flex: 1 1 auto;
+}
+
+.box .footer {
+    flex: 0 1 auto;
+}
+
+// Header
+$header-height: 6.313rem;
+// Footer
+$footer-height: 13.75rem;
 
 .card-header {
     background-color: $bg-dark;
@@ -136,11 +160,6 @@ html {
 $mn-font-size: 0.875rem; // 14 px
 $mn-dropdown-menu-size: 0.875rem; // 14 px
 
-// Header
-$header-height: 101px;
-
-// Footer
-$footer-height: 220px;
 
 label {
     font-weight: 550;

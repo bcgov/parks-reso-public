@@ -4,11 +4,6 @@
   background: $footer-bg;
   color: $footer-color;
 
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
-
   .container {
     padding-bottom: 0.5rem;
   }
@@ -17,30 +12,6 @@
     padding-top: 2.5rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
-  }
-
-  section {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid $bg-dark-border-color;
-
-    &.last {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-  }
-
-  h4 {
-    margin-bottom: 1rem;
-    font-size: medium;
-    font-weight: bold;
-  }
-
-  p {
-    font-size: 0.875rem;
-    line-height: 1.5;
   }
 
   ul {
@@ -60,16 +31,8 @@
     }
   }
 
-  .nav-links {
-    margin: 0;
-  }
-
   a {
     color: $footer-color;
-
-    &.feedback-link {
-      color: $bcgold;
-    }
 
     &:focus,
     &:hover {
@@ -105,22 +68,6 @@
           }
         }
       }
-    }
-  }
-}
-
-@media (min-width: 768px) {
-  .app-footer {
-    section {
-      text-align: left;
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    h4 {
-      padding-bottom: 1rem;
-      border-bottom: 1px solid $bg-dark-border-color;
     }
   }
 }

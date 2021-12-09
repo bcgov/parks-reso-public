@@ -1,6 +1,13 @@
-<app-header></app-header>
-<div class="main-wrapper">
-  <router-outlet>
-  </router-outlet>
+<div class="box">
+  <div class="header">
+    <app-header></app-header>
+  </div>
+  <div class="content"
+    fxFlex
+    fxLayout="column">
+    <router-outlet></router-outlet>
+  </div>
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>
 </div>
-<app-footer></app-footer>
