@@ -1,7 +1,5 @@
 <div class="container my-5">
-    <button type="button"
-        class="btn btn-link"
-        (click)="navigate()">
+    <button type="button" class="btn btn-link" (click)="navigate()">
         <span class="material-icons align-text-bottom">
             arrow_back
         </span>
@@ -21,8 +19,9 @@
             </p>
             <p
                 [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
-                When you made your reservation, you should have received an email containing a cancellation link.
-                Please follow the link in the email to the cancellation page.
+                <strong>When you made your reservation, you should have received an email containing a cancellation
+                    link. Please follow the link in the email to the cancellation page in order to cancel your
+                    pass</strong>
             </p>
             <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
                 If you are arriving on this page from the cancellation link in your reservation email, please review the
@@ -53,11 +52,11 @@
                     autorenew
                 </span>
             </div>
-            
+
             <div *ngIf="state === 'not-verified'">
                 <app-alert [data]="passNotFound()"></app-alert>
             </div>
-            
+
             <div *ngIf="state === 'not-cancelled'">
                 <app-alert [data]="passNotCancelled()"></app-alert>
             </div>
@@ -65,26 +64,25 @@
             <div *ngIf="state === 'verified'">
                 <app-alert [data]="passSuccessfullyVerified()"></app-alert>
             </div>
-            
+
             <div *ngIf="state === 'cancelled'">
                 <app-alert [data]="passSuccessfullyCancelled()"></app-alert>
             </div>
-            
+
             <div *ngIf="state === 'verify-populate' || state === 'not-verified' || state === 'not-cancelled'">
                 <app-pass-lookup-form [urlData]="urlData"></app-pass-lookup-form>
             </div>
-            
+
             <div class="d-flex float-right mb-5" *ngIf="state === 'verify-populate'">
-                <button class="btn btn-primary w-100" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
+                <button class="btn btn-primary w-100" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText
+                    }}</button>
             </div>
-            
+
             <div class="d-flex float-right my-3" *ngIf="state === 'not-verified' || state === 'not-cancelled'">
                 <button class="btn btn-primary w-100" (click)="navigate()">Home</button>
             </div>
         </div>
         <div class="col-lg-6 d-none d-lg-block">
-            <img src="assets/images/hotrod.jpg"
-                class="img-fluid rounded"
-                alt="fastest car in the world">
+            <img src="assets/images/WinterDUPxSL-6.jpg" class="img-fluid rounded" alt="fastest car in the world">
         </div>
-</div>
+    </div>
