@@ -21,8 +21,9 @@
             </p>
             <p
                 [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
-                When you made your reservation, you should have received an email containing a cancellation link.
-                Please follow the link in the email to the cancellation page.
+                <strong>When you made your reservation, you should have received an email containing a cancellation
+                link. Please follow the link in the email to the cancellation page in order to cancel your
+                pass</strong>
             </p>
             <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
                 If you are arriving on this page from the cancellation link in your reservation email, please review the
@@ -83,7 +84,7 @@
             </div>
         </div>
         <div class="col-lg-6 d-none d-lg-block">
-            <img src="assets/images/hotrod.jpg"
+            <img src="assets/images/WinterDUPxSL-6.jpg"
                 class="img-fluid rounded"
                 alt="fastest car in the world">
         </div>
