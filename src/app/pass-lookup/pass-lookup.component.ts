@@ -79,7 +79,7 @@ export class PassLookupComponent implements OnInit {
     let alert = new AlertObject({
       type: 'error',
       title: 'Unable to find reservation',
-      message: 'The system was unable to find this reservation. It may have already been cancelled, or it may have expired.',
+      message: '<span>The system was unable to find this reservation. It may have already been cancelled, or it may have expired.</span>',
       smallAlert: true
     });
     return alert;
@@ -89,7 +89,7 @@ export class PassLookupComponent implements OnInit {
     let alert = new AlertObject({
       type: 'error',
       title: 'Unable to cancel reservation',
-      message: 'The system was unable to cancel this reservation. It may have already been cancelled, or it may have expired.',
+      message: '<span>The system was unable to cancel this reservation. It may have already been cancelled, or it may have expired.</span>',
       smallAlert: true
     });
     return alert;
@@ -99,7 +99,7 @@ export class PassLookupComponent implements OnInit {
     let alert = new AlertObject({
       type: 'info',
       title: 'Successful reservation cancel',
-      message: 'Your reservation has been successfully cancelled',
+      message: '<span>Your reservation has been successfully cancelled</span>',
       smallAlert: true
     });
     return alert;
@@ -109,7 +109,7 @@ export class PassLookupComponent implements OnInit {
     let alert = new AlertObject({
       type: 'info',
       title: 'Please check your email',
-      message: 'A cancellation email has been sent to the address associated with this pass. Please check your inbox.',
+      message: '<span><strong>One more step!</strong> A cancellation email has been sent to the address associated with this pass. Please check your inbox to complete your cancellation</span>',
       smallAlert: true
     });
     return alert;
