@@ -11,7 +11,7 @@ export interface IAlertObjectParams {
     title?: string;
 
     /**
-     * Message associated with Alert
+     * HTML formatted message associated with Alert
      */
     message?: string;
 
