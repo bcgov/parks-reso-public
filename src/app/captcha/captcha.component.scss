@@ -1,4 +1,4 @@
-@import "/src/assets/themes/default.scss";
+@import '/src/assets/themes/default.scss';
 
 .captcha-container {
   max-width: 360px;
@@ -30,14 +30,32 @@
     }
   }
 
+  @media (max-width: 575.98px) {
+    .captcha-image {
+      width: 100%;
+      height: auto;
+      text-align: center;
+    }
+    .captcha-buttons-container {
+      height: auto;
+      width: 100%;
+    }
+  }
+
   .captcha-valid {
     .material-icons {
-        font-size: 48px;
-        color: $success;
-      }
+      font-size: 48px;
+      color: $success;
+    }
   }
 
   .error-container {
-      padding: 8px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .captcha-container {
+    max-width: 100%;
   }
 }
