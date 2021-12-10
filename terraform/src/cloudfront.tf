@@ -30,14 +30,6 @@ data "template_file" "basic_auth" {
   }
 }
 
-resource "aws_cloudfront_function" "parks_basic_auth" {
-  name    = "parks-basic-auth"
-  runtime = "cloudfront-js-1.0"
-  comment = "Basic auth handler"
-  publish = true
-  code    = data.template_file.basic_auth.rendered
-}
-
 #setup a cloudfront distribution to serve out the frontend files from s3 (github actions will push builds there)
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
@@ -110,14 +102,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
 
-    dynamic "function_association" {
-      for_each = var.enable_auth ? [1] : []
-      content {
-        event_type   = "viewer-request"
-        function_arn = aws_cloudfront_function.parks_basic_auth.arn
-      }
-    }
-
     forwarded_values {
       query_string = false
 
@@ -144,14 +128,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     default_ttl            = 3600
     max_ttl                = 86400
     viewer_protocol_policy = "redirect-to-https"
-
-    dynamic "function_association" {
-      for_each = var.enable_auth ? [1] : []
-      content {
-        event_type   = "viewer-request"
-        function_arn = aws_cloudfront_function.parks_basic_auth.arn
-      }
-    }
   }
 
   price_class = "PriceClass_100"
