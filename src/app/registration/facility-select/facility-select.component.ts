@@ -157,20 +157,20 @@ export class FacilitySelectComponent implements OnInit {
           // This happens if there are no existing passes for the day.
           if (times[key].max > 0) {
             this.timeConfig[key].text = 'High';
+            this.timeConfig[key].disabled = false;
           } else {
             this.timeConfig[key].text = 'Full';
             this.timeConfig[key].disabled = true;
           }
-          this.timeConfig[key].disabled = false;
         } else if (!facility.reservations[this.selectedDate][key]) {
           // This happens if there are no existing passes for the specific key.
           if (times[key].max > 0) {
             this.timeConfig[key].text = 'High';
+            this.timeConfig[key].disabled = false;
           } else {
             this.timeConfig[key].text = 'Full';
             this.timeConfig[key].disabled = true;
           }
-          this.timeConfig[key].disabled = false;
         } else if (facility.reservations[this.selectedDate][key] < times[key].max) {
           // There are one or more passes that exist with a specific key.
           const currentCount = facility.reservations[this.selectedDate][key] ? facility.reservations[this.selectedDate][key] : 0;
