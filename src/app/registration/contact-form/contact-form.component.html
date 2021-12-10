@@ -1,142 +1,151 @@
 <div class="container-md">
-    <div class="row">
-        <div class="col-md-12 col-lg-6 left-col mb-4">
-            <h1>Contact Information</h1>
-            <p>
-                Please provide the following information to complete your reservation and receive your pass via email.
-            </p>
-            <div class="container-md rounded py-3 details-container">
-                <div class="border-bottom border-secondary">
-                    <p>
-                        Facility Name
-                    </p>
-                    <h3>
-                        {{passData?.passType?.name}}
-                    </h3>
-                </div>
-                <div class="border-bottom border-secondary my-3">
-                    <p>
-                        Date
-                    </p>
-                    <h3>
-                        {{getMonthString(passData?.visitDate?.month)}} {{passData?.visitDate?.day}},
-                        {{passData?.visitDate?.year}} ({{passData?.visitTime}})
-                    </h3>
-                </div>
-                <div class="my-3">
-                    <p>
-                        Number of Passes
-                    </p>
-                    <h3>
-                        {{passData?.passCount}}
-                    </h3>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-6 left-col mb-4">
+      <h1>Contact Information</h1>
+      <p>Please provide the following information to complete your reservation and receive your pass via email.</p>
+      <div class="container-md rounded py-3 details-container">
+        <div class="border-bottom border-secondary">
+          <p>Facility Name</p>
+          <h3>
+            {{ passData?.passType?.name }}
+          </h3>
         </div>
-        <div class="col-md-12 col-lg-6 right-col">
-            <form class="contact-info" [formGroup]="myForm">
-                <div class="form-group">
-                    <label class="mb-2" for="firstName">First Name <span class="asteriks">*</span></label>
-                    <input type="text" class="form-control mb-1" formControlName="firstName" id="firstName">
-                </div>
-                <div class="form-group">
-                    <label class="mb-2" for="lastName">Last Name <span class="asteriks">*</span></label>
-                    <input type="text" class="form-control mb-1" formControlName="lastName" id="lastName">
-                </div>
-                <div class="form-group">
-                    <label class="mb-2" for="email">Email Address <span class="asteriks">*</span></label>
-                    <input id="email" type="email" class="form-control mb-1" formControlName="email"
-                        placeholder="name@example.com">
-                    <small class="text-muted">Your email address will be used to send you your pass. It may also be used
-                        to
-                        notify you in the event of a park or facility closure based on your selected visitation
-                        date.</small>
-                </div>
-                <!-- Optional phone number field removed -->
-                <div *ngIf="passData?.passType?.type === 'Parking'" class="form-group">
-                    <label class="mb-2" for="license">License Plate <span class="asteriks">*</span></label>
-                    <input type="text" class="form-control mb-1" formControlName="license" id="license"
-                    oninput="this.value = this.value.toUpperCase()">
-                    <small class="text-muted">Park staff may verify your pass by ensuring the vehicle’s license plate
-                        matches the value provided above.</small>
-                </div>
-            </form>
-
-            <div class="mb-5">
-                <p>This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of
-                    Information
-                    and Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use
-                    location
-                    and to evaluate the reservation system and process. Questions regarding this collection can be
-                    directed
-                    to:
-                    Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.</p>
-
-                <div class="mt-3">
-                    <label class="ml-2">
-                        <input type="checkbox" [(ngModel)]="collectionNoticeCheck"
-                            [ngModelOptions]="{standalone: true}" />
-                        &nbsp;I have read and agree to the above notice&nbsp;<span class="asteriks">*</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <p>Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at
-                    any
-                    time and can cause injury if not adequately prepared for. Dress appropriately, including suitable
-                    clothing
-                    and footwear for winter conditions (winter boots with grip and/or Yak Tracks). Weather and road
-                    surface
-                    conditions can change quickly, be aware of your surroundings from the moment you exit your vehicle
-                    or
-                    the
-                    shuttle bus. Please ensure all members of your party accompanying you are aware of he same
-                    information
-                    and
-                    area also prepare for winter condition.</p>
-
-                <div class="mt-3">
-                    <label class="ml-2">
-                        <input type="checkbox" [(ngModel)]="weatherStatementCheck"
-                            [ngModelOptions]="{standalone: true}" />
-                        &nbsp;Please tick this box to acknowledge the above statement&nbsp;<span
-                            class="asteriks">*</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="mb-5">
-                <p><a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank"
-                        rel="noreferrer noopener">Exclusion of Liability Notice</a></p>
-
-                <div class="mt-3">
-                    <label class="ml-2">
-                        <input type="checkbox" [(ngModel)]="liabilityNoticeCheck"
-                            [ngModelOptions]="{standalone: true}" />
-                        &nbsp;
-                        I have read and agree to the Exclusion of Liability Notice above&nbsp;<span
-                            class="asteriks">*</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
-            </div>
-
-            <div class="d-flex justify-content-end">
-                <button type="button"
-                    [disabled]="myForm.status === 'INVALID' || !collectionNoticeCheck || !weatherStatementCheck || !liabilityNoticeCheck || !captchaCheck || saving"
-                    class="btn btn-primary" (click)="submit()">
-                    <span *ngIf="!saving">
-                        Submit
-                    </span>
-                    <span *ngIf="saving" class="material-icons rotating">
-                        autorenew
-                    </span>
-                </button>
-            </div>
+        <div class="border-bottom border-secondary my-3">
+          <p>Date</p>
+          <h3>
+            {{ getMonthString(passData?.visitDate?.month) }} {{ passData?.visitDate?.day }},
+            {{ passData?.visitDate?.year }} ({{ passData?.visitTime }})
+          </h3>
         </div>
+        <div class="my-3">
+          <p>Number of Passes</p>
+          <h3>
+            {{ passData?.passCount }}
+          </h3>
+        </div>
+      </div>
     </div>
+    <div class="col-md-12 col-lg-6 right-col">
+      <form [formGroup]="myForm">
+        <div class="form-group">
+          <label class="mb-2" for="firstName">
+            First Name
+            <span class="asteriks">*</span>
+          </label>
+          <input type="text" class="form-control mb-1" formControlName="firstName" id="firstName" />
+        </div>
+        <div class="form-group">
+          <label class="mb-2" for="lastName">
+            Last Name
+            <span class="asteriks">*</span>
+          </label>
+          <input type="text" class="form-control mb-1" formControlName="lastName" id="lastName" />
+        </div>
+        <div class="form-group">
+          <label class="mb-2" for="email">
+            Email Address
+            <span class="asteriks">*</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            class="form-control mb-1"
+            formControlName="email"
+            placeholder="name@example.com" />
+          <small class="text-muted">
+            Your email address will be used to send you your pass. It may also be used to notify you in the event of a
+            park or facility closure based on your selected visitation date.
+          </small>
+        </div>
+        <!-- Optional phone number field removed -->
+        <div *ngIf="passData?.passType?.type === 'Parking'" class="form-group mb-0">
+          <label class="mb-2" for="license">
+            License Plate
+            <span class="asteriks">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control mb-1"
+            formControlName="license"
+            id="license"
+            oninput="this.value = this.value.toUpperCase()" />
+          <small class="text-muted">
+            Park staff may verify your pass by ensuring the vehicle’s license plate matches the value provided above.
+          </small>
+        </div>
+      </form>
+
+      <div class="mb-4">
+        <p>
+          This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of Information and
+          Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use location and to
+          evaluate the reservation system and process. Questions regarding this collection can be directed to:
+          Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9, 250-387-6121.
+        </p>
+
+        <div class="mt-3">
+          <label class="ml-2">
+            <input type="checkbox" [(ngModel)]="collectionNoticeCheck" [ngModelOptions]="{ standalone: true }" />
+            &nbsp;I have read and agree to the above notice&nbsp;
+            <span class="asteriks">*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <p>
+          Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at any time
+          and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing and
+          footwear for winter conditions (winter boots with grip and/or Yak Tracks). Weather and road surface conditions
+          can change quickly, be aware of your surroundings from the moment you exit your vehicle or the shuttle bus.
+          Please ensure all members of your party accompanying you are aware of he same information and area also
+          prepare for winter condition.
+        </p>
+
+        <div class="mt-3">
+          <label class="ml-2">
+            <input type="checkbox" [(ngModel)]="weatherStatementCheck" [ngModelOptions]="{ standalone: true }" />
+            &nbsp;Please tick this box to acknowledge the above statement&nbsp;
+            <span class="asteriks">*</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <p>
+          <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">
+            Exclusion of Liability Notice
+          </a>
+        </p>
+
+        <div class="mt-3">
+          <label class="ml-2">
+            <input type="checkbox" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
+            &nbsp; I have read and agree to the Exclusion of Liability Notice above&nbsp;
+            <span class="asteriks">*</span>
+          </label>
+        </div>
+      </div>
+
+      <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
+
+      <div class="d-flex justify-content-end">
+        <button
+          type="button"
+          [disabled]="
+            myForm.status === 'INVALID' ||
+            !collectionNoticeCheck ||
+            !weatherStatementCheck ||
+            !liabilityNoticeCheck ||
+            !captchaCheck ||
+            saving
+          "
+          class="btn btn-primary"
+          (click)="submit()">
+          <span *ngIf="!saving">Submit</span>
+          <span *ngIf="saving" class="material-icons rotating">autorenew</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
