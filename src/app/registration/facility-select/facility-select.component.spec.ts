@@ -232,5 +232,37 @@ describe('FacilitySelectComponent', () => {
         'Pass availability - Full'
       );
     });
+
+
+    it('should show as full when zero spots available', () => {
+      const date = new Date('2021-11-23T20:02:00.000-08:00');
+      setupVisitTimeState(
+        [
+          {
+            visible: true,
+            bookingTimes: { DAY: { max: 0 } },
+            status: { stateReason: null, state: 'open' },
+            sk: 'Test facility 1',
+            pk: 'facility::Garibaldi Provincial Park',
+            name: 'Test facility 1',
+            reservations: {},
+            type: 'Parking',
+          },
+        ],
+        date
+      );
+
+      const textElement = fixture.debugElement.query(
+        By.css('[data-testid="day-availability-text"]')
+      );
+      expect(textElement.nativeElement.textContent).toContain(
+        'Pass availability - Full'
+      );
+
+      const inputElement = fixture.debugElement.query(
+        By.css('[data-testid="day-input"]')
+      );
+      expect(inputElement.nativeElement.disabled).toBe(true);
+    });
   });
 });
