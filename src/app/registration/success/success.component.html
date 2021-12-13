@@ -14,12 +14,11 @@
                         regData.lastName : '-'}}</strong></p>
             </div>
             <div class="row">
-                <div class="col-12 success-title my-3">
+                <div class="col-12 success-title my-3 d-none d-lg-block">
                     <p class="mb-1">Your Reservation Number</p>
-                    <p class="d-none d-lg-block"><strong>{{ regData?.registrationNumber }}</strong></p>
-                    <h1 class="d-block d-lg-none">{{ regData?.registrationNumber }}</h1>
+                    <p><strong>{{ regData?.registrationNumber }}</strong></p>
                 </div>
-                <div class="col-12 success-title my-3">
+                <div class="col-12 success-title my-3 d-none d-lg-block">
                     <button type="button"
                         class="btn btn-primary"
                         (click)="print()">Print</button>
@@ -30,6 +29,11 @@
             <div class="mb-4">
                 <app-registration-details [regData]="regData">
                 </app-registration-details>
+            </div>
+            <div class="col-12 success-title my-3 d-block d-lg-none">
+                <button type="button"
+                    class="btn btn-primary"
+                    (click)="print()">Print</button>
             </div>
             <div class="text-center m-4">
                 <p class="d-block d-lg-none ">We hope you enjoy your visit!</p>
