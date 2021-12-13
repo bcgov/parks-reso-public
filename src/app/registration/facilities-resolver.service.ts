@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { Resolve, Router } from '@angular/router';
 import { FacilityService } from '../services/facility.service';
 
 @Injectable()
 export class FacilitiesResolverService implements Resolve<void> {
-  constructor(
-    private facilityService: FacilityService,
-    private router: Router
-  ) { }
+  constructor(private facilityService: FacilityService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot) {
+  resolve() {
     if (
       !this.router.getCurrentNavigation() ||
       !this.router.getCurrentNavigation().extras ||

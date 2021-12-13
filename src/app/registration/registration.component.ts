@@ -39,7 +39,11 @@ export class RegistrationComponent implements OnInit {
   ) {
     // Prevent us from loading into /registration without going through the root page.
     // tslint:disable-next-line: max-line-length
-    if (!this.router.getCurrentNavigation() || !this.router.getCurrentNavigation().extras || !this.router.getCurrentNavigation().extras.state) {
+    if (
+      !this.router.getCurrentNavigation() ||
+      !this.router.getCurrentNavigation().extras ||
+      !this.router.getCurrentNavigation().extras.state
+    ) {
       this.router.navigate(['']);
     } else {
       this.park = this.router.getCurrentNavigation().extras.state.park;
@@ -48,9 +52,10 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.scrollToTop();
-    this.facilityService.getListValue()
+    this.facilityService
+      .getListValue()
       .pipe(takeWhile(() => this.alive))
-      .subscribe((res) => {
+      .subscribe(res => {
         if (res) {
           if (res === 'error') {
             this.error = true;
@@ -63,7 +68,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   navigate(): void {
-    if (this.state !== 'failure' && confirm('Are you sure you want to leave? You will lose your data if you continue!')) {
+    if (
+      this.state !== 'failure' &&
+      confirm('Are you sure you want to leave? You will lose your data if you continue!')
+    ) {
       switch (this.state) {
         case 'facility-select':
           this.router.navigate(['']);
@@ -100,7 +108,7 @@ export class RegistrationComponent implements OnInit {
 
   getContactFormObj(event): void {
     this.contactFormObj = event;
-    this.regData = { ... this.facilityFormObj, ...this.contactFormObj };
+    this.regData = { ...this.facilityFormObj, ...this.contactFormObj };
     this.regData['registrationNumber'] = '1234asdf';
     this.submit();
   }
@@ -112,15 +120,12 @@ export class RegistrationComponent implements OnInit {
       this.populatePassObj(postObj);
       this.submitRes = await this.passService.createPass(postObj, this.park.sk, this.regData.passType.sk);
       this.backButtonText = '';
-      this.toastService.addMessage(
-        `Pass successfully registered.`,
-        `Success`,
-        Constants.ToastTypes.SUCCESS
-      );
+      this.toastService.addMessage(`Pass successfully registered.`, `Success`, Constants.ToastTypes.SUCCESS);
     } catch (error) {
       this.scrollToTop();
       this.backButtonText = 'Retry';
       this.state = 'failure';
+      this.facilityService.fetchData(null, this.park.sk);
       this.errorContent = error.error;
       return;
     }
@@ -135,7 +140,15 @@ export class RegistrationComponent implements OnInit {
     obj.facilityName = this.regData.passType.name;
     obj.numberOfGuests = this.regData.passCount;
     obj.email = this.regData.email;
-    obj.date = new Date(this.regData.visitDate.year, this.regData.visitDate.month - 1, this.regData.visitDate.day, 12, 0, 0, 0);
+    obj.date = new Date(
+      this.regData.visitDate.year,
+      this.regData.visitDate.month - 1,
+      this.regData.visitDate.day,
+      12,
+      0,
+      0,
+      0
+    );
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
