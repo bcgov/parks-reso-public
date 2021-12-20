@@ -10,6 +10,7 @@ import { SuccessComponent } from './success/success.component';
 import { FailureComponent } from './failure/failure.component';
 import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { CaptchaComponent } from '../captcha/captcha.component';
+import { ImportantBookingInfoModule } from '../shared/components/important-booking-info/important-booking-info.module';
 
 @NgModule({
   declarations: [
@@ -20,13 +21,8 @@ import { CaptchaComponent } from '../captcha/captcha.component';
     SuccessComponent,
     FailureComponent,
     GuidelinesComponent,
-    CaptchaComponent,
+    CaptchaComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    ReactiveFormsModule
-  ]
+  imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, ImportantBookingInfoModule]
 })
-export class RegistrationModule { }
+export class RegistrationModule {}
