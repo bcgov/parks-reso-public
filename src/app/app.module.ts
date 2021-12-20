@@ -29,6 +29,7 @@ import { ToastService } from './services/toast.service';
 import { CaptchaDataService } from './services/captcha-data.service';
 import { TipsComponent } from './tips/tips.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ImportantBookingInfoModule } from './shared/components/important-booking-info/important-booking-info.module';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -47,7 +48,7 @@ export function initConfig(configService: ConfigService) {
     ParksListComponent,
     ParksTableRowComponent,
     TipsComponent,
-    NotFoundComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -58,16 +59,13 @@ export function initConfig(configService: ConfigService) {
     BrowserAnimationsModule,
     SharedModule,
     PassLookupModule,
-    ToastrModule.forRoot(
-      {
-        positionClass: 'toast-top-center'
-      }
-    ),
-    FormsModule
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
+    FormsModule,
+    ImportantBookingInfoModule
   ],
-  exports: [
-    CardComponent
-  ],
+  exports: [CardComponent],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -87,4 +85,4 @@ export function initConfig(configService: ConfigService) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
