@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../shared/services/config.service';
 
 @Component({
   selector: 'app-card',

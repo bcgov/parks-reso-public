@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -20,17 +20,26 @@ export class ContactFormComponent implements OnInit {
   public saving = false;
   public captchaJwt: string;
 
-  public months = ['January', 'February', 'March',
-    'April', 'May', 'June',
-    'July', 'August', 'September',
-    'October', 'November', 'December'
+  public months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ];
 
   constructor(
     private fb: FormBuilder,
     private configService: ConfigService,
     private changeDetectionRef: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -45,15 +54,13 @@ export class ContactFormComponent implements OnInit {
       email: new FormControl(),
       license: new FormControl()
     });
-    this.myForm = this.fb.group(
-      {
-        firstName: ['', Validators.required],
-        lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        phone: ['', [Validators.pattern('^[0-9]{10}$')]],
-        license: ['', Validators.required]
-      }
-    );
+    this.myForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.pattern('^[0-9]{10}$')]],
+      license: ['', Validators.required]
+    });
     if (this.passData && this.passData.passType && this.passData.passType.type) {
       if (this.passData.passType.type !== 'Parking') {
         this.myForm.controls['license'].clearValidators();
@@ -62,9 +69,9 @@ export class ContactFormComponent implements OnInit {
   }
 
   keyPressNumbers(event) {
-    let charCode = (event.which) ? event.which : event.keyCode;
+    let charCode = event.which ? event.which : event.keyCode;
     // Only Numbers 0-9
-    if ((charCode < 48 || charCode > 57)) {
+    if (charCode < 48 || charCode > 57) {
       event.preventDefault();
       return false;
     } else {

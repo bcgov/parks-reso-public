@@ -12,12 +12,11 @@ import { CardComponent } from './card/card.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { RegistrationModule } from './registration/registration.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from './shared/shared.module';
 import { PassLookupModule } from './pass-lookup/pass-lookup.module';
 import { ParksListComponent } from './parks-list/parks-list.component';
 import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table-row.component';
 import { ParksListResolverService } from './parks-list/parks-list-resolver.service';
-import { ConfigService } from './services/config.service';
+import { ConfigService } from './shared/services/config.service';
 import { HttpClientModule } from '@angular/common/http';
 import { LoggerService } from './services/logger.service';
 import { ApiService } from './services/api.service';
@@ -26,10 +25,12 @@ import { ParkService } from './services/park.service';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from './services/toast.service';
-import { CaptchaDataService } from './services/captcha-data.service';
 import { TipsComponent } from './tips/tips.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ImportantBookingInfoModule } from './shared/components/important-booking-info/important-booking-info.module';
+import { ListModule } from './shared/components/list/list.module';
+import { Utils } from './shared/utils/utils';
+import { CommonModule } from '@angular/common';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -57,13 +58,13 @@ export function initConfig(configService: ConfigService) {
     NgbModule,
     RegistrationModule,
     BrowserAnimationsModule,
-    SharedModule,
     PassLookupModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
     }),
     FormsModule,
-    ImportantBookingInfoModule
+    ImportantBookingInfoModule,
+    ListModule
   ],
   exports: [CardComponent],
   providers: [
@@ -81,7 +82,8 @@ export function initConfig(configService: ConfigService) {
     ParkService,
     FacilitiesResolverService,
     ToastService,
-    CaptchaDataService
+    ConfigService,
+    Utils
   ],
   bootstrap: [AppComponent]
 })

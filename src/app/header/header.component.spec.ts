@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../shared/services/config.service';
 
 import { HeaderComponent } from './header.component';
 

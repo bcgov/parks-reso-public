@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { ConfigService } from './config.service';
-import { LoggerService } from './logger.service';
+import { ConfigService } from '../../services/config.service';
 
 // payload returned from the server
 @Injectable()

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
-import { CaptchaDataService } from '../services/captcha-data.service';
-import { ConfigService } from '../services/config.service';
+import { ConfigService } from '../../services/config.service';
+import { CaptchaDataService } from './captcha-data.service';
 
 import { CaptchaComponent } from './captcha.component';
 

@@ -1,8 +1,9 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ConfigService } from 'src/app/shared/services/config.service';
+import { Utils } from 'src/app/shared/utils/utils';
 
-import { ConfigService } from 'src/app/services/config.service';
 import { RegistrationModule } from '../registration.module';
 
 import { FacilitySelectComponent } from './facility-select.component';
@@ -15,7 +16,7 @@ describe('FacilitySelectComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [RegistrationModule],
-      providers: [ConfigService, HttpClient, HttpHandler],
+      providers: [ConfigService, HttpClient, HttpHandler, Utils],
     }).compileComponents();
   });
 
