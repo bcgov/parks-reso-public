@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-  OnChanges,
-  Injector,
-} from '@angular/core';
+import { Component, Input, OnDestroy, Output, EventEmitter, SimpleChanges, OnChanges, Injector } from '@angular/core';
 
 import { TableObject } from './table-object';
 import { ITableMessage } from './table-row-component';
@@ -23,7 +14,7 @@ export class TableTemplateComponent implements OnChanges, OnDestroy {
   @Input() messageIn: EventEmitter<ITableMessage> = new EventEmitter<ITableMessage>();
   @Output() messageOut: EventEmitter<ITableMessage> = new EventEmitter<ITableMessage>();
 
-  constructor(public injector: Injector) { }
+  constructor(public injector: Injector) {}
 
   ngOnChanges(changes: SimpleChanges) {
     // only run when property "data" changed
@@ -67,5 +58,5 @@ export class TableTemplateComponent implements OnChanges, OnDestroy {
     this.messageOut.emit({ label: 'pageSize', data: pageSize });
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 }

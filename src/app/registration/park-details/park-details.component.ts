@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
   selector: 'app-park-details',
@@ -10,7 +10,7 @@ export class ParkDetailsComponent implements OnInit {
   @Input() park;
   public altText = 'Park Image';
   public url = '';
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService) {}
 
   ngOnInit(): void {
     if (this.park) {
@@ -25,5 +25,4 @@ export class ParkDetailsComponent implements OnInit {
       window.open(this.park.mapLink);
     }
   }
-
 }

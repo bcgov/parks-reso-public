@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { CaptchaDataService } from '../services/captcha-data.service';
+import { CaptchaDataService } from './captcha-data.service';
 
 @Component({
   selector: 'app-captcha',

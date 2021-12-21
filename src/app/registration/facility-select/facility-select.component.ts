@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { concat } from 'rxjs';
-import { ConfigService } from 'src/app/services/config.service';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
+import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
   selector: 'app-facility-select',

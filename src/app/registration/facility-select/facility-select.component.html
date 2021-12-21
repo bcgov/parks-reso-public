@@ -142,7 +142,7 @@
     </div>
   </fieldset>
 
-  <div *ngIf="state > getStateByString('time')">
+  <div class="mb-4" *ngIf="state > getStateByString('time')">
     <label for="passCount" class="mb-2">Number of Passes Required</label>
     <fieldset class="form-group" *ngIf="checkPassType() !== 'Parking'">
       <div *ngIf="state < getStateByString('passes') || !checkPassType()">

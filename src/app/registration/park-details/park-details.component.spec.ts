@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/shared/services/config.service';
 import { RegistrationModule } from '../registration.module';
 
 import { ParkDetailsComponent } from './park-details.component';
