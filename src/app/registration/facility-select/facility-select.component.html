@@ -70,7 +70,7 @@
               Pass availability -
               <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
             </p>
-            <p class="card-text">7am&ndash;12pm (Depart by noon)</p>
+            <p class="card-text">{{to12hTimeString(defaultAMOpeningHour)}}&ndash;12pm (Depart by noon)</p>
           </div>
         </div>
       </label>

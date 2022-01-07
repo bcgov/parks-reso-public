@@ -8,7 +8,6 @@ import { ConfigService } from 'src/app/shared/services/config.service';
   templateUrl: './facility-select.component.html',
   styleUrls: ['./facility-select.component.scss']
 })
-
 export class FacilitySelectComponent implements OnInit {
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(DatePickerComponent) dateFormChild: DatePickerComponent;
@@ -20,6 +19,7 @@ export class FacilitySelectComponent implements OnInit {
   public closedFacilities = [];
   public passesAvailable = [];
   public selectedDate = '';
+  public expiredText = "This time slot has expired"
 
   public timeConfig = {
     AM: {
@@ -43,7 +43,9 @@ export class FacilitySelectComponent implements OnInit {
   };
 
   // typically imported from configService, below are default values if no configService
-  public defaultOpeningHour = 7;
+  // PM opening hour is used to determine when AM time slot closes (in 24h time)
+  public defaultAMOpeningHour = 7;
+  public defaultPMOpeningHour = 12;
   public defaultDateLimit = 1;
   public trailPassLimit = 4;
   public parkingPassLimit = 1;
@@ -63,11 +65,12 @@ export class FacilitySelectComponent implements OnInit {
       this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT'];
       this.parkingPassLimit = this.configService.config['PARKING_PASS_LIMIT'];
       this.defaultDateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
-      this.defaultOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
+      this.defaultAMOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
     }
     this.initForm();
     this.checkPassType();
     this.setFacilitiesArrays();
+    this.timeConfig.AM.disabled = this.isAMSlotExpired;
   }
 
   get bookingDaysAhead(): number {
@@ -83,7 +86,7 @@ export class FacilitySelectComponent implements OnInit {
 
   get bookingOpeningHour(): number {
     const facility = this.myForm.get('passType').value;
-    let bookingOpeningHour = this.defaultOpeningHour;
+    let bookingOpeningHour = this.defaultAMOpeningHour;
 
     if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
       bookingOpeningHour = facility.bookingOpeningHour;
@@ -97,6 +100,18 @@ export class FacilitySelectComponent implements OnInit {
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
     const currentHour = date.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
     return Boolean(parseInt(currentHour, 10) >= this.bookingOpeningHour);
+  }
+
+  get isAMSlotExpired(): boolean {
+    const localDate = new Date();
+    const bookingDate = this.getBookingDate();
+    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
+    const currentHour = localDate.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
+    localDate.setHours(0,0,0,0);
+    if (localDate >= bookingDate && parseInt(currentHour, 10) >= this.defaultPMOpeningHour ){
+      return true;
+    }
+    return false;
   }
 
   get minDate(): Date {
@@ -152,7 +167,11 @@ export class FacilitySelectComponent implements OnInit {
       this.selectedDate = this.getBookingDateString();
       this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unoffered';
       for (let key in times) {
-        if (!facility.reservations[this.selectedDate]) {
+        if (key === 'AM' && this.isAMSlotExpired) {
+          // This happens if it is beyond AM slot closing time
+          this.timeConfig.AM.text = this.expiredText;
+          this.timeConfig.AM.disabled = true;
+        } else if (!facility.reservations[this.selectedDate]) {
           // This happens if there are no existing passes for the day.
           if (times[key].max > 0) {
             this.timeConfig[key].text = 'High';
@@ -194,7 +213,12 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   showTimeText(time) {
-    if (!this.timeConfig[time].disabled || this.timeConfig[time].text === 'Unavailable' || this.timeConfig[time].text === 'Full') {
+    if (
+      !this.timeConfig[time].disabled ||
+      this.timeConfig[time].text === 'Unavailable' ||
+      this.timeConfig[time].text === 'Full' ||
+      this.timeConfig[time].text === this.expiredText
+    ) {
       return true;
     } else {
       return false;
@@ -206,6 +230,15 @@ export class FacilitySelectComponent implements OnInit {
     // NgbDate uses 1-indexed months
     const date = new Date(year, month - 1, day);
     return date.toISOString().split('T')[0];
+  }
+
+  getBookingDate() {
+    // assume today if no visitDate selected
+    if (this.myForm.get('visitDate').value){
+      const { year, month, day } = this.myForm.get('visitDate').value;
+      return new Date(year, month - 1, day) || new Date();
+    }
+    return new Date();
   }
 
   setPassesArray(): void {
@@ -318,7 +351,7 @@ export class FacilitySelectComponent implements OnInit {
       AM: {
         selected: false,
         offered: false,
-        disabled: true,
+        disabled: this.isAMSlotExpired,
         text: '-'
       },
       PM: {
@@ -342,7 +375,7 @@ export class FacilitySelectComponent implements OnInit {
 
   setState(setState): void {
     this.clearFormByState(setState);
-    this.state = this.stateOrder.findIndex((element) => element === setState);
+    this.state = this.stateOrder.findIndex(element => element === setState);
     if (this.state === this.getStateByString('blank')) {
       this.setFacilitiesArrays();
     }
@@ -355,15 +388,25 @@ export class FacilitySelectComponent implements OnInit {
     }
   }
 
-  initForm(): void {
-    this.myForm = this.fb.group(
-      {
-        visitDate: ['', Validators.required],
-        visitTime: ['', Validators.required],
-        passType: ['', Validators.required],
-        passCount: ['', Validators.required]
+  to12hTimeString(hour): string {
+    let period = 'am';
+    if (hour > 11) {
+      period = 'pm';
+      if (hour > 12) {
+        hour -= 12;
       }
-    );
+    }
+    let hourStr = hour === 0 ? '12' : hour.toString();
+    return hourStr + period;
+  }
+
+  initForm(): void {
+    this.myForm = this.fb.group({
+      visitDate: ['', Validators.required],
+      visitTime: ['', Validators.required],
+      passType: ['', Validators.required],
+      passCount: ['', Validators.required]
+    });
   }
 
   submit(): void {
