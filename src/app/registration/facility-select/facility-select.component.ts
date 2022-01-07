@@ -19,7 +19,7 @@ export class FacilitySelectComponent implements OnInit {
   public closedFacilities = [];
   public passesAvailable = [];
   public selectedDate = '';
-  public expiredText = "This time slot has expired"
+  public expiredText = 'This time slot has expired';
 
   public timeConfig = {
     AM: {
@@ -107,7 +107,7 @@ export class FacilitySelectComponent implements OnInit {
     const bookingDate = this.getBookingDate();
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
     const currentHour = localDate.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
-    localDate.setHours(0,0,0,0);
+    localDate.setHours(0, 0, 0, 0);
     if (localDate >= bookingDate && parseInt(currentHour, 10) >= this.defaultPMOpeningHour ){
       return true;
     }
