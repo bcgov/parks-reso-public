@@ -154,6 +154,7 @@ export class FacilitySelectComponent implements OnInit {
     this.selectedDate = '';
     if (this.myForm.get('passType').value && this.myForm.get('passType').value.bookingTimes) {
       const facility = this.myForm.get('passType').value;
+      this.defaultAMOpeningHour = this.bookingOpeningHour;
       const times = this.myForm.get('passType').value.bookingTimes;
       if (times.AM) {
         this.timeConfig.AM.offered = true;
