@@ -1,0 +1,6 @@
+node_modules
+tools/dump.json
+coverage
+artifacts
+terraform/sandbox/.terragrunt-cache/
+terraform/sandbox/.terraform.lock.hcl
