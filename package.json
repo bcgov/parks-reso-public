@@ -1,0 +1,26 @@
+{
+  "name": "bcparks-ar-api",
+  "version": "1.0.0",
+  "description": "BCParks Attendance and Revenue Backend",
+  "devDependencies": {
+    "aws-sdk-mock": "^5.4.0",
+    "jest": "^27.4.0",
+    "serverless": "^2.61.0",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^8.2.0",
+    "serverless-plugin-include-dependencies": "^5.0.0"
+  },
+  "scripts": {
+    "start": "sls offline start",
+    "build": "sls package --package ./artifacts",
+    "test": "IS_OFFLINE=1 TABLE_NAME=bcparks-ar-tests jest --coverage"
+  },
+  "jest": {
+    "verbose": true,
+    "globalSetup": "./__tests__/global/setup.js",
+    "globalTeardown": "./__tests__/global/teardown.js",
+    "modulePathIgnorePatterns": [
+      "./__tests__/global/"
+    ]
+  }
+}

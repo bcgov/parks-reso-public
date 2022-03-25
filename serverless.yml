@@ -1,0 +1,31 @@
+service: bcparks-ar-api
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: api
+  region: ca-central-1
+  lambdaHashingVersion: 20201221
+
+package:
+  individually: true
+  patterns:
+    - '!./**' # This causes Serverless to only package referenced source files
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-plugin-include-dependencies
+functions:
+  ###########
+  # Park
+  ###########
+  park:
+    handler: lambda/park/index.handler
+    events:
+      - http:
+          method: GET
+          path: /park
+          cors: true
