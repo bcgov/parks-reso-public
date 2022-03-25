@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "parkLambda" {
-  function_name = "park"
+  function_name = "park-${random_string.postfix.result}"
 
   filename         = "artifacts/park.zip"
   source_code_hash = filebase64sha256("artifacts/park.zip")

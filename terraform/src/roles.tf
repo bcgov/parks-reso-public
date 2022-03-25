@@ -1,5 +1,5 @@
 resource "aws_iam_role" "basicExecutionRole" {
-  name = "lambdaExecutionRole"
+  name = "lambdaExecutionRole-${random_string.postfix.result}"
 
   assume_role_policy = <<EOF
 {
@@ -20,7 +20,7 @@ EOF
 }
 
 resource "aws_iam_role" "parkRole" {
-  name = "lambdaparkRole"
+  name = "lambdaparkRole-${random_string.postfix.result}"
 
   assume_role_policy = <<EOF
 {
