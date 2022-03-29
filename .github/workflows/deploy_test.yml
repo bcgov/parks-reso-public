@@ -1,0 +1,66 @@
+name: Deploy Test
+on:
+  workflow_dispatch:
+    inputs:
+      releaseTag:
+        description: "Tag of version to be promoted to TEST"
+        required: true
+
+env:
+  TF_VERSION: 0.14.7
+  TG_VERSION: 0.26.7
+  TG_SRC_PATH: terraform
+  TFC_WORKSPACE: test
+  TARGET_ENV: test
+
+jobs:
+  ci:
+    name: Push to AWS Lambda
+    runs-on: ubuntu-20.04
+    environment: test
+
+    steps:
+      - name: Attempt to checkout tag
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.releaseTag }}
+
+      - name: Tag not found
+        if: ${{ failure() }}
+        run: |
+          echo "::error::Git Tag not found, please double check input"
+          exit 1
+      - name: Save SHORT_HASH
+        run: echo "SHORT_HASH=`git rev-parse --short HEAD`" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_SANDBOX }}
+          role-duration-seconds: 900
+          role-session-name: parks-ar-api-sandbox-gh-action
+          role-skip-session-tagging: true
+
+      - name: Download previous build from S3
+        run: aws s3 cp s3://parks-ar-lambda-artifacts/${{ github.ref_name }}-${{ env.SHORT_HASH }}/ terraform/src/artifacts/ --recursive
+
+      ### Run Terragrunt ###
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+
+      - uses: peter-murray/terragrunt-github-action@v1.0.0
+        with:
+          terragrunt_version: ${{ env.TG_VERSION }}
+
+      - name: Terragrunt Apply
+        working-directory: ${{ env.TG_SRC_PATH }}/${{ env.TFC_WORKSPACE }}
+        env:
+          aws_region: ${{ secrets.AWS_REGION }}
+        run: terragrunt apply-all --terragrunt-non-interactive
