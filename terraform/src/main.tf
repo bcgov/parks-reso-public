@@ -14,8 +14,7 @@ provider "aws" {
 
 resource "random_string" "postfix" {
   length           = 8
-  special          = true
-  override_special = "/@£$"
+  special          = false
 }
 
 resource "aws_api_gateway_rest_api" "apiLambda" {
@@ -56,7 +55,7 @@ output "base_url" {
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
+  name        = "lambda_logging-${random_string.postfix.result}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 
@@ -88,7 +87,7 @@ resource "aws_api_gateway_account" "ARAPIGateway" {
 }
 
 resource "aws_iam_role" "cloudwatch" {
-  name = "api_gateway_cloudwatch_global"
+  name = "api_gateway_cloudwatch_global-${random_string.postfix.result}"
 
   assume_role_policy = <<EOF
 {
@@ -108,7 +107,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "cloudwatch" {
-  name = "default"
+  name = "cloudwatch-role-policy-${random_string.postfix.result}"
   role = aws_iam_role.cloudwatch.id
 
   policy = <<EOF

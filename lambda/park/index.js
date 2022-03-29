@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const { sendResponse } = require('../responseUtil');
 
 exports.handler = async (event, context) => {
-  console.log('Park', event);
+  console.log('GET: Park', event);
   return sendResponse(200,
     [
       {

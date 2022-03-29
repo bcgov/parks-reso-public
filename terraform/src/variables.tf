@@ -10,3 +10,7 @@ variable "aws_region" {
 variable "target_env" {
   description = "target environment"
 }
+
+data "aws_ssm_parameter" "db_name" {
+  name = "/bcparks-ar-api/db-name"
+}
