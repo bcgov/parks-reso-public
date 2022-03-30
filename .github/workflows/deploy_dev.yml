@@ -1,8 +1,9 @@
 name: Deploy Dev
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+ # push:
+ #   branches: [main]
 
 env:
   TF_VERSION: 0.14.7
