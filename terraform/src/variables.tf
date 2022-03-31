@@ -12,5 +12,5 @@ variable "target_env" {
 }
 
 data "aws_ssm_parameter" "db_name" {
-  name = "/bcparks-ar-api/db-name"
+  name = "/parks-ar-api/db-name"
 }
