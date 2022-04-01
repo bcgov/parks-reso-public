@@ -1,10 +1,10 @@
 name: Deploy Test
 on:
   workflow_dispatch:
-   # inputs:
-    #  releaseTag:
-     #   description: "Tag of version to be promoted to TEST"
-      #  required: true
+    inputs:
+      releaseTag:
+        description: "Tag of version to be promoted to TEST"
+        required: true
 
 env:
   TF_VERSION: 0.14.7
