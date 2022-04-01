@@ -1,6 +1,6 @@
 name: Deploy Test
 on:
- # workflow_dispatch:
+  workflow_dispatch:
   #  inputs:
    #   releaseTag:
     #    description: "Tag of version to be promoted to TEST"
