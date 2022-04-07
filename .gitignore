@@ -4,3 +4,4 @@ coverage
 artifacts
 terraform/sandbox/.terragrunt-cache/
 terraform/sandbox/.terraform.lock.hcl
+terraform/sandbox/artifacts/

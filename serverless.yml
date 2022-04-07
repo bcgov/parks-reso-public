@@ -29,6 +29,16 @@ functions:
           method: GET
           path: /park
           cors: true
+  ###########
+  # readConfig
+  ###########
+  readConfig:
+    handler: lambda/readConfig/index.handler
+    events:
+      - http:
+          method: GET
+          path: /config
+          cors: true
 
 resources:
   Resources:

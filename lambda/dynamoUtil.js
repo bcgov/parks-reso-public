@@ -43,7 +43,6 @@ async function setStatus(passes, status) {
     };
 
     const res = await dynamodb.updateItem(updateParams).promise();
-    console.log(`Set status of ${res.Attributes?.type?.S} pass ${res.Attributes?.sk?.S} to ${status}`);
   }
 }
 
