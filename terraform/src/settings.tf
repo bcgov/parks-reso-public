@@ -17,7 +17,7 @@ resource "aws_lambda_function" "readConfigLambda" {
     }
   }
 
-  role = aws_iam_role.parkRole.arn
+  role = aws_iam_role.configRole.arn
 }
 
 resource "aws_api_gateway_resource" "configResource" {
