@@ -1,29 +1,57 @@
-resource "aws_lambda_function" "parkLambda" {
-  function_name = "park-${random_string.postfix.result}"
+resource "aws_lambda_function" "parkGetLambda" {
+  function_name = "park-get-${random_string.postfix.result}"
 
-  filename         = "artifacts/park.zip"
-  source_code_hash = filebase64sha256("artifacts/park.zip")
+  filename         = "artifacts/parkGet.zip"
+  source_code_hash = filebase64sha256("artifacts/parkGet.zip")
 
-  handler = "lambda/park/index.handler"
+  handler = "lambda/park/GET/index.handler"
   runtime = "nodejs14.x"
   timeout = 30
   publish = "true"
 
   memory_size = 128
 
+  role = aws_iam_role.databaseReadRole.arn
+
   environment {
     variables = {
-      TEST_ENV_VAR                   = "mark"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
     }
   }
-
-  role = aws_iam_role.parkRole.arn
 }
 
-resource "aws_lambda_alias" "parkLambdaLatest" {
+resource "aws_lambda_function" "parkPostLambda" {
+  function_name = "park-post-${random_string.postfix.result}"
+
+  filename         = "artifacts/parkPost.zip"
+  source_code_hash = filebase64sha256("artifacts/parkPost.zip")
+
+  handler = "lambda/park/GET/index.handler"
+  runtime = "nodejs14.x"
+  timeout = 30
+  publish = "true"
+
+  memory_size = 128
+
+  role = aws_iam_role.databaseReadRole.arn
+
+  environment {
+    variables = {
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+    }
+  }
+}
+
+resource "aws_lambda_alias" "parkGetLambdaLatest" {
   name             = "latest"
-  function_name    = aws_lambda_function.parkLambda.function_name
-  function_version = aws_lambda_function.parkLambda.version
+  function_name    = aws_lambda_function.parkGetLambda.function_name
+  function_version = aws_lambda_function.parkGetLambda.version
+}
+
+resource "aws_lambda_alias" "parkPostLambdaLatest" {
+  name             = "latest"
+  function_name    = aws_lambda_function.parkPostLambda.function_name
+  function_version = aws_lambda_function.parkPostLambda.version
 }
 
 resource "aws_api_gateway_resource" "parkResource" {
@@ -33,7 +61,7 @@ resource "aws_api_gateway_resource" "parkResource" {
 }
 
 // Defines the HTTP GET /park API
-resource "aws_api_gateway_method" "parkMethod" {
+resource "aws_api_gateway_method" "parkGet" {
   rest_api_id   = aws_api_gateway_rest_api.apiLambda.id
   resource_id   = aws_api_gateway_resource.parkResource.id
   http_method   = "GET"
@@ -41,22 +69,49 @@ resource "aws_api_gateway_method" "parkMethod" {
 }
 
 // Integrates the APIG to Lambda via POST method
-resource "aws_api_gateway_integration" "parkIntegration" {
+resource "aws_api_gateway_integration" "parkGetIntegration" {
   rest_api_id = aws_api_gateway_rest_api.apiLambda.id
   resource_id = aws_api_gateway_resource.parkResource.id
-  http_method = aws_api_gateway_method.parkMethod.http_method
+  http_method = aws_api_gateway_method.parkGet.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.parkLambda.invoke_arn
+  uri                     = aws_lambda_function.parkGetLambda.invoke_arn
 }
 
-resource "aws_lambda_permission" "parkPermission" {
-  statement_id  = "AllowParksARPassAPIInvoke"
+// Defines the HTTP POST /park API
+resource "aws_api_gateway_method" "parkPost" {
+  rest_api_id   = aws_api_gateway_rest_api.apiLambda.id
+  resource_id   = aws_api_gateway_resource.parkResource.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+// Integrates the APIG to Lambda via POST method
+resource "aws_api_gateway_integration" "parkPostIntegration" {
+  rest_api_id = aws_api_gateway_rest_api.apiLambda.id
+  resource_id = aws_api_gateway_resource.parkResource.id
+  http_method = aws_api_gateway_method.parkPost.http_method
+
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.parkGetLambda.invoke_arn
+}
+
+resource "aws_lambda_permission" "parkGetPermission" {
+  statement_id  = "parkGetPermissionInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.parkLambda.function_name
+  function_name = aws_lambda_function.parkGetLambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/GET/park"
+}
+
+resource "aws_lambda_permission" "parkPostPermission" {
+  statement_id  = "parkPostPermissionInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.parkGetLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/POST/park"
 }
 
 //CORS
@@ -102,7 +157,7 @@ resource "aws_api_gateway_integration_response" "park_options_integration_respon
   status_code = aws_api_gateway_method_response.park_options_200.status_code
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,OPTIONS'",
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
   depends_on = [aws_api_gateway_method_response.park_options_200]

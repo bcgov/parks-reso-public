@@ -40,9 +40,8 @@ EOF
 
 }
 
-resource "aws_iam_role" "configRole" {
-  name = "lambdaconfigRole-${random_string.postfix.result}"
-
+resource "aws_iam_role" "databaseReadRole" {
+  name = "databaseReadRole-${random_string.postfix.result}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -58,12 +57,11 @@ resource "aws_iam_role" "configRole" {
   ]
 }
 EOF
-
 }
 
-resource "aws_iam_role_policy" "parks-ar-config" {
-  name = "parks-ar-config-${random_string.postfix.result}"
-  role = aws_iam_role.configRole.id
+resource "aws_iam_role_policy" "databaseReadRolePolicy" {
+  name = "databaseReadRolePolicy-${random_string.postfix.result}"
+  role = aws_iam_role.databaseReadRole.id
 
   policy = <<EOF
 {

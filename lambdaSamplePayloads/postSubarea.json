@@ -1,0 +1,13 @@
+{
+  "body": {
+    "parkName": "Cultus Lake Park",
+    "pplCalculations": {
+      "vehicleModifier": 3.5,
+      "busModifier": 40
+    },
+    "subAreaName": "Maple Bay 20",
+    "orcs": "0041",
+    "notes": "Variance Notes Go Here.",
+    "activities": ["Day Use"]
+  }
+}
