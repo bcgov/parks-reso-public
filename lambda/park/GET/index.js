@@ -24,6 +24,12 @@ exports.handler = async (event, context) => {
       queryObj.ExpressionAttributeValues[':pk'] = { S: 'park::' + event.queryStringParameters?.orcs };
       queryObj.KeyConditionExpression = 'pk =:pk';
 
+      if (event.queryStringParameters?.subAreaName) {
+        // sk for month or a range
+        queryObj.ExpressionAttributeValues[':sk'] = { S: `${event.queryStringParameters?.subAreaName}` };
+        queryObj.KeyConditionExpression += ' AND sk =:sk';
+      }
+
       const parkData = await runQuery(queryObj);
       return sendResponse(200, parkData, context);
     }
