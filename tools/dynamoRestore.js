@@ -6,7 +6,7 @@ const TABLE_NAME = process.env.TABLE_NAME || 'parksar';
 
 const options = {
   region: 'ca-central-1',
-  endpoint: 'http://localhost:8000'
+  endpoint: process.env.IS_OFFLINE == 'true' ? 'http://localhost:8000': 'https://dynamodb.ca-central-1.amazonaws.com'
 };
 
 const dynamodb = new AWS.DynamoDB(options);

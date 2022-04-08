@@ -20,17 +20,21 @@ exports.handler = async (event, context) => {
       queryObj.ExpressionAttributeValues = {};
       queryObj.ExpressionAttributeValues[':pk'] = { S: `${orcs}::${subAreaName}::${activity}` };
 
-      // TODO: sk for month or a range
-
       queryObj.KeyConditionExpression = 'pk =:pk';
 
+      if (event.queryStringParameters?.date) {
+        // sk for month or a range
+        queryObj.ExpressionAttributeValues[':sk'] = { S: `${event.queryStringParameters?.date}` };
+        queryObj.KeyConditionExpression += ' AND sk =:sk';
+      }
+      console.log("Q:", queryObj);
       const parkData = await runQuery(queryObj);
       return sendResponse(200, parkData, context);
     } else {
       return sendResponse(400, { msg: 'Invalid Request' }, context);
     }
   } catch (err) {
-    console.log(err);
+    console.log("E:", err);
     return sendResponse(400, err, context);
   }
 };

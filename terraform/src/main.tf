@@ -84,6 +84,10 @@ resource "aws_iam_role_policy_attachment" "lambda_park_cloudwatch_logs" {
   role       = aws_iam_role.parkRole.name
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
+resource "aws_iam_role_policy_attachment" "databaseReadRoleCloudWatchLogs" {
+  role       = aws_iam_role.databaseReadRole.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
+}
 
 resource "aws_api_gateway_account" "ARAPIGateway" {
   cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
