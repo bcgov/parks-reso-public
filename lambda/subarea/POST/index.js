@@ -8,9 +8,11 @@ exports.handler = async (event, context) => {
 
   if (event.queryStringParameters.type === 'config') {
     return await handleConfig(event);
-  } else {
+  } else if (event.queryStringParameters.type === 'activity') {
     // Handle standard monthly entry for this orc::subAreaName::activity
     return await handleActivity(event);
+  } else {
+    return sendResponse(400, { msg: 'Invalid request'}, context);
   }
 };
 
@@ -43,8 +45,8 @@ async function handleActivity(event) {
 
 async function handleConfig(event) {
   // Set pk/sk
-  event.body["pk"] = `park::${event.body.orcs}`;
-  event.body["sk"] = event.body.subAreaName;
+  event.body["pk"] = `${event.body.orcs}::${event.body.subAreaName}::${event.body.activity}`;
+  event.body["sk"] = 'config';
 
   const newObject = AWS.DynamoDB.Converter.marshall(event.body);
 
@@ -55,38 +57,10 @@ async function handleConfig(event) {
   };
 
   try {
-    await dynamodb.putItem(putObject).promise();
+    const res = await dynamodb.putItem(putObject).promise();
+    return sendResponse(200, res, context);
   } catch (err) {
     console.log("Error:", err);
-    return sendResponse(400, err, context);
-  }
-
-  try {
-    // Add the item to the park's hash table
-    const updateItem = {
-      TableName: TABLE_NAME,
-      Key: {
-        pk: AWS.DynamoDB.Converter.input("park"),
-        sk: AWS.DynamoDB.Converter.input(event.body.orcs)
-      },
-      UpdateExpression: "ADD subAreas :subAreas",
-      ExpressionAttributeValues: {
-        ":subAreas": {
-          "SS": [event.body.subAreaName]
-        }
-      },
-      ReturnValues: "ALL_NEW"
-    };
-    console.log("Updating:", JSON.stringify(updateItem))
-    const addSubAreaItem = await dynamodb.updateItem(updateItem).promise();
-
-    console.log("addSubAreaItem:", addSubAreaItem);
-    return sendResponse(200, { msg: "Put success"}, context);
-  } catch (err) {
-    console.log("Error:", err);
-
-    // TODO: Undo putItem above.
-
     return sendResponse(400, err, context);
   }
 }
