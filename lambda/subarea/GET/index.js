@@ -10,26 +10,41 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    if (event.queryStringParameters?.orcs && event.queryStringParameters?.subAreaName && event.queryStringParameters?.activity) {
+    if (event.queryStringParameters?.orcs
+        && event.queryStringParameters?.subAreaName
+        && event.queryStringParameters?.activity
+        && event.queryStringParameters?.date) {
       // Get the subarea details
       const orcs = event.queryStringParameters?.orcs;
       const subAreaName = event.queryStringParameters?.subAreaName;
       const activity = event.queryStringParameters?.activity;
+      const date = event.queryStringParameters?.date;
 
       // Get me a list of this park's subarea details
       queryObj.ExpressionAttributeValues = {};
       queryObj.ExpressionAttributeValues[':pk'] = { S: `${orcs}::${subAreaName}::${activity}` };
+      queryObj.ExpressionAttributeValues[':sk'] = { S: `${date}` };
 
-      queryObj.KeyConditionExpression = 'pk =:pk';
-
-      if (event.queryStringParameters?.date) {
-        // sk for month or a range
-        queryObj.ExpressionAttributeValues[':sk'] = { S: `${event.queryStringParameters?.date}` };
-        queryObj.KeyConditionExpression += ' AND sk =:sk';
-      }
-      console.log("Q:", queryObj);
+      queryObj.KeyConditionExpression = 'pk =:pk AND sk =:sk';
+      console.log("QUERY:", queryObj);
+      // Get record (if exists)
       const parkData = await runQuery(queryObj);
-      return sendResponse(200, parkData, context);
+      console.log("parkData:", parkData);
+
+      // Attach current config
+      let configObj = {
+        TableName: TABLE_NAME,
+        ExpressionAttributeValues: {
+          ':pk':  { S: `${orcs}::${subAreaName}::${activity}` },
+          ':sk': { S: 'config' }
+        },
+        KeyConditionExpression: 'pk =:pk AND sk =:sk'
+      };
+      console.log("QUERY:", configObj);
+      const configData = await runQuery(configObj);
+      console.log("configData:", configData);
+      console.log("Returning:", { data: parkData, config: configData });
+      return sendResponse(200, { data: parkData, config: configData }, context);
     } else {
       return sendResponse(400, { msg: 'Invalid Request' }, context);
     }

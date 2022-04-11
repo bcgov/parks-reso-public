@@ -9,6 +9,8 @@ const options = {
   endpoint: process.env.IS_OFFLINE == 'true' ? 'http://localhost:8000': 'https://dynamodb.ca-central-1.amazonaws.com'
 };
 
+console.log("USING CONFIG:", options);
+
 const dynamodb = new AWS.DynamoDB(options);
 
 let action = ["|","/","-","\\"];
