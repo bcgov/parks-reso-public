@@ -16,8 +16,14 @@ exports.handler = async (event, context) => {
       queryObj.ExpressionAttributeValues[':pk'] = { S: 'park' };
       queryObj.KeyConditionExpression = 'pk =:pk';
 
-      const parkData = await runQuery(queryObj);
-      return sendResponse(200, parkData, context);
+      let results = [];
+      let parkData;
+      do {
+        parkData = await runQuery(queryObj, true);
+        parkData.data.forEach((item) => results.push(item));
+        queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
+      } while (typeof parkData.LastEvaluatedKey !== "undefined");
+      return sendResponse(200, results, context);
     } else if (event.queryStringParameters?.orcs) {
       // Get me a list of this parks' subareas with activities details, including config details
       queryObj.ExpressionAttributeValues = {};
@@ -30,7 +36,13 @@ exports.handler = async (event, context) => {
         queryObj.KeyConditionExpression += ' AND sk =:sk';
       }
 
-      const parkData = await runQuery(queryObj);
+      let results = [];
+      let parkData;
+      do {
+        parkData = await runQuery(queryObj, true);
+        parkData.data.forEach((item) => results.push(item));
+        queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
+      } while (typeof parkData.LastEvaluatedKey !== "undefined");
       return sendResponse(200, parkData, context);
     }
   } catch (err) {
