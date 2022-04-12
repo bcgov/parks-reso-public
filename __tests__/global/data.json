@@ -1,0 +1,118 @@
+{
+  "PARKSLIST": [
+    {
+      "sk": "0041",
+      "subAreas": [
+        "Maple Bay",
+        "Teapot Hill"
+      ],
+      "pk": "park",
+      "parkName": "Cultus Lake Park"
+    },
+    {
+      "sk": "6161",
+      "subAreas": [
+        "Holt Creek"
+      ],
+      "pk": "park",
+      "parkName": "Cowichan River Park"
+    }
+  ],
+  "SUBAREA_INFORMATION": [
+    {
+      "sk": "Maple Bay",
+      "pk": "park::0041",
+      "parkName": "Cultus Lake Park",
+      "activities": [
+        "Boating",
+        "Day Use"
+      ],
+      "orcs": 41,
+      "subAreaName": "Maple Bay"
+    }
+  ],
+  "SUBAREAS": [
+    {
+      "pk": "park::0041",
+      "sk": "Maple Bay",
+      "activities": {
+        "wrapperName": "Set",
+        "values": [
+          "Boating",
+          "Day Use"
+        ],
+        "type": "String"
+      },
+      "parkName": "Cultus Lake Park",
+      "orcs": 41,
+      "subAreaName": "Maple Bay"
+    },
+    {
+      "pk": "park::0041",
+      "sk": "Teapot Hill",
+      "activities": {
+        "wrapperName": "Set",
+        "values": [
+          "Day Use"
+        ],
+        "type": "String"
+      },
+      "parkName": "Cultus Lake Park",
+      "orcs": 41,
+      "subAreaName": "Teapot Hill"
+    },
+    {
+      "pk": "park::6161",
+      "sk": "Holt Creek",
+      "activities": {
+        "wrapperName": "Set",
+        "values": [
+          "Day Use"
+        ],
+        "type": "String"
+      },
+      "orcs": 41,
+      "subAreaName": "Holt Creek"
+    }
+  ],
+  "SUBAREA_ENTRIES": [
+    {
+      "pk": "0041::Maple Bay::Day Use",
+      "sk": "202204",
+      "parkName": "Cultus Lake Park",
+      "picnicRevenue": 2.5,
+      "pplCalculations": {
+        "vehicleModifier": 3.5,
+        "busModifier": 40
+      },
+      "pplVehicleCount": 12,
+      "subAreaName": "Maple Bay",
+      "otherHotSpringsRevenue": 5.55,
+      "pplBusCount": 3,
+      "pplTrailCounter": 4,
+      "orcs": "0041",
+      "notes": "Some notes",
+      "otherSkiiRevenue": 0,
+      "picnicRentals": 5
+    },
+    {
+      "pk": "0041::Maple Bay::Boating",
+      "sk": "202204",
+      "parkName": "Cultus Lake Park",
+      "picnicRevenue": 2.5,
+      "pplCalculations": {
+        "vehicleModifier": 3.5,
+        "busModifier": 40
+      },
+      "pplVehicleCount": 12,
+      "subAreaName": "Maple Bay",
+      "otherHotSpringsRevenue": 5.55,
+      "pplBusCount": 3,
+      "pplTrailCounter": 4,
+      "orcs": "0041",
+      "notes": "Some notes",
+      "otherSkiiRevenue": 0,
+      "picnicRentals": 5
+    }
+  ]
+}

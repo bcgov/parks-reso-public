@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
 
       const parkData = await runQuery(queryObj);
       return sendResponse(200, parkData, context);
-    } else if (event.queryStringParameters?.orcs){
+    } else if (event.queryStringParameters?.orcs) {
       // Get me a list of this parks' subareas with activities details, including config details
       queryObj.ExpressionAttributeValues = {};
       queryObj.ExpressionAttributeValues[':pk'] = { S: 'park::' + event.queryStringParameters?.orcs };
@@ -34,7 +34,7 @@ exports.handler = async (event, context) => {
       return sendResponse(200, parkData, context);
     }
   } catch (err) {
-    console.log(err);
+    console.log("EEE:", err);
     return sendResponse(400, err, context);
   }
 };
