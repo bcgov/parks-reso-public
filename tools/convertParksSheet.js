@@ -98,7 +98,10 @@ async function doMigration() {
         parkName: AWS.DynamoDB.Converter.input(row['Park']),
         // subAreas: row['Park Sub Area'], // Add to activities
       };
-      await putItem(parkRecord);
+      if (await putItem(parkRecord) == false) {
+        // Record already existed, lets add the subarea to the object.
+        await updateItem(parkRecord, row['Park Sub Area']);
+      }
 
       // 2. Add the subarea /w activities record
       const parkSubAreaRecord = {
@@ -119,7 +122,7 @@ async function doMigration() {
       // 3. For each activity, add the config for that orc::subarea::activity
       for (const activity of activities) {
         const activityRecord = {
-          pk: AWS.DynamoDB.Converter.input('park::' + parkRecord.sk.S + '::' + parkSubAreaRecord.subAreaName.S),
+          pk: AWS.DynamoDB.Converter.input(parkRecord.sk.S + '::' + parkSubAreaRecord.subAreaName.S + '::' + activity),
           sk: { S: 'config' },
           parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
           orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
@@ -135,6 +138,28 @@ async function doMigration() {
   });
 }
 
+async function updateItem(record, subarea) {
+  let putParkObj = {
+    TableName: TABLE_NAME,
+    Key: {
+      pk: record.pk,
+      sk: record.sk
+    },
+    UpdateExpression: 'ADD subAreas :subAreas',
+    ExpressionAttributeValues: {
+      ':subAreas': {
+        'SS': [subarea]
+      }
+    }
+  };
+
+  try {
+    const res = await dynamodb.updateItem(putParkObj).promise();
+  } catch (err) {
+    console.log("Error:", err);
+  }
+}
+
 async function putItem(record) {
   let putParkObj = {
     TableName: TABLE_NAME,
@@ -145,9 +170,9 @@ async function putItem(record) {
   try {
     const res = await dynamodb.putItem(putParkObj).promise();
     // If we get here, the park didn't exist already.
-    // console.log("PUT:", record);
+    return true;
   } catch (err) {
-    // console.log("Error:", err);
+    return false;
     // Fall through, it already existed.
   }
 }

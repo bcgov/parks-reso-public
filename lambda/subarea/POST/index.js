@@ -20,7 +20,7 @@ async function handleActivity(event) {
 // Set pk/sk
   event.body["pk"] = `${event.body.orcs}::${event.body.subAreaName}::${event.body.activity}`;
 
-  if (date.length !== 6 || isNaN(date)) {
+  if (event.body.date.length !== 6 || isNaN(event.body.date)) {
     return sendResponse(400, { msg: "Invalid date."}, context);
   }
 
