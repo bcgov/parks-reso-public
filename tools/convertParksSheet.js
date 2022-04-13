@@ -112,14 +112,14 @@ async function doMigration() {
         region: AWS.DynamoDB.Converter.input(row['Region']),
         section: AWS.DynamoDB.Converter.input(row['Section']),
         managementArea: AWS.DynamoDB.Converter.input(row['Management Area']),
-        bundle: AWS.DynamoDB.Converter.input(row['Bundle']),
+        bundle: row['Bundle'] == '#N/A' ? AWS.DynamoDB.Converter.input(row['Bundle']) : AWS.DynamoDB.Converter.input('N/A'),
         activities: { SS: activities, },
         parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
         orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
         subAreaName: AWS.DynamoDB.Converter.input(row['Park Sub Area'])
       };
       // console.log("parkSubAreaRecord:", parkSubAreaRecord);
-      await putItem(parkSubAreaRecord);
+      putItem(parkSubAreaRecord, true);
 
       // 3. For each activity, add the config for that orc::subarea::activity
       for (const activity of activities) {
@@ -162,15 +162,24 @@ async function updateItem(record, subarea) {
   }
 }
 
-async function putItem(record) {
-  let putParkObj = {
-    TableName: TABLE_NAME,
-    ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)',
-    Item: record
-  };
+async function putItem(record, overwrite = false) {
+  let putObject = {};
+  
+  if (overwrite) {
+    putObject = {
+      TableName: TABLE_NAME,
+      Item: record
+    }
+  } else {
+    putObject = {
+      TableName: TABLE_NAME,
+      ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)',
+      Item: record
+    }
+  }
 
   try {
-    const res = await dynamodb.putItem(putParkObj).promise();
+    const res = await dynamodb.putItem(putObject).promise();
     // If we get here, the park didn't exist already.
     return true;
   } catch (err) {
