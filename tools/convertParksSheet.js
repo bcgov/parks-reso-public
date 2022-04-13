@@ -96,7 +96,9 @@ async function doMigration() {
         pk: AWS.DynamoDB.Converter.input('park'),
         sk: AWS.DynamoDB.Converter.input(row['ORCS Number']),
         parkName: AWS.DynamoDB.Converter.input(row['Park']),
-        // subAreas: row['Park Sub Area'], // Add to activities
+        subAreas: {
+          SS: [row['Park Sub Area']],
+        }
       };
       if (await putItem(parkRecord) == false) {
         // Record already existed, lets add the subarea to the object.
