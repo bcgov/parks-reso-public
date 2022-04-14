@@ -91,24 +91,29 @@ async function doMigration() {
         activities.push('Backcountry Cabins');
       }
 
+      // Remove everything to the left of and including " - ".  The right most part of this
+      // string is the subarea name itself.
+      const subAreaNameSplitContent = row['Park Sub Area'].split(" - ");
+      const subAreaName = subAreaNameSplitContent[subAreaNameSplitContent.length - 1];
+
       // 1. Add the park record
       const parkRecord = {
         pk: AWS.DynamoDB.Converter.input('park'),
         sk: AWS.DynamoDB.Converter.input(row['ORCS Number']),
         parkName: AWS.DynamoDB.Converter.input(row['Park']),
         subAreas: {
-          SS: [row['Park Sub Area']],
+          SS: [subAreaName],
         }
       };
       if (await putItem(parkRecord) == false) {
         // Record already existed, lets add the subarea to the object.
-        await updateItem(parkRecord, row['Park Sub Area']);
+        await updateItem(parkRecord, subAreaName);
       }
 
       // 2. Add the subarea /w activities record
       const parkSubAreaRecord = {
         pk: AWS.DynamoDB.Converter.input('park::' + parkRecord.sk.S),
-        sk: AWS.DynamoDB.Converter.input(row['Park Sub Area']),
+        sk: AWS.DynamoDB.Converter.input(subAreaName),
         region: AWS.DynamoDB.Converter.input(row['Region']),
         section: AWS.DynamoDB.Converter.input(row['Section']),
         managementArea: AWS.DynamoDB.Converter.input(row['Management Area']),
@@ -116,7 +121,7 @@ async function doMigration() {
         activities: { SS: activities, },
         parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
         orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
-        subAreaName: AWS.DynamoDB.Converter.input(row['Park Sub Area'])
+        subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
       };
       // console.log("parkSubAreaRecord:", parkSubAreaRecord);
       putItem(parkSubAreaRecord, true);
@@ -124,11 +129,11 @@ async function doMigration() {
       // 3. For each activity, add the config for that orc::subarea::activity
       for (const activity of activities) {
         const activityRecord = {
-          pk: AWS.DynamoDB.Converter.input(parkRecord.sk.S + '::' + parkSubAreaRecord.subAreaName.S + '::' + activity),
+          pk: AWS.DynamoDB.Converter.input(parkRecord.sk.S + '::' + subAreaName + '::' + activity),
           sk: { S: 'config' },
           parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
           orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
-          subAreaName: AWS.DynamoDB.Converter.input(row['Park Sub Area']),
+          subAreaName: AWS.DynamoDB.Converter.input(subAreaName),
           pplVehicleModifier: AWS.DynamoDB.Converter.input(3.5),
           pplBusModifier: AWS.DynamoDB.Converter.input(40)
         };
