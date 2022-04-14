@@ -28,7 +28,8 @@ exports.handler = async (event, context) => {
       queryObj.KeyConditionExpression = 'pk =:pk AND sk =:sk';
       console.log("QUERY:", queryObj);
       // Get record (if exists)
-      const parkData = await runQuery(queryObj);
+      const parkDataRaw = await runQuery(queryObj);
+      const parkData = parkDataRaw.lenght > 0 ? parkDataRaw[0] : {};
       console.log("parkData:", parkData);
 
       // Attach current config
@@ -42,6 +43,7 @@ exports.handler = async (event, context) => {
       };
       console.log("QUERY:", configObj);
       const configData = (await runQuery(configObj))[0];
+
       const { pk, sk, ...otherProps } = configData;
       return sendResponse(200, { ...parkData, config: otherProps }, context);
     } else {
