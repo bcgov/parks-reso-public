@@ -41,10 +41,9 @@ exports.handler = async (event, context) => {
         KeyConditionExpression: 'pk =:pk AND sk =:sk'
       };
       console.log("QUERY:", configObj);
-      const configData = await runQuery(configObj);
-      console.log("configData:", configData);
-      console.log("Returning:", { data: parkData, config: configData });
-      return sendResponse(200, { data: parkData, config: configData }, context);
+      const configData = (await runQuery(configObj))[0];
+      const { pk, sk, ...otherProps } = configData;
+      return sendResponse(200, { ...parkData, config: otherProps }, context);
     } else {
       return sendResponse(400, { msg: 'Invalid Request' }, context);
     }
