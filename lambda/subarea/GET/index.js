@@ -26,10 +26,9 @@ exports.handler = async (event, context) => {
       queryObj.ExpressionAttributeValues[':sk'] = { S: `${date}` };
 
       queryObj.KeyConditionExpression = 'pk =:pk AND sk =:sk';
-      console.log("QUERY:", queryObj);
       // Get record (if exists)
       const parkDataRaw = await runQuery(queryObj);
-      const parkData = parkDataRaw.lenght > 0 ? parkDataRaw[0] : {};
+      const parkData = parkDataRaw.length > 0 ? parkDataRaw[0] : {};
       console.log("parkData:", parkData);
 
       // Attach current config
@@ -41,7 +40,6 @@ exports.handler = async (event, context) => {
         },
         KeyConditionExpression: 'pk =:pk AND sk =:sk'
       };
-      console.log("QUERY:", configObj);
       const configData = (await runQuery(configObj))[0];
 
       const { pk, sk, ...otherProps } = configData;
