@@ -4,12 +4,6 @@
   "parkName": "Cultus Lake Park",
   "subAreaName": "Maple Bay Cabins",
   "orcs": "0041",
-  "standardRateGroupsTotalPeopleStandard": 0,
-  "standardRateGroupsTotalPeopleAdults": 0,
-  "standardRateGroupsTotalPeopleYouth": 0,
-  "standardRateGroupsTotalPeopleKids": 0,
-  "standardRateGroupsRevenueGross": 0,
-  "youthRateGroupsAttendancePeople": 0,
-  "youthRateGroupsAttendanceGroupNights": 0,
-  "youthRateGroupsRevenueGross": 0
+  "totalAttendanceParties": 4,
+  "revenueGrossCamping": 5.55
 }
