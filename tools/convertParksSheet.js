@@ -73,7 +73,7 @@ async function doMigration() {
         activities.push('Frontcountry Camping');
       }
       if (row['Backcountry Camping'] == 'Yes') {
-        activities.push('Frontcountry Camping');
+        activities.push('Backcountry Camping');
       }
       if (row['Group Camping'] == 'Yes') {
         activities.push('Group Camping');
@@ -123,8 +123,7 @@ async function doMigration() {
         orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
         subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
       };
-      // console.log("parkSubAreaRecord:", parkSubAreaRecord);
-      putItem(parkSubAreaRecord, true);
+      await putItem(parkSubAreaRecord, true);
 
       // 3. For each activity, add the config for that orc::subarea::activity
       for (const activity of activities) {
@@ -188,6 +187,11 @@ async function putItem(record, overwrite = false) {
     // If we get here, the park didn't exist already.
     return true;
   } catch (err) {
+    if (record.sk.S == 'Halkett Bay') {
+      console.log("E:", err);
+    }
+
+      
     return false;
     // Fall through, it already existed.
   }
