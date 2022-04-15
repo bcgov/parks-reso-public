@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 const { REGION, ENDPOINT, TABLE_NAME } = require('./global/settings');
-const { PARKSLIST, SUBAREAS, SUBAREA_INFORMATION, SUBAREA_ENTRIES } = require('./global/data.json');
+const { PARKSLIST, SUBAREAS, CONFIG_ENTRIES, SUBAREA_ENTRIES } = require('./global/data.json');
 
 const subareaGET = require('../lambda/subarea/GET/index');
 
@@ -25,6 +25,9 @@ async function setupDb() {
   for (const item of SUBAREA_ENTRIES) {
     await (genericPutDocument(item));
   }
+  for (const item of CONFIG_ENTRIES) {
+    await (genericPutDocument(item));
+  }
 }
 
 async function genericPutDocument(item) {
@@ -36,7 +39,7 @@ async function genericPutDocument(item) {
     .promise();
 }
 
-describe('Pass Succeeds', () => {
+describe('Subarea Test', () => {
   beforeAll(async () => {
     return await setupDb();
   });
@@ -51,6 +54,6 @@ describe('Pass Succeeds', () => {
           date: SUBAREA_ENTRIES[0].sk
         }
       }, null);
-    expect(JSON.parse(obj.body).data[0]).toMatchObject(SUBAREA_ENTRIES[0]);
+    expect(JSON.parse(obj.body)).toMatchObject(SUBAREA_ENTRIES[0]);
   });
 });

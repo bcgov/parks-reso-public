@@ -52,23 +52,4 @@ describe('Pass Succeeds', () => {
       statusCode: 200
     });
   });
-
-  test('Handler - 200 Received park /w subarea information', async () => {
-    expect(await parkGET.handler(
-      {
-        queryStringParameters: {
-          orcs: "0041",
-          subAreaName: "Maple Bay"
-        }
-      }, null)).toMatchObject({
-      body: JSON.stringify(SUBAREA_INFORMATION),
-      headers: {
-        'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-        'Access-Control-Allow-Methods': 'OPTIONS,GET',
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
-      statusCode: 200
-    });
-  });
 });

@@ -114,5 +114,29 @@
       "otherSkiiRevenue": 0,
       "picnicRentals": 5
     }
+  ],
+  "CONFIG_ENTRIES": [
+    {
+      "pk": "0041::Maple Bay::Day Use",
+      "sk": "config",
+      "parkName": "Cultus Lake Park",
+      "pplCalculations": {
+        "vehicleModifier": 3.5,
+        "busModifier": 40
+      },
+      "orcs": "0041",
+      "subAreaName": "Maple Bay"
+    },
+    {
+      "pk": "0041::Maple Bay::Boating",
+      "sk": "config",
+      "parkName": "Cultus Lake Park",
+      "pplCalculations": {
+        "vehicleModifier": 3.5,
+        "busModifier": 40
+      },
+      "subAreaName": "Maple Bay",
+      "orcs": "0041"
+    }
   ]
 }
