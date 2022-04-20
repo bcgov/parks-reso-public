@@ -7,10 +7,10 @@ exports.handler = async (event, context) => {
   console.log('POST: subarea', event);
 
   if (event.queryStringParameters.type === 'config') {
-    return await handleConfig(event);
+    return await handleConfig(JSON.parse(event.body));
   } else if (event.queryStringParameters.type === 'activity') {
     // Handle standard monthly entry for this orc::subAreaName::activity
-    return await handleActivity(event);
+    return await handleActivity(JSON.parse(event.body));
   } else {
     return sendResponse(400, { msg: 'Invalid request'}, context);
   }
@@ -19,7 +19,7 @@ exports.handler = async (event, context) => {
 async function handleActivity(event) {
 // Set pk/sk
   event.body["pk"] = `${event.body.orcs}::${event.body.subAreaName}::${event.body.activity}`;
-
+  
   if (event.body.date.length !== 6 || isNaN(event.body.date)) {
     return sendResponse(400, { msg: "Invalid date."}, context);
   }
