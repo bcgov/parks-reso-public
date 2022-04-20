@@ -71,10 +71,16 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
         "Effect": "Allow",
         "Action": [
             "dynamodb:BatchGet*",
+            "dynamodb:DescribeStream",
             "dynamodb:DescribeTable",
             "dynamodb:Get*",
             "dynamodb:Query",
-            "dynamodb:Scan"
+            "dynamodb:Scan",
+            "dynamodb:BatchWrite*",
+            "dynamodb:CreateTable",
+            "dynamodb:Delete*",
+            "dynamodb:Update*",
+            "dynamodb:PutItem"
         ],
         "Resource": "${aws_dynamodb_table.ar_table.arn}"
       }
