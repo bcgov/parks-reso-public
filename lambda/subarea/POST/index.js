@@ -30,7 +30,6 @@ async function handleActivity(body, context) {
 
   let putObject = {
     TableName: TABLE_NAME,
-    ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)',
     Item: newObject
   };
 
@@ -52,7 +51,6 @@ async function handleConfig(body, context) {
 
   let putObject = {
     TableName: TABLE_NAME,
-    ConditionExpression: 'attribute_not_exists(pk) AND attribute_not_exists(sk)',
     Item: newObject
   };
 
