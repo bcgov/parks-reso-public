@@ -16,17 +16,17 @@ exports.handler = async (event, context) => {
   }
 };
 
-async function handleActivity(event) {
+async function handleActivity(body) {
 // Set pk/sk
-  event.body["pk"] = `${event.body.orcs}::${event.body.subAreaName}::${event.body.activity}`;
+  body["pk"] = `${body.orcs}::${body.subAreaName}::${body.activity}`;
   
-  if (event.body.date.length !== 6 || isNaN(event.body.date)) {
+  if (body.date.length !== 6 || isNaN(body.date)) {
     return sendResponse(400, { msg: "Invalid date."}, context);
   }
 
-  event.body["sk"] = event.body.date;
+  body["sk"] = body.date;
 
-  const newObject = AWS.DynamoDB.Converter.marshall(event.body);
+  const newObject = AWS.DynamoDB.Converter.marshall(body);
 
   let putObject = {
     TableName: TABLE_NAME,
@@ -43,12 +43,12 @@ async function handleActivity(event) {
   }
 }
 
-async function handleConfig(event) {
+async function handleConfig(body) {
   // Set pk/sk
-  event.body["pk"] = `${event.body.orcs}::${event.body.subAreaName}::${event.body.activity}`;
-  event.body["sk"] = 'config';
+  body["pk"] = `${body.orcs}::${body.subAreaName}::${body.activity}`;
+  body["sk"] = 'config';
 
-  const newObject = AWS.DynamoDB.Converter.marshall(event.body);
+  const newObject = AWS.DynamoDB.Converter.marshall(body);
 
   let putObject = {
     TableName: TABLE_NAME,
