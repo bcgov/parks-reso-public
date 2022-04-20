@@ -7,7 +7,7 @@ exports.handler = async (event, context) => {
   console.log('POST: subarea', event);
 
   if (event.queryStringParameters.type === 'config') {
-    return await handleConfig(JSON.parse(event.body));
+    return await handleConfig(JSON.parse(event.body), context);
   } else if (event.queryStringParameters.type === 'activity') {
     // Handle standard monthly entry for this orc::subAreaName::activity
     return await handleActivity(JSON.parse(event.body));
@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
   }
 };
 
-async function handleActivity(body) {
+async function handleActivity(body, context) {
 // Set pk/sk
   body["pk"] = `${body.orcs}::${body.subAreaName}::${body.activity}`;
   
@@ -43,7 +43,7 @@ async function handleActivity(body) {
   }
 }
 
-async function handleConfig(body) {
+async function handleConfig(body, context) {
   // Set pk/sk
   body["pk"] = `${body.orcs}::${body.subAreaName}::${body.activity}`;
   body["sk"] = 'config';
