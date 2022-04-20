@@ -95,7 +95,7 @@ resource "aws_api_gateway_integration" "subareaPostIntegration" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.subareaGetLambda.invoke_arn
+  uri                     = aws_lambda_function.subareaPostLambda.invoke_arn
 }
 
 resource "aws_lambda_permission" "subareaGetPermission" {
