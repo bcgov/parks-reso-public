@@ -45,7 +45,7 @@ describe('Pass Succeeds', () => {
       body: JSON.stringify(PARKSLIST),
       headers: {
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-        'Access-Control-Allow-Methods': 'OPTIONS,GET',
+        'Access-Control-Allow-Methods': 'OPTIONS,GET,POST',
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       },
