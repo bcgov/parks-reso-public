@@ -25,8 +25,7 @@ async function handleActivity(body, context) {
   }
 
   body["sk"] = body.date;
-  body['lastUpdated'] = new Date();
-  console.log("body:", body);
+  body['lastUpdated'] = new Date().toISOString();
 
   const newObject = AWS.DynamoDB.Converter.marshall(body);
 
@@ -36,7 +35,6 @@ async function handleActivity(body, context) {
   };
 
   try {
-    console.log("PUT:", putObject);
     await dynamodb.putItem(putObject).promise();
     return sendResponse(200, {}, context);
   } catch (err) {
