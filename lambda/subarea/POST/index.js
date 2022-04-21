@@ -25,6 +25,7 @@ async function handleActivity(body, context) {
   }
 
   body["sk"] = body.date;
+  body['lastUpdated'] = new Date();
 
   const newObject = AWS.DynamoDB.Converter.marshall(body);
 

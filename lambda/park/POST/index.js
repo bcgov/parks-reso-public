@@ -8,6 +8,7 @@ exports.handler = async (event, context) => {
   // Set pk/sk
   event.body["pk"] = "park";
   event.body["sk"] = event.body.orcs;
+  event.body['lastUpdated'] = new Date();
 
   let newObject = AWS.DynamoDB.Converter.marshall(event.body);
 
