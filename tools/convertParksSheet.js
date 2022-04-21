@@ -127,17 +127,33 @@ async function doMigration() {
 
       // 3. For each activity, add the config for that orc::subarea::activity
       for (const activity of activities) {
-        const activityRecord = {
+        let activityRecord = {
           pk: AWS.DynamoDB.Converter.input(parkRecord.sk.S + '::' + subAreaName + '::' + activity),
           sk: { S: 'config' },
           parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
           orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
-          subAreaName: AWS.DynamoDB.Converter.input(subAreaName),
-          pplVehicleModifier: AWS.DynamoDB.Converter.input(3.5),
-          pplBusModifier: AWS.DynamoDB.Converter.input(40)
+          subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
         };
+
+        // Default configs
+        switch (activity) {
+          case 'Frontcountry Camping': {
+            activityRecord['attendanceModifier'] = AWS.DynamoDB.Converter.input(3.2);
+          } break;
+          case 'Day Use': {
+            activityRecord['attendanceVehiclesModifier'] = AWS.DynamoDB.Converter.input(3.5);
+            activityRecord['attendanceBusModifier'] = AWS.DynamoDB.Converter.input(40);
+          } break;
+          case 'Backcountry Cabins': {
+            activityRecord['attendanceModifier'] = AWS.DynamoDB.Converter.input(3.2);
+          } break;
+          case 'Boating': {
+            activityRecord['attendanceModifier'] = AWS.DynamoDB.Converter.input(3.2);
+          } break;
+        }
+
         // console.log("activityRecord:", activityRecord);
-        await putItem(activityRecord);
+        await putItem(activityRecord, true);
       }
     }
     resolve(rows.length);
@@ -190,8 +206,6 @@ async function putItem(record, overwrite = false) {
     if (record.sk.S == 'Halkett Bay') {
       console.log("E:", err);
     }
-
-      
     return false;
     // Fall through, it already existed.
   }
