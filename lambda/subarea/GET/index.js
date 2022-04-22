@@ -10,10 +10,10 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    if (event.queryStringParameters?.orcs
-        && event.queryStringParameters?.subAreaName
-        && event.queryStringParameters?.activity
-        && event.queryStringParameters?.date) {
+    if (event?.queryStringParameters?.orcs
+        && event?.queryStringParameters?.subAreaName
+        && event?.queryStringParameters?.activity
+        && event?.queryStringParameters?.date) {
       // Get the subarea details
       const orcs = event.queryStringParameters?.orcs;
       const subAreaName = event.queryStringParameters?.subAreaName;
@@ -45,10 +45,10 @@ exports.handler = async (event, context) => {
       const { pk, sk, ...otherProps } = configData;
       return sendResponse(200, { ...parkData, config: otherProps }, context);
     } else {
-      return sendResponse(400, { msg: 'Invalid Request' }, context);
+      throw "Invalid parameter call.";
     }
   } catch (err) {
-    console.log("E:", err);
+    console.error(err);
     return sendResponse(400, err, context);
   }
 };

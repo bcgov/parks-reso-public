@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
     const configData = await runQuery(queryObj);
     return sendResponse(200, configData[0], context);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return sendResponse(400, err, context);
   }
 

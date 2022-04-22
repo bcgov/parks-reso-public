@@ -35,14 +35,10 @@
     {
       "pk": "park::0041",
       "sk": "Maple Bay",
-      "activities": {
-        "wrapperName": "Set",
-        "values": [
-          "Boating",
-          "Day Use"
-        ],
-        "type": "String"
-      },
+      "activities": [
+        "Boating",
+        "Day Use"
+      ],
       "parkName": "Cultus Lake Park",
       "orcs": 41,
       "subAreaName": "Maple Bay"
@@ -50,13 +46,9 @@
     {
       "pk": "park::0041",
       "sk": "Teapot Hill",
-      "activities": {
-        "wrapperName": "Set",
-        "values": [
-          "Day Use"
-        ],
-        "type": "String"
-      },
+      "activities": [
+        "Day Use"
+      ],
       "parkName": "Cultus Lake Park",
       "orcs": 41,
       "subAreaName": "Teapot Hill"
@@ -64,13 +56,9 @@
     {
       "pk": "park::6161",
       "sk": "Holt Creek",
-      "activities": {
-        "wrapperName": "Set",
-        "values": [
-          "Day Use"
-        ],
-        "type": "String"
-      },
+      "activities": [
+        "Day Use"
+      ],
       "orcs": 41,
       "subAreaName": "Holt Creek"
     }
@@ -125,7 +113,8 @@
         "busModifier": 40
       },
       "orcs": "0041",
-      "subAreaName": "Maple Bay"
+      "subAreaName": "Maple Bay",
+      "activity": "Day Use"
     },
     {
       "pk": "0041::Maple Bay::Boating",
@@ -136,7 +125,8 @@
         "busModifier": 40
       },
       "subAreaName": "Maple Bay",
-      "orcs": "0041"
+      "orcs": "0041",
+      "activity": "Day Use"
     }
   ]
 }

@@ -15,6 +15,6 @@ module.exports = async () => {
       })
       .promise();
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };

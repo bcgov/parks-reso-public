@@ -178,7 +178,7 @@ async function updateItem(record, subarea) {
   try {
     const res = await dynamodb.updateItem(putParkObj).promise();
   } catch (err) {
-    console.log("Error:", err);
+    console.error(err);
   }
 }
 
@@ -204,7 +204,7 @@ async function putItem(record, overwrite = false) {
     return true;
   } catch (err) {
     if (record.sk.S == 'Halkett Bay') {
-      console.log("E:", err);
+      console.error(err);
     }
     return false;
     // Fall through, it already existed.

@@ -3,7 +3,7 @@ const { runQuery, TABLE_NAME } = require('../../dynamoUtil');
 const { sendResponse } = require('../../responseUtil');
 
 exports.handler = async (event, context) => {
-  console.log('GET: Park', event);
+  console.log('GET: Park', event.queryStringParameters);
 
   let queryObj = {
     TableName: TABLE_NAME
@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
       queryObj.ExpressionAttributeValues[':pk'] = { S: 'park::' + event.queryStringParameters?.orcs };
       queryObj.KeyConditionExpression = 'pk =:pk';
 
-      if (event.queryStringParameters?.subAreaName) {
+      if (event?.queryStringParameters?.subAreaName) {
         // sk for month or a range
         queryObj.ExpressionAttributeValues[':sk'] = { S: `${event.queryStringParameters?.subAreaName}` };
         queryObj.KeyConditionExpression += ' AND sk =:sk';
@@ -44,9 +44,11 @@ exports.handler = async (event, context) => {
         queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
       } while (typeof parkData.LastEvaluatedKey !== "undefined");
       return sendResponse(200, parkData, context);
+    } else {
+      throw "Invalid parameters for call.";
     }
   } catch (err) {
-    console.log("EEE:", err);
+    console.error(err);
     return sendResponse(400, err, context);
   }
 };
