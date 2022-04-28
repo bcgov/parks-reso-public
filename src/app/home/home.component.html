@@ -4,22 +4,20 @@
       <div class="col-xl-4 col-lg-12">
         <h1 class="mb-4">Reserve a Day Use Pass</h1>
         <p class="lead">
-          The BC Parks Day Use Pilot Project is continuing for the 2021 winter season to help manage visitation levels
-          at Mount Seymour Provincial Park, one of British Columbia's most popular winter day use parks.
+        Day use passes are currently not required at any BC Parks.
         </p>
         <p class="lead">
-          Visitors who intend on using the backcountry trail network at Mount Seymour Park are now required to reserve
-          an a.m. or p.m. day use parking pass for their visit, as there will be
-          <strong>no</strong>
-          available first come, first serve parking during the day (7:00am&ndash;4:00pm) from December 15, 2021 to March
-          31, 2022.
+          The BC Parks Day Use Pilot Project for the 2021 winter season successfully came to an end on March 31, 2021.   Please check back in the future for updates on the BC Parks Day Use Pass Pilot.
+        </p>
+        <p class="lead">
+          Some of our most popular parks regularly experience high visitor volumes, resulting in crowded trails and facilities, packed parking lots, impacts to park environments and wildlife, local community concerns, and safety issues. The Day-Use Pass Pilot Program was implemented to address these issues during peak periods at select parks.
         </p>
       </div>
       <div class="col-xl-8 col-lg-12 camp-car-container">
         <div class="d-none d-md-block">
           <img src="assets/images/WDUP-4.jpg" class="img-fluid car-img" alt="..." />
         </div>
-        <div class="img-blurb p-3">
+        <div class="img-blurb p-3" hidden>
           <strong>
             <p>Day Use Vehicle Pass</p>
           </strong>
@@ -39,15 +37,15 @@
 </div>
 
 <div class="container-md p-4 mb-4">
-  <app-important-booking-info></app-important-booking-info>
+  <app-important-booking-info hidden></app-important-booking-info>
 </div>
 
-<div class="container-md">
+<div class="container-md" hidden>
   <h1 class="mx-2">Select a Park</h1>
   <app-parks-list></app-parks-list>
 </div>
 
-<div class="text-center mb-4">
+<div class="text-center mb-4" hidden>
   <p class="mb-0"><strong>Need to cancel an active pass?</strong></p>
   <a [routerLink]="['/pass-lookup/']">Click here</a>
 </div>
