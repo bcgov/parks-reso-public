@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pass } from '../models/pass';
@@ -24,6 +25,7 @@ export class PassLookupComponent implements OnInit {
   public backButtonText = 'Home';
 
   public validationData = '';
+  public cancelledPassData = null;
 
   public urlData = {
     passId: '',
@@ -96,10 +98,15 @@ export class PassLookupComponent implements OnInit {
   }
 
   passSuccessfullyCancelled(): AlertObject {
+    let passDetails = ``;
+    if (this.cancelledPassData?.date && this.cancelledPassData?.type) {
+      passDetails = `for ${ formatDate(this.cancelledPassData.date, 'mediumDate', 'en-CA')} - ${this.cancelledPassData.type} `;
+      console.log(passDetails);
+    }
     let alert = new AlertObject({
       type: 'info',
       title: 'Successful reservation cancel',
-      message: '<span>Your reservation has been successfully cancelled</span>',
+      message: `<span>Your reservation <strong>${passDetails}</strong>has been successfully cancelled</span>`,
       smallAlert: true
     });
     return alert;
@@ -144,6 +151,9 @@ export class PassLookupComponent implements OnInit {
       return;
     }
     if (res) {
+      if (res.pass) {
+        this.cancelledPassData = res.pass;
+      }
       this.changeState('cancelled');
       return;
     }
