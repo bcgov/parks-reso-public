@@ -32,18 +32,12 @@ describe('FacilitySelectComponent', () => {
 
   describe('availability text display', () => {
     function setupVisitTimeState(facilities: any[], visitDate: Date): void {
+      // initialize the component
       component.facilities = facilities;
       component.ngOnInit();
       fixture.detectChanges();
 
-      const facilityElement = fixture.debugElement;
-      const passTypeElement = facilityElement.query(
-        By.css('[data-testid="passtype-select"]')
-      ).nativeElement;
-      passTypeElement.value = passTypeElement.options[1].value;
-      passTypeElement.dispatchEvent(new Event('change'));
-      fixture.detectChanges();
-
+      // set the visit date
       component.myForm.patchValue({
         visitDate: {
           year: visitDate.toLocaleString('en-US', { year: 'numeric', timeZone: 'America/Vancouver' }),
@@ -51,11 +45,19 @@ describe('FacilitySelectComponent', () => {
           day: visitDate.toLocaleString('en-US', { day: 'numeric', timeZone: 'America/Vancouver' }),
         },
       });
-
       const datePickerComponent = fixture.debugElement.query(
         By.css('app-date-picker')
       );
       datePickerComponent.triggerEventHandler('formChangeEvent', null);
+      fixture.detectChanges();
+
+      // pick a facility
+      const facilityElement = fixture.debugElement;
+      const passTypeElement = facilityElement.query(
+        By.css('[data-testid="passtype-select"]')
+      ).nativeElement;
+      passTypeElement.value = passTypeElement.options[1].value;
+      passTypeElement.dispatchEvent(new Event('change'));
       fixture.detectChanges();
     }
 
