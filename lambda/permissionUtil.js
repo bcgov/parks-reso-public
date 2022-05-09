@@ -84,19 +84,19 @@ const verifyToken = function (token, callback, sendError) {
 function verifySecret(currentScopes, tokenString, secret, callback, sendError) {
   jwt.verify(tokenString, secret, function (verificationError, decodedToken) {
     // check if the JWT was verified correctly
-    if (verificationError == null && Array.isArray(currentScopes) && decodedToken && decodedToken.realm_access.roles) {
+    if (verificationError == null && Array.isArray(currentScopes) && decodedToken && decodedToken.resource_access["attendance-and-revenue"].roles) {
       console.log('JWT decoded');
 
       console.log('currentScopes', JSON.stringify(currentScopes));
       console.log('decoded token:', decodedToken);
 
       console.log('decodedToken.iss', decodedToken.iss);
-      console.log('decodedToken.realm_access.roles', decodedToken.realm_access.roles);
+      console.log('decodedToken.resource_access["attendance-and-revenue"].roles', decodedToken.resource_access["attendance-and-revenue"].roles);
 
       console.log('SSO_ISSUER', SSO_ISSUER);
 
       // check if the role is valid for this endpoint
-      let roleMatch = currentScopes.some(role => decodedToken.realm_access.roles.indexOf(role) >= 0);
+      let roleMatch = currentScopes.some(role => decodedToken.resource_access["attendance-and-revenue"].roles.indexOf(role) >= 0);
 
       console.log('role match', roleMatch);
 
