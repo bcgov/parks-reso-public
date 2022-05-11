@@ -1,6 +1,6 @@
 service: bcparks-ar-api
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
@@ -12,7 +12,7 @@ provider:
 package:
   individually: true
   patterns:
-    - '!./**' # This causes Serverless to only package referenced source files
+    - "!./**" # This causes Serverless to only package referenced source files
 
 plugins:
   - serverless-dynamodb-local
@@ -66,10 +66,16 @@ functions:
           path: /subarea
           cors: true
 
+  ###########
+  # Export
+  ###########
+  export:
+    handler: lambda/export/index.handler
+
 resources:
   Resources:
     databaseTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       DeletionPolicy: Retain
       Properties:
         TableName: arTable

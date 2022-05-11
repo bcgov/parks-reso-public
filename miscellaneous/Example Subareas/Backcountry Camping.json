@@ -5,5 +5,6 @@
   "subAreaName": "Della Falls",
   "orcs": "0001",
   "people": 0,
-  "grossCampingRevenue": 0
+  "grossCampingRevenue": 0,
+  "notes": "Some notes"
 }

@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 
 const data = require('./dump.json');
 
-const TABLE_NAME = process.env.TABLE_NAME || 'parksar';
+const TABLE_NAME = process.env.TABLE_NAME || 'ar-tests';
 
 const options = {
   region: 'ca-central-1',

@@ -5,5 +5,6 @@
   "subAreaName": "Maple Bay Cabins",
   "orcs": "0041",
   "totalAttendanceParties": 4,
-  "revenueGrossCamping": 5.55
+  "revenueGrossCamping": 5.55,
+  "notes": "Some notes"
 }
