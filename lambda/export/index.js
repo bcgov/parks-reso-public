@@ -1,3 +1,6 @@
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3();
+const fs = require("fs");
 const writeXlsxFile = require("write-excel-file/node");
 const { runScan, runQuery, TABLE_NAME } = require("../dynamoUtil");
 const {
@@ -11,6 +14,7 @@ const {
 } = require("../formulaUtils");
 
 const FILE_PATH = process.env.FILE_PATH || "./";
+const FILE_NAME = process.env.FILE_NAME || "A&R_Export.xlsx";
 
 const noteKeys = {
   "Frontcountry Camping": "notes_frontcountryCamping",
@@ -521,8 +525,15 @@ exports.handler = async (event, context) => {
 
       await writeXlsxFile(rowsArray, {
         schema,
-        filePath: FILE_PATH + "data.xlsx",
+        filePath: FILE_PATH + FILE_NAME,
       });
+      console.log("Report generated");
+
+      // This means we are uploading to S3
+      if (FILE_PATH === "/tmp/" && process.env.S3_BUCKET_DATA) {
+        await uploadToS3();
+      }
+
       console.log("=== Export successful ===");
     }
   } catch (err) {
@@ -733,4 +744,18 @@ function generateRowsArray(groupedReports) {
   }
 
   return rowsArray;
+}
+
+async function uploadToS3() {
+  // Get file as buffer
+  const buffer = fs.readFileSync(FILE_PATH + FILE_NAME);
+
+  const params = {
+    Bucket: process.env.S3_BUCKET_DATA,
+    Key: FILE_NAME,
+    Body: buffer,
+  };
+
+  await s3.putObject(params).promise();
+  console.log("File successfully uploaded to S3");
 }
