@@ -5,6 +5,22 @@
             <input type="text" id="passId" placeholder="Reservation number" class="form-control"
                 formControlName="passId" required>
         </div>
+        <div class="row">
+            <div class="col" *ngIf="urlData?.date">
+                <label for="date">Date:</label>
+                <div class="input-group mb-3">
+                    <input type="text" id="date" placeholder="Reservation date" class="form-control"
+                        formControlName="date">
+                </div>
+            </div>
+            <div class="col" *ngIf="urlData?.type">
+                <label for="type">Time:</label>
+                <div class="input-group mb-3">
+                    <input type="text" id="date" placeholder="Reservation type" class="form-control"
+                        formControlName="type">
+                </div>
+            </div>
+        </div>
         <div *ngIf="urlData?.email">
             <label for="email">Email:</label>
             <div class="input-group mb-3">
