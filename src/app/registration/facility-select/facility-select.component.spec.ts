@@ -45,17 +45,13 @@ describe('FacilitySelectComponent', () => {
           day: visitDate.toLocaleString('en-US', { day: 'numeric', timeZone: 'America/Vancouver' }),
         },
       });
-      const datePickerComponent = fixture.debugElement.query(
-        By.css('app-date-picker')
-      );
+      const datePickerComponent = fixture.debugElement.query(By.css('app-date-picker'));
       datePickerComponent.triggerEventHandler('formChangeEvent', null);
       fixture.detectChanges();
 
       // pick a facility
       const facilityElement = fixture.debugElement;
-      const passTypeElement = facilityElement.query(
-        By.css('[data-testid="passtype-select"]')
-      ).nativeElement;
+      const passTypeElement = facilityElement.query(By.css('[data-testid="passtype-select"]')).nativeElement;
       passTypeElement.value = passTypeElement.options[1].value;
       passTypeElement.dispatchEvent(new Event('change'));
       fixture.detectChanges();
@@ -78,9 +74,7 @@ describe('FacilitySelectComponent', () => {
         new Date('2021-11-23T20:02:00.000-08:00')
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - High'
       );
@@ -108,9 +102,7 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - High'
       );
@@ -138,9 +130,7 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - Moderate'
       );
@@ -168,9 +158,7 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - Low'
       );
@@ -198,9 +186,7 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - Full'
       );
@@ -228,9 +214,7 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - Full'
       );
@@ -255,16 +239,12 @@ describe('FacilitySelectComponent', () => {
         date
       );
 
-      const textElement = fixture.debugElement.query(
-        By.css('[data-testid="day-availability-text"]')
-      );
+      const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain(
         'Pass availability - Full'
       );
 
-      const inputElement = fixture.debugElement.query(
-        By.css('[data-testid="day-input"]')
-      );
+      const inputElement = fixture.debugElement.query(By.css('[data-testid="day-input"]'));
       expect(inputElement.nativeElement.disabled).toBe(true);
     });
   });
