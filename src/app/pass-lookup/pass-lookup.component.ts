@@ -32,6 +32,8 @@ export class PassLookupComponent implements OnInit {
     email: '',
     park: '',
     code: '',
+    date: '',
+    type: ''
   };
 
   constructor(
@@ -100,13 +102,12 @@ export class PassLookupComponent implements OnInit {
   passSuccessfullyCancelled(): AlertObject {
     let passDetails = ``;
     if (this.cancelledPassData?.date && this.cancelledPassData?.type) {
-      passDetails = `for ${ formatDate(this.cancelledPassData.date, 'mediumDate', 'en-CA')} - ${this.cancelledPassData.type} `;
-      console.log(passDetails);
+      passDetails = `for <strong>${ formatDate(this.cancelledPassData.date, 'mediumDate', 'en-CA')} - ${this.cancelledPassData.type}</strong> `;
     }
     let alert = new AlertObject({
       type: 'info',
       title: 'Successful reservation cancel',
-      message: `<span>Your reservation <strong>${passDetails}</strong>has been successfully cancelled</span>`,
+      message: `<span>Your reservation ${passDetails}has been successfully cancelled</span>`,
       smallAlert: true
     });
     return alert;

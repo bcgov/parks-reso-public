@@ -13,13 +13,17 @@ export class PassLookupFormComponent implements OnInit {
   public formData = {
     passId: '',
     email: '',
-    park: ''
+    park: '',
+    date: '',
+    type: ''
   };
 
   public lookupForm = new FormGroup({
     passId: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.email, Validators.required]),
-    park: new FormControl('', Validators.required)
+    park: new FormControl('', Validators.required),
+    date: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required)
   });
 
   constructor() { }
@@ -60,6 +64,8 @@ export class PassLookupFormComponent implements OnInit {
     this.formData.passId = this.lookupForm.get('passId').value;
     this.formData.email = this.lookupForm.get('email').value;
     this.formData.park = this.lookupForm.get('park').value;
+    this.formData.date = this.lookupForm.get('date').value;
+    this.formData.type = this.lookupForm.get('type').value;
   }
 
 }
