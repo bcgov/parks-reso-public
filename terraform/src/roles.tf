@@ -97,7 +97,7 @@ resource "aws_iam_role" "exportRole" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
+      "Action": ["sts:AssumeRole", "dynamodb:Scan"],
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
