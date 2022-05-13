@@ -158,7 +158,8 @@ resource "aws_iam_policy" "lambda_invoke_function" {
             "Effect": "Allow",
             "Action": [
                 "lambda:InvokeAsync",
-                "lambda:InvokeFunction"
+                "lambda:InvokeFunction",
+                "dynamodb:Scan"
             ],
             "Resource": [
                 "*"
