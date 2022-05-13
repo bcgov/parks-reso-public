@@ -51,7 +51,7 @@ export class FacilitySelectComponent implements OnInit {
   public parkingPassLimit = 1;
 
   // Order of form states progressing from start to finish
-  public stateOrder = ['blank', 'date', 'time', 'passes', 'complete'];
+  public stateOrder = ['blank', 'date', 'facility', 'time', 'passes', 'complete'];
   // Initial state
   public state = 0;
 
@@ -69,12 +69,13 @@ export class FacilitySelectComponent implements OnInit {
     }
     this.initForm();
     this.checkPassType();
-    this.setFacilitiesArrays();
     this.timeConfig.AM.disabled = this.isAMSlotExpired;
   }
 
   get bookingDaysAhead(): number {
-    const facility = this.myForm.get('passType').value;
+    // As a temporary work-around, date rules for each park are currently based on
+    // the first open facility at the park. See BRS-570 for details
+    const facility = this.facilities?.find(f => f.status.state === 'open');
     let bookingDaysAhead = this.defaultDateLimit;
 
     if (facility && (facility.bookingDaysAhead || facility.bookingDaysAhead === 0)) {
@@ -85,7 +86,9 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get bookingOpeningHour(): number {
-    const facility = this.myForm.get('passType').value;
+    // As a temporary work-around, date rules for each park are currently based on
+    // the first open facility at the park. See BRS-570 for details
+    const facility = this.facilities?.find(f => f.status.state === 'open');
     let bookingOpeningHour = this.defaultAMOpeningHour;
 
     if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
@@ -303,6 +306,15 @@ export class FacilitySelectComponent implements OnInit {
     return false;
   }
 
+  onVisitDateChange() {
+    const passTypeAlreadySelected = this.myForm.get('passType').value ? true : false;
+    if (passTypeAlreadySelected) {
+      this.setState('time');
+    } else {
+      this.setState('facility');
+    }
+  }
+
   onTimeChange(time) {
     if (!this.timeConfig[time].disabled) {
       switch (time) {
@@ -340,7 +352,6 @@ export class FacilitySelectComponent implements OnInit {
     }
     if (this.getStateByString(stateStr) < this.getStateByString('time')) {
       this.resetTimeConfig();
-      this.dateFormChild.clearDate();
     }
     if (this.getStateByString(stateStr) < this.getStateByString('date')) {
       this.myForm.reset();
@@ -377,12 +388,15 @@ export class FacilitySelectComponent implements OnInit {
   setState(setState): void {
     this.clearFormByState(setState);
     this.state = this.stateOrder.findIndex(element => element === setState);
-    if (this.state === this.getStateByString('blank')) {
+    if (this.state === this.getStateByString('facility')) {
+      this.selectedDate = this.getBookingDateString();
       this.setFacilitiesArrays();
     }
     if (this.state === this.getStateByString('time')) {
+      this.selectedDate = this.getBookingDateString();
       this.resetTimeConfig();
       this.setTimeArrays();
+      this.setFacilitiesArrays();
     }
     if (this.state === this.getStateByString('passes')) {
       this.setPassesArray();
