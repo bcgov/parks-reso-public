@@ -89,6 +89,11 @@ resource "aws_iam_role_policy_attachment" "databaseReadRoleCloudWatchLogs" {
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_invoke_function" {
+  role       = aws_iam_role.exportRole.name
+  policy_arn = aws_iam_policy.lambda_invoke_function.arn
+}
+
 resource "aws_api_gateway_account" "ARAPIGateway" {
   cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
 }
@@ -133,6 +138,31 @@ resource "aws_iam_role_policy" "cloudwatch" {
                 "logs:FilterLogEvents"
             ],
             "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "lambda_invoke_function" {
+  name        = "lambda_invoke_function"
+  path        = "/"
+  description = "IAM policy for Lambda to invoke another Lambda"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1464440182000",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeAsync",
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "*"
+            ]
         }
     ]
 }

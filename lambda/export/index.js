@@ -403,6 +403,14 @@ const schema = process.env.CSV_SCHEMA || [
     backgroundColor: "#aee5ba",
     value: (report) => report.calc_backcountryCamping_camping_netRevenue,
   },
+  // Backcountry Camping - Variance Notes
+  {
+    column: "Backcountry Camping - Variance Notes",
+    type: String,
+    width: 63,
+    backgroundColor: "#fff3cd",
+    value: (report) => report.notes_backcountryCamping,
+  },
   // Backcountry Cabins - People
   {
     column: "Backcountry Cabins - People - Adult",
