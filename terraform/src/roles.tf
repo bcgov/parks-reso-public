@@ -122,7 +122,8 @@ resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
             "Effect": "Allow",
             "Action": [
                 "lambda:InvokeAsync",
-                "dynamodb:Scan"
+                "dynamodb:Scan",
+                "dynamodb:Query"
             ],
             "Resource": [
                 "${aws_dynamodb_table.ar_table.arn}"
