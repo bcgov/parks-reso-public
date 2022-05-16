@@ -91,6 +91,7 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
 
 resource "aws_iam_policy" "lambda_export_policy" {
   name        = "lambda_export_policy"
+  role = aws_iam_role.lambdaExportRole.id
   path        = "/"
   description = "IAM policy for Lambda export"
 
@@ -116,7 +117,6 @@ EOF
 
 resource "aws_iam_role" "exportRole" {
   name = "lambdaExportRole"
-  role = aws_iam_role.lambda_export_policy.id
 
   assume_role_policy = <<EOF
 {
