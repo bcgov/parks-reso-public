@@ -125,7 +125,7 @@ resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
                 "dynamodb:Scan"
             ],
             "Resource": [
-                "*"
+                "${aws_dynamodb_table.ar_table.arn}"
             ]
         }
     ]
