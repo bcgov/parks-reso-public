@@ -123,10 +123,12 @@ resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
             "Action": [
                 "lambda:InvokeAsync",
                 "dynamodb:Scan",
-                "dynamodb:Query"
+                "dynamodb:Query",
+                "s3:PutObject"
             ],
             "Resource": [
-                "${aws_dynamodb_table.ar_table.arn}"
+                "${aws_dynamodb_table.ar_table.arn}",
+                "${aws_s3_bucket.bcgov-parks-ar-assets.arn}/*"
             ]
         }
     ]
