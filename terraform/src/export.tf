@@ -19,7 +19,7 @@ resource "aws_lambda_function" "export" {
       S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id
     }
   }
-  role = aws_iam_role.exportRole.arn
+  role = aws_iam_role.lambdaExportRole.arn
 }
 
 resource "aws_lambda_alias" "export_latest" {

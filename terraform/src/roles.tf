@@ -89,11 +89,29 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
   EOF
 }
 
-resource "aws_iam_policy" "lambda_export_policy" {
-  name        = "lambda_export_policy"
-  role = aws_iam_role.lambdaExportRole.id
-  path        = "/"
-  description = "IAM policy for Lambda export"
+resource "aws_iam_role" "lambdaExportRole" {
+  name = "lambdaExportRole-${random_string.postfix.result}"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "lambdaExportPolicy" {
+  name        = "lambdaExportRolePolicy-${random_string.postfix.result}"
+  role        = aws_iam_role.lambdaExportRole.id
 
   policy = <<EOF
 {
@@ -111,26 +129,6 @@ resource "aws_iam_policy" "lambda_export_policy" {
             ]
         }
     ]
-}
-EOF
-}
-
-resource "aws_iam_role" "exportRole" {
-  name = "lambdaExportRole"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
 }
 EOF
 }
