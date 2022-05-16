@@ -109,7 +109,7 @@ resource "aws_iam_role" "lambdaExportRole" {
 EOF
 }
 
-resource "aws_iam_role_policy" "lambdaExportPolicy" {
+resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
   name        = "lambdaExportRolePolicy-${random_string.postfix.result}"
   role        = aws_iam_role.lambdaExportRole.id
 

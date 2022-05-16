@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "export" {
-  function_name = "export"
+  function_name = "export-${random_string.postfix.result}"
 
   filename         = "artifacts/export.zip"
   source_code_hash = filebase64sha256("artifacts/export.zip")
