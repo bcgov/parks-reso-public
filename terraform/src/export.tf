@@ -14,7 +14,7 @@ resource "aws_lambda_function" "export" {
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.ar_table.name,
-      FILE_PATH = "/env/",
+      FILE_PATH = "/tmp/",
       FILE_NAME = "A&R_Export.xlsx",
       S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id
     }
