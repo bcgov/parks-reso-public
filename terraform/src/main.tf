@@ -89,9 +89,9 @@ resource "aws_iam_role_policy_attachment" "databaseReadRoleCloudWatchLogs" {
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_invoke_function" {
+resource "aws_iam_role_policy_attachment" "lambda_export_policy" {
   role       = aws_iam_role.exportRole.name
-  policy_arn = aws_iam_policy.lambda_invoke_function.arn
+  policy_arn = aws_iam_policy.lambda_export_policy.arn
 }
 
 resource "aws_api_gateway_account" "ARAPIGateway" {
@@ -138,32 +138,6 @@ resource "aws_iam_role_policy" "cloudwatch" {
                 "logs:FilterLogEvents"
             ],
             "Resource": "*"
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_policy" "lambda_invoke_function" {
-  name        = "lambda_invoke_function"
-  path        = "/"
-  description = "IAM policy for Lambda to invoke another Lambda"
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "Stmt1464440182000",
-            "Effect": "Allow",
-            "Action": [
-                "lambda:InvokeAsync",
-                "lambda:InvokeFunction",
-                "dynamodb:Scan"
-            ],
-            "Resource": [
-                "*"
-            ]
         }
     ]
 }

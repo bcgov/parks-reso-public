@@ -89,8 +89,34 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
   EOF
 }
 
+resource "aws_iam_policy" "lambda_export_policy" {
+  name        = "lambda_export_policy"
+  path        = "/"
+  description = "IAM policy for Lambda export"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1464440182000",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeAsync",
+                "dynamodb:Scan"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_role" "exportRole" {
   name = "lambdaExportRole"
+  role = aws_iam_role.lambda_export_policy.id
 
   assume_role_policy = <<EOF
 {
