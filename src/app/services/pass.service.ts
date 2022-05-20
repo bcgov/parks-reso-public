@@ -27,8 +27,7 @@ export class PassService {
   //   "type": "AM",
   //   "parkName": "Rathtrevor",
   //   "phoneNumber": 1234567890,
-  //   "facilityType": "Trail",
-  //   "license": null
+  //   "facilityType": "Trail"
   // }
 
   async createPass(obj, parkSk, facilitySk) {
@@ -159,12 +158,6 @@ export class PassService {
     }
     if (obj.facilityType === '' || !obj.facilityType) {
       throw ('You must provide a pass facility type');
-    }
-    if (obj.facilityType === 'Parking') {
-      // If the facility is a parking lot than we have to collect license.
-      if (obj.license === '' || !obj.license) {
-        throw ('You must provide a pass license');
-      }
     }
   }
 }

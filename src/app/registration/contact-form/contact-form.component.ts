@@ -51,21 +51,14 @@ export class ContactFormComponent implements OnInit {
     this.myForm = new FormGroup({
       firstName: new FormControl(),
       lastName: new FormControl(),
-      email: new FormControl(),
-      license: new FormControl()
+      email: new FormControl()
     });
     this.myForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.pattern('^[0-9]{10}$')]],
-      license: ['', Validators.required]
+      phone: ['', [Validators.pattern('^[0-9]{10}$')]]
     });
-    if (this.passData && this.passData.passType && this.passData.passType.type) {
-      if (this.passData.passType.type !== 'Parking') {
-        this.myForm.controls['license'].clearValidators();
-      }
-    }
   }
 
   keyPressNumbers(event) {
@@ -90,7 +83,6 @@ export class ContactFormComponent implements OnInit {
       lastName: this.myForm.get('lastName').value,
       email: this.myForm.get('email').value,
       phone: this.myForm.get('phone').value,
-      license: this.myForm.get('license').value,
       captchaJwt: this.captchaJwt
     };
     this.emitter.emit(obj);
