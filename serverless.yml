@@ -1,6 +1,6 @@
 service: bcparks-ar-api
 
-frameworkVersion: "2"
+frameworkVersion: "3"
 
 provider:
   name: aws
