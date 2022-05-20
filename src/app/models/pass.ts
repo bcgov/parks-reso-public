@@ -14,7 +14,6 @@ export class Pass {
     passStatus: string;
     phoneNumber: number;
     facilityType: string; // Parking Lot, Trail
-    license: string;
 
     constructor(obj?: any) {
         this.pk = obj && obj.pk || null;
@@ -32,7 +31,6 @@ export class Pass {
         this.passStatus = obj && obj.passStatus || null;
         this.phoneNumber = obj && obj.phoneNumber || null;
         this.facilityType = obj && obj.facilityType || null;
-        this.license = obj && obj.license || null;
     }
 }
 
@@ -46,7 +44,6 @@ export class PostPass {
     date: Date;
     phoneNumber: number;
     facilityType: string; // Parking Lot, Trail
-    license: string;
 
     // SKs
     facilityName: string;
@@ -64,7 +61,6 @@ export class PostPass {
         this.date = obj && obj.date || null;
         this.phoneNumber = obj && obj.phoneNumber || null;
         this.facilityType = obj && obj.facilityType || null;
-        this.license = obj && obj.license || null;
 
         this.facilityName = obj && obj.facilityName || null;
         this.parkName = obj && obj.parkName || null;

@@ -58,21 +58,6 @@
           </small>
         </div>
         <!-- Optional phone number field removed -->
-        <div *ngIf="passData?.passType?.type === 'Parking'" class="form-group mb-0">
-          <label class="mb-2" for="license">
-            License Plate
-            <span class="asteriks">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control mb-1"
-            formControlName="license"
-            id="license"
-            oninput="this.value = this.value.toUpperCase()" />
-          <small class="text-muted">
-            Park staff may verify your pass by ensuring the vehicle’s license plate matches the value provided above.
-          </small>
-        </div>
       </form>
 
       <div class="mb-4">

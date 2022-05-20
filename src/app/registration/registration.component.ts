@@ -160,10 +160,5 @@ export class RegistrationComponent implements OnInit {
     } else {
       delete obj.phone;
     }
-    if (this.regData.license) {
-      obj.license = this.regData.license;
-    } else {
-      delete obj.license;
-    }
   }
 }

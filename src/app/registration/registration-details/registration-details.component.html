@@ -1,4 +1,4 @@
-<!-- Order: Park, lot, date, license, name, reservation number, email, phone -->
+<!-- Order: Park, lot, date, name, reservation number, email -->
 <div class="reservation-info p-4" id="registration">
     <div class='row' *ngIf="regData?.park?.name">
         <p class="card-text">
@@ -24,15 +24,6 @@
         </p>
         <h3>
             {{ regData?.date | date : 'mediumDate' }}
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.license">
-        <p class="card-text">
-            License Plate
-        </p>
-        <h3>
-            {{ regData?.license.toUpperCase() }}
         </h3>
         <hr>
     </div>
