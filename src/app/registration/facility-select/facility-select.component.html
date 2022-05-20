@@ -70,7 +70,7 @@
               Pass availability -
               <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
             </p>
-            <p class="card-text">{{to12hTimeString(defaultAMOpeningHour)}}&ndash;12pm (Depart by noon)</p>
+            <p class="card-text">{{to12hTimeString(defaultAMOpeningHour)}}&ndash;1pm (Depart by 1pm)</p>
           </div>
         </div>
       </label>
@@ -102,7 +102,7 @@
               Pass availability -
               <span [ngClass]="timeConfig.PM.text">{{ timeConfig.PM.text }}</span>
             </p>
-            <p class="card-text">12pm&ndash;4pm (Arrive no earlier than noon)</p>
+            <p class="card-text">Arrive after 1pm</p>
           </div>
         </div>
       </label>
@@ -127,7 +127,7 @@
               [attr.disabled]="timeConfig.DAY.disabled ? true : null"
               (change)="onTimeChange('DAY')" />
             &nbsp;
-            <span class="ml-2 time-header"><strong>DAY</strong></span>
+            <span class="ml-2 time-header"><strong>ALL DAY</strong></span>
           </div>
           <div class="card-body" [class.card-body-disabled]="timeConfig.DAY.disabled">
             <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('DAY')">-</p>
