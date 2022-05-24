@@ -1,8 +1,9 @@
 {
-  "pk": "6161::Stoltz Pool::Group Camping",
+  "pk": "0077::Group Camping",
   "sk": "202201",
   "parkName": "Cowichan River Park",
   "subAreaName": "Stoltz Pool",
+  "subAreaId": "0077",
   "orcs": "6161",
   "standardRateGroupsTotalPeopleStandard": 0,
   "standardRateGroupsTotalPeopleAdults": 0,

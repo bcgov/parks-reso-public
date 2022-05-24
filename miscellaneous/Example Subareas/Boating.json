@@ -1,8 +1,9 @@
 {
-  "pk": "0365::Halkett Bay::Boating",
+  "pk": "0173::Boating",
   "sk": "202201",
   "parkName": "Halkett Bay Marine Park",
   "subAreaName": "Halkett Bay",
+  "subAreaId": "0173",
   "orcs": "0365",
   "boatAttendanceNightsOnDock": 0,
   "boatAttendanceNightsOnBouys": 0,

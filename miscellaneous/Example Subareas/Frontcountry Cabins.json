@@ -1,8 +1,9 @@
 {
-  "pk": "0041::Maple Bay Cabins::Frontcountry Cabins",
+  "pk": "0086::Frontcountry Cabins",
   "sk": "202201",
   "parkName": "Cultus Lake Park",
   "subAreaName": "Maple Bay Cabins",
+  "subAreaId": "0086",
   "orcs": "0041",
   "totalAttendanceParties": 4,
   "revenueGrossCamping": 5.55,

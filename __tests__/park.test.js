@@ -64,7 +64,7 @@ describe('Pass Succeeds', () => {
     const response = await parkGET.handler({
       queryStringParameters: {
         orcs: PARKSLIST[0].sk,
-        subAreaName: specificSubAreas[0].subAreaName
+        subAreaId: specificSubAreas[0].sk
       }
     }, null);
 

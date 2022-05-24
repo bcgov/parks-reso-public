@@ -23,18 +23,18 @@ exports.handler = async (event, context) => {
 async function handleActivity(body, context) {
   // Set pk/sk
   try {
-    if (!body.orcs || !body.subAreaName || !body.activity || !body.date) {
+    if (!body.subAreaId || !body.activity || !body.date) {
       throw "Invalid request.";
     }
 
-    const pk = `${body.orcs}::${body.subAreaName}::${body.activity}`;
+    const pk = `${body.subAreaId}::${body.activity}`;
 
     // Get config to attach to activity
     const configObj = {
       TableName: TABLE_NAME,
       ExpressionAttributeValues: {
-        ":pk": { S: pk },
-        ":sk": { S: "config" },
+        ":pk": { S: `config::${body.subAreaId}`},
+        ":sk": { S: body.activity },
       },
       KeyConditionExpression: "pk =:pk AND sk =:sk",
     };
@@ -69,12 +69,12 @@ async function handleConfig(body, context) {
   try {
     // Set pk/sk
 
-    if (!body.orcs || !body.subAreaName || !body.activity) {
+    if (!body.subAreaId || !body.activity) {
       throw "Invalid request.";
     }
 
-    body["pk"] = `${body.orcs}::${body.subAreaName}::${body.activity}`;
-    body["sk"] = "config";
+    body["pk"] = `config::${body.subAreaId}`;
+    body["sk"] = body.activity;
 
     const newObject = AWS.DynamoDB.Converter.marshall(body);
 

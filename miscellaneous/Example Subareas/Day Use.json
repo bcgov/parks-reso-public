@@ -1,8 +1,9 @@
 {
-  "pk": "0001::Bedwell::Day Use",
+  "pk": "0421::Bedwell::Day Use",
   "sk": "202201",
   "parkName": "Strathcona Park",
   "subAreaName": "Strathcona Corridor",
+  "subAreaId": "0421",
   "orcs": "0001",
   "peopleAndVehiclesTrail": 0,
   "peopleAndVehiclesVehicle": 0,

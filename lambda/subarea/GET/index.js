@@ -10,19 +10,17 @@ exports.handler = async (event, context) => {
   };
 
   try {
-    if (event?.queryStringParameters?.orcs
-        && event?.queryStringParameters?.subAreaName
+    if (event?.queryStringParameters?.subAreaId
         && event?.queryStringParameters?.activity
         && event?.queryStringParameters?.date) {
       // Get the subarea details
-      const orcs = event.queryStringParameters?.orcs;
-      const subAreaName = event.queryStringParameters?.subAreaName;
+      const subAreaId = event.queryStringParameters?.subAreaId;
       const activity = event.queryStringParameters?.activity;
       const date = event.queryStringParameters?.date;
 
       // Get me a list of this park's subarea details
       queryObj.ExpressionAttributeValues = {};
-      queryObj.ExpressionAttributeValues[':pk'] = { S: `${orcs}::${subAreaName}::${activity}` };
+      queryObj.ExpressionAttributeValues[':pk'] = { S: `${subAreaId}::${activity}` };
       queryObj.ExpressionAttributeValues[':sk'] = { S: `${date}` };
 
       queryObj.KeyConditionExpression = 'pk =:pk AND sk =:sk';
@@ -35,8 +33,8 @@ exports.handler = async (event, context) => {
       let configObj = {
         TableName: TABLE_NAME,
         ExpressionAttributeValues: {
-          ':pk':  { S: `${orcs}::${subAreaName}::${activity}` },
-          ':sk': { S: 'config' }
+          ':pk':  { S: `config::${subAreaId}` },
+          ':sk': { S: activity }
         },
         KeyConditionExpression: 'pk =:pk AND sk =:sk'
       };

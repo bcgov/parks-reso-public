@@ -1,5 +1,5 @@
 {
-  "pk": "0001::Bedwell::Frontcountry Camping",
+  "pk": "0421::Frontcountry Camping",
   "sk": "202201",
   "campingPartyNightsAttendanceSocial": 0,
   "parkName": "Strathcona Park",
@@ -8,6 +8,7 @@
   "otherRevenueGrossSani": 0,
   "secondCarsAttendanceSocial": 0,
   "subAreaName": "Bedwell",
+  "subAreaId": "0421",
   "secondCarsAttendanceSenior": 0,
   "campingPartyNightsAttendanceSenior": 0,
   "otherRevenueShower": 0,

@@ -1,8 +1,9 @@
 {
-  "pk": "0005::Naiset Cabins::Backcountry Cabins",
+  "pk": "0271::Backcountry Cabins",
   "sk": "202201",
   "parkName": "Mount Assiniboine",
   "subAreaName": "Naiset Cabins",
+  "subAreaId":"0271",
   "orcs": "0005",
   "peopleAdult": 0,
   "peopleChild": 0,

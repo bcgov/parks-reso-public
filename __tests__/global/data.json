@@ -3,8 +3,14 @@
     {
       "sk": "0041",
       "subAreas": [
-        "Maple Bay",
-        "Teapot Hill"
+        {
+          "name": "Maple Bay",
+          "id": "0087"
+        },
+        {
+          "name": "Teapot Hill",
+          "id": "0089"
+        }
       ],
       "pk": "park",
       "parkName": "Cultus Lake Park"
@@ -12,7 +18,10 @@
     {
       "sk": "6161",
       "subAreas": [
-        "Holt Creek"
+        {
+          "name": "Holt Creek",
+          "id": "0074"
+        }
       ],
       "pk": "park",
       "parkName": "Cowichan River Park"
@@ -20,11 +29,11 @@
   ],
   "SUBAREA_INFORMATION": [
     {
-      "sk": "Maple Bay",
+      "sk": "0087",
       "pk": "park::0041",
       "parkName": "Cultus Lake Park",
       "activities": [
-        "Boating",
+        "Frontcountry Camping",
         "Day Use"
       ],
       "orcs": 41,
@@ -34,9 +43,9 @@
   "SUBAREAS": [
     {
       "pk": "park::0041",
-      "sk": "Maple Bay",
+      "sk": "0087",
       "activities": [
-        "Boating",
+        "Frontcountry Camping",
         "Day Use"
       ],
       "parkName": "Cultus Lake Park",
@@ -45,7 +54,7 @@
     },
     {
       "pk": "park::0041",
-      "sk": "Teapot Hill",
+      "sk": "0089",
       "activities": [
         "Day Use"
       ],
@@ -55,24 +64,22 @@
     },
     {
       "pk": "park::6161",
-      "sk": "Holt Creek",
+      "sk": "0074",
       "activities": [
         "Day Use"
       ],
-      "orcs": 41,
+      "orcs": "6161",
       "subAreaName": "Holt Creek"
     }
   ],
   "SUBAREA_ENTRIES": [
     {
-      "pk": "0041::Maple Bay::Day Use",
+      "pk": "0087::Day Use",
       "sk": "202204",
       "parkName": "Cultus Lake Park",
       "picnicRevenue": 2.5,
-      "pplCalculations": {
-        "vehicleModifier": 3.5,
-        "busModifier": 40
-      },
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
       "pplVehicleCount": 12,
       "subAreaName": "Maple Bay",
       "otherHotSpringsRevenue": 5.55,
@@ -84,14 +91,12 @@
       "picnicRentals": 5
     },
     {
-      "pk": "0041::Maple Bay::Boating",
+      "pk": "0087::Frontcountry Camping",
       "sk": "202204",
       "parkName": "Cultus Lake Park",
       "picnicRevenue": 2.5,
-      "pplCalculations": {
-        "vehicleModifier": 3.5,
-        "busModifier": 40
-      },
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
       "pplVehicleCount": 12,
       "subAreaName": "Maple Bay",
       "otherHotSpringsRevenue": 5.55,
@@ -105,28 +110,26 @@
   ],
   "CONFIG_ENTRIES": [
     {
-      "pk": "0041::Maple Bay::Day Use",
-      "sk": "config",
+      "pk": "config::0087",
+      "sk": "Day Use",
       "parkName": "Cultus Lake Park",
-      "pplCalculations": {
-        "vehicleModifier": 3.5,
-        "busModifier": 40
-      },
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
       "orcs": "0041",
       "subAreaName": "Maple Bay",
+      "subAreaId": "0087",
       "activity": "Day Use"
     },
     {
-      "pk": "0041::Maple Bay::Boating",
-      "sk": "config",
+      "pk": "config::0087",
+      "sk": "Frontcountry Camping",
       "parkName": "Cultus Lake Park",
-      "pplCalculations": {
-        "vehicleModifier": 3.5,
-        "busModifier": 40
-      },
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
       "subAreaName": "Maple Bay",
+      "subAreaId": "0087",
       "orcs": "0041",
-      "activity": "Day Use"
+      "activity": "Frontcountry Camping"
     }
   ]
 }

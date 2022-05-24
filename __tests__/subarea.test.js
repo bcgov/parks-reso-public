@@ -50,8 +50,8 @@ describe('Subarea Test', () => {
       {
         queryStringParameters: {
           orcs: SUBAREA_ENTRIES[0].orcs,
-          subAreaName: SUBAREA_ENTRIES[0].subAreaName,
-          activity: SUBAREA_ENTRIES[0].pk.split("::")[2],
+          subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
           date: SUBAREA_ENTRIES[0].sk
         }
       }, null);
@@ -76,8 +76,8 @@ describe('Subarea Test', () => {
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
-          subAreaName: SUBAREA_ENTRIES[0].subAreaName,
-          activity: SUBAREA_ENTRIES[0].pk.split("::")[2],
+          subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
           date: "202201"
         })
       }, null);
@@ -139,8 +139,8 @@ describe('Subarea Test', () => {
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
-          subAreaName: SUBAREA_ENTRIES[0].subAreaName,
-          activity: SUBAREA_ENTRIES[0].pk.split("::")[2],
+          subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
           date: "2022" // Invalid
         })
       }, null);

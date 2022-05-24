@@ -59,6 +59,10 @@ const schema = {
   'Region': {
     prop: 'Region',
     type: String
+  },
+  'Sub Area ID': {
+    prop: 'Sub Area ID',
+    type: String
   }
 }
 
@@ -95,6 +99,12 @@ async function doMigration() {
       // string is the subarea name itself.
       const subAreaNameSplitContent = row['Park Sub Area'].split(" - ");
       const subAreaName = subAreaNameSplitContent[subAreaNameSplitContent.length - 1];
+      const subAreaId = row['Sub Area ID'];
+
+      const subAreaObj = {
+        id: subAreaId,
+        name: subAreaName
+      }
 
       // 1. Add the park record
       const parkRecord = {
@@ -102,18 +112,25 @@ async function doMigration() {
         sk: AWS.DynamoDB.Converter.input(row['ORCS Number']),
         parkName: AWS.DynamoDB.Converter.input(row['Park']),
         subAreas: {
-          SS: [subAreaName],
+          'L': [
+            {
+              'M':{
+                'id': {'S': subAreaId},
+                'name': {'S': subAreaName}
+              }
+            }
+          ]
         }
       };
       if (await putItem(parkRecord) == false) {
         // Record already existed, lets add the subarea to the object.
-        await updateItem(parkRecord, subAreaName);
+        await updateItem(parkRecord, subAreaObj);
       }
 
       // 2. Add the subarea /w activities record
       const parkSubAreaRecord = {
-        pk: AWS.DynamoDB.Converter.input('park::' + parkRecord.sk.S),
-        sk: AWS.DynamoDB.Converter.input(subAreaName),
+        pk: AWS.DynamoDB.Converter.input('park::'+ parkRecord.sk.S),
+        sk: AWS.DynamoDB.Converter.input(subAreaId),
         region: AWS.DynamoDB.Converter.input(row['Region']),
         section: AWS.DynamoDB.Converter.input(row['Section']),
         managementArea: AWS.DynamoDB.Converter.input(row['Management Area']),
@@ -125,13 +142,14 @@ async function doMigration() {
       };
       await putItem(parkSubAreaRecord, true);
 
-      // 3. For each activity, add the config for that orc::subarea::activity
+      // 3. For each activity, add the config for that subAreaId::activity
       for (const activity of activities) {
         let activityRecord = {
-          pk: AWS.DynamoDB.Converter.input(parkRecord.sk.S + '::' + subAreaName + '::' + activity),
-          sk: { S: 'config' },
+          pk: {S: 'config::'+ subAreaId},
+          sk: AWS.DynamoDB.Converter.input(activity),
           parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
           orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
+          subAreaId: AWS.DynamoDB.Converter.input(subAreaId),
           subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
         };
 
@@ -152,7 +170,6 @@ async function doMigration() {
           } break;
         }
 
-        // console.log("activityRecord:", activityRecord);
         await putItem(activityRecord, true);
       }
     }
@@ -167,10 +184,18 @@ async function updateItem(record, subarea) {
       pk: record.pk,
       sk: record.sk
     },
-    UpdateExpression: 'ADD subAreas :subAreas',
+    UpdateExpression: 'SET #subAreas = list_append(#subAreas, :subAreas)',
+    ExpressionAttributeNames: {
+      '#subAreas': 'subAreas'
+    },
     ExpressionAttributeValues: {
       ':subAreas': {
-        'SS': [subarea]
+        'L': [{
+          'M': {
+            'id': {'S': subarea.id},
+            'name': {'S': subarea.name}
+          }
+        }]
       }
     }
   };
@@ -212,7 +237,7 @@ async function putItem(record, overwrite = false) {
 }
 
 doMigration()
-.then((res) => {
-  console.log(`Import complete. ${res} records processed.`);
-})
-.catch((e) => console.log("Error:", e))
+  .then((res) => {
+    console.log(`Import complete. ${res} records processed.`);
+  })
+  .catch((e) => console.log("Error:", e))
