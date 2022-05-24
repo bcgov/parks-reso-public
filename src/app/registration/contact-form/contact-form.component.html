@@ -135,14 +135,13 @@
         <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
       </div>
 
+      <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
       <div class="d-flex justify-content-end">
         <button
           type="button"
           [disabled]="
             myForm.status === 'INVALID' ||
             !collectionNoticeCheck ||
-            !weatherStatementCheck ||
-            !liabilityNoticeCheck ||
             !captchaCheck ||
             saving
           "
