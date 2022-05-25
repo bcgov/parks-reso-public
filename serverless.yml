@@ -69,8 +69,15 @@ functions:
   ###########
   # Export
   ###########
-  export:
-    handler: lambda/export/index.handler
+  exportInvokable:
+    handler: lambda/export/invokable/index.handler
+  exportGet:
+    handler: lambda/export/GET/index.handler
+    events:
+      - http:
+          method: GET
+          path: /export
+          cors: true
 
 resources:
   Resources:

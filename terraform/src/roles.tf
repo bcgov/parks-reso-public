@@ -135,3 +135,43 @@ resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
 }
 EOF
 }
+
+resource "aws_iam_role" "exportGetRole" {
+  name = "exportGetRole-${random_string.postfix.result}"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "exportGetRolePolicy" {
+  name = "exportGetRolePolicy-${random_string.postfix.result}"
+  role = aws_iam_role.exportGetRole.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "dynamodb:Query",
+            "lambda:InvokeAsync"
+        ],
+        "Resource": "${aws_dynamodb_table.ar_table.arn}"
+      }
+  ]
+}
+  EOF
+}

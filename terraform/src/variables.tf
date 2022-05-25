@@ -26,3 +26,11 @@ data "aws_ssm_parameter" "s3_bucket_assets_name" {
 data "aws_ssm_parameter" "origin_id_assets" {
   name = "/parks-ar-api/origin-id-assets"
 }
+
+data "aws_ssm_parameter" "sso_issuer" {
+  name = "/parks-ar-api/sso-issuer"
+}
+
+data "aws_ssm_parameter" "sso_jkwsuri" {
+  name = "/parks-ar-api/sso-jwksuri"
+}
