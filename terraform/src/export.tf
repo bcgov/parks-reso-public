@@ -1,5 +1,5 @@
-resource "aws_lambda_function" "export" {
-  function_name = "export-${random_string.postfix.result}"
+resource "aws_lambda_function" "exportInvokableLambda" {
+  function_name = "export-invokable-${random_string.postfix.result}"
 
   filename         = "artifacts/exportInvokable.zip"
   source_code_hash = filebase64sha256("artifacts/exportInvokable.zip")
@@ -15,7 +15,7 @@ resource "aws_lambda_function" "export" {
     variables = {
       TABLE_NAME = aws_dynamodb_table.ar_table.name,
       FILE_PATH = "/tmp/",
-      FILE_NAME = "A&R_Export.xlsx",
+      FILE_NAME = "A&R_Export",
       S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id,
       JOB_UPDATE_MODULO = 1,
       DISABLE_PROGRESS_UPDATES = false,
@@ -27,8 +27,8 @@ resource "aws_lambda_function" "export" {
 
 resource "aws_lambda_alias" "export_latest" {
   name             = "latest"
-  function_name    = aws_lambda_function.export.function_name
-  function_version = aws_lambda_function.export.version
+  function_name    = aws_lambda_function.exportInvokableLambda.function_name
+  function_version = aws_lambda_function.exportInvokableLambda.version
 }
 
 resource "aws_lambda_function" "exportGetLambda" {
@@ -50,7 +50,9 @@ resource "aws_lambda_function" "exportGetLambda" {
     variables = {
       TABLE_NAME  = aws_dynamodb_table.ar_table.name,
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value
-      SSO_JWKSURI = data.aws_ssm_parameter.sso_jkwsuri.value
+      SSO_JWKSURI = data.aws_ssm_parameter.sso_jkwsuri.value,
+      S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id,
+      EXPORT_FUNCTION_NAME = aws_lambda_function.exportInvokableLambda.function_name
     }
   }
 }

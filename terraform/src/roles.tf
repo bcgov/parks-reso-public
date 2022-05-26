@@ -121,9 +121,9 @@ resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
             "Sid": "Stmt1464440182000",
             "Effect": "Allow",
             "Action": [
-                "lambda:InvokeAsync",
                 "dynamodb:Scan",
                 "dynamodb:Query",
+                "dynamodb:PutItem",
                 "s3:PutObject"
             ],
             "Resource": [
@@ -167,9 +167,15 @@ resource "aws_iam_role_policy" "exportGetRolePolicy" {
         "Effect": "Allow",
         "Action": [
             "dynamodb:Query",
-            "lambda:InvokeAsync"
+            "lambda:InvokeAsync",
+            "lambda:InvokeFunction",
+            "s3:GetObject"
         ],
-        "Resource": "${aws_dynamodb_table.ar_table.arn}"
+        "Resource": [
+          "${aws_dynamodb_table.ar_table.arn}",
+          "${aws_lambda_function.exportInvokableLambda.arn}",
+          "${aws_s3_bucket.bcgov-parks-ar-assets.arn}/*"
+        ]
       }
   ]
 }

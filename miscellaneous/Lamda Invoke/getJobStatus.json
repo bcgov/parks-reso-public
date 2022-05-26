@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "Authorization": "<BEARER TOKEN GOES HERE>"
+  },
+  "queryStringParameters": {
+    "getJob": true
+  }
+}

@@ -54,7 +54,7 @@ exports.handler = async (event, context) => {
     if (event?.jobId && event?.roles) {
       const jobId = event.jobId;
       const roles = event.roles;
-      const s3Key = "/" + jobId + "/" + FILE_NAME + ".xlsx";
+      const s3Key = jobId + "/" + FILE_NAME + ".xlsx";
 
       let jobObj = {
         sk: jobId,

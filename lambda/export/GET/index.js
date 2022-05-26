@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const s3 = new AWS.S3();
 
 const options = {};
 if (process.env.IS_OFFLINE) {
@@ -16,11 +17,14 @@ const { convertRolesToMD5 } = require("../functions");
 const EXPORT_FUNCTION_NAME =
   process.env.EXPORT_FUNCTION_NAME || "bcparks-ar-api-api-exportInvokable";
 
+const EXPIRY_TIME = process.env.EXPORT_EXPIRY_TIME || 60 * 15; // 15 minutes
+
 exports.handler = async (event, context) => {
   console.log("GET: Export", event.queryStringParameters);
 
   let queryObj = {
     TableName: TABLE_NAME,
+    ExpressionAttributeValues: {},
   };
 
   try {
@@ -30,42 +34,69 @@ exports.handler = async (event, context) => {
     }
     let roles = tokenObj.data.resource_access["attendance-and-revenue"].roles;
     roles = roles.includes("sysadmin") ? ["sysadmin"] : roles;
+    // This will give us the sk
     const sk = convertRolesToMD5(roles, "export-");
 
-    queryObj.ExpressionAttributeValues = {};
     queryObj.ExpressionAttributeValues[":pk"] = { S: "job" };
     queryObj.ExpressionAttributeValues[":sk"] = { S: sk };
-    queryObj.ExpressionAttributeValues[":percent"] = { S: "100" };
     queryObj.KeyConditionExpression = "pk =:pk and sk =:sk";
-    queryObj.FilterExpression = "progressPercentage < :percent";
 
-    // Do a query to look for the existing report
-    const res = await runQuery(queryObj);
-    if (res.length === 0) {
-      // TODO: We need a flag here for if we actually want to make a new job or download the file.
-      console.log("Job not found. Making new export job.");
+    if (event?.queryStringParameters?.getJob) {
+      const res = (await runQuery(queryObj))[0];
+      // If the getJob flag is set, that means we are trying to download the report
+      if (!res) {
+        // Job does not exist.
+        return sendResponse(200, { status: "Job not found" }, context);
+      } else if (res.progressPercentage === 100) {
+        // Job is 100% complete, return signed url
+        const URL = await s3.getSignedUrl("getObject", {
+          Bucket: process.env.S3_BUCKET_DATA,
+          Expires: EXPIRY_TIME,
+          Key: res.key,
+        });
 
-      const params = {
-        FunctionName: EXPORT_FUNCTION_NAME,
-        InvocationType: "Event",
-        LogType: "None",
-        Payload: JSON.stringify({
-          jobId: sk,
-          roles: roles,
-        }),
-      };
-      // Invoke generate report function
-      await lambda.invoke(params).promise();
-
-      return sendResponse(200, {}, context);
+        return sendResponse(
+          200,
+          { status: "Job complete", signedURL: URL },
+          context
+        );
+      } else {
+        // Send back the latest job obj.
+        delete res.pk;
+        delete res.sk;
+        delete res.key;
+        return sendResponse(
+          200,
+          { status: "Job in progress", jobObj: res },
+          context
+        );
+      }
     } else {
-      console.log("Job found.");
-      // TODO:
-      // We have a worker id
-      // query database for worker id
-      // match requesterID with jwt from queryStringParameters
-      //   if requesterID and jwt does not match, throw error
-      //   return the worker object
+      // We are trying to create a report.
+      queryObj.ExpressionAttributeValues[":percent"] = { S: "100" };
+      queryObj.FilterExpression = "progressPercentage < :percent";
+      const res = await runQuery(queryObj);
+      if (res.length === 0) {
+        // Check if there's already a report being generated.
+        // If there are is no instance of a job or the job is 100% complete, generate a report.
+        console.log("Creating a new export job.");
+
+        const params = {
+          FunctionName: EXPORT_FUNCTION_NAME,
+          InvocationType: "Event",
+          LogType: "None",
+          Payload: JSON.stringify({
+            jobId: sk,
+            roles: roles,
+          }),
+        };
+        // Invoke generate report function
+        await lambda.invoke(params).promise();
+
+        return sendResponse(200, { status: "Export job created" }, context);
+      } else {
+        // A job already exists.
+      }
     }
   } catch (error) {
     console.error(error);

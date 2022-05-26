@@ -8,17 +8,14 @@ function convertRolesToMD5(roles, prefix = "") {
   return hash;
 }
 
-module.exports = {
-  convertRolesToMD5,
-  updateJobEntry,
-};
-
 // {
-//     jobId: String,
+//     sk: String,
 //     progressPercentage: Number,
 //     key: String,
 //     progressDescription: String
 // }
+// sk is an MD5 that is generated based on the user's roles.
+
 async function updateJobEntry(jobObj, tableName) {
   jobObj.pk = "job";
   jobObj.progressPercentage = Math.floor(Number(jobObj.progressPercentage));
@@ -30,3 +27,8 @@ async function updateJobEntry(jobObj, tableName) {
   };
   await dynamodb.putItem(putObject).promise();
 }
+
+module.exports = {
+  convertRolesToMD5,
+  updateJobEntry,
+};
