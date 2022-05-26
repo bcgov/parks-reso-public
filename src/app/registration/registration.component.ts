@@ -140,7 +140,7 @@ export class RegistrationComponent implements OnInit {
     obj.facilityName = this.regData.passType.name;
     obj.numberOfGuests = this.regData.passCount;
     obj.email = this.regData.email;
-    obj.date = new Date(
+    obj.date = new Date(Date.UTC(
       this.regData.visitDate.year,
       this.regData.visitDate.month - 1,
       this.regData.visitDate.day,
@@ -148,7 +148,7 @@ export class RegistrationComponent implements OnInit {
       0,
       0,
       0
-    );
+    ));
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
