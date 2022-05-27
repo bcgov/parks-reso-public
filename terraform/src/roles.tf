@@ -89,8 +89,8 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
   EOF
 }
 
-resource "aws_iam_role" "lambdaExportRole" {
-  name = "lambdaExportRole-${random_string.postfix.result}"
+resource "aws_iam_role" "exportInvokeRole" {
+  name = "exportInvokeRole-${random_string.postfix.result}"
 
   assume_role_policy = <<EOF
 {
@@ -109,9 +109,9 @@ resource "aws_iam_role" "lambdaExportRole" {
 EOF
 }
 
-resource "aws_iam_role_policy" "lambdaExportRolePolicy" {
-  name        = "lambdaExportRolePolicy-${random_string.postfix.result}"
-  role        = aws_iam_role.lambdaExportRole.id
+resource "aws_iam_role_policy" "exportInvokeRolePolicy" {
+  name        = "exportInvokeRolePolicy-${random_string.postfix.result}"
+  role        = aws_iam_role.exportInvokeRole.id
 
   policy = <<EOF
 {
