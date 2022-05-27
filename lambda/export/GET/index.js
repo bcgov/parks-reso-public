@@ -102,6 +102,6 @@ exports.handler = async (event, context) => {
     }
   } catch (error) {
     console.error(error);
-    return sendResponse(400, error, context);
+    return sendResponse(400, { error: error }, context);
   }
 };
