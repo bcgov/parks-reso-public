@@ -54,10 +54,12 @@ exports.handler = async (event, context) => {
           Expires: EXPIRY_TIME,
           Key: res.key,
         });
-
+        delete res.pk;
+        delete res.sk;
+        delete res.key;
         return sendResponse(
           200,
-          { status: "Job complete", signedURL: URL },
+          { status: "Job complete", signedURL: URL, jobObj: res },
           context
         );
       } else {
