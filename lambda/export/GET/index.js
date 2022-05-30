@@ -1,8 +1,11 @@
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 
+const IS_OFFLINE =
+  process.env.IS_OFFLINE && process.env.IS_OFFLINE === "true" ? true : false;
+
 const options = {};
-if (process.env.IS_OFFLINE) {
+if (IS_OFFLINE) {
   options.region = "local-env";
   // For local we use port 3002 because we're hitting an invokable
   options.endpoint = "http://localhost:3002";
@@ -17,7 +20,9 @@ const { convertRolesToMD5 } = require("../functions");
 const EXPORT_FUNCTION_NAME =
   process.env.EXPORT_FUNCTION_NAME || "bcparks-ar-api-api-exportInvokable";
 
-const EXPIRY_TIME = process.env.EXPORT_EXPIRY_TIME || 60 * 15; // 15 minutes
+const EXPIRY_TIME = process.env.EXPORT_EXPIRY_TIME
+  ? Number(process.env.EXPORT_EXPIRY_TIME)
+  : 60 * 15; // 15 minutes
 
 exports.handler = async (event, context) => {
   console.log("GET: Export", event.queryStringParameters);

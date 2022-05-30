@@ -7,6 +7,7 @@ const {
   EXPORT_NOTE_KEYS,
   EXPORT_MONTHS,
   CSV_SYSADMIN_SCHEMA,
+  STATE_DICTIONARY,
 } = require("../constants");
 const { updateJobEntry } = require("../functions");
 
@@ -23,25 +24,25 @@ const {
 const FILE_PATH = process.env.FILE_PATH || "./";
 const FILE_NAME = process.env.FILE_NAME || "A&R_Export";
 
-const SYSADMIN_SCHEMA = process.env.CSV_SYSADMIN_SCHEMA || CSV_SYSADMIN_SCHEMA;
+const SYSADMIN_SCHEMA = process.env.CSV_SYSADMIN_SCHEMA
+  ? JSON.parse(process.env.CSV_SYSADMIN_SCHEMA)
+  : CSV_SYSADMIN_SCHEMA;
 
-const JOB_UPDATE_MODULO = process.env.JOB_UPDATE_MODULO || 1;
+const JOB_UPDATE_MODULO = process.env.JOB_UPDATE_MODULO
+  ? Number(process.env.JOB_UPDATE_MODULO)
+  : 1;
 
-const DISABLE_PROGRESS_UPDATES = process.env.DISABLE_PROGRESS_UPDATES || false;
+const DISABLE_PROGRESS_UPDATES =
+  process.env.DISABLE_PROGRESS_UPDATES &&
+  process.env.DISABLE_PROGRESS_UPDATES === "true"
+    ? true
+    : false;
 
 const DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE =
-  process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE || false;
-
-const stateDictionary = {
-  FETCHING: 1,
-  FETCHED: 2,
-  GROUP_BY_SUBAREA_AND_DATE: 3,
-  GROUP_BY_SUBAREA_AND_DATE: 3,
-  GENERATE_ROWS: 4,
-  GENERATE_REPORT: 5,
-  UPLOAD_TO_S3: 6,
-  COMPLETE: 7,
-};
+  process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE &&
+  process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE === "true"
+    ? true
+    : false;
 
 exports.handler = async (event, context) => {
   console.log("EXPORT", event || {});
@@ -72,7 +73,7 @@ exports.handler = async (event, context) => {
       if (roles.includes("sysadmin")) {
         jobObj = await updateJobWithState(
           jobObj,
-          stateDictionary.FETCHING,
+          STATE_DICTIONARY.FETCHING,
           "Feching all entires for Sysadmin."
         );
 
@@ -82,7 +83,7 @@ exports.handler = async (event, context) => {
 
         jobObj = await updateJobWithState(
           jobObj,
-          stateDictionary.FETCHED,
+          STATE_DICTIONARY.FETCHED,
           "Fetch complete. " + scanResults.length + " entries found."
         );
       } else {
@@ -106,7 +107,7 @@ exports.handler = async (event, context) => {
       // 80-90
       jobObj = await updateJobWithState(
         jobObj,
-        stateDictionary.GENERATE_REPORT
+        STATE_DICTIONARY.GENERATE_REPORT
       );
       await writeXlsxFile(rowsArray, {
         schema,
@@ -116,10 +117,13 @@ exports.handler = async (event, context) => {
 
       // This means we are uploading to S3 - 90-100
       if (FILE_PATH === "/tmp/" && process.env.S3_BUCKET_DATA) {
-        jobObj = await updateJobWithState(jobObj, stateDictionary.UPLOAD_TO_S3);
+        jobObj = await updateJobWithState(
+          jobObj,
+          STATE_DICTIONARY.UPLOAD_TO_S3
+        );
         await uploadToS3(s3Key);
       }
-      jobObj = await updateJobWithState(jobObj, stateDictionary.COMPLETE);
+      jobObj = await updateJobWithState(jobObj, STATE_DICTIONARY.COMPLETE);
 
       // TODO: Log job into separate DB
       console.log("=== Export successful ===");
@@ -142,7 +146,10 @@ async function groupBySubAreaAndDate(
   allottedProgressPercent = 30
 ) {
   if (DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE) {
-    await updateJobWithState(jobObj, stateDictionary.GROUP_BY_SUBAREA_AND_DATE);
+    await updateJobWithState(
+      jobObj,
+      STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE
+    );
   }
   let result = {};
   const increment = allottedProgressPercent / scanResults.length;
@@ -161,7 +168,7 @@ async function groupBySubAreaAndDate(
     ) {
       await updateJobWithState(
         jobObj,
-        stateDictionary.GROUP_BY_SUBAREA_AND_DATE,
+        STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE,
         "Grouping activities by subarea and date: " +
           (i + 1) +
           " of " +
@@ -349,7 +356,7 @@ async function generateRowsArray(
   allottedProgressPercent = 30
 ) {
   if (DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE) {
-    await updateJobWithState(jobObj, stateDictionary.GENERATE_ROWS);
+    await updateJobWithState(jobObj, STATE_DICTIONARY.GENERATE_ROWS);
   }
 
   let keys = Object.keys(groupedReports);
@@ -368,7 +375,7 @@ async function generateRowsArray(
     ) {
       await updateJobWithState(
         jobObj,
-        stateDictionary.GENERATE_ROWS,
+        STATE_DICTIONARY.GENERATE_ROWS,
         "Generating rows: " + (i + 1) + " of " + keys.length,
         jobObj.progressPercentage + increment
       );
