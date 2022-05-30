@@ -44,6 +44,10 @@ const DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE =
     ? true
     : false;
 
+let JOB_ID;
+let S3_KEY;
+let CURRENT_PROGRESS_PERCENT = 0;
+
 exports.handler = async (event, context) => {
   console.log("EXPORT", event || {});
 
@@ -53,16 +57,9 @@ exports.handler = async (event, context) => {
 
   try {
     if (event?.jobId && event?.roles) {
-      const jobId = event.jobId;
+      JOB_ID = event.jobId;
+      S3_KEY = JOB_ID + "/" + FILE_NAME + ".xlsx";
       const roles = event.roles;
-      const s3Key = jobId + "/" + FILE_NAME + ".xlsx";
-
-      let jobObj = {
-        sk: jobId,
-        progressPercentage: 0,
-        key: s3Key,
-        progressDescription: "",
-      };
 
       // FEATURE: If we wanted to have different exports for different users we can use the user's role and switch to different schemas accordingly.
       // For now, we are hardcoding to only have the sysadmin version of export
@@ -71,8 +68,7 @@ exports.handler = async (event, context) => {
       // Get reports - 0-20
       let scanResults = [];
       if (roles.includes("sysadmin")) {
-        jobObj = await updateJobWithState(
-          jobObj,
+        await updateJobWithState(
           STATE_DICTIONARY.FETCHING,
           "Feching all entires for Sysadmin."
         );
@@ -81,8 +77,7 @@ exports.handler = async (event, context) => {
         console.log("=== Exporting all data ===");
         scanResults = await getAllRecords({ ...queryObj });
 
-        jobObj = await updateJobWithState(
-          jobObj,
+        await updateJobWithState(
           STATE_DICTIONARY.FETCHED,
           "Fetch complete. " + scanResults.length + " entries found."
         );
@@ -94,21 +89,16 @@ exports.handler = async (event, context) => {
       console.log(scanResults.length + " records found");
 
       // Combine reports that are part of the same date and subarea - 20-50
-      const groupedReports = await groupBySubAreaAndDate(
-        scanResults,
-        jobObj,
-        30
-      );
+      CURRENT_PROGRESS_PERCENT = 30;
+      const groupedReports = await groupBySubAreaAndDate(scanResults, 30);
 
       // Create sorted rows array - 50-80
-      const rowsArray = await generateRowsArray(groupedReports, jobObj, 30);
+      CURRENT_PROGRESS_PERCENT = 50;
+      const rowsArray = await generateRowsArray(groupedReports, 30);
       console.log(rowsArray.length + " rows generated");
 
       // 80-90
-      jobObj = await updateJobWithState(
-        jobObj,
-        STATE_DICTIONARY.GENERATE_REPORT
-      );
+      await updateJobWithState(STATE_DICTIONARY.GENERATE_REPORT);
       await writeXlsxFile(rowsArray, {
         schema,
         filePath: FILE_PATH + FILE_NAME + ".xlsx",
@@ -117,13 +107,10 @@ exports.handler = async (event, context) => {
 
       // This means we are uploading to S3 - 90-100
       if (FILE_PATH === "/tmp/" && process.env.S3_BUCKET_DATA) {
-        jobObj = await updateJobWithState(
-          jobObj,
-          STATE_DICTIONARY.UPLOAD_TO_S3
-        );
-        await uploadToS3(s3Key);
+        await updateJobWithState(STATE_DICTIONARY.UPLOAD_TO_S3);
+        await uploadToS3();
       }
-      jobObj = await updateJobWithState(jobObj, STATE_DICTIONARY.COMPLETE);
+      await updateJobWithState(STATE_DICTIONARY.COMPLETE);
 
       // TODO: Log job into separate DB
       console.log("=== Export successful ===");
@@ -142,14 +129,10 @@ async function getAllRecords(queryObj) {
 
 async function groupBySubAreaAndDate(
   scanResults,
-  jobObj,
   allottedProgressPercent = 30
 ) {
   if (DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE) {
-    await updateJobWithState(
-      jobObj,
-      STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE
-    );
+    await updateJobWithState(STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE);
   }
   let result = {};
   const increment = allottedProgressPercent / scanResults.length;
@@ -167,13 +150,12 @@ async function groupBySubAreaAndDate(
       (i + 1) % JOB_UPDATE_MODULO === 0
     ) {
       await updateJobWithState(
-        jobObj,
         STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE,
         "Grouping activities by subarea and date: " +
           (i + 1) +
           " of " +
           scanResults.length,
-        jobObj.progressPercentage + increment
+        CURRENT_PROGRESS_PERCENT + increment
       );
     }
   }
@@ -350,13 +332,9 @@ async function mergeReports(result, report) {
   return result;
 }
 
-async function generateRowsArray(
-  groupedReports,
-  jobObj,
-  allottedProgressPercent = 30
-) {
+async function generateRowsArray(groupedReports, allottedProgressPercent = 30) {
   if (DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE) {
-    await updateJobWithState(jobObj, STATE_DICTIONARY.GENERATE_ROWS);
+    await updateJobWithState(STATE_DICTIONARY.GENERATE_ROWS);
   }
 
   let keys = Object.keys(groupedReports);
@@ -374,10 +352,9 @@ async function generateRowsArray(
       (i + 1) % JOB_UPDATE_MODULO === 0
     ) {
       await updateJobWithState(
-        jobObj,
         STATE_DICTIONARY.GENERATE_ROWS,
         "Generating rows: " + (i + 1) + " of " + keys.length,
-        jobObj.progressPercentage + increment
+        CURRENT_PROGRESS_PERCENT + increment
       );
     }
   }
@@ -385,13 +362,13 @@ async function generateRowsArray(
   return rowsArray;
 }
 
-async function uploadToS3(s3Key) {
+async function uploadToS3() {
   // Get file as buffer
   const buffer = fs.readFileSync(FILE_PATH + FILE_NAME + ".xlsx");
 
   const params = {
     Bucket: process.env.S3_BUCKET_DATA,
-    Key: s3Key,
+    Key: S3_KEY,
     Body: buffer,
   };
 
@@ -400,11 +377,16 @@ async function uploadToS3(s3Key) {
 }
 
 async function updateJobWithState(
-  jobObj,
   state,
   messageOverride = null,
   percentageOverride = null
 ) {
+  let jobObj = {
+    sk: JOB_ID,
+    progressPercentage: 0,
+    key: S3_KEY,
+    progressDescription: "",
+  };
   if (!DISABLE_PROGRESS_UPDATES) {
     switch (state) {
       case 1:
@@ -420,13 +402,16 @@ async function updateJobWithState(
         jobObj.progressPercentage = percentageOverride || 35;
         jobObj.progressDescription =
           messageOverride || "Grouping activities by subarea and date.";
+        break;
       case 4:
         jobObj.progressPercentage = percentageOverride || 65;
         jobObj.progressDescription =
           messageOverride || "Generating rows for report.";
+        break;
       case 5:
         jobObj.progressPercentage = 80;
         jobObj.progressDescription = "Generating report.";
+        break;
       case 6:
         jobObj.progressPercentage = 90;
         jobObj.progressDescription = "Uploading document to S3.";
@@ -443,5 +428,5 @@ async function updateJobWithState(
     jobObj.progressDescription = "Job Complete. Your document is ready.";
     await updateJobEntry(jobObj, TABLE_NAME);
   }
-  return jobObj;
+  CURRENT_PROGRESS_PERCENT = jobObj.progressPercentage;
 }
