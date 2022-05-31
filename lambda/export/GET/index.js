@@ -12,7 +12,7 @@ if (IS_OFFLINE) {
 }
 const lambda = new AWS.Lambda(options);
 
-const { runQuery, TABLE_NAME } = require("../../dynamoUtil");
+const { runQuery, dynamodb, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
 const { checkPermissions } = require("../../permissionUtil");
 const { convertRolesToMD5 } = require("../functions");
@@ -27,11 +27,6 @@ const EXPIRY_TIME = process.env.EXPORT_EXPIRY_TIME
 exports.handler = async (event, context) => {
   console.log("GET: Export", event.queryStringParameters);
 
-  let queryObj = {
-    TableName: TABLE_NAME,
-    ExpressionAttributeValues: {},
-  };
-
   try {
     const tokenObj = await checkPermissions(event);
     if (tokenObj.decoded !== true) {
@@ -42,12 +37,17 @@ exports.handler = async (event, context) => {
     // This will give us the sk
     const sk = convertRolesToMD5(roles, "export-");
 
-    queryObj.ExpressionAttributeValues[":pk"] = { S: "job" };
-    queryObj.ExpressionAttributeValues[":sk"] = { S: sk };
-    queryObj.KeyConditionExpression = "pk =:pk and sk =:sk";
-
     if (event?.queryStringParameters?.getJob) {
+      let queryObj = {
+        TableName: TABLE_NAME,
+        ExpressionAttributeValues: {
+          ":pk": { S: "job" },
+          ":sk": { S: sk },
+        },
+        KeyConditionExpression: "pk =:pk and sk =:sk",
+      };
       const res = (await runQuery(queryObj))[0];
+
       // If the getJob flag is set, that means we are trying to download the report
       if (!res) {
         // Job does not exist.
@@ -80,10 +80,24 @@ exports.handler = async (event, context) => {
       }
     } else {
       // We are trying to create a report.
-      queryObj.ExpressionAttributeValues[":percent"] = { S: "100" };
-      queryObj.FilterExpression = "progressPercentage < :percent";
-      const res = await runQuery(queryObj);
-      if (res.length === 0) {
+      const putObject = {
+        TableName: TABLE_NAME,
+        ExpressionAttributeValues: {
+          ":percent": { N: "100" },
+        },
+        ConditionExpression:
+          "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR progressPercentage = :percent",
+        Item: AWS.DynamoDB.Converter.marshall({
+          pk: "job",
+          sk: sk,
+          progressPercentage: 0,
+          progressDescription: "Initializing job.",
+        }),
+      };
+      console.log(putObject);
+      let res;
+      try {
+        res = await dynamodb.putItem(putObject).promise();
         // Check if there's already a report being generated.
         // If there are is no instance of a job or the job is 100% complete, generate a report.
         console.log("Creating a new export job.");
@@ -101,7 +115,7 @@ exports.handler = async (event, context) => {
         await lambda.invoke(params).promise();
 
         return sendResponse(200, { status: "Export job created" }, context);
-      } else {
+      } catch (error) {
         // A job already exists.
       }
     }

@@ -18,7 +18,6 @@ function convertRolesToMD5(roles, prefix = "") {
 
 async function updateJobEntry(jobObj, tableName) {
   jobObj.pk = "job";
-  jobObj.progressPercentage = Math.floor(Number(jobObj.progressPercentage));
 
   let newObject = AWS.DynamoDB.Converter.marshall(jobObj);
   let putObject = {
