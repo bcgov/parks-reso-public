@@ -167,7 +167,7 @@ resource "aws_iam_role_policy" "exportGetRolePolicy" {
         "Effect": "Allow",
         "Action": [
             "dynamodb:Query",
-            "dynamodb:PubObject",
+            "dynamodb:PutItem",
             "lambda:InvokeAsync",
             "lambda:InvokeFunction",
             "s3:GetObject"
