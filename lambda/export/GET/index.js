@@ -117,6 +117,8 @@ exports.handler = async (event, context) => {
         return sendResponse(200, { status: "Export job created" }, context);
       } catch (error) {
         // A job already exists.
+        console.log(error);
+        return sendResponse(200, { status: "Job is already running" }, context);
       }
     }
   } catch (error) {
