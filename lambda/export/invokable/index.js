@@ -419,6 +419,7 @@ async function updateJobWithState(
       case 7:
         jobObj.progressPercentage = 100;
         jobObj.progressDescription = "Job Complete. Your document is ready.";
+        jobObj.dateGenerated = new Date().toISOString();
       default:
         break;
     }
@@ -426,6 +427,7 @@ async function updateJobWithState(
   } else if (state === 7) {
     jobObj.progressPercentage = 100;
     jobObj.progressDescription = "Job Complete. Your document is ready.";
+    jobObj.dateGenerated = new Date().toISOString();
     await updateJobEntry(jobObj, TABLE_NAME);
   }
   CURRENT_PROGRESS_PERCENT = jobObj.progressPercentage;
