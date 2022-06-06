@@ -5227,10 +5227,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-material-icons@^0.6.3:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/material-icons/-/material-icons-0.6.4.tgz#d0a120651c75058fe328c7ea9abb5b5be7e1b194"
-  integrity sha512-pAx0WSSGx4l6h8aMap+09TFMNMZUwGYlN0iWtK2vvHDJUe5B0MPmRyqwj42ov/x+kEqXuDKHT+2RUFfNZB3aUg==
+material-icons@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/material-icons/-/material-icons-1.11.1.tgz#9dc4ad990df59c551a32767ecbb174f41c06ecd6"
+  integrity sha512-FCZ3mSoXzQ0UetDfhWpLOPG+duErvt1ALhnNt1TMB7GYHq5hvOqB0HE292qWcuVkCGxej2aARz//dz47zM3Cdg==
 
 mdn-data@2.0.14:
   version "2.0.14"
