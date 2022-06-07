@@ -24,6 +24,7 @@
     "@digitalspace/bcparks-bootstrap-theme": "^1.0.6",
     "@ng-bootstrap/ng-bootstrap": "10.0.0",
     "guid-typescript": "^1.0.9",
+    "luxon": "^2.4.0",
     "material-icons": "^0.6.3",
     "ngx-pagination": "^5.1.0",
     "ngx-toastr": "^13.2.1",

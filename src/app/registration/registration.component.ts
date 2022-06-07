@@ -6,6 +6,7 @@ import { FacilityService } from '../services/facility.service';
 import { PassService } from '../services/pass.service';
 import { ToastService } from '../services/toast.service';
 import { Constants } from '../shared/utils/constants';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-registration',
@@ -134,21 +135,28 @@ export class RegistrationComponent implements OnInit {
   }
 
   populatePassObj(obj) {
+    const visitDateTime = DateTime.fromObject(
+      {
+        year: this.regData.visitDate.year,
+        month: this.regData.visitDate.month,
+        day: this.regData.visitDate.day,
+        hour: 12,
+        minute: 0,
+        second: 0,
+        millisecond: 0
+      },
+      {
+        zone: 'America/Vancouver'
+      }
+    );
+    const visitUTCISODate = visitDateTime.toUTC().toISO();
     // Mandatory fields:
     obj.firstName = this.regData.firstName;
     obj.lastName = this.regData.lastName;
     obj.facilityName = this.regData.passType.name;
     obj.numberOfGuests = this.regData.passCount;
     obj.email = this.regData.email;
-    obj.date = new Date(
-      this.regData.visitDate.year,
-      this.regData.visitDate.month - 1,
-      this.regData.visitDate.day,
-      12,
-      0,
-      0,
-      0
-    );
+    obj.date = visitUTCISODate;
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
