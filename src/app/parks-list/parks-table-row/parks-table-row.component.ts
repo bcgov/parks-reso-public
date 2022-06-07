@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TableRowComponent } from 'src/app/shared/components/table-template/table-row-component';
 
 @Component({
@@ -6,13 +6,9 @@ import { TableRowComponent } from 'src/app/shared/components/table-template/tabl
   templateUrl: './parks-table-row.component.html',
   styleUrls: ['./parks-table-row.component.scss']
 })
-export class ParksTableRowComponent extends TableRowComponent implements OnInit {
+export class ParksTableRowComponent extends TableRowComponent {
 
   constructor() {
     super();
   }
-
-  ngOnInit(): void {
-  }
-
 }

@@ -191,24 +191,24 @@ export class PassLookupComponent implements OnInit {
         break;
       case 'not-verified':
         this.state = 'not-verified';
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastService.addMessage(`The system was unable to find this reservation. It may have already been cancelled, or it may have expired.`, `Not found`, Constants.ToastTypes.ERROR);
         break;
       case 'verified':
         this.state = 'verified';
         this.resetPage();
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastService.addMessage(`A verification email has been sent. Please check your inbox.`, `Email sent`, Constants.ToastTypes.INFO);
         break;
       case 'not-cancelled':
         this.state = 'not-cancelled';
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastService.addMessage(`The system was unable to cancel this reservation. It may have already been cancelled, or it may have expired.`, `Not cancelled`, Constants.ToastTypes.ERROR);
         break;
       case 'cancelled':
         this.resetPage();
         this.state = 'cancelled';
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastService.addMessage(`Your reservation has been successfully cancelled.`, `Cancelled`, Constants.ToastTypes.INFO);
         break;
     }

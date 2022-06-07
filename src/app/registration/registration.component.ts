@@ -38,7 +38,7 @@ export class RegistrationComponent implements OnInit {
     private toastService: ToastService
   ) {
     // Prevent us from loading into /registration without going through the root page.
-    // tslint:disable-next-line: max-line-length
+    // eslint-disable-next-line max-len
     if (
       !this.router.getCurrentNavigation() ||
       !this.router.getCurrentNavigation().extras ||

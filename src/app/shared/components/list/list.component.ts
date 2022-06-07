@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TableObject } from '../table-template/table-object';
 import { ITableMessage } from '../table-template/table-row-component';
 
@@ -7,7 +7,7 @@ import { ITableMessage } from '../table-template/table-row-component';
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit, OnChanges {
+export class ListComponent implements OnChanges {
   @Input() tableRowComponent;
   @Input() tableColumns;
 
@@ -20,8 +20,6 @@ export class ListComponent implements OnInit, OnChanges {
   public tableData: TableObject = new TableObject();
 
   constructor() { }
-
-  ngOnInit() { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.tableRowComponent) {

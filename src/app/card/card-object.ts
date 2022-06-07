@@ -26,7 +26,7 @@ export interface ICardObjectParams {
  * Main class that should contain all information needed to render a card.
  */
 export class CardObject {
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   public _id?: number;
   public name?: string;
   public status?: boolean;
