@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-facility-select',
@@ -50,15 +51,14 @@ export class FacilitySelectComponent implements OnInit {
   public trailPassLimit = 4;
   public parkingPassLimit = 1;
 
+  public defaultParkTimeZone = 'America/Vancouver';
+
   // Order of form states progressing from start to finish
   public stateOrder = ['blank', 'date', 'facility', 'time', 'passes', 'complete'];
   // Initial state
   public state = 0;
 
-  constructor(
-    private fb: FormBuilder,
-    private configService: ConfigService,
-  ) { }
+  constructor(private fb: FormBuilder, private configService: ConfigService) {}
 
   ngOnInit(): void {
     if (this.configService) {
@@ -99,41 +99,39 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get isOpeningHourPast(): boolean {
-    const date = new Date();
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    const currentHour = date.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
+    const currentHour = this.getPSTDateTime().get('hour');
     return Boolean(parseInt(currentHour, 10) >= this.bookingOpeningHour);
   }
 
   get isAMSlotExpired(): boolean {
-    const localDate = new Date();
+    const localDate = this.getPSTDateTime();
+    const currentHour = localDate.get('hour');
     const bookingDate = this.getBookingDate();
+    const localDateStart = localDate.startOf('day').toISO();
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    const currentHour = localDate.toLocaleString('en-US', { hour: '2-digit', hour12: false, timeZone: 'America/Vancouver' });
-    localDate.setHours(0, 0, 0, 0);
-    if (localDate >= bookingDate && parseInt(currentHour, 10) >= this.defaultPMOpeningHour ){
+    if (localDateStart >= bookingDate && parseInt(currentHour, 10) >= this.defaultPMOpeningHour) {
       return true;
     }
     return false;
   }
 
   get minDate(): Date {
-    return new Date();
+    return this.getPSTDateTime().startOf('day').toISO();
   }
 
   get maxDate(): Date {
-    const date = new Date();
+    const curDate = this.getPSTDateTime().startOf('day');
+    let maxFutureDate = curDate;
     const bookingDaysAhead = this.bookingDaysAhead;
-
     // if it is after the opening time in America/Vancouver, allow booking the full window.
     // Otherwise, subtract 1 from the window.
     if (this.isOpeningHourPast) {
-      date.setDate(date.getDate() + bookingDaysAhead);
+      maxFutureDate = curDate.plus({ days: bookingDaysAhead });
     } else if (bookingDaysAhead > 0) {
-      date.setDate(date.getDate() + bookingDaysAhead - 1);
+      maxFutureDate = curDate.plus({ days: bookingDaysAhead - 1 });
     }
-
-    return date;
+    return maxFutureDate.toISO();
   }
 
   setFacilitiesArrays() {
@@ -195,14 +193,13 @@ export class FacilitySelectComponent implements OnInit {
           }
         } else if (facility.reservations[this.selectedDate][key] < times[key].max) {
           // There are one or more passes that exist with a specific key.
-          const currentCount = facility.reservations[this.selectedDate][key] ? facility.reservations[this.selectedDate][key] : 0;
-          let capPercent = 1 - (
-            currentCount /
-            times[key].max
-          );
-          if (capPercent < .25) {
+          const currentCount = facility.reservations[this.selectedDate][key]
+            ? facility.reservations[this.selectedDate][key]
+            : 0;
+          let capPercent = 1 - currentCount / times[key].max;
+          if (capPercent < 0.25) {
             this.timeConfig[key].text = 'Low';
-          } else if (capPercent < .75) {
+          } else if (capPercent < 0.75) {
             this.timeConfig[key].text = 'Moderate';
           } else {
             this.timeConfig[key].text = 'High';
@@ -231,18 +228,46 @@ export class FacilitySelectComponent implements OnInit {
 
   getBookingDateString(): string {
     const { year, month, day } = this.myForm.get('visitDate').value;
-    // NgbDate uses 1-indexed months
-    const date = new Date(year, month - 1, day);
-    return date.toISOString().split('T')[0];
+    const date = DateTime.fromObject(
+      {
+        year: year,
+        month: month,
+        day: day,
+        hour: 12,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0
+      },
+      {
+        zone: this.defaultParkTimeZone
+      }
+    );
+    return date.toFormat('yyyy-LL-dd');
+  }
+
+  getPSTDateTime() {
+    return DateTime.now().setZone('America/Vancouver');
   }
 
   getBookingDate() {
     // assume today if no visitDate selected
-    if (this.myForm.get('visitDate').value){
+    let date = this.getPSTDateTime();
+    if (this.myForm.get('visitDate').value) {
       const { year, month, day } = this.myForm.get('visitDate').value;
-      return new Date(year, month - 1, day) || new Date();
+      date = DateTime.fromObject({
+        year: year,
+        month: month,
+        day: day,
+        hour: 12,
+        minutes: 0,
+        seconds: 0,
+        milliseconds: 0,
+      },
+      {
+        zone: this.defaultParkTimeZone
+      });
     }
-    return new Date();
+    return date.toISO();
   }
 
   setPassesArray(): void {
@@ -259,11 +284,7 @@ export class FacilitySelectComponent implements OnInit {
         const time = this.myForm.get('visitTime').value;
         // check if there are any bookings for this facilty/date/time combo existing already
         if (pass.bookingTimes[time]) {
-          if (
-            pass.reservations &&
-            pass.reservations[date] &&
-            pass.reservations[date][time]
-          ) {
+          if (pass.reservations && pass.reservations[date] && pass.reservations[date][time]) {
             // if so, check the remaining space available.
             numberAvailable = pass.bookingTimes[time].max - pass.reservations[date][time];
           } else {
@@ -300,7 +321,7 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   isDisabled(stateStr): boolean {
-    if (this.state < this.stateOrder.findIndex((element) => element === stateStr)) {
+    if (this.state < this.stateOrder.findIndex(element => element === stateStr)) {
       return true;
     }
     return false;
@@ -382,7 +403,7 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   getStateByString(stateStr): number {
-    return this.stateOrder.findIndex((element) => element === stateStr);
+    return this.stateOrder.findIndex(element => element === stateStr);
   }
 
   setState(setState): void {

@@ -45,10 +45,10 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.minDate && changes.minDate.currentValue) {
-      this.minNgbDate = this.utils.convertJSDateToNGBDate(new Date(changes.minDate.currentValue));
+      this.minNgbDate = this.utils.convertJSDateToZonedNGBDate(new Date(changes.minDate.currentValue));
     }
     if (changes.maxDate && changes.maxDate.currentValue) {
-      this.maxNgbDate = this.utils.convertJSDateToNGBDate(new Date(changes.maxDate.currentValue));
+      this.maxNgbDate = this.utils.convertJSDateToZonedNGBDate(new Date(changes.maxDate.currentValue));
     }
 
     this.loading = false;

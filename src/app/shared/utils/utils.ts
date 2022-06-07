@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DateTime } from 'luxon';
 
 const encode = encodeURIComponent;
 window['encodeURIComponent'] = (component: string) => {
@@ -30,11 +31,24 @@ export class Utils {
 
   }
 
+  // converts JS Date (UTC) to time zone offset NGBDate (America/Vancouver if no time zone provided)
+  public convertJSDateToZonedNGBDate(jSDate: any, timeZone = 'America/Vancouver'): any {
+    if (!jSDate) {
+      return null;
+    }
+    const options = { zone: timeZone };
+    const dateTime = DateTime.fromJSDate(new Date(jSDate), options);
+    return {
+      year: dateTime.get('year'),
+      month: dateTime.get('month'),
+      day: dateTime.get('day'),
+    };
+  }
+
   public convertJSDateToNGBDate(jSDate: Date): any {
     if (!jSDate) {
       return null;
     }
-
     return {
       year: jSDate.getFullYear(),
       month: jSDate.getMonth() + 1,
