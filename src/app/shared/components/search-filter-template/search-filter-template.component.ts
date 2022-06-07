@@ -1,4 +1,4 @@
-import { ViewEncapsulation, ChangeDetectionStrategy, OnInit, OnDestroy, Component, Input, EventEmitter, Output, Inject, AfterViewInit } from '@angular/core';
+import { ViewEncapsulation, ChangeDetectionStrategy, OnInit, Component, Input, EventEmitter, Output, Inject, AfterViewInit } from '@angular/core';
 import { FilterObject, FilterType } from './filter-object';
 import { ActivatedRoute } from '@angular/router';
 import { SubsetsObject } from './subset-object';
@@ -32,7 +32,7 @@ import { Utils } from '../../utils/utils';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class SearchFilterTemplateComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SearchFilterTemplateComponent implements OnInit, AfterViewInit {
   // Inputs
   @Input() title: string;
   @Input() tooltip: string;
@@ -80,8 +80,6 @@ export class SearchFilterTemplateComponent implements OnInit, AfterViewInit, OnD
     public utils: Utils,
     @Inject(DOCUMENT) _document
   ) { }
-
-  ngOnDestroy(): void { }
 
   ngOnInit() {
     const urlValues: object = {}; // Storage for the URL params

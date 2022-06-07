@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AlertObject } from './alert-object';
 
 @Component({
@@ -7,13 +7,10 @@ import { AlertObject } from './alert-object';
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent {
   @Input() data: AlertObject;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
   getAlertClass(type): string {
     switch (type) {

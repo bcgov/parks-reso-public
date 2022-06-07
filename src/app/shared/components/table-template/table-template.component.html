@@ -31,8 +31,8 @@
           <i *ngIf="entry.nosort !== true"
             class="sort"
             [ngClass]="{
-              'sort-asc': data.sortBy.slice(1) == entry.value && data.sortBy.charAt(0) === '+',
-              'sort-desc': data.sortBy.slice(1) == entry.value && data.sortBy.charAt(0) === '-'
+              'sort-asc': data.sortBy.slice(1) === entry.value && data.sortBy.charAt(0) === '+',
+              'sort-desc': data.sortBy.slice(1) === entry.value && data.sortBy.charAt(0) === '-'
             }"
             aria-hidden="true"></i>
         </th>
