@@ -20,6 +20,7 @@ export class FacilitySelectComponent implements OnInit {
   public closedFacilities = [];
   public passesAvailable = [];
   public selectedDate = '';
+  public initDate = {};
   public expiredText = 'This time slot has expired';
 
   public timeConfig = {
@@ -67,8 +68,15 @@ export class FacilitySelectComponent implements OnInit {
       this.defaultDateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
       this.defaultAMOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
     }
+    const today = this.getPSTDateTime();
+    this.initDate = {
+      year: today.get('year'),
+      month: today.get('month'),
+      day: today.get('day')
+    }
     this.initForm();
     this.checkPassType();
+    this.setState('facility');
     this.timeConfig.AM.disabled = this.isAMSlotExpired;
   }
 
@@ -443,6 +451,7 @@ export class FacilitySelectComponent implements OnInit {
       passType: ['', Validators.required],
       passCount: ['', Validators.required]
     });
+    this.myForm.controls['visitDate'].setValue(this.initDate);
   }
 
   submit(): void {

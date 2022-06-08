@@ -29,6 +29,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() reset: EventEmitter<any>;
   @Input() required = false;
   @Input() label = '';
+  @Input() today: NgbDateStruct = null;
 
   @Output() formChangeEvent = new EventEmitter<string>();
   @Output() clearEvent = new EventEmitter();
@@ -56,7 +57,7 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.ngbDate = this.control.value || null;
+    this.ngbDate = this.today || null;
     if (this.reset) {
       this.reset.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.clearDate());
     }
