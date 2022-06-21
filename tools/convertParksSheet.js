@@ -168,6 +168,9 @@ async function doMigration() {
           case 'Boating': {
             activityRecord['attendanceModifier'] = AWS.DynamoDB.Converter.input(3.2);
           } break;
+          case 'Frontcountry Cabins': {
+            activityRecord['attendanceModifier'] = AWS.DynamoDB.Converter.input(3.2);
+          } break;
         }
 
         await putItem(activityRecord, true);
