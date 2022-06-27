@@ -99,17 +99,6 @@ exports.frontcountryCampingSecondCarAttendance = function (attendances) {
   };
 };
 
-exports.frontcountryCabinsPartiesAttendance = function (attendances, modifier) {
-  let formula = `Total attendance = Parties`;
-  if (modifier) {
-    formula += ` x ${modifier}`;
-  }
-  return {
-    result: formatTotalWithModifier(attendances),
-    formula: formula
-  };
-};
-
 exports.groupCampingStandardAttendance = function (attendances) {
   return {
     result: formatTotalWithModifier(attendances),
@@ -118,13 +107,11 @@ exports.groupCampingStandardAttendance = function (attendances) {
 };
 
 exports.dayUseVehicleAttendance = function (
-  trailCount,
   vehicles,
   buses,
   vehicleMod,
   busMod
 ) {
-  let trailCountTotal = this.totalWithModifier(trailCount);
   let vehicleTotal = totalWithModifier(vehicles, vehicleMod);
   let busTotal = totalWithModifier(buses, busMod);
   let vehicleFormula = "Vehicles";
@@ -136,8 +123,8 @@ exports.dayUseVehicleAttendance = function (
     busFormula = `(Bus count x ${busMod})`;
   }
   return {
-    result: formatTotalWithModifier([vehicleTotal, busTotal, trailCountTotal]),
-    formula: `Vehicle attendance = ${vehicleFormula} + ${busFormula} + Trail count`,
+    result: formatTotalWithModifier([vehicleTotal, busTotal]),
+    formula: `Vehicle attendance = ${vehicleFormula} + ${busFormula}`,
   };
 };
 
