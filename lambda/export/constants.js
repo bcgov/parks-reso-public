@@ -200,6 +200,12 @@ const CSV_SYSADMIN_SCHEMA = [
     width: 63,
     value: (report) => report.totalAttendanceParties,
   },
+  {
+    column: "Frontcountry Cabins - Parties - Total Attendance",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_frontCountryCabins_parties_totalAttendance,
+  },
   // Frontcountry Cabins - Camping
   {
     column: "Frontcountry Cabins - Camping - Gross camping revenue",
