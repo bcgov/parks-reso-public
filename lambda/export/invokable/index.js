@@ -15,6 +15,7 @@ const {
   basicNetRevenue,
   frontcountryCampingPartyAttendance,
   frontcountryCampingSecondCarAttendance,
+  frontcountryCabinsPartiesAttendance,
   groupCampingStandardAttendance,
   dayUseVehicleAttendance,
   backcountryCabinsAttendance,
@@ -209,6 +210,11 @@ async function modifyReportForCSV(report) {
       ]).result;
       break;
     case "Frontcountry Cabins":
+      // Parties - TOTAL ATTENDANCE
+      report.calc_frontcountryCabins_parties_totalAttendance = frontcountryCabinsPartiesAttendance(
+        [report.totalAttendanceParties],
+        report.config.attendanceModifier
+      ).result;
       // NET REVENUE
       report.calc_frontcountryCabins_camping_netRevenue = basicNetRevenue([
         report.revenueGrossCamping,
@@ -237,6 +243,7 @@ async function modifyReportForCSV(report) {
       // People and vehicles - VEHICLE ATTENDANCE
       report.calc_dayUse_peopleAndVehicles_vehicleAttendance =
         dayUseVehicleAttendance(
+          [report.peopleAndVehiclesTrail],
           [report.peopleAndVehiclesVehicle],
           [report.peopleAndVehiclesBus],
           report.config.attendanceVehiclesModifier,
