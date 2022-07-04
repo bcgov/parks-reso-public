@@ -1,6 +1,6 @@
 const { runQuery, TABLE_NAME } = require('../dynamoUtil');
 const { sendResponse } = require('../responseUtil');
-const { logger } = require('../../logger');
+const { logger } = require('../logger');
 
 exports.handler = async (event, context) => {
   logger.debug('Read Config', event);
