@@ -14,8 +14,9 @@ const lambda = new AWS.Lambda(options);
 
 const { runQuery, dynamodb, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
-const { checkPermissions } = require("../../permissionUtil");
+const { decodeJWT, resolvePermissions } = require('../../permissionUtil');
 const { convertRolesToMD5 } = require("../functions");
+const { logger } = require('../../logger');
 
 const EXPORT_FUNCTION_NAME =
   process.env.EXPORT_FUNCTION_NAME || "bcparks-ar-api-api-exportInvokable";
@@ -25,17 +26,19 @@ const EXPIRY_TIME = process.env.EXPORT_EXPIRY_TIME
   : 60 * 15; // 15 minutes
 
 exports.handler = async (event, context) => {
-  console.log("GET: Export", event.queryStringParameters);
+  logger.debug("GET: Export", event.queryStringParameters);
 
   try {
-    const tokenObj = await checkPermissions(event);
-    if (tokenObj.decoded !== true) {
-      return sendResponse(403, { msg: "Unauthorized" });
+    const token = await decodeJWT(event);
+    const permissionObject = resolvePermissions(token);
+
+    if (!permissionObject.isAdmin) {
+      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
     }
-    let roles = tokenObj.data.resource_access["attendance-and-revenue"].roles;
-    roles = roles.includes("sysadmin") ? ["sysadmin"] : roles;
+
     // This will give us the sk
-    const sk = convertRolesToMD5(roles, "export-");
+    const sk = convertRolesToMD5(permissionObject.roles, "export-");
 
     if (event?.queryStringParameters?.getJob) {
       let queryObj = {
@@ -94,13 +97,13 @@ exports.handler = async (event, context) => {
           progressDescription: "Initializing job.",
         }),
       };
-      console.log(putObject);
+      logger.debug(putObject);
       let res;
       try {
         res = await dynamodb.putItem(putObject).promise();
         // Check if there's already a report being generated.
         // If there are is no instance of a job or the job is 100% complete, generate a report.
-        console.log("Creating a new export job.");
+        logger.debug("Creating a new export job.");
 
         const params = {
           FunctionName: EXPORT_FUNCTION_NAME,
@@ -108,7 +111,7 @@ exports.handler = async (event, context) => {
           LogType: "None",
           Payload: JSON.stringify({
             jobId: sk,
-            roles: roles,
+            roles: permissionObject.roles,
           }),
         };
         // Invoke generate report function
@@ -117,12 +120,12 @@ exports.handler = async (event, context) => {
         return sendResponse(200, { status: "Export job created" }, context);
       } catch (error) {
         // A job already exists.
-        console.log(error);
+        logger.error(error);
         return sendResponse(200, { status: "Job is already running" }, context);
       }
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return sendResponse(400, { error: error }, context);
   }
 };

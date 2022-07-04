@@ -72,6 +72,10 @@ const schema = {
   'Region': {
     prop: 'Region',
     type: String
+  },
+  'Sub Area ID': {
+    prop: 'Sub Area ID',
+    type: String
   }
 }
 
@@ -107,7 +111,7 @@ async function main() {
         let { rows, errors } = await readXlsxFile(`./${filename}`, { schema });
         for (const [idx, row] of rows.entries()) {
           const subAreaNameSplitContent = row['Park Sub Area'].split(" - ");
-          const roleName = `${row['ORCS Number']}:${subAreaNameSplitContent[subAreaNameSplitContent.length - 1]}`;
+          const roleName = `${row['ORCS Number']}:${row['Sub Area ID']}`;
           const description = `${row['Park']}:${subAreaNameSplitContent[subAreaNameSplitContent.length - 1]}`;
           // const roleName = `${row['ORCS Number']}:Garibaldi Lake / Taylor Meadows`;
           // console.log(`SubArea ${idx}: ${subAreaName}`);

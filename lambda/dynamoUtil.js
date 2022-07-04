@@ -1,4 +1,5 @@
 const AWS = require("aws-sdk");
+const { logger } = require("./logger");
 
 const TABLE_NAME = process.env.TABLE_NAME || "ar-tests";
 const options = {
@@ -28,13 +29,11 @@ const dynamodb = new AWS.DynamoDB(options);
 exports.dynamodb = new AWS.DynamoDB();
 
 async function runQuery(query, paginated = false) {
-  console.log("query:", query);
+  logger.debug("query:", query);
   const data = await dynamodb.query(query).promise();
-  // console.log('data:', data);
   var unMarshalled = data.Items.map((item) => {
     return AWS.DynamoDB.Converter.unmarshall(item);
   });
-  // console.log(unMarshalled);
   if (paginated) {
     return {
       LastEvaluatedKey: data.LastEvaluatedKey,
@@ -46,13 +45,13 @@ async function runQuery(query, paginated = false) {
 }
 
 async function runScan(query, paginated = false) {
-  console.log("query:", query);
+  logger.debug("query:", query);
   const data = await dynamodb.scan(query).promise();
-  // console.log('data:', data);
+  // logger.debug('data:', data);
   var unMarshalled = data.Items.map((item) => {
     return AWS.DynamoDB.Converter.unmarshall(item);
   });
-  // console.log(unMarshalled);
+  // logger.debug(unMarshalled);
   if (paginated) {
     return {
       LastEvaluatedKey: data.LastEvaluatedKey,

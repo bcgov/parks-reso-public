@@ -10,6 +10,7 @@ const {
   STATE_DICTIONARY,
 } = require("../constants");
 const { updateJobEntry } = require("../functions");
+const { logger } = require('../../logger');
 
 const {
   basicNetRevenue,
@@ -50,7 +51,7 @@ let S3_KEY;
 let CURRENT_PROGRESS_PERCENT = 0;
 
 exports.handler = async (event, context) => {
-  console.log("EXPORT", event || {});
+  logger.debug("EXPORT", event || {});
 
   let queryObj = {
     TableName: TABLE_NAME,
@@ -75,7 +76,7 @@ exports.handler = async (event, context) => {
         );
 
         // Exporting all data
-        console.log("=== Exporting all data ===");
+        logger.debug("=== Exporting all data ===");
         scanResults = await getAllRecords({ ...queryObj });
 
         await updateJobWithState(
@@ -87,7 +88,7 @@ exports.handler = async (event, context) => {
         // 1. get their list of subarea role(s) from token
         // 2. query db filter by subarea name from list of subareas in role(s)
       }
-      console.log(scanResults.length + " records found");
+      logger.debug(scanResults.length + " records found");
 
       // Combine reports that are part of the same date and subarea - 20-50
       CURRENT_PROGRESS_PERCENT = 30;
@@ -96,7 +97,7 @@ exports.handler = async (event, context) => {
       // Create sorted rows array - 50-80
       CURRENT_PROGRESS_PERCENT = 50;
       const rowsArray = await generateRowsArray(groupedReports, 30);
-      console.log(rowsArray.length + " rows generated");
+      logger.debug(rowsArray.length + " rows generated");
 
       // 80-90
       await updateJobWithState(STATE_DICTIONARY.GENERATE_REPORT);
@@ -104,7 +105,7 @@ exports.handler = async (event, context) => {
         schema,
         filePath: FILE_PATH + FILE_NAME + ".xlsx",
       });
-      console.log("Report generated");
+      logger.debug("Report generated");
 
       // This means we are uploading to S3 - 90-100
       if (FILE_PATH === "/tmp/" && process.env.S3_BUCKET_DATA) {
@@ -114,10 +115,10 @@ exports.handler = async (event, context) => {
       await updateJobWithState(STATE_DICTIONARY.COMPLETE);
 
       // TODO: Log job into separate DB
-      console.log("=== Export successful ===");
+      logger.debug("=== Export successful ===");
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
 };
 
@@ -380,7 +381,7 @@ async function uploadToS3() {
   };
 
   await s3.putObject(params).promise();
-  console.log("File successfully uploaded to S3");
+  logger.debug("File successfully uploaded to S3");
 }
 
 async function updateJobWithState(

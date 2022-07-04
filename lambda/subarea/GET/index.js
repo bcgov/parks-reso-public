@@ -1,22 +1,38 @@
 const AWS = require('aws-sdk');
 const { runQuery, TABLE_NAME } = require('../../dynamoUtil');
 const { sendResponse } = require('../../responseUtil');
+const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionUtil');
+const { logger } = require('../../logger');
 
 exports.handler = async (event, context) => {
-  console.log('GET: Subarea', event);
+  logger.debug('GET: Subarea', event);
 
   let queryObj = {
     TableName: TABLE_NAME
   };
 
   try {
+    const token = await decodeJWT(event);
+    const permissionObject = resolvePermissions(token);
+
+    if (!permissionObject.isAuthenticated) {
+      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
+    }
+
     if (event?.queryStringParameters?.subAreaId
         && event?.queryStringParameters?.activity
-        && event?.queryStringParameters?.date) {
+        && event?.queryStringParameters?.date
+        && event?.queryStringParameters?.orcs) {
       // Get the subarea details
       const subAreaId = event.queryStringParameters?.subAreaId;
       const activity = event.queryStringParameters?.activity;
       const date = event.queryStringParameters?.date;
+      const orcs = event.queryStringParameters?.orcs;
+
+      if (!permissionObject.isAdmin && permissionObject.roles.includes(`${orcs}:${subAreaId}`) === false) {
+        return sendResponse(403, { msg: 'Unauthorized.'}, context);
+      }
 
       // Get me a list of this park's subarea details
       queryObj.ExpressionAttributeValues = {};
@@ -27,7 +43,6 @@ exports.handler = async (event, context) => {
       // Get record (if exists)
       const parkDataRaw = await runQuery(queryObj);
       const parkData = parkDataRaw.length > 0 ? parkDataRaw[0] : {};
-      console.log("parkData:", parkData);
 
       // Attach current config
       let configObj = {
@@ -46,7 +61,7 @@ exports.handler = async (event, context) => {
       throw "Invalid parameter call.";
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, err, context);
   }
 };

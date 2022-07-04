@@ -6,6 +6,9 @@ const { PARKSLIST, SUBAREAS, CONFIG_ENTRIES, SUBAREA_ENTRIES } = require('./glob
 const subareaGET = require('../lambda/subarea/GET/index');
 const subareaPOST = require('../lambda/subarea/POST/index');
 
+const jwt = require('jsonwebtoken');
+const token = jwt.sign({ resource_access: { 'attendance-and-revenue': { roles: ['sysadmin'] } } }, 'defaultSecret');
+
 async function setupDb() {
   new AWS.DynamoDB({
     region: REGION,
@@ -48,6 +51,9 @@ describe('Subarea Test', () => {
   test('Handler - 200 GET specific activity entry', async () => {
     const obj = await subareaGET.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           orcs: SUBAREA_ENTRIES[0].orcs,
           subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
@@ -60,6 +66,9 @@ describe('Subarea Test', () => {
 
   test('Handler - 400 GET Bad Request', async () => {
     const response = await subareaGET.handler({
+      headers: {
+        Authorization: "Bearer " + token
+      },
       queryStringParameters: {
         badParam: "oops"
       }
@@ -71,6 +80,9 @@ describe('Subarea Test', () => {
   test('Handler - 200 POST handle Activity', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "activity"
         },
@@ -87,6 +99,9 @@ describe('Subarea Test', () => {
   test('Handler - 200 POST handle Config', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "config"
         },
@@ -98,6 +113,9 @@ describe('Subarea Test', () => {
   test('Handler - 400 POST handle Activity', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "activity"
         },
@@ -111,6 +129,9 @@ describe('Subarea Test', () => {
   test('Handler - 400 POST handle Config', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "config"
         },
@@ -124,6 +145,9 @@ describe('Subarea Test', () => {
   test('Handler - 400 POST handle Activity', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "activity"
         }
@@ -134,6 +158,9 @@ describe('Subarea Test', () => {
   test('Handler - 400 POST handle Activity date', async () => {
     const response = await subareaPOST.handler(
       {
+        headers: {
+          Authorization: "Bearer " + token
+        },
         queryStringParameters: {
           type: "activity"
         },
@@ -149,6 +176,9 @@ describe('Subarea Test', () => {
 
   test('Handler - 400 POST Bad Request', async () => {
     const response = await subareaPOST.handler({
+      headers: {
+        Authorization: "Bearer " + token
+      },
       body: {
         badParam: "{xxxxxx}"
       }

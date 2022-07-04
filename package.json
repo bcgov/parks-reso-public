@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "BCParks Attendance and Revenue Backend",
   "devDependencies": {
+    "@digitalspace/dynamodb-migrate": "^1.0.2",
     "aws-sdk-mock": "^5.4.0",
     "jest": "^28.1.0",
+    "read-excel-file": "^5.3.4",
     "serverless": "^3.18.1",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.2.0",
@@ -13,7 +15,8 @@
   "scripts": {
     "start": "sls offline start",
     "build": "sls package --package ./artifacts",
-    "test": "IS_OFFLINE=1 TABLE_NAME=bcparks-ar-tests jest --coverage"
+    "test": "IS_OFFLINE=1 TABLE_NAME=bcparks-ar-tests jest --coverage",
+    "migration": "node ./node_modules/@digitalspace/dynamodb-migrate/migrate.js"
   },
   "jest": {
     "verbose": true,
@@ -27,6 +30,7 @@
     "date-fns": "^2.28.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.1.2",
+    "winston": "^3.8.0",
     "write-excel-file": "^1.3.16"
   }
 }

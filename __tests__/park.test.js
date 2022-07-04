@@ -1,10 +1,13 @@
 const AWS = require('aws-sdk');
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 const { REGION, ENDPOINT, TABLE_NAME } = require('./global/settings');
-const { PARKSLIST, SUBAREAS, SUBAREA_INFORMATION } = require('./global/data.json');
+const { PARKSLIST, SUBAREAS } = require('./global/data.json');
 
 const parkGET = require('../lambda/park/GET/index');
 const parkPOST = require('../lambda/park/POST/index');
+
+const jwt = require('jsonwebtoken');
+const token = jwt.sign({ resource_access: { 'attendance-and-revenue': { roles: ['sysadmin']}} }, 'defaultSecret');
 
 async function setupDb() {
   new AWS.DynamoDB({
@@ -42,7 +45,13 @@ describe('Pass Succeeds', () => {
   });
 
   test('Handler - 200 Received list of parks', async () => {
-    expect(await parkGET.handler({}, null)).toMatchObject({
+    const event = {
+      headers: {
+        Authorization: "Bearer " + token
+      },
+      httpMethod: "GET"
+    };
+    expect(await parkGET.handler(event, null)).toMatchObject({
       body: JSON.stringify(PARKSLIST),
       headers: {
         'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
@@ -62,6 +71,9 @@ describe('Pass Succeeds', () => {
       }
     }
     const response = await parkGET.handler({
+      headers: {
+        Authorization: "Bearer " + token
+      },
       queryStringParameters: {
         orcs: PARKSLIST[0].sk,
         subAreaId: specificSubAreas[0].sk
@@ -75,6 +87,9 @@ describe('Pass Succeeds', () => {
 
   test('Handler - 400 GET Bad Request', async () => {
     const response = await parkGET.handler({
+      headers: {
+        Authorization: "Bearer " + token + "invalid"
+      },
       queryStringParameters: {
         badParam: "oops"
       }
@@ -85,6 +100,9 @@ describe('Pass Succeeds', () => {
 
   test('Handler - 400 POST Bad Request', async () => {
     const response = await parkPOST.handler({
+      headers: {
+        Authorization: "Bearer " + token + "invalid"
+      },
       body: JSON.stringify({
         badParam: "{xxxxxx}"
       })
@@ -95,13 +113,16 @@ describe('Pass Succeeds', () => {
 
   test('Handler - 200 POST Park', async () => {
     const response = await parkPOST.handler({
+      headers: {
+        Authorization: "Bearer " + token
+      },
       body: JSON.stringify({
-        orcs: '0000',  // Not in the data.json set
+        orcs: '0000',
         someconfig: "test"
       })
     }, null);
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(400);
   });
   
 });

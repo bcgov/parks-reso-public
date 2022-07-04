@@ -1,8 +1,9 @@
 const { runQuery, TABLE_NAME } = require('../dynamoUtil');
 const { sendResponse } = require('../responseUtil');
+const { logger } = require('../../logger');
 
 exports.handler = async (event, context) => {
-  console.log('Read Config', event);
+  logger.debug('Read Config', event);
 
   let queryObj = {
     TableName: TABLE_NAME
@@ -17,7 +18,7 @@ exports.handler = async (event, context) => {
     const configData = await runQuery(queryObj);
     return sendResponse(200, configData[0], context);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, err, context);
   }
 

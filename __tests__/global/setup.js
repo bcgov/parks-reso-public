@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 
 const { REGION, ENDPOINT, TABLE_NAME } = require('./settings');
+const { logger } = require('../../lambda/logger');
 
 module.exports = async () => {
   dynamoDb = new AWS.DynamoDB({
@@ -41,6 +42,6 @@ module.exports = async () => {
       })
       .promise();
   } catch (err) {
-    console.error(err);
+    logger.error(err);
   }
 };

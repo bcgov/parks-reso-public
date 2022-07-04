@@ -1,15 +1,25 @@
 const AWS = require('aws-sdk');
 const { runQuery, TABLE_NAME } = require('../../dynamoUtil');
 const { sendResponse } = require('../../responseUtil');
+const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionUtil');
+const { logger } = require('../../logger');
 
 exports.handler = async (event, context) => {
-  console.log('GET: Park', event.queryStringParameters);
+  logger.debug('GET: Park', event);
 
   let queryObj = {
     TableName: TABLE_NAME
   };
 
   try {
+    const token = await decodeJWT(event);
+    const permissionObject = resolvePermissions(token);
+
+    if (!permissionObject.isAuthenticated) {
+      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      return sendResponse(403, {msg: "Error: UnAuthenticated."}, context);
+    }
+
     if (!event.queryStringParameters) {
       // Get me a list of parks, with subareas
       queryObj.ExpressionAttributeValues = {};
@@ -23,6 +33,25 @@ exports.handler = async (event, context) => {
         parkData.data.forEach((item) => results.push(item));
         queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
       } while (typeof parkData.LastEvaluatedKey !== "undefined");
+
+      if (permissionObject.isAdmin) {
+        // Sysadmin, they get it all
+        logger.debug("**Sysadmin**")
+      } else {
+        // Some other authenticated role
+        logger.debug("**Some other authenticated person with attendance-and-revenue roles**")
+        // logger.debug("results1:", results);
+        // logger.debug("permissionObject.roles:", permissionObject.roles);
+        // We're getting parks, so take their role and grab the orcs id from the front
+        const parkRoles = permissionObject.roles.map(item => {
+          return item.split(":")[0]
+        });
+        logger.debug("Effective park roles:", parkRoles)
+        results = await roleFilter(results, parkRoles);
+        results = await filterSubAreaAccess(permissionObject, results);
+        logger.debug(results);
+      }
+      logger.debug("RES:", results);
       return sendResponse(200, results, context);
     } else if (event.queryStringParameters?.orcs) {
       // Get me a list of this parks' subareas with activities details, including config details
@@ -43,12 +72,63 @@ exports.handler = async (event, context) => {
         parkData.data.forEach((item) => results.push(item));
         queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
       } while (typeof parkData.LastEvaluatedKey !== "undefined");
+
+      if (permissionObject.isAdmin) {
+        // Sysadmin, they get it all
+        logger.debug("**Sysadmin**")
+      } else {
+        // Some other authenticated role
+        logger.debug("**Some other authenticated person with attendance-and-revenue roles**")
+        const parkRoles = permissionObject.roles.map(item => {
+          return item.split(":")[0]
+        });
+        results = await roleFilter(results, parkRoles);
+        // TODO: Filter park, don't give everything
+        results = await filterSubAreaAccess(permissionObject, results);
+        logger.debug(JSON.stringify(parkData));
+      }
+
       return sendResponse(200, parkData, context);
     } else {
       throw "Invalid parameters for call.";
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, err, context);
   }
 };
+
+async function filterSubAreaAccess(permissionObject, parks) {
+  logger.debug("filterSubAreaAccess:", permissionObject);
+
+  let newParks = [];
+  for (let park of parks) {
+    let parkSubAreaAccess = [];
+    let results = [];
+    logger.debug("CHECKING:", park.orcs);
+    let queryObj = {
+      TableName: TABLE_NAME
+    };
+    queryObj.ExpressionAttributeValues = {};
+    queryObj.ExpressionAttributeValues[':pk'] = { S: `park::${park.orcs}` };
+    queryObj.KeyConditionExpression = 'pk =:pk';
+
+    let parkData;
+
+    do {
+      parkData = await runQuery(queryObj, true);
+      parkData.data.forEach((item) => results.push(item));
+      queryObj.ExclusiveStartKey = parkData.LastEvaluatedKey;
+    } while (typeof parkData.LastEvaluatedKey !== "undefined");
+
+    results = await roleFilter(results, permissionObject.roles);
+    results.forEach((item) => {
+      parkSubAreaAccess.push({name: item.subAreaName, id: item.sk});
+    });
+    park.subAreas = parkSubAreaAccess
+    newParks.push(park);
+  }
+
+  logger.debug("newParks:", newParks);
+  return newParks;
+}

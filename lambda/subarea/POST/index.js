@@ -1,21 +1,35 @@
 const AWS = require("aws-sdk");
 const { dynamodb, runQuery, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
-const format = require("date-fns/format");
+const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionUtil');
+const { logger } = require('../../logger');
 
 exports.handler = async (event, context) => {
   try {
-    console.log("POST: subarea", event);
+    const token = await decodeJWT(event);
+    const permissionObject = resolvePermissions(token);
+
+    if (!permissionObject.isAuthenticated) {
+      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
+    }
+
+    const body = JSON.parse(event.body);
+
+    if (!permissionObject.isAdmin && permissionObject.roles.includes(`${body.orcs}:${body.subAreaId}`) === false) {
+      return sendResponse(403, { msg: 'Unauthorized.' }, context);
+    }
+
     if (event?.queryStringParameters?.type === "config") {
-      return await handleConfig(JSON.parse(event.body), context);
+      return await handleConfig(body, context);
     } else if (event?.queryStringParameters?.type === "activity") {
       // Handle standard monthly entry for this orc::subAreaName::activity
-      return await handleActivity(JSON.parse(event.body));
+      return await handleActivity(body);
     } else {
       throw "Invalid request";
     }
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, { msg: "Invalid request" }, context);
   }
 };
@@ -60,7 +74,7 @@ async function handleActivity(body, context) {
     await dynamodb.putItem(putObject).promise();
     return sendResponse(200, {}, context);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, err, context);
   }
 }
@@ -86,7 +100,7 @@ async function handleConfig(body, context) {
     await dynamodb.putItem(putObject).promise();
     return sendResponse(200, body, context);
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     return sendResponse(400, err, context);
   }
 }
