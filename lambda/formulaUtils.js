@@ -26,8 +26,8 @@ function arraySum(arr) {
   return sum;
 }
 
-function deductPercentage(value, percentage) {
-  const result = (value * (100 - percentage)) / 100;
+function inversePercentage(value, percentage) {
+  const result = (value * 100) / (100 + percentage)
   return result;
 }
 
@@ -53,7 +53,7 @@ exports.basicNetRevenue = function (revenues, customPercent) {
   let result = null;
   let percent = customPercent ? customPercent : gstPercent;
   const gross = arraySum(revenues);
-  const net = deductPercentage(gross, percent);
+  const net = inversePercentage(gross, percent);
   if (isValidNumber(gross)) {
     result = formatMoney(net);
   }
