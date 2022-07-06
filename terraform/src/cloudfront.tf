@@ -135,7 +135,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   restrictions {
     geo_restriction {
       restriction_type = "blacklist"
-      locations        = ["BY", "CF", "CN", "CD", "IR", "IQ", "KP", "LB", "LY", "ML", "MM", "NI", "RU", "SO", "SS", "SD", "UA", "VE", "YE", "ZW"]
+      locations        = ["BY", "CF", "CN", "CD", "IR", "IQ", "KP", "LB", "LY", "ML", "MM", "NI", "RU", "SO", "SS", "SD", "SY", "UA", "VE", "YE", "ZW"]
     }
   }
 
