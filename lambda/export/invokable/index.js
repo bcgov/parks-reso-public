@@ -36,13 +36,13 @@ const JOB_UPDATE_MODULO = process.env.JOB_UPDATE_MODULO
 
 const DISABLE_PROGRESS_UPDATES =
   process.env.DISABLE_PROGRESS_UPDATES &&
-  process.env.DISABLE_PROGRESS_UPDATES === "true"
+    process.env.DISABLE_PROGRESS_UPDATES === "true"
     ? true
     : false;
 
 const DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE =
   process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE &&
-  process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE === "true"
+    process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE === "true"
     ? true
     : false;
 
@@ -154,9 +154,9 @@ async function groupBySubAreaAndDate(
       await updateJobWithState(
         STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE,
         "Grouping activities by subarea and date: " +
-          (i + 1) +
-          " of " +
-          scanResults.length,
+        (i + 1) +
+        " of " +
+        scanResults.length,
         CURRENT_PROGRESS_PERCENT + increment
       );
     }
@@ -188,15 +188,15 @@ async function modifyReportForCSV(report) {
 
       // Camping Party Nights - NET REVENUE
       report.calc_frontCountryCamping_campingPartyNights_netRevenue =
+        basicNetRevenue([report.campingPartyNightsRevenueGross]).result;
+
+      // Second cars / additional vehicles - TOTAL ATTENDANCE
+      report.calc_frontCountryCamping_secondCars_totalAttendance =
         frontcountryCampingSecondCarAttendance([
           report.secondCarsAttendanceStandard,
           report.secondCarsAttendanceSenior,
           report.secondCarsAttendanceSocial,
         ]).result;
-
-      // Second cars / additional vehicles - TOTAL ATTENDANCE
-      report.calc_frontCountryCamping_secondCars_totalAttendance =
-        basicNetRevenue([report.campingPartyNightsRevenueGross]).result;
 
       // Second cars / additional vehicles - NET REVENUE
       report.calc_frontCountryCamping_secondCars_netRevenue = basicNetRevenue([
