@@ -15,6 +15,8 @@ resource "aws_lambda_function" "subareaGetLambda" {
 
   environment {
     variables = {
+      SSO_ISSUER                   = data.aws_ssm_parameter.sso_issuer.value,
+      SSO_JWKSURI                  = data.aws_ssm_parameter.sso_jwksuri.value,
       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
     }
   }
@@ -37,6 +39,8 @@ resource "aws_lambda_function" "subareaPostLambda" {
 
   environment {
     variables = {
+      SSO_ISSUER                   = data.aws_ssm_parameter.sso_issuer.value,
+      SSO_JWKSURI                  = data.aws_ssm_parameter.sso_jwksuri.value,
       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
     }
   }

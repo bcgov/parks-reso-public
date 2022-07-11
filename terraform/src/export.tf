@@ -17,6 +17,8 @@ resource "aws_lambda_function" "exportInvokableLambda" {
       TABLE_NAME = aws_dynamodb_table.ar_table.name,
       FILE_PATH = "/tmp/",
       FILE_NAME = "A&R_Export",
+      SSO_ISSUER                   = data.aws_ssm_parameter.sso_issuer.value,
+      SSO_JWKSURI                  = data.aws_ssm_parameter.sso_jwksuri.value,
       S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id,
       JOB_UPDATE_MODULO = 1,
       DISABLE_PROGRESS_UPDATES = false,
