@@ -54,7 +54,7 @@ resource "aws_lambda_function" "exportGetLambda" {
     variables = {
       TABLE_NAME  = aws_dynamodb_table.ar_table.name,
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value
-      SSO_JWKSURI = data.aws_ssm_parameter.sso_jkwsuri.value,
+      SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
       S3_BUCKET_DATA = aws_s3_bucket.bcgov-parks-ar-assets.id,
       EXPORT_FUNCTION_NAME = aws_lambda_function.exportInvokableLambda.function_name
     }
