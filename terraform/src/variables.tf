@@ -31,6 +31,6 @@ data "aws_ssm_parameter" "sso_issuer" {
   name = "/parks-ar-api/sso-issuer"
 }
 
-data "aws_ssm_parameter" "sso_jkwsuri" {
+data "aws_ssm_parameter" "sso_jwksuri" {
   name = "/parks-ar-api/sso-jwksuri"
 }
