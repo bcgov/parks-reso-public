@@ -28,37 +28,75 @@ const dynamodb = new AWS.DynamoDB(options);
 
 exports.dynamodb = new AWS.DynamoDB();
 
+// TODO: set paginated to TRUE by default. Query results will then be at most 1 page
+// (1MB) unless they are explicitly specified to retrieve more.
+// TODO: Ensure the returned object has the same structure whether results are paginated or not. 
 async function runQuery(query, paginated = false) {
   logger.debug("query:", query);
-  const data = await dynamodb.query(query).promise();
-  var unMarshalled = data.Items.map((item) => {
-    return AWS.DynamoDB.Converter.unmarshall(item);
-  });
+  let data = [];
+  let pageData = [];
+  let page = 0;
+
+  do {
+    page++;
+    if (pageData?.LastEvaluatedKey) {
+      query.ExclusiveStartKey = pageData.LastEvaluatedKey;
+    };
+    pageData = await dynamodb.query(query).promise();
+    data = data.concat(pageData.Items.map(item => {
+      return AWS.DynamoDB.Converter.unmarshall(item);
+    }));
+    if (page < 2) {
+      logger.debug(`Page ${page} data:`, data);
+    } else {
+      logger.debug(`Page ${page} contains ${pageData.Items.length} additional query results...`);
+    };
+  } while (pageData?.LastEvaluatedKey && !paginated);
+
+  logger.debug(`Query result pages: ${page}, total returned items: ${data.length}`);
   if (paginated) {
     return {
-      LastEvaluatedKey: data.LastEvaluatedKey,
-      data: unMarshalled,
+      LastEvaluatedKey: pageData.LastEvaluatedKey,
+      data: data,
     };
   } else {
-    return unMarshalled;
+    return data;
   }
 }
 
+// TODO: set paginated to TRUE by default. Scan results will then be at most 1 page
+// (1MB) unless they are explicitly specified to retrieve more.
+// TODO: Ensure the returned object has the same structure whether results are paginated or not. 
 async function runScan(query, paginated = false) {
   logger.debug("query:", query);
-  const data = await dynamodb.scan(query).promise();
-  // logger.debug('data:', data);
-  var unMarshalled = data.Items.map((item) => {
-    return AWS.DynamoDB.Converter.unmarshall(item);
-  });
-  // logger.debug(unMarshalled);
+  let data = [];
+  let pageData = [];
+  let page = 0;
+
+  do {
+    page++;
+    if (pageData?.LastEvaluatedKey) {
+      query.ExclusiveStartKey = pageData.LastEvaluatedKey;
+    };
+    pageData = await dynamodb.scan(query).promise();
+    data = data.concat(pageData.Items.map(item => {
+      return AWS.DynamoDB.Converter.unmarshall(item);
+    }));
+    if (page < 2) {
+      logger.debug(`Page ${page} data:`, data);
+    } else {
+      logger.debug(`Page ${page} contains ${pageData.Items.length} additional scan results...`);
+    };
+  } while (pageData?.LastEvaluatedKey && !paginated);
+
+  logger.debug(`Scan result pages: ${page}, total returned items: ${data.length}`);
   if (paginated) {
     return {
-      LastEvaluatedKey: data.LastEvaluatedKey,
-      data: unMarshalled,
+      LastEvaluatedKey: pageData.LastEvaluatedKey,
+      data: data,
     };
   } else {
-    return unMarshalled;
+    return data;
   }
 }
 
