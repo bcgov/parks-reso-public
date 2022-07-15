@@ -305,7 +305,8 @@ async function modifyReportForCSV(report) {
 
 async function mergeReports(result, report) {
   // We can use the report.date for sorting in a later step
-  const key = report.date + "_" + report.subAreaName;
+  const subAreaName = report.config.subAreaName;
+  const key = report.date + "_" + report.parkName + "_" + subAreaName;
   if (!result[key]) {
     const queryObj = {
       TableName: TABLE_NAME,
@@ -322,7 +323,7 @@ async function mergeReports(result, report) {
       section: park.section,
       bundle: park.bundle,
       parkName: report.parkName,
-      subAreaName: report.subAreaName,
+      subAreaName: subAreaName,
       year: Number(report.date.substring(0, 4)),
       month: EXPORT_MONTHS[report.date.slice(-2)],
     };
