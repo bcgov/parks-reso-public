@@ -250,20 +250,6 @@ export class FacilitySelectComponent implements OnInit {
     return date.toISO();
   }
 
-  // '2022-07-19': {
-  //   AM: {
-  //     capacity: 'Low',
-  //     max: 4
-  //   },
-  //   PM: {
-  //     capacity: 'Low',
-  //     max: 5
-  //   },
-  //   DAY: {
-  //     capacity: 'Low',
-  //     max: 6
-  //   }
-  // },
   setPassesArray(): void {
     // if facility is trail and has >= 'singlePassLimit' passes available, allow client to book up to 'singlePassLimit' passes.
     // if facility is trail and has 1 to 'singlePassLimit' passes available, limit the number of passes to the availability left.

@@ -16,7 +16,7 @@ describe('FacilitySelectComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [RegistrationModule],
-      providers: [ConfigService, HttpClient, HttpHandler, Utils],
+      providers: [ConfigService, HttpClient, HttpHandler, Utils]
     }).compileComponents();
   });
 
@@ -42,8 +42,8 @@ describe('FacilitySelectComponent', () => {
         visitDate: {
           year: visitDate.toLocaleString('en-US', { year: 'numeric', timeZone: 'America/Vancouver' }),
           month: visitDate.toLocaleString('en-US', { month: 'numeric', timeZone: 'America/Vancouver' }),
-          day: visitDate.toLocaleString('en-US', { day: 'numeric', timeZone: 'America/Vancouver' }),
-        },
+          day: visitDate.toLocaleString('en-US', { day: 'numeric', timeZone: 'America/Vancouver' })
+        }
       });
       const datePickerComponent = fixture.debugElement.query(By.css('app-date-picker'));
       datePickerComponent.triggerEventHandler('formChangeEvent', null);
@@ -67,17 +67,22 @@ describe('FacilitySelectComponent', () => {
             sk: 'Test facility 1',
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
-            reservations: {},
-            type: 'Parking',
-          },
+            reservations: {
+              '2021-11-23': {
+                DAY: {
+                  capacity: 'High',
+                  max: 1
+                }
+              }
+            },
+            type: 'Parking'
+          }
         ],
         new Date('2021-11-23T20:02:00.000-08:00')
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - High'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - High');
     });
 
     it('should show high availability with 75% of spots available', () => {
@@ -93,19 +98,20 @@ describe('FacilitySelectComponent', () => {
             name: 'Test facility 1',
             reservations: {
               '2021-11-23': {
-                DAY: 25,
-              },
+                DAY: {
+                  capacity: 'High',
+                  max: 1
+                }
+              }
             },
-            type: 'Parking',
-          },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - High'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - High');
     });
 
     it('should show moderate availability with 25% of spots available', () => {
@@ -121,19 +127,20 @@ describe('FacilitySelectComponent', () => {
             name: 'Test facility 1',
             reservations: {
               '2021-11-23': {
-                DAY: 75,
-              },
+                DAY: {
+                  capacity: 'Moderate',
+                  max: 1
+                }
+              }
             },
-            type: 'Parking',
-          },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - Moderate'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - Moderate');
     });
 
     it('should show low availability with 24% of spots available', () => {
@@ -149,19 +156,20 @@ describe('FacilitySelectComponent', () => {
             name: 'Test facility 1',
             reservations: {
               '2021-11-23': {
-                DAY: 76,
-              },
+                DAY: {
+                  capacity: 'Low',
+                  max: 1
+                }
+              }
             },
-            type: 'Parking',
-          },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - Low'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - Low');
     });
 
     it('should show as full with no spots available', () => {
@@ -177,19 +185,20 @@ describe('FacilitySelectComponent', () => {
             name: 'Test facility 1',
             reservations: {
               '2021-11-23': {
-                DAY: 100,
-              },
+                DAY: {
+                  capacity: 'Full',
+                  max: 0
+                }
+              }
             },
-            type: 'Parking',
-          },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - Full'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - Full');
     });
 
     it('should show as full when overbooked', () => {
@@ -205,21 +214,21 @@ describe('FacilitySelectComponent', () => {
             name: 'Test facility 1',
             reservations: {
               '2021-11-23': {
-                DAY: 110,
-              },
+                DAY: {
+                  capacity: 'Full',
+                  max: 0
+                }
+              }
             },
-            type: 'Parking',
-          },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - Full'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - Full');
     });
-
 
     it('should show as full when zero spots available', () => {
       const date = new Date('2021-11-23T20:02:00.000-08:00');
@@ -232,17 +241,22 @@ describe('FacilitySelectComponent', () => {
             sk: 'Test facility 1',
             pk: 'facility::Garibaldi Provincial Park',
             name: 'Test facility 1',
-            reservations: {},
-            type: 'Parking',
-          },
+            reservations: {
+              '2021-11-23': {
+                DAY: {
+                  capacity: 'Full',
+                  max: 0
+                }
+              }
+            },
+            type: 'Parking'
+          }
         ],
         date
       );
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
-      expect(textElement.nativeElement.textContent).toContain(
-        'Pass availability - Full'
-      );
+      expect(textElement.nativeElement.textContent).toContain('Pass availability - Full');
 
       const inputElement = fixture.debugElement.query(By.css('[data-testid="day-input"]'));
       expect(inputElement.nativeElement.disabled).toBe(true);
