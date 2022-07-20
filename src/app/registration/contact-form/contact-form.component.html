@@ -18,7 +18,8 @@
           </h3>
         </div>
         <div class="my-3">
-          <p>Number of Passes</p>
+          <p *ngIf="passData?.passType?.type === 'Trail'">Number of Trail Passes (1 per person)</p>
+          <p *ngIf="passData?.passType?.type === 'Parking'">Number of Parking Passes (1 per vehicle)</p>
           <h3>
             {{ passData?.passCount }}
           </h3>
