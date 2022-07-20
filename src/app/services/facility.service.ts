@@ -13,12 +13,12 @@ export class FacilityService {
   private list: BehaviorSubject<any>;
 
   constructor(
-    private apiService: ApiService,
-    private eventService: EventService,
+    private apiService: ApiService, 
+    private eventService: EventService, 
     private toastService: ToastService
   ) {
-    this.item = new BehaviorSubject(null);
-    this.list = new BehaviorSubject(null);
+      this.item = new BehaviorSubject(null);
+      this.list = new BehaviorSubject(null);
   }
 
   setItemValue(value): void {
@@ -55,21 +55,38 @@ export class FacilityService {
         res = await this.apiService.getList('facility');
         this.setListValue(res);
       }
+      //get reservations
+      await this.fetchReservationData(res);
     } catch (e) {
-      this.toastService.addMessage(`Please refresh the page.`, `Error getting ${errorSubject}`, Constants.ToastTypes.ERROR);
-      this.eventService.setError(
-        new EventObject(
-          EventKeywords.ERROR,
-          e,
-          'Park Service'
-        )
+      this.toastService.addMessage(
+        `Please refresh the page.`,
+        `Error getting ${errorSubject}`,
+        Constants.ToastTypes.ERROR
       );
+      this.eventService.setError(new EventObject(EventKeywords.ERROR, e, 'Park Service'));
       if (errorSubject === 'facilities') {
         this.setListValue('error');
       } else {
         this.setItemValue('error');
       }
     }
+  }
+
+  async fetchReservationData(facilities) {
+    for (let facility of facilities) {
+      let reservationRes;
+      try {
+        reservationRes = await this.apiService.get('reservation', {
+          facility: facility.name,
+          park: facility.pk.substring(facility.pk.indexOf('::') + 2)
+        });
+      } catch (error) {
+        console.log(error);
+        throw 'An error has occurred, please try again.';
+      }
+      facility.reservations = reservationRes;
+    }
+    return facilities;
   }
 
   clearItemValue(): void {

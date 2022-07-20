@@ -73,7 +73,7 @@ export class FacilitySelectComponent implements OnInit {
       year: today.get('year'),
       month: today.get('month'),
       day: today.get('day')
-    }
+    };
     this.initForm();
     this.checkPassType();
     this.setState('facility');
@@ -175,47 +175,17 @@ export class FacilitySelectComponent implements OnInit {
         this.timeConfig.DAY.offered = true;
       }
       this.selectedDate = this.getBookingDateString();
-      this.timeConfig['AM'].text = this.timeConfig['PM'].text = this.timeConfig['DAY'].text = 'Unoffered';
       for (let key in times) {
+        let availability = facility.reservations[this.selectedDate][key];
+        this.timeConfig[key].text = availability.capacity;
         if (key === 'AM' && this.isAMSlotExpired) {
           // This happens if it is beyond AM slot closing time
           this.timeConfig.AM.text = this.expiredText;
           this.timeConfig.AM.disabled = true;
-        } else if (!facility.reservations[this.selectedDate]) {
-          // This happens if there are no existing passes for the day.
-          if (times[key].max > 0) {
-            this.timeConfig[key].text = 'High';
-            this.timeConfig[key].disabled = false;
-          } else {
-            this.timeConfig[key].text = 'Full';
-            this.timeConfig[key].disabled = true;
-          }
-        } else if (!facility.reservations[this.selectedDate][key]) {
-          // This happens if there are no existing passes for the specific key.
-          if (times[key].max > 0) {
-            this.timeConfig[key].text = 'High';
-            this.timeConfig[key].disabled = false;
-          } else {
-            this.timeConfig[key].text = 'Full';
-            this.timeConfig[key].disabled = true;
-          }
-        } else if (facility.reservations[this.selectedDate][key] < times[key].max) {
-          // There are one or more passes that exist with a specific key.
-          const currentCount = facility.reservations[this.selectedDate][key]
-            ? facility.reservations[this.selectedDate][key]
-            : 0;
-          let capPercent = 1 - currentCount / times[key].max;
-          if (capPercent < 0.25) {
-            this.timeConfig[key].text = 'Low';
-          } else if (capPercent < 0.75) {
-            this.timeConfig[key].text = 'Moderate';
-          } else {
-            this.timeConfig[key].text = 'High';
-          }
-          this.timeConfig[key].disabled = false;
-        } else {
-          this.timeConfig[key].text = 'Full';
+        } else if (availability.capacity === 'Full') {
           this.timeConfig[key].disabled = true;
+        } else {
+          this.timeConfig[key].disabled = false;
         }
       }
     }
@@ -262,22 +232,38 @@ export class FacilitySelectComponent implements OnInit {
     let date = this.getPSTDateTime();
     if (this.myForm.get('visitDate').value) {
       const { year, month, day } = this.myForm.get('visitDate').value;
-      date = DateTime.fromObject({
-        year: year,
-        month: month,
-        day: day,
-        hour: 12,
-        minutes: 0,
-        seconds: 0,
-        milliseconds: 0,
-      },
-      {
-        zone: this.defaultParkTimeZone
-      });
+      date = DateTime.fromObject(
+        {
+          year: year,
+          month: month,
+          day: day,
+          hour: 12,
+          minutes: 0,
+          seconds: 0,
+          milliseconds: 0
+        },
+        {
+          zone: this.defaultParkTimeZone
+        }
+      );
     }
     return date.toISO();
   }
 
+  // '2022-07-19': {
+  //   AM: {
+  //     capacity: 'Low',
+  //     max: 4
+  //   },
+  //   PM: {
+  //     capacity: 'Low',
+  //     max: 5
+  //   },
+  //   DAY: {
+  //     capacity: 'Low',
+  //     max: 6
+  //   }
+  // },
   setPassesArray(): void {
     // if facility is trail and has >= 'singlePassLimit' passes available, allow client to book up to 'singlePassLimit' passes.
     // if facility is trail and has 1 to 'singlePassLimit' passes available, limit the number of passes to the availability left.
@@ -286,27 +272,28 @@ export class FacilitySelectComponent implements OnInit {
     this.passesAvailable = [];
     let numberAvailable = 0;
     if (this.myForm.get('passType').value) {
-      const pass = this.myForm.get('passType').value;
+      const facility = this.myForm.get('passType').value;
       const date = this.getBookingDateString();
       if (this.myForm.get('visitTime').value) {
         const time = this.myForm.get('visitTime').value;
         // check if there are any bookings for this facilty/date/time combo existing already
-        if (pass.bookingTimes[time]) {
-          if (pass.reservations && pass.reservations[date] && pass.reservations[date][time]) {
-            // if so, check the remaining space available.
-            numberAvailable = pass.bookingTimes[time].max - pass.reservations[date][time];
-          } else {
-            // if else, this means there is no bookings for that particular day yet.
-            numberAvailable = pass.bookingTimes[time].max;
-          }
+        if (
+          facility.reservations &&
+          facility.bookingTimes[time] &&
+          facility.reservations[date] &&
+          facility.reservations[date][time] &&
+          facility.reservations[date][time].max
+        ) {
+          // if so, check the remaining space available.
+          numberAvailable = facility.reservations[date][time].max;
         } else {
           numberAvailable = 0;
         }
       }
-      if (pass.type === 'Trail' && numberAvailable > this.trailPassLimit) {
+      if (facility.type === 'Trail' && numberAvailable > this.trailPassLimit) {
         numberAvailable = this.trailPassLimit;
       }
-      if (pass.type === 'Parking' && numberAvailable > this.parkingPassLimit) {
+      if (facility.type === 'Parking' && numberAvailable > this.parkingPassLimit) {
         numberAvailable = this.parkingPassLimit;
       }
     }

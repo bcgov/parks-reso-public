@@ -24,23 +24,23 @@ export class ApiService {
     this.env = this.configService.config['ENVIRONMENT'];
   }
 
-  post(pk, obj, queryParamsObject = null): Promise<any> {
+  post(endpoint, obj, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.post<any>(`${this.apiPath}/${pk}?${queryString}`, obj, {}).toPromise();
+    return this.http.post<any>(`${this.apiPath}/${endpoint}?${queryString}`, obj, {}).toPromise();
   }
 
-  get(pk, queryParamsObject = null): Promise<any> {
+  get(endpoint, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.get<any>(`${this.apiPath}/${pk}?${queryString}`, {}).toPromise();
+    return this.http.get<any>(`${this.apiPath}/${endpoint}?${queryString}`, {}).toPromise();
   }
 
-  delete(pk, queryParamsObject = null): Promise<any> {
+  delete(endpoint, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.delete<any>(`${this.apiPath}/${pk}?${queryString}`, {}).toPromise();
+    return this.http.delete<any>(`${this.apiPath}/${endpoint}?${queryString}`, {}).toPromise();
   }
 
-  getList(pk): Promise<any> {
-    return this.http.get<any>(`${this.apiPath}/${pk}`, {}).toPromise();
+  getList(endpoint): Promise<any> {
+    return this.http.get<any>(`${this.apiPath}/${endpoint}`, {}).toPromise();
   }
 
   private generateQueryString(queryParamsObject) {
