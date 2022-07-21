@@ -27,6 +27,18 @@
         </h3>
         <hr>
     </div>
+    <div class="row">
+        <p class="card-text" *ngIf="regData?.facilityType === 'Trail'">
+          Number of Trail Passes (1 per person)
+        </p>
+        <p class="card-text" *ngIf="regData?.facilityType === 'Parking'">
+          Number of Parking Passes (1 per vehicle)
+        </p>
+        <h3>
+          {{ regData?.numberOfGuests }}
+        </h3>
+        <hr />
+    </div>
     <div class='row' *ngIf="regData?.firstName || regData?.lastName">
         <p class="card-text">
             Name
