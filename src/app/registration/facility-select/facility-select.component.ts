@@ -117,7 +117,7 @@ export class FacilitySelectComponent implements OnInit {
     const currentHour = parseInt(localDate.get('hour'), 10);
     const bookingDate = this.getBookingDate();
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    if ((localDate.toISO()).split('T')[0] === bookingDate.split('T')[0] && currentHour >= this.defaultPMOpeningHour) {
+    if (localDate.toISODate() === bookingDate.toISODate() && currentHour >= this.defaultPMOpeningHour) {
       return true;
     }
     return false;
@@ -246,7 +246,7 @@ export class FacilitySelectComponent implements OnInit {
         }
       );
     }
-    return date.toISO();
+    return date;
   }
 
   setPassesArray(): void {
