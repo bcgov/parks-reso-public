@@ -114,11 +114,10 @@ export class FacilitySelectComponent implements OnInit {
 
   get isAMSlotExpired(): boolean {
     const localDate = this.getPSTDateTime();
-    const currentHour = localDate.get('hour');
+    const currentHour = parseInt(localDate.get('hour'), 10);
     const bookingDate = this.getBookingDate();
-    const localDateStart = localDate.startOf('day').toISO();
     // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    if (localDateStart >= bookingDate && parseInt(currentHour, 10) >= this.defaultPMOpeningHour) {
+    if (localDate.toISODate() === bookingDate.toISODate() && currentHour >= this.defaultPMOpeningHour) {
       return true;
     }
     return false;
@@ -247,7 +246,7 @@ export class FacilitySelectComponent implements OnInit {
         }
       );
     }
-    return date.toISO();
+    return date;
   }
 
   setPassesArray(): void {
