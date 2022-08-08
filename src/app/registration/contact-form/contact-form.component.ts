@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, AbstractControlOptions } from '@angular/forms';
 import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
@@ -51,14 +51,19 @@ export class ContactFormComponent implements OnInit {
     this.myForm = new FormGroup({
       firstName: new FormControl(),
       lastName: new FormControl(),
-      email: new FormControl()
+      email: new FormControl(),
+      emailCheck: new FormControl()
     });
     this.myForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      emailCheck: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.pattern('^[0-9]{10}$')]]
-    });
+    },
+    {
+      validator: this.checkMatchEmails('email', 'emailCheck')
+    } as AbstractControlOptions);
   }
 
   keyPressNumbers(event) {
@@ -74,6 +79,20 @@ export class ContactFormComponent implements OnInit {
 
   getMonthString(monthNo): string {
     return this.months[monthNo - 1];
+  }
+
+  checkMatchEmails(email: string, emailCheck: string) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control) {
+        let emailVal = control.get(email).value;
+        let emailCheckVal = control.get(emailCheck).value;
+
+        if (emailVal !== '' && emailVal !== emailCheckVal) {
+          return { not_the_same: true };
+        }
+        return null;
+      }
+    };
   }
 
   submit(): void {

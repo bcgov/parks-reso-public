@@ -47,12 +47,28 @@
             Email Address
             <span class="asteriks">*</span>
           </label>
-          <input
-            id="email"
-            type="email"
-            class="form-control mb-1"
-            formControlName="email"
+          <input 
+            id="email" 
+            type="email" 
+            class="form-control mb-1" 
+            formControlName="email" 
             placeholder="name@example.com" />
+        </div>
+        <div class="form-group">
+          <label class="mb-2" for="emailCheck">
+            Please Re-Type Your Email Address
+            <span class="asteriks">*</span>
+          </label>
+          <input 
+            id="emailCheck" 
+            type="email" 
+            class="form-control mb-1" 
+            formControlName="emailCheck"
+            placeholder="name@example.com" 
+            (paste)="$event.preventDefault()"/>
+          <div *ngIf="myForm.errors" class="error-message">
+            *Your email addresses must match
+          </div>
           <small class="text-muted">
             Your email address will be used to send you your pass. It may also be used to notify you in the event of a
             park or facility closure based on your selected visitation date.
