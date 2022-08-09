@@ -1,5 +1,9 @@
 @import '/src/assets/themes/default.scss';
 
+.error-message {
+  color: $error;
+}
+
 .left-col {
   border-right: 2px solid lightgray;
   padding-left: none;
