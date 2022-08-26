@@ -75,7 +75,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         new Date('2021-11-23T20:02:00.000-08:00')
@@ -104,7 +115,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date
@@ -133,7 +155,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date
@@ -162,7 +195,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date
@@ -191,7 +235,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date
@@ -220,7 +275,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date
@@ -249,7 +315,18 @@ describe('FacilitySelectComponent', () => {
                 }
               }
             },
-            type: 'Parking'
+            type: 'Parking',
+            bookingDays: {
+              'Sunday': true,
+              'Monday': true,
+              'Tuesday': true,
+              'Wednesday': true,
+              'Thursday': true,
+              'Friday': true,
+              'Saturday': true,
+            },
+            bookableHolidays: [],
+            bookingDaysRichText: ''
           }
         ],
         date

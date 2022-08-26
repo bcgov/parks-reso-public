@@ -22,6 +22,7 @@ export class FacilitySelectComponent implements OnInit {
   public selectedDate = '';
   public initDate = {};
   public expiredText = 'This time slot has expired';
+  public notRequiredText = `<p>You don't need a day-use pass for this date and pass type. Passes may be required on other days and at other parks.</p>`;
 
   public timeConfig = {
     AM: {
@@ -139,6 +140,20 @@ export class FacilitySelectComponent implements OnInit {
       maxFutureDate = curDate.plus({ days: bookingDaysAhead - 1 });
     }
     return maxFutureDate.toISO();
+  }
+
+  get isBookableDay(): boolean {
+    if (this.myForm.get('passType').value) {
+      const facility = this.myForm.get('passType').value;
+      const bookingWeekday = this.getBookingDate().weekdayLong;
+      if (facility.bookingDaysRichText) {
+        this.notRequiredText = facility.bookingDaysRichText;
+      }
+      if (facility.bookingDays[bookingWeekday]) {
+        return true;
+      }
+    }
+    return false;
   }
 
   setFacilitiesArrays() {
