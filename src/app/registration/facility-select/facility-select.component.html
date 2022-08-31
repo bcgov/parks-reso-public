@@ -42,7 +42,7 @@
     <div id="bookingTime" *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
       <p class="text-muted">Please select a pass type to see available passes for the selected date.</p>
     </div>
-    <div *ngIf="!isBookableDay && myForm.get('passType').value">
+    <div *ngIf="!isBookableDay && !!myForm.get('passType').value">
       <p [innerHTML]="notRequiredText"></p>
     </div>
     <div class="row row-cols-1 row cols-md-3 g-4" *ngIf="isBookableDay">

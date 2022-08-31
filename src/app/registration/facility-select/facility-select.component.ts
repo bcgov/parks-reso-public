@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { DateTime } from 'luxon';
+import { Constants } from '../../shared/utils/constants';
 
 @Component({
   selector: 'app-facility-select',
@@ -22,7 +23,7 @@ export class FacilitySelectComponent implements OnInit {
   public selectedDate = '';
   public initDate = {};
   public expiredText = 'This time slot has expired';
-  public notRequiredText = `<p>You don't need a day-use pass for this date and pass type. Passes may be required on other days and at other parks.</p>`;
+  public notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
 
   public timeConfig = {
     AM: {
@@ -143,11 +144,13 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get isBookableDay(): boolean {
-    if (this.myForm.get('passType').value) {
+    if (!!this.myForm.get('passType').value) {
       const facility = this.myForm.get('passType').value;
       const bookingWeekday = this.getBookingDate().weekdayLong;
       if (facility.bookingDaysRichText) {
         this.notRequiredText = facility.bookingDaysRichText;
+      } else {
+        this.notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
       }
       if (facility.bookingDays[bookingWeekday]) {
         return true;

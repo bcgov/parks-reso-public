@@ -14,6 +14,8 @@ export class Constants {
     ]
   };
 
+  public static readonly DEFAULT_NOT_REQUIRED_TEXT = `<p>You don't need a day-use pass for this date and pass type. Passes may be required on other days and at other parks.</p>`;
+
   public static readonly mockPass1 = {
     _id: 100,
     _schemaName: 'Pass',
@@ -106,7 +108,6 @@ export class Constants {
     facilities: []
   };
 
-
   public static readonly mockParkList = [
     Constants.mockPark1,
     Constants.mockPark2,
@@ -126,6 +127,6 @@ export class Constants {
     SUCCESS: 0,
     WARNING: 1,
     INFO: 2,
-    ERROR: 3,
+    ERROR: 3
   };
 }
