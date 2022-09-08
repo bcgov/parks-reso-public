@@ -144,7 +144,7 @@ export class FacilitySelectComponent implements OnInit {
     return maxFutureDate.toISO();
   }
 
-  checkBookable(): boolean {
+  checkBookable() {
     if (this.myForm.get('passType').dirty) {
       const facility = this.myForm.get('passType').value;
       const bookingWeekday = this.getBookingDate().weekdayLong;
@@ -154,15 +154,13 @@ export class FacilitySelectComponent implements OnInit {
         this.notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
       }
       if (facility?.bookingDays[bookingWeekday]) {
-        this.showAsUnbookable=false;
-        return true;
+        this.showAsUnbookable = false;
       } else {
         this.showAsUnbookable = true;
-        return false;
       }
+      return;
     }
     this.showAsUnbookable = false;
-    return false;
   }
 
   setFacilitiesArrays() {
