@@ -24,6 +24,7 @@ export class FacilitySelectComponent implements OnInit {
   public initDate = {};
   public expiredText = 'This time slot has expired';
   public notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
+  public showAsUnbookable = false;
 
   public timeConfig = {
     AM: {
@@ -143,20 +144,23 @@ export class FacilitySelectComponent implements OnInit {
     return maxFutureDate.toISO();
   }
 
-  get isBookableDay(): boolean {
-    if (!!this.myForm.get('passType').value) {
+  checkBookable() {
+    if (this.myForm.get('passType').dirty) {
       const facility = this.myForm.get('passType').value;
       const bookingWeekday = this.getBookingDate().weekdayLong;
-      if (facility.bookingDaysRichText) {
+      if (facility?.bookingDaysRichText) {
         this.notRequiredText = facility.bookingDaysRichText;
       } else {
         this.notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
       }
-      if (facility.bookingDays[bookingWeekday]) {
-        return true;
+      if (facility?.bookingDays[bookingWeekday]) {
+        this.showAsUnbookable = false;
+      } else {
+        this.showAsUnbookable = true;
       }
+      return;
     }
-    return false;
+    this.showAsUnbookable = false;
   }
 
   setFacilitiesArrays() {
@@ -420,6 +424,7 @@ export class FacilitySelectComponent implements OnInit {
     if (this.state === this.getStateByString('passes')) {
       this.setPassesArray();
     }
+    this.checkBookable();
   }
 
   to12hTimeString(hour): string {
