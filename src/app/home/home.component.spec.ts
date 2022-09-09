@@ -1,5 +1,12 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ParksListComponent } from '../parks-list/parks-list.component';
+import { ApiService } from '../services/api.service';
+import { ParkService } from '../services/park.service';
+import { ImportantBookingInfoComponent } from '../shared/components/important-booking-info/important-booking-info.component';
+import { ConfigService } from '../shared/services/config.service';
+import { TipsComponent } from '../tips/tips.component';
 
 import { HomeComponent } from './home.component';
 
@@ -9,8 +16,9 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ],
-      imports: [RouterTestingModule]
+      declarations: [ HomeComponent, ImportantBookingInfoComponent, ParksListComponent, TipsComponent ],
+      imports: [ RouterTestingModule, HttpClientTestingModule ],
+      providers: [ ParkService, ApiService, ConfigService ]
     })
     .compileComponents();
   });
@@ -23,9 +31,5 @@ describe('HomeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  afterEach(() => {
-    TestBed.resetTestingModule();
   });
 });
