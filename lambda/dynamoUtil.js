@@ -28,6 +28,16 @@ const dynamodb = new AWS.DynamoDB(options);
 
 exports.dynamodb = new AWS.DynamoDB();
 
+// simple way to return a single Item by primary key.
+async function getOne(pk, sk) {
+  logger.debug(`getItem: { pk: ${pk}, sk: ${sk} }`);
+  const params = {
+    TableName: TABLE_NAME,
+    Key: AWS.DynamoDB.Converter.marshall({pk, sk})
+  };
+  let item = await dynamodb.getItem(params).promise();
+  return item?.Item || {};
+};
 // TODO: set paginated to TRUE by default. Query results will then be at most 1 page
 // (1MB) unless they are explicitly specified to retrieve more.
 // TODO: Ensure the returned object has the same structure whether results are paginated or not. 
@@ -115,4 +125,5 @@ module.exports = {
   dynamodb,
   runQuery,
   runScan,
+  getOne
 };

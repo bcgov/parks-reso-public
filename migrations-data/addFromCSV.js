@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const { dynamodb, TABLE_NAME } = require('../lambda/dynamoUtil');
+const { dynamodb, TABLE_NAME, getOne } = require('../lambda/dynamoUtil');
 
 const readXlsxFile = require('read-excel-file/node');
 
@@ -114,6 +114,8 @@ async function doMigration(filePath) {
     const parkRecord = {
       pk: AWS.DynamoDB.Converter.input('park'),
       sk: AWS.DynamoDB.Converter.input(row['ORCS Number']),
+      orcs: AWS.DynamoDB.Converter.input(row['ORCS Number']),
+      roles: AWS.DynamoDB.Converter.input(['sysadmin', row['ORCS Number']]),
       parkName: AWS.DynamoDB.Converter.input(row['Park']),
       subAreas: {
         'L': [
@@ -142,7 +144,8 @@ async function doMigration(filePath) {
       activities: { SS: activities, },
       parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
       orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
-      subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
+      subAreaName: AWS.DynamoDB.Converter.input(subAreaName),
+      roles: AWS.DynamoDB.Converter.input(['sysadmin', `${parkRecord.sk.S}:${subAreaId}`])
     };
     await putItem(parkSubAreaRecord, true);
 
@@ -154,7 +157,7 @@ async function doMigration(filePath) {
         parkName: AWS.DynamoDB.Converter.input(parkRecord.parkName.S),
         orcs: AWS.DynamoDB.Converter.input(parkRecord.sk.S),
         subAreaId: AWS.DynamoDB.Converter.input(subAreaId),
-        subAreaName: AWS.DynamoDB.Converter.input(subAreaName)
+        subAreaName: AWS.DynamoDB.Converter.input(subAreaName),
       };
 
       // Default configs
@@ -184,6 +187,18 @@ async function doMigration(filePath) {
 }
 
 async function updateItem(record, subarea) {
+  // we have to check that the subarea isnt already on the park record.
+  try {
+    const park = await getOne(record.pk.S, record.sk.S);
+    const subAreas = AWS.DynamoDB.Converter.output(park.subAreas);
+    let exists = subAreas.filter(s => s.id === subarea.id);
+    if (exists.length > 0) {
+      throw 'Subarea already exists on park.'
+    }
+  } catch (err) {
+    console.log('err:', err);
+    return;
+  }
   let putParkObj = {
     TableName: TABLE_NAME,
     Key: {

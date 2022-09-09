@@ -35,7 +35,8 @@ async function deleteEntries() {
       sk: '0163',
     },
   ];
-  let completed = 0;
+  let configCompleted = 0;
+  let subAreaCompleted = 0;
   try {
     for (const obj of toDelete) {
       // collect all config items for the subArea:
@@ -56,13 +57,24 @@ async function deleteEntries() {
           }
         }
         await dynamodb.deleteItem(deleteObj).promise();
-        completed++;
+        configCompleted++;
       }
+      // delete the subArea
+      const deleteSubAreaObj = {
+        TableName: TABLE_NAME,
+        Key: {
+          pk: { S: obj.pk },
+          sk: { S: obj.sk },
+        }
+      }
+      await dynamodb.deleteItem(deleteSubAreaObj).promise();
+      subAreaCompleted++;
     }
-    console.log(`Successfully deleted ${completed} config objects.`);
-  } catch (err) {
-    console.log('There was an error deleting config objects:', err);
-  }
+    console.log(`Successfully deleted ${configCompleted} config objects.`);
+    console.log(`Successfully deleted ${subAreaCompleted} subArea objects.`);
+} catch (err) {
+  console.log('There was an error deleting config objects:', err);
+}
 }
 
 async function createEntries() {
