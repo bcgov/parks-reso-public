@@ -18,7 +18,6 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "baseHref": "/dayuse/",
-            "deployUrl": "/dayuse/",
             "outputPath": "dist/parks-reso-public",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -141,8 +140,10 @@
       }
     }
   },
-  "defaultProject": "parks-reso-public",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "analytics": false
   }
 }

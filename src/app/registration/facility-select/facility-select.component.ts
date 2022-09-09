@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { DateTime } from 'luxon';
@@ -15,7 +15,7 @@ export class FacilitySelectComponent implements OnInit {
   @ViewChild(DatePickerComponent) dateFormChild: DatePickerComponent;
   @Input() facilities;
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public canSubmit = false;
   public openFacilities = [];
   public closedFacilities = [];
@@ -61,7 +61,7 @@ export class FacilitySelectComponent implements OnInit {
   // Initial state
   public state = 0;
 
-  constructor(private fb: FormBuilder, private configService: ConfigService) {}
+  constructor(private fb: UntypedFormBuilder, private configService: ConfigService) {}
 
   ngOnInit(): void {
     if (this.configService) {

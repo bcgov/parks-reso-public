@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-pass-lookup-form',
@@ -18,12 +18,12 @@ export class PassLookupFormComponent implements OnInit {
     type: ''
   };
 
-  public lookupForm = new FormGroup({
-    passId: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.email, Validators.required]),
-    park: new FormControl('', Validators.required),
-    date: new FormControl('', Validators.required),
-    type: new FormControl('', Validators.required)
+  public lookupForm = new UntypedFormGroup({
+    passId: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [Validators.email, Validators.required]),
+    park: new UntypedFormControl('', Validators.required),
+    date: new UntypedFormControl('', Validators.required),
+    type: new UntypedFormControl('', Validators.required)
   });
 
   constructor() { }
