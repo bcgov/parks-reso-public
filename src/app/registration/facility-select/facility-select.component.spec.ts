@@ -339,4 +339,8 @@ describe('FacilitySelectComponent', () => {
       expect(inputElement.nativeElement.disabled).toBe(true);
     });
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 });

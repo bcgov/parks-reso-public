@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --configuration=production",
-    "test": "ng test --watch=false",
+    "test": "ng test --watch=true",
     "test-ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -51,6 +51,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-spec-reporter": "^0.0.34",
     "ts-node": "~8.3.0",
     "tslib": "^2.4.0",
     "typescript": "~4.6.4"

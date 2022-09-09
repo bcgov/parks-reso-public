@@ -14,5 +14,8 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ]
+  ],
+    "paths": {
+      "tslib" : ["./node_modules/tslib/tslib.d.ts"]
+    }
 }

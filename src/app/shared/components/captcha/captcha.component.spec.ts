@@ -79,4 +79,8 @@ describe('CaptchaComponent', () => {
     expect(component.state).toBe('valid');
     expect(validContainer).toBeTruthy();
   });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 });
