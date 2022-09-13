@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactFormComponent } from './contact-form.component';
 import { CaptchaDataService } from '../../shared/components/captcha/captcha-data.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 
 describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
@@ -14,7 +14,7 @@ describe('ContactFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [HttpClientTestingModule],
-      providers: [ConfigService, CaptchaDataService, FormBuilder]
+      providers: [ConfigService, CaptchaDataService, UntypedFormBuilder]
     }).compileComponents();
   });
 

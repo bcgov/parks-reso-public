@@ -1,3 +1,4 @@
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TipsComponent } from './tips.component';
@@ -8,7 +9,8 @@ describe('TipsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TipsComponent ]
+      declarations: [ TipsComponent, MockTipsComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -23,3 +25,10 @@ describe('TipsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-tips',
+  template: ''
+})
+class MockTipsComponent {
+}

@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ConfigService } from 'src/app/shared/services/config.service';
+import { RegistrationDetailsComponent } from '../registration-details/registration-details.component';
 
 import { SuccessComponent } from './success.component';
 
@@ -12,7 +13,7 @@ describe('SuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SuccessComponent ],
+      declarations: [ SuccessComponent, RegistrationDetailsComponent],
       imports: [RouterTestingModule, HttpClientTestingModule],
       providers: [ConfigService]
     })

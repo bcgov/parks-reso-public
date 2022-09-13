@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { DateTime } from 'luxon';
@@ -15,7 +15,7 @@ export class FacilitySelectComponent implements OnInit {
   @ViewChild(DatePickerComponent) dateFormChild: DatePickerComponent;
   @Input() facilities;
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public canSubmit = false;
   public openFacilities = [];
   public closedFacilities = [];
@@ -24,6 +24,7 @@ export class FacilitySelectComponent implements OnInit {
   public initDate = {};
   public expiredText = 'This time slot has expired';
   public notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
+  public showAsUnbookable = false;
 
   public timeConfig = {
     AM: {
@@ -61,7 +62,7 @@ export class FacilitySelectComponent implements OnInit {
   // Initial state
   public state = 0;
 
-  constructor(private fb: FormBuilder, private configService: ConfigService) {}
+  constructor(private fb: UntypedFormBuilder, private configService: ConfigService) {}
 
   ngOnInit(): void {
     if (this.configService) {
@@ -143,20 +144,23 @@ export class FacilitySelectComponent implements OnInit {
     return maxFutureDate.toISO();
   }
 
-  get isBookableDay(): boolean {
-    if (!!this.myForm.get('passType').value) {
+  checkBookable() {
+    if (this.myForm.get('passType').dirty) {
       const facility = this.myForm.get('passType').value;
       const bookingWeekday = this.getBookingDate().weekdayLong;
-      if (facility.bookingDaysRichText) {
+      if (facility?.bookingDaysRichText) {
         this.notRequiredText = facility.bookingDaysRichText;
       } else {
         this.notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
       }
-      if (facility.bookingDays[bookingWeekday]) {
-        return true;
+      if (facility?.bookingDays[bookingWeekday]) {
+        this.showAsUnbookable = false;
+      } else {
+        this.showAsUnbookable = true;
       }
+      return;
     }
-    return false;
+    this.showAsUnbookable = false;
   }
 
   setFacilitiesArrays() {
@@ -420,6 +424,7 @@ export class FacilitySelectComponent implements OnInit {
     if (this.state === this.getStateByString('passes')) {
       this.setPassesArray();
     }
+    this.checkBookable();
   }
 
   to12hTimeString(hour): string {
