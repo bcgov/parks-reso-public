@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { PassLookupFormComponent } from './pass-lookup-form.component';
 
@@ -8,6 +9,7 @@ describe('PassLookupFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ ReactiveFormsModule ],
       declarations: [ PassLookupFormComponent ]
     })
     .compileComponents();

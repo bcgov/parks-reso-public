@@ -30,7 +30,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ImportantBookingInfoModule } from './shared/components/important-booking-info/important-booking-info.module';
 import { ListModule } from './shared/components/list/list.module';
 import { Utils } from './shared/utils/utils';
-import { CommonModule } from '@angular/common';
 
 export function initConfig(configService: ConfigService) {
   return async () => {

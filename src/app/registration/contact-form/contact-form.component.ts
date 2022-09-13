@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, AbstractControlOptions } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, AbstractControl, ValidationErrors, AbstractControlOptions } from '@angular/forms';
 import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
@@ -11,7 +11,7 @@ export class ContactFormComponent implements OnInit {
   @Input() passData;
   @Input() park;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public collectionNoticeCheck = false;
   public weatherStatementCheck = false;
   public liabilityNoticeCheck = false;
@@ -36,7 +36,7 @@ export class ContactFormComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private configService: ConfigService,
     private changeDetectionRef: ChangeDetectorRef
   ) {}
@@ -48,11 +48,11 @@ export class ContactFormComponent implements OnInit {
   }
 
   initForm(): void {
-    this.myForm = new FormGroup({
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      email: new FormControl(),
-      emailCheck: new FormControl()
+    this.myForm = new UntypedFormGroup({
+      firstName: new UntypedFormControl(),
+      lastName: new UntypedFormControl(),
+      email: new UntypedFormControl(),
+      emailCheck: new UntypedFormControl()
     });
     this.myForm = this.fb.group({
       firstName: ['', Validators.required],
