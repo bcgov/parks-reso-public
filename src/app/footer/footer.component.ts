@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ConfigService } from '../shared/services/config.service';
 
 @Component({
@@ -6,9 +6,12 @@ import { ConfigService } from '../shared/services/config.service';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
   public hashVersion: string;
   constructor(private configService: ConfigService) {
+  }
+
+  ngOnInit() {
     this.hashVersion = this.configService.config.hashVersion;
   }
 }
