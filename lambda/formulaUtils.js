@@ -66,7 +66,9 @@ function basicNetRevenue(revenues, customPercent) {
 
 function totalWithModifier(arr, mod) {
   let result = arraySum(arr);
-  result ??= null;
+  if (result === undefined) {
+    result = null;
+  }
   if (mod || mod === 0) {
     result *= mod;
   }
