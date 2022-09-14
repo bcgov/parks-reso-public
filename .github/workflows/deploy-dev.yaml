@@ -77,8 +77,11 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
+      - name: Declare short SHA
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+
       - name: Setting configEndpoint to true
-        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template > src/env.js
+        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GITHUB_SHA_SHORT"'@g' > src/env.js
 
       - run: yarn build
 
