@@ -167,10 +167,24 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.otherRevenueGrossSani,
   },
   {
+    column: "Frontcountry Camping - Other - Net sani revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_frontCountryCamping_other_sani_netRevenue,
+  },
+  {
     column: "Frontcountry Camping - Other - Gross electrical fee revenue",
     type: Number,
     width: 63,
-    value: (report) => report.otherRevenueGrossSani,
+    value: (report) => report.otherRevenueElectrical,
+  },
+  {
+    column: "Frontcountry Camping - Other - Net electrical fee revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_frontCountryCamping_other_electrical_netRevenue,
   },
   {
     column: "Frontcountry Camping - Other - Gross shower revenue",
@@ -179,11 +193,11 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.otherRevenueShower,
   },
   {
-    column: "Frontcountry Camping - Other - Net revenue",
+    column: "Frontcountry Camping - Other - Net shower revenue",
     type: Number,
     width: 63,
     backgroundColor: "#aee5ba",
-    value: (report) => report.calc_frontCountryCamping_other_totalAttendance,
+    value: (report) => report.calc_frontCountryCamping_other_shower_netRevenue,
   },
   // Frontcountry Camping - Variance Notes
   {
@@ -307,6 +321,48 @@ const CSV_SYSADMIN_SCHEMA = [
     backgroundColor: "#fff3cd",
     value: (report) => report.notes_groupCamping,
   },
+  // Group Camping Totals
+  {
+    column: "Group Camping Total Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_groupCamping_totalPeople,
+  },
+  {
+    column: "Gross Total Group Camping Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_groupCamping_totalGrossRevenue,
+  },
+  {
+    column: "Net Total Group Camping Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_groupCamping_totalNetRevenue,
+  },
+  // Frontcountry Totals
+  {
+    column: "Total Frontcountry Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_frontcountry_totalAttendancePeople,
+  },
+  {
+    column: "Total Frontcountry Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_frontcountry_totalGrossRevenue,
+  },
+  {
+    column: "Total Frontcountry Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_frontcountry_totalNetRevenue,
+  },
   // Day Use - People and Vehicles
   {
     column: "Day Use - People and Vehicles - Trail count",
@@ -327,7 +383,7 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.peopleAndVehiclesBus,
   },
   {
-    column: "Day Use - People and Vehicles - Vehicle attendance",
+    column: "Day Use - People and Vehicles - Total Attendance (People)",
     type: Number,
     width: 63,
     backgroundColor: "#c7e3fd",
@@ -339,6 +395,13 @@ const CSV_SYSADMIN_SCHEMA = [
     type: Number,
     width: 63,
     value: (report) => report.picnicRevenueShelter,
+  },
+  {
+    column: "Day Use - Picnic Shelters - Picnic shelter people",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.picnicShelterPeople,
   },
   {
     column: "Day Use - Picnic Shelters - Gross picnic revenue",
@@ -355,16 +418,16 @@ const CSV_SYSADMIN_SCHEMA = [
   },
   // Day Use - Other Day Use
   {
-    column: "Day Use - Other Day Use - Gross skiing revenue",
-    type: Number,
-    width: 63,
-    value: (report) => report.otherDayUseRevenueSkii,
-  },
-  {
-    column: "Day Use - Other Day Use - Gross hot springs revenue",
+    column: "Day Use - Hot Springs - Gross hot springs revenue",
     type: Number,
     width: 63,
     value: (report) => report.otherDayUseRevenueHotSprings,
+  },
+  {
+    column: "Day Use - Hot Springs - Hot springs people",
+    type: Number,
+    width: 63,
+    value: (report) => report.otherDayUsePeopleHotSprings,
   },
   {
     column: "Day Use - Other Day Use - Net revenue",
@@ -380,6 +443,27 @@ const CSV_SYSADMIN_SCHEMA = [
     width: 63,
     backgroundColor: "#fff3cd",
     value: (report) => report.notes_dayUse,
+  },
+  // Day Use Totals 
+  {
+    column: "Day Use Total Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_dayUse_totalAttendancePeople,
+  },
+  {
+    column: "Day Use Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_dayUse_totalGrossRevenue,
+  },
+  {
+    column: "Day Use Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_dayUse_totalNetRevenue,
   },
   // Backcountry Camping - People
   {
@@ -458,6 +542,48 @@ const CSV_SYSADMIN_SCHEMA = [
     backgroundColor: "#fff3cd",
     value: (report) => report.notes_backcountryCabins,
   },
+  // Backcountry Totals
+  {
+    column: "Total Backcountry Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_backcountry_totalAttendancePeople,
+  },
+  {
+    column: "Total Backcountry Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_backcountry_totalGrossRevenue,
+  },
+  {
+    column: "Total Backcountry Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_backcountry_totalNetRevenue,
+  },
+  // Camping totals
+  {
+    column: "Total Camping Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_totalCampingAttendancePeople,
+  },
+  {
+    column: "Total Camping Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_totalCampingGrossRevenue,
+  },
+  {
+    column: "Total Camping Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_totalCampingNetRevenue,
+  },
   // Boating - Boats
   {
     column: "Boating - Boats - Nights on dock",
@@ -504,6 +630,27 @@ const CSV_SYSADMIN_SCHEMA = [
     width: 63,
     backgroundColor: "#fff3cd",
     value: (report) => report.notes_boating,
+  },
+  // Overall Totals
+  {
+    column: "Total Attendance",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_totalAttendancePeople,
+  },
+  {
+    column: "Total Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_totalGrossRevenue,
+  },
+  {
+    column: "Total Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_totalNetRevenue,
   },
 ];
 

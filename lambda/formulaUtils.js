@@ -49,7 +49,7 @@ function formatDecimal(value, dPlaces) {
   return "";
 }
 
-exports.basicNetRevenue = function (revenues, customPercent) {
+function basicNetRevenue(revenues, customPercent) {
   let result = null;
   let percent = customPercent ? customPercent : gstPercent;
   const gross = arraySum(revenues);
@@ -66,6 +66,7 @@ exports.basicNetRevenue = function (revenues, customPercent) {
 
 function totalWithModifier(arr, mod) {
   let result = arraySum(arr);
+  result ??= null;
   if (mod || mod === 0) {
     result *= mod;
   }
@@ -81,7 +82,7 @@ function formatTotalWithModifier(arr, mod) {
   return result;
 }
 
-exports.frontcountryCampingPartyAttendance = function (attendances, modifier) {
+function frontcountryCampingPartyAttendance(attendances, modifier) {
   let formula = `Total attendance = (Standard + Senior + SSFE + Long stay)`;
   if (modifier) {
     formula += ` x ${modifier}`;
@@ -92,14 +93,14 @@ exports.frontcountryCampingPartyAttendance = function (attendances, modifier) {
   };
 };
 
-exports.frontcountryCampingSecondCarAttendance = function (attendances) {
+function frontcountryCampingSecondCarAttendance(attendances) {
   return {
     result: formatTotalWithModifier(attendances),
     formula: `Total attendance = (Standard + Senior + SSFE)`,
   };
 };
 
-exports.frontcountryCabinsPartiesAttendance = function (attendances, modifier) {
+ function frontcountryCabinsPartiesAttendance(attendances, modifier) {
   let formula = `Total attendance = Parties`;
   if (modifier) {
     formula += ` x ${modifier}`;
@@ -110,14 +111,14 @@ exports.frontcountryCabinsPartiesAttendance = function (attendances, modifier) {
   };
 };
 
-exports.groupCampingStandardAttendance = function (attendances) {
+function groupCampingStandardAttendance(attendances) {
   return {
     result: formatTotalWithModifier(attendances),
     formula: `Total people = (Adult + Youth + Children)`,
   };
 };
 
-exports.dayUseVehicleAttendance = function (
+function dayUseVehicleAttendance(
   trailCount,
   vehicles,
   buses,
@@ -141,7 +142,7 @@ exports.dayUseVehicleAttendance = function (
   };
 };
 
-exports.backcountryCabinsAttendance = function (
+function backcountryCabinsAttendance(
   individuals,
   families,
   familyMod
@@ -158,7 +159,7 @@ exports.backcountryCabinsAttendance = function (
   };
 };
 
-exports.boatingAttendance = function (attendances, modifier) {
+function boatingAttendance(attendances, modifier) {
   let formula = `Boat attendance = (On dock + On buoys + Miscellaneous boats)`;
   if (modifier) {
     formula += ` x ${modifier}`;
@@ -167,4 +168,16 @@ exports.boatingAttendance = function (attendances, modifier) {
     result: formatTotalWithModifier(attendances, modifier),
     formula: formula,
   };
+};
+
+module.exports = {
+  arraySum,
+  basicNetRevenue,
+  dayUseVehicleAttendance,
+  frontcountryCampingPartyAttendance,
+  frontcountryCampingSecondCarAttendance,
+  frontcountryCabinsPartiesAttendance,
+  groupCampingStandardAttendance,
+  backcountryCabinsAttendance,
+  boatingAttendance
 };

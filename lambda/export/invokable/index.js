@@ -13,6 +13,7 @@ const { updateJobEntry } = require("../functions");
 const { logger } = require('../../logger');
 
 const {
+  arraySum,
   basicNetRevenue,
   frontcountryCampingPartyAttendance,
   frontcountryCampingSecondCarAttendance,
@@ -72,7 +73,7 @@ exports.handler = async (event, context) => {
       if (roles.includes("sysadmin")) {
         await updateJobWithState(
           STATE_DICTIONARY.FETCHING,
-          "Feching all entires for Sysadmin."
+          "Fetching all entires for Sysadmin."
         );
 
         // Exporting all data
@@ -161,6 +162,10 @@ async function groupBySubAreaAndDate(
       );
     }
   }
+  // Once the raw report data is collected, we can generate the columns
+  // that depend on the raw data but span multiple activities. 
+  await generateSummaryColumns(result);
+
   return result;
 }
 
@@ -203,13 +208,22 @@ async function modifyReportForCSV(report) {
         report.secondCarsRevenueGross,
       ]).result;
 
-      // Other frontcountry camping revenue - NET REVENUE
-      report.calc_frontCountryCamping_other_totalAttendance = basicNetRevenue([
-        report.otherRevenueGrossSani,
-        report.otherRevenueElectrical,
-        report.otherRevenueShower,
+      // Other frontcountry / sani - NET REVENUE
+      report.calc_frontCountryCamping_other_sani_netRevenue = basicNetRevenue([
+        report.otherRevenueGrossSani
+      ]).result;
+
+      // Other frontcountry / electrical - NET REVENUE
+      report.calc_frontCountryCamping_other_electrical_netRevenue = basicNetRevenue([
+        report.otherRevenueElectrical
+      ]).result;
+
+      // Other frontcountry / shower - NET REVENUE
+      report.calc_frontCountryCamping_other_shower_netRevenue = basicNetRevenue([
+        report.otherRevenueShower
       ]).result;
       break;
+
     case "Frontcountry Cabins":
       // Parties - TOTAL ATTENDANCE
       report.calc_frontcountryCabins_parties_totalAttendance = frontcountryCabinsPartiesAttendance(
@@ -221,6 +235,7 @@ async function modifyReportForCSV(report) {
         report.revenueGrossCamping,
       ]).result;
       break;
+
     case "Group Camping":
       // Standard rate groups - TOTAL PEOPLE
       report.calc_groupCamping_standardRate_totalPeople =
@@ -239,7 +254,25 @@ async function modifyReportForCSV(report) {
       report.calc_groupCamping_youthRate_netRevenue = basicNetRevenue([
         report.youthRateGroupsRevenueGross,
       ]).result;
+
+      // Group Camping - TOTAL ATTENDANCE
+      report.calc_groupCamping_totalPeople = arraySum([
+        report.calc_groupCamping_standardRate_totalPeople,
+        report.youthRateGroupsAttendancePeople
+      ]) || null;
+
+      // Group Camping - TOTAL GROSS REVENUE
+      report.calc_groupCamping_totalGrossRevenue = arraySum([
+        report.standardRateGroupsRevenueGross,
+        report.youthRateGroupsRevenueGross
+      ]) || null;
+
+      // Group Camping - TOTAL NET REVENUE
+      report.calc_groupCamping_totalNetRevenue = basicNetRevenue([
+        report.calc_groupCamping_totalGrossRevenue
+      ]).result;
       break;
+
     case "Day Use":
       // People and vehicles - VEHICLE ATTENDANCE
       report.calc_dayUse_peopleAndVehicles_vehicleAttendance =
@@ -258,16 +291,35 @@ async function modifyReportForCSV(report) {
 
       // Other day use - NET REVENUE
       report.calc_dayUse_otherDayUse_netRevenue = basicNetRevenue([
-        report.otherDayUseRevenueSkii,
         report.otherDayUseRevenueHotSprings,
       ]).result;
+
+      // Day Use - Total Attendance 
+      report.calc_dayUse_totalAttendancePeople = arraySum([
+        report.calc_dayUse_peopleAndVehicles_vehicleAttendance,
+        report.picnicShelterPeople,
+        report.otherDayUsePeopleHotSprings
+      ]) || null;
+
+      // Day Use - Total Gross Revenue
+      report.calc_dayUse_totalGrossRevenue = arraySum([
+        report.picnicRevenueGross,
+        report.otherDayUseRevenueHotSprings
+      ]) || null;
+
+      // Day Use - Total Net Revenue
+      report.calc_dayUse_totalNetRevenue = basicNetRevenue([
+        report.calc_dayUse_totalGrossRevenue
+      ]).result;
       break;
+
     case "Backcountry Camping":
       // NET REVENUE
       report.calc_backcountryCamping_camping_netRevenue = basicNetRevenue([
         report.grossCampingRevenue,
       ]).result;
       break;
+
     case "Backcountry Cabins":
       // TOTAL PEOPLE
       report.calc_backcountryCabins_totalPeople = backcountryCabinsAttendance(
@@ -281,6 +333,7 @@ async function modifyReportForCSV(report) {
         report.revenueFamily,
       ]).result;
       break;
+
     case "Boating":
       // BOAT ATTENDANCE
       report.calc_boating_boats_boatAttendance = boatingAttendance(
@@ -297,6 +350,7 @@ async function modifyReportForCSV(report) {
         report.boatRevenueGross,
       ]).result;
       break;
+
     default:
       break;
   }
@@ -339,6 +393,81 @@ async function mergeReports(result, report) {
 
   result[key] = { ...result[key], ...report };
   return result;
+}
+
+async function generateSummaryColumns(table) {
+  // do math and create summary columns
+  for (const key of Object.keys(table)) {
+
+    // Frontcountry Totals
+    table[key].calc_frontcountry_totalAttendancePeople = arraySum([
+      table[key].calc_frontCountryCamping_frontCountryCamping_campingPartyNights_totalAttendance,
+      table[key].calc_frontcountryCabins_parties_totalAttendance,
+      table[key].calc_groupCamping_totalPeople
+    ]) || null;
+
+    table[key].calc_frontcountry_totalGrossRevenue = arraySum([
+      table[key].campingPartyNightsRevenueGross,
+      table[key].secondCarsRevenueGross,
+      table[key].otherRevenueGrossSani,
+      table[key].otherRevenueElectrical,
+      table[key].otherRevenueShower,
+      table[key].revenueGrossCamping,
+      table[key].calc_groupCamping_totalGrossRevenue
+    ]) || null;
+
+    table[key].calc_frontcountry_totalNetRevenue = basicNetRevenue([
+      table[key].calc_frontcountry_totalGrossRevenue || 0
+    ]).result;
+
+    // Backcountry Totals
+    table[key].calc_backcountry_totalAttendancePeople = arraySum([
+      table[key].calc_backcountryCabins_totalPeople,
+      table[key].people
+    ]) || null;
+
+    table[key].calc_backcountry_totalGrossRevenue = arraySum([
+      table[key].revenueFamily,
+      table[key].grossCampingRevenue
+    ]) || null;
+
+    table[key].calc_backcountry_totalNetRevenue = basicNetRevenue([
+      table[key].calc_backcountry_totalGrossRevenue || 0
+    ]).result;
+
+    // Overall Camping Totals
+    table[key].calc_totalCampingAttendancePeople = arraySum([
+      table[key].calc_frontcountry_totalAttendancePeople,
+      table[key].calc_backcountry_totalAttendancePeople
+    ]) || null;
+
+    table[key].calc_totalCampingGrossRevenue = arraySum([
+      table[key].calc_frontcountry_totalGrossRevenue,
+      table[key].calc_backcountry_totalGrossRevenue
+    ]) || null;
+
+    table[key].calc_totalCampingNetRevenue = basicNetRevenue([table[key].calc_totalCampingGrossRevenue]).result;
+
+    // Overall Totals
+    table[key].calc_totalAttendancePeople = arraySum([
+      table[key].calc_totalCampingAttendancePeople,
+      table[key].calc_dayUse_totalAttendancePeople,
+      table[key].calc_boating_boats_boatAttendance
+    ]) || null;
+
+    table[key].calc_totalGrossRevenue = arraySum([
+      table[key].calc_totalCampingGrossRevenue,
+      table[key].calc_dayUse_totalGrossRevenue,
+      table[key].boatRevenueGross
+    ]) || null;
+
+    table[key].calc_totalNetRevenue = basicNetRevenue([
+      table[key].calc_totalGrossRevenue
+    ]).result;
+
+  };
+
+  return table;
 }
 
 async function generateRowsArray(groupedReports, allottedProgressPercent = 30) {
