@@ -147,7 +147,7 @@ export class FacilitySelectComponent implements OnInit {
   checkBookable() {
     if (this.myForm.get('passType').dirty) {
       const facility = this.myForm.get('passType').value;
-      const bookingWeekday = this.getBookingDate().weekdayLong;
+      const bookingWeekday = this.getBookingDate().setLocale('en-CA').weekdayLong; // Force English.
       if (facility?.bookingDaysRichText) {
         this.notRequiredText = facility.bookingDaysRichText;
       } else {
