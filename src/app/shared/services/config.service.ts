@@ -22,6 +22,8 @@ export class ConfigService {
     // any configuration data.
     this.configuration = window['__env'];
 
+    const hashVersion = window['__env'].hashVersion;
+
     if (this.configuration['configEndpoint'] === true) {
       try {
         // Attempt to get application via this.httpClient. This uses the url of the application that you are running it from
@@ -32,6 +34,9 @@ export class ConfigService {
         console.error('Error getting local configuration:', e);
       }
     }
+
+    // Override hash version as this comes from the buid.
+    this.configuration['hashVersion'] = hashVersion;
 
     if (this.configuration['debugMode']) {
       console.log('Configuration:', this.configuration);
