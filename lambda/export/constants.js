@@ -215,7 +215,7 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.totalAttendanceParties,
   },
   {
-    column: "Frontcountry Cabins - Parties - Total Attendance",
+    column: "Frontcountry Cabins - Total Attendance",
     type: Number,
     width: 63,
     value: (report) => report.calc_frontcountryCabins_parties_totalAttendance,
@@ -363,108 +363,6 @@ const CSV_SYSADMIN_SCHEMA = [
     backgroundColor: "#aee5ba",
     value: (report) => report.calc_frontcountry_totalNetRevenue,
   },
-  // Day Use - People and Vehicles
-  {
-    column: "Day Use - People and Vehicles - Trail count",
-    type: Number,
-    width: 63,
-    value: (report) => report.peopleAndVehiclesTrail,
-  },
-  {
-    column: "Day Use - People and Vehicles - Vehicle count",
-    type: Number,
-    width: 63,
-    value: (report) => report.peopleAndVehiclesVehicle,
-  },
-  {
-    column: "Day Use - People and Vehicles - Bus count",
-    type: Number,
-    width: 63,
-    value: (report) => report.peopleAndVehiclesBus,
-  },
-  {
-    column: "Day Use - People and Vehicles - Total Attendance (People)",
-    type: Number,
-    width: 63,
-    backgroundColor: "#c7e3fd",
-    value: (report) => report.calc_dayUse_peopleAndVehicles_vehicleAttendance,
-  },
-  // Day Use - Picnic Shelters
-  {
-    column: "Day Use - Picnic Shelters - Picnic shelter rentals",
-    type: Number,
-    width: 63,
-    value: (report) => report.picnicRevenueShelter,
-  },
-  {
-    column: "Day Use - Picnic Shelters - Picnic shelter people",
-    type: Number,
-    width: 63,
-    backgroundColor: "#c7e3fd",
-    value: (report) => report.picnicShelterPeople,
-  },
-  {
-    column: "Day Use - Picnic Shelters - Gross picnic revenue",
-    type: Number,
-    width: 63,
-    value: (report) => report.picnicRevenueGross,
-  },
-  {
-    column: "Day Use - Picnic Shelters - Net revenue",
-    type: Number,
-    width: 63,
-    backgroundColor: "#aee5ba",
-    value: (report) => report.calc_dayUse_picnicShelters_netRevenue,
-  },
-  // Day Use - Other Day Use
-  {
-    column: "Day Use - Hot Springs - Gross hot springs revenue",
-    type: Number,
-    width: 63,
-    value: (report) => report.otherDayUseRevenueHotSprings,
-  },
-  {
-    column: "Day Use - Hot Springs - Hot springs people",
-    type: Number,
-    width: 63,
-    value: (report) => report.otherDayUsePeopleHotSprings,
-  },
-  {
-    column: "Day Use - Other Day Use - Net revenue",
-    type: Number,
-    width: 63,
-    backgroundColor: "#aee5ba",
-    value: (report) => report.calc_dayUse_otherDayUse_netRevenue,
-  },
-  // Day Use - Variance Notes
-  {
-    column: "Day Use - Variance Notes",
-    type: String,
-    width: 63,
-    backgroundColor: "#fff3cd",
-    value: (report) => report.notes_dayUse,
-  },
-  // Day Use Totals 
-  {
-    column: "Day Use Total Attendance (People)",
-    type: Number,
-    width: 63,
-    backgroundColor: "#c7e3fd",
-    value: (report) => report.calc_dayUse_totalAttendancePeople,
-  },
-  {
-    column: "Day Use Gross Revenue",
-    type: Number,
-    width: 63,
-    value: (report) => report.calc_dayUse_totalGrossRevenue,
-  },
-  {
-    column: "Day Use Net Revenue",
-    type: Number,
-    width: 63,
-    backgroundColor: "#aee5ba",
-    value: (report) => report.calc_dayUse_totalNetRevenue,
-  },
   // Backcountry Camping - People
   {
     column: "Backcountry Camping - People - People",
@@ -486,15 +384,6 @@ const CSV_SYSADMIN_SCHEMA = [
     backgroundColor: "#aee5ba",
     value: (report) => report.calc_backcountryCamping_camping_netRevenue,
   },
-  // Backcountry Camping - Variance Notes
-  {
-    column: "Backcountry Camping - Variance Notes",
-    type: String,
-    width: 63,
-    backgroundColor: "#fff3cd",
-    value: (report) => report.notes_backcountryCamping,
-  },
-  // Backcountry Cabins - People
   {
     column: "Backcountry Cabins - People - Adult",
     type: Number,
@@ -583,6 +472,108 @@ const CSV_SYSADMIN_SCHEMA = [
     width: 63,
     backgroundColor: "#aee5ba",
     value: (report) => report.calc_totalCampingNetRevenue,
+  },
+  // Day Use - People and Vehicles
+  {
+    column: "Day Use - People and Vehicles - Vehicle count",
+    type: Number,
+    width: 63,
+    value: (report) => report.peopleAndVehiclesVehicle,
+  },
+  {
+    column: "Day Use - People and Vehicles - Bus count",
+    type: Number,
+    width: 63,
+    value: (report) => report.peopleAndVehiclesBus,
+  },
+  {
+    column: "Day Use - People and Vehicles - Trail count",
+    type: Number,
+    width: 63,
+    value: (report) => report.peopleAndVehiclesTrail,
+  },
+  {
+    column: "Day Use - People and Vehicles - Total Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_dayUse_peopleAndVehicles_vehicleAttendance,
+  },
+  // Day Use - Picnic Shelters
+  {
+    column: "Day Use - Picnic Shelters - Picnic shelter rentals",
+    type: Number,
+    width: 63,
+    value: (report) => report.picnicRevenueShelter,
+  },
+  {
+    column: "Day Use - Picnic Shelters - Picnic shelter people",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.picnicShelterPeople,
+  },
+  {
+    column: "Day Use - Picnic Shelters - Gross picnic revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.picnicRevenueGross,
+  },
+  {
+    column: "Day Use - Picnic Shelters - Net revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_dayUse_picnicShelters_netRevenue,
+  },
+  // Day Use - Other Day Use
+  {
+    column: "Day Use - Hot Springs - Hot springs people",
+    type: Number,
+    width: 63,
+    value: (report) => report.otherDayUsePeopleHotSprings,
+  },
+  {
+    column: "Day Use - Hot Springs - Gross hot springs revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.otherDayUseRevenueHotSprings,
+  },
+  {
+    column: "Day Use - Hot Springs - Net hot springs revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_dayUse_otherDayUse_netRevenue,
+  },
+  // Day Use - Variance Notes
+  {
+    column: "Day Use - Variance Notes",
+    type: String,
+    width: 63,
+    backgroundColor: "#fff3cd",
+    value: (report) => report.notes_dayUse,
+  },
+  // Day Use Totals 
+  {
+    column: "Day Use Total Attendance (People)",
+    type: Number,
+    width: 63,
+    backgroundColor: "#c7e3fd",
+    value: (report) => report.calc_dayUse_totalAttendancePeople,
+  },
+  {
+    column: "Day Use Gross Revenue",
+    type: Number,
+    width: 63,
+    value: (report) => report.calc_dayUse_totalGrossRevenue,
+  },
+  {
+    column: "Day Use Net Revenue",
+    type: Number,
+    width: 63,
+    backgroundColor: "#aee5ba",
+    value: (report) => report.calc_dayUse_totalNetRevenue,
   },
   // Boating - Boats
   {

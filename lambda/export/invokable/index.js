@@ -410,7 +410,6 @@ async function generateSummaryColumns(table) {
       table[key].campingPartyNightsRevenueGross,
       table[key].secondCarsRevenueGross,
       table[key].otherRevenueGrossSani,
-      table[key].otherRevenueElectrical,
       table[key].otherRevenueShower,
       table[key].revenueGrossCamping,
       table[key].calc_groupCamping_totalGrossRevenue
