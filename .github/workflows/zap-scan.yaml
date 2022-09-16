@@ -19,4 +19,4 @@ jobs:
           format: soap
           docker_name: 'owasp/zap2docker-stable'
           issue_title: 'ZAP Scan Report'
-          target: '${{ secrets.DEV_API_ROUTE }}'
+          target: '${{ secrets.DEV_ROUTE }}'
