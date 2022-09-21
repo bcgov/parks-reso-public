@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "94d4dd69-9a39-45de-8f3c-07ef5d838e74",
+		"name": "BCParks Attendance and Revenue",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14509064"
+	},
+	"item": [
+		{
+			"name": "Parks",
+			"item": [
+				{
+					"name": "Get Parks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}park",
+							"host": [
+								"{{base_url}}park"
+							]
+						},
+						"description": "Get all Parks in the system that the user is allowed to see based on their role."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SubAreas",
+			"item": [
+				{
+					"name": "Get SubAreas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}park?orcs=0001&subAreaId=0403",
+							"host": [
+								"{{base_url}}park"
+							],
+							"query": [
+								{
+									"key": "orcs",
+									"value": "0001",
+									"description": "Get all subareas under this Park ORCS id."
+								},
+								{
+									"key": "subAreaId",
+									"value": "0403",
+									"description": "(Optional) Get specific subarea by subAreaId."
+								}
+							]
+						},
+						"description": "Get specific subareas, either all subareas belonging to a specific park, or a single subarea given park ORCS and subarea ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get SubArea Activities (Config)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}subarea?orcs=0001&subAreaId=0403&activity=Day Use&date=20220410",
+							"host": [
+								"{{base_url}}subarea"
+							],
+							"query": [
+								{
+									"key": "orcs",
+									"value": "0001",
+									"description": "Park ORCS ID."
+								},
+								{
+									"key": "subAreaId",
+									"value": "0403",
+									"description": "SubArea name."
+								},
+								{
+									"key": "activity",
+									"value": "Day Use",
+									"description": "Activity type: Frontcountry Camping, Backcountry Camping, Group Camping, Day Use, Frontcountry Cabins, Backcountry Cabins, Boating"
+								},
+								{
+									"key": "date",
+									"value": "20220410",
+									"description": "Short date in format YYYYMMDD."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Export",
+			"item": [
+				{
+					"name": "Export report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}export?getJob=true",
+							"host": [
+								"{{base_url}}export"
+							],
+							"query": [
+								{
+									"key": "getJob",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{access_token_url}}",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{auth_url}}",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "{{callback_url}}",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "{{token_name}}",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
