@@ -385,6 +385,13 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.calc_backcountryCamping_camping_netRevenue,
   },
   {
+    column: "Backcountry Camping - Variance Notes",
+    type: String,
+    width: 63,
+    backgroundColor: "#fff3cd",
+    value: (report) => report.notes_backcountryCamping,
+  },
+  {
     column: "Backcountry Cabins - People - Adult",
     type: Number,
     width: 63,
