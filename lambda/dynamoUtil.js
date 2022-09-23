@@ -110,6 +110,30 @@ async function runScan(query, paginated = false) {
   }
 }
 
+// returns all parks in the database.
+async function getParks() {
+  const parksQuery = {
+    TableName: TABLE_NAME,
+    KeyConditionExpression: 'pk = :pk',
+    ExpressionAttributeValues: {
+      ':pk': { S: 'park' }
+    }
+  };
+  return await runQuery(parksQuery);
+}
+
+// returns all subareas within an ORCS.
+async function getSubAreas(orcs) {
+  const subAreaQuery = {
+    TableName: TABLE_NAME,
+    KeyConditionExpression: 'pk = :pk',
+    ExpressionAttributeValues: {
+      ':pk': { S: `park::${orcs}` },
+    }
+  };
+  return await runQuery(subAreaQuery);
+}
+
 module.exports = {
   ACTIVE_STATUS,
   RESERVED_STATUS,
@@ -125,5 +149,7 @@ module.exports = {
   dynamodb,
   runQuery,
   runScan,
-  getOne
+  getOne,
+  getParks,
+  getSubAreas
 };
