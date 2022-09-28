@@ -29,6 +29,9 @@ resource "aws_api_gateway_deployment" "apideploy" {
     aws_api_gateway_integration.subareaGetIntegration,
     aws_api_gateway_integration.subareaPostIntegration,
     aws_api_gateway_integration.exportGetIntegration,
+    aws_api_gateway_integration.fiscalYearEndGetIntegration,
+    aws_api_gateway_integration.fiscalYearEndLockIntegration,
+    aws_api_gateway_integration.fiscalYearEndUnlockIntegration
   ]
 
   rest_api_id = aws_api_gateway_rest_api.apiLambda.id

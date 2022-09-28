@@ -91,6 +91,91 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"202009\",\r\n    \"subAreaId\": \"TEST\",\r\n    \"activity\": \"Backcountry Camping\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}subarea",
+							"host": [
+								"{{base_url}}subarea"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "activity",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Create record. Must provide the following body as a minimum:\n\nStartFragment\n\n```\n{\n    \"date\": \"202209\", // date yyyyMM\n    \"subAreaId\": \"TEST\",\n    \"activity\": \"Backcountry Camping\"\n}\n\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Lock Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"202209\",\r\n    \"subAreaId\": \"TEST\",\r\n    \"activity\": \"Backcountry Camping\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}subarea/lock",
+							"host": [
+								"{{base_url}}subarea"
+							],
+							"path": [
+								"lock"
+							]
+						},
+						"description": "Locks a record given the following info in the request body:\n\n```\n{\n    \"date\": \"202209\", // date \"yyyyMM\"\n    \"subAreaId\": \"TEST\", // subAreaId\n    \"activity\": \"Backcountry Camping\" //activity\n}\n\n```\n\nIf the record doesn't exist, a blank one will be created using the config object for that record, and locked."
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock Record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\": \"202209\",\r\n    \"subAreaId\": \"TEST\",\r\n    \"activity\": \"Backcountry Camping\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}subarea/unlock",
+							"host": [
+								"{{base_url}}subarea"
+							],
+							"path": [
+								"unlock"
+							]
+						},
+						"description": "Unlocks a record. The following is required in the request body:\n\n```\n{\n    \"date\": \"202209\", // date \"yyyyMM\"\n    \"subAreaId\": \"TEST\", // subareaID\n    \"activity\": \"Backcountry Camping\" //activity\n}\n\n```"
+					},
+					"response": []
 				}
 			]
 		},
@@ -114,6 +199,99 @@
 								}
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Date Configuration",
+			"item": [
+				{
+					"name": "Check Fiscal Year End Lock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}fiscalYearEnd?fiscalYearEnd=2023",
+							"host": [
+								"{{base_url}}fiscalYearEnd"
+							],
+							"query": [
+								{
+									"key": "fiscalYearEnd",
+									"value": "2023"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lock Fiscal Year End",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}fiscalYearEnd/lock?fiscalYearEnd=2021",
+							"host": [
+								"{{base_url}}fiscalYearEnd"
+							],
+							"path": [
+								"lock"
+							],
+							"query": [
+								{
+									"key": "fiscalYearEnd",
+									"value": "2021",
+									"description": "Calendar year the fiscal year ends in, eg: Fiscal is 2022-04 to 2023-03, fiscalYearEnd is 2023"
+								}
+							]
+						},
+						"description": "Locks fiscal year. The `fiscalYearEnd` param is the year the fiscal year closes (typically in March).\n\nex: `fiscalYearEnd=2023` is the fiscal year between 2022-04 and 2023-03."
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock Fiscal Year End",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}fiscalYearEnd/unlock?fiscalYearEnd=2023",
+							"host": [
+								"{{base_url}}fiscalYearEnd"
+							],
+							"path": [
+								"unlock"
+							],
+							"query": [
+								{
+									"key": "fiscalYearEnd",
+									"value": "2023",
+									"description": "Calendar year the fiscal year ends in, eg: Fiscal is 2022-04 to 2023-03, fiscalYearEnd is 2023"
+								}
+							]
+						},
+						"description": "Unlocks fiscal year. The `fiscalYearEnd` param is the year the fiscal year closes (typically in March).\n\nex: `fiscalYearEnd=2023` is the fiscal year between 2022-04 and 2023-03."
 					},
 					"response": []
 				}

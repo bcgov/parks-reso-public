@@ -106,6 +106,27 @@
       "notes": "Some notes",
       "otherSkiiRevenue": 0,
       "picnicRentals": 5
+    },
+    {
+      "pk": "0087::Frontcountry Camping",
+      "sk": "201801",
+      "parkName": "Cultus Lake Park",
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
+      "subAreaName": "Maple Bay",
+      "orcs": "0041",
+      "notes": "This one should be locked by fiscal year"
+    },
+    {
+      "pk": "0087::Frontcountry Camping",
+      "sk": "201901",
+      "parkName": "Cultus Lake Park",
+      "attendanceVehicleModifier": 3.5,
+      "attendanceBusModifier": 40,
+      "subAreaName": "Maple Bay",
+      "orcs": "0041",
+      "notes": "This one should be locked directly",
+      "isLocked": false
     }
   ],
   "CONFIG_ENTRIES": [
@@ -130,6 +151,13 @@
       "subAreaId": "0087",
       "orcs": "0041",
       "activity": "Frontcountry Camping"
+    }
+  ],
+  "FISCAL_YEAR_LOCKS": [
+    {
+      "pk": "fiscalYearEnd",
+      "sk": "2018",
+      "isLocked": true
     }
   ]
 }

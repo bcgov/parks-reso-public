@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 const { REGION, ENDPOINT, TABLE_NAME } = require('./global/settings');
-const { PARKSLIST, SUBAREAS, CONFIG_ENTRIES, SUBAREA_ENTRIES } = require('./global/data.json');
+const { PARKSLIST, SUBAREAS, CONFIG_ENTRIES, SUBAREA_ENTRIES, FISCAL_YEAR_LOCKS } = require('./global/data.json');
 
 const subareaGET = require('../lambda/subarea/GET/index');
 const subareaPOST = require('../lambda/subarea/POST/index');
@@ -30,6 +30,9 @@ async function setupDb() {
     await (genericPutDocument(item));
   }
   for (const item of CONFIG_ENTRIES) {
+    await (genericPutDocument(item));
+  }
+  for (const item of FISCAL_YEAR_LOCKS) {
     await (genericPutDocument(item));
   }
 }
@@ -77,14 +80,11 @@ describe('Subarea Test', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test('Handler - 200 POST handle Activity', async () => {
-    const response = await subareaPOST.handler(
+  test('HandlePost - 200 POST handle Activity', async () => {
+    const response = await subareaPOST.handlePost(
       {
         headers: {
           Authorization: "Bearer " + token
-        },
-        queryStringParameters: {
-          type: "activity"
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
@@ -96,28 +96,13 @@ describe('Subarea Test', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  test('Handler - 200 POST handle Config', async () => {
-    const response = await subareaPOST.handler(
-      {
-        headers: {
-          Authorization: "Bearer " + token
-        },
-        queryStringParameters: {
-          type: "config"
-        },
-        body: JSON.stringify(CONFIG_ENTRIES[0])
-      }, null);
-    expect(response.statusCode).toBe(200);
-  });
+  // note: CONFIG POST disabled 2022-09-27
 
-  test('Handler - 400 POST handle Activity', async () => {
-    const response = await subareaPOST.handler(
+  test('HandlePost - 400 POST handle Activity', async () => {
+    const response = await subareaPOST.handlePost(
       {
         headers: {
           Authorization: "Bearer " + token
-        },
-        queryStringParameters: {
-          type: "activity"
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
@@ -126,43 +111,21 @@ describe('Subarea Test', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test('Handler - 400 POST handle Config', async () => {
-    const response = await subareaPOST.handler(
+  test('HandlePost - 400 POST handle Activity', async () => {
+    const response = await subareaPOST.handlePost(
       {
         headers: {
           Authorization: "Bearer " + token
         },
-        queryStringParameters: {
-          type: "config"
-        },
-        body: JSON.stringify({
-          orcs: SUBAREA_ENTRIES[0].orcs,
-        })
       }, null);
     expect(response.statusCode).toBe(400);
   });
 
-  test('Handler - 400 POST handle Activity', async () => {
-    const response = await subareaPOST.handler(
+  test('HandlePost - 400 POST handle Activity date', async () => {
+    const response = await subareaPOST.handlePost(
       {
         headers: {
           Authorization: "Bearer " + token
-        },
-        queryStringParameters: {
-          type: "activity"
-        }
-      }, null);
-    expect(response.statusCode).toBe(400);
-  });
-
-  test('Handler - 400 POST handle Activity date', async () => {
-    const response = await subareaPOST.handler(
-      {
-        headers: {
-          Authorization: "Bearer " + token
-        },
-        queryStringParameters: {
-          type: "activity"
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
@@ -174,8 +137,8 @@ describe('Subarea Test', () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test('Handler - 400 POST Bad Request', async () => {
-    const response = await subareaPOST.handler({
+  test('HandlePost - 400 POST Bad Request', async () => {
+    const response = await subareaPOST.handlePost({
       headers: {
         Authorization: "Bearer " + token
       },
@@ -185,5 +148,69 @@ describe('Subarea Test', () => {
     }, null);
 
     expect(response.statusCode).toBe(400);
+  });
+
+  test('HandleLock - 200 POST lock record', async () => {
+    const response = await subareaPOST.handleLock(
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({
+          orcs: SUBAREA_ENTRIES[3].orcs,
+          subAreaId: SUBAREA_ENTRIES[3].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[3].pk.split("::")[1],
+          date: "201901"
+        })
+      }, null);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test('HandlePost - 409 POST to locked record', async () => {
+    const response = await subareaPOST.handlePost(
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({
+          orcs: SUBAREA_ENTRIES[3].orcs,
+          subAreaId: SUBAREA_ENTRIES[3].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[3].pk.split("::")[1],
+          date: "201901" // should be locked as per previous test
+        })
+      }, null);
+    expect(response.statusCode).toBe(409);
+  });
+
+  test('HandleUnlock - 200 POST unlock record', async () => {
+    const response = await subareaPOST.handleUnlock(
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({
+          orcs: SUBAREA_ENTRIES[3].orcs,
+          subAreaId: SUBAREA_ENTRIES[3].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[3].pk.split("::")[1],
+          date: "201901"
+        })
+      }, null);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test('Handler - 403 POST to locked fiscal year', async () => {
+    const response = await subareaPOST.handlePost(
+      {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        body: JSON.stringify({
+          orcs: SUBAREA_ENTRIES[2].orcs,
+          subAreaId: SUBAREA_ENTRIES[2].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[2].pk.split("::")[1],
+          date: "201801" // Fiscal year is locked
+        })
+      }, null);
+    expect(response.statusCode).toBe(403);
   });
 });

@@ -59,11 +59,27 @@ functions:
           cors: true
 
   subareaPost:
-    handler: lambda/subarea/POST/index.handler
+    handler: lambda/subarea/POST/index.handlePost
     events:
       - http:
           method: POST
           path: /subarea
+          cors: true
+
+  subareaRecordLock:
+    handler: lambda/subarea/POST/index.handleLock
+    events:
+      - http:
+          method: POST
+          path: /subarea/lock
+          cors: true
+
+  subareaRecordUnlock:
+    handler: lambda/subarea/POST/index.handleUnlock
+    events:
+      - http:
+          method: POST
+          path: /subarea/unlock
           cors: true
 
   ###########
@@ -77,6 +93,33 @@ functions:
       - http:
           method: GET
           path: /export
+          cors: true
+
+  ###########
+  # Fiscal Year End
+  ###########
+  fiscalYearEndGet:
+    handler: lambda/fiscalYearEnd/GET/index.handler
+    events:
+      - http:
+          method: GET
+          path: /fiscalYearEnd
+          cors: true
+
+  fiscalYearEndLock:
+    handler: lambda/fiscalYearEnd/POST/index.lockFiscalYear
+    events:
+      - http:
+          method: POST
+          path: /fiscalYearEnd/lock
+          cors: true
+
+  fiscalYearEndUnlock:
+    handler: lambda/fiscalYearEnd/POST/index.unlockFiscalYear
+    events:
+      - http:
+          method: POST
+          path: /fiscalYearEnd/unlock
           cors: true
 
 resources:

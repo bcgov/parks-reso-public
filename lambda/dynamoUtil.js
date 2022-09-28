@@ -36,7 +36,10 @@ async function getOne(pk, sk) {
     Key: AWS.DynamoDB.Converter.marshall({pk, sk})
   };
   let item = await dynamodb.getItem(params).promise();
-  return item?.Item || {};
+  if (item?.Item) {
+    return AWS.DynamoDB.Converter.unmarshall(item.Item);
+  }
+  return {};
 };
 // TODO: set paginated to TRUE by default. Query results will then be at most 1 page
 // (1MB) unless they are explicitly specified to retrieve more.
