@@ -52,17 +52,14 @@ describe('Fiscal Year End Test', () => {
     expect(JSON.parse(obj.body)).toMatchObject(FISCAL_YEAR_LOCKS[0]);
   });
 
-  test('Handler - 400 GET Bad Request', async () => {
+  test('Handler - 200 GET All fiscal year end objects', async () => {
     const response = await fiscalYearEndGET.handler({
       headers: {
         Authorization: "Bearer " + token
       },
-      queryStringParameters: {
-        badParam: "oops"
-      }
     }, null);
 
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(200);
   });
 
   test('HandleLock - 200 lock fiscal year', async () => {
