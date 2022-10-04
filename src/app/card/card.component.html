@@ -7,11 +7,11 @@
                 <h2>{{data?.name}}</h2>
                 <span *ngIf="data?.status === 'open'"
                     class="text-success d-flex align-items-center">
-                    <div class="open-circle"></div><strong class="text-override">OPEN</strong>
+                    <div class="open-circle"></div><strong class="text-override">Passes required</strong>
                 </span>
                 <span *ngIf="data?.status === 'closed'"
                     class="text-danger d-flex align-items-center">
-                    <div class="closed-circle"></div><strong class="text-override">CLOSED</strong>
+                    <div class="closed-circle"></div><strong class="text-override">Passes not required</strong>
                 </span>
             </div>
             <div *ngIf="data?.status === 'open'"
@@ -20,12 +20,6 @@
                     type="button"
                     attr.aria-label="Book a pass for {{data?.name}}"
                     (click)="navigate(data)">Book a Pass</button>
-            </div>
-            <div *ngIf="data?.status === 'closed'"
-                class="mt-3">
-                <button class="btn btn-outline-secondary closed-button px-5"
-                    type="button"
-                    attr.aria-label="{{data?.name}} is closed"><b>Closed</b></button>
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
