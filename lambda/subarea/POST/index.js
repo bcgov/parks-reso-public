@@ -66,8 +66,9 @@ async function main(event, context, lock = null) {
       }
       // if we are locking a record that doesn't exist, we need to create it.
       // fall through and create new record for locking.
+      lock = true;
     }
-    return await handleActivity(body, context);
+    return await handleActivity(body, lock, context);
   } catch (err) {
     logger.error(err);
     return sendResponse(400, { msg: "Invalid request" }, context);
@@ -124,7 +125,7 @@ async function handleLockUnlock(record, lock, context) {
   }
 }
 
-async function handleActivity(body, context) {
+async function handleActivity(body, lock = false, context) {
   // Set pk/sk
   try {
 
@@ -157,7 +158,7 @@ async function handleActivity(body, context) {
     body["sk"] = body.date;
     body["lastUpdated"] = new Date().toISOString();
 
-    body["isLocked"] = false;
+    body["isLocked"] = lock ?? false;
 
     const newObject = AWS.DynamoDB.Converter.marshall(body);
 
