@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const fs = require("fs");
 const writeXlsxFile = require("write-excel-file/node");
-const { runScan, runQuery, TABLE_NAME } = require("../../dynamoUtil");
+const { runScan, runQuery, TABLE_NAME, getParks, getSubAreas, getRecords } = require("../../dynamoUtil");
 const {
   EXPORT_NOTE_KEYS,
   EXPORT_MONTHS,
@@ -124,10 +124,22 @@ exports.handler = async (event, context) => {
 };
 
 async function getAllRecords(queryObj) {
-  queryObj.ExpressionAttributeValues = {};
-  queryObj.ExpressionAttributeValues[":prefixDate"] = { S: "20" };
-  queryObj.FilterExpression = "begins_with(sk, :prefixDate)";
-  return await runScan(queryObj);
+  let records = [];
+  let subareas = [];
+  try {
+    const parks = await getParks();
+    for (const park of parks) {
+      const parkSubAreas = await getSubAreas(park.sk);
+      subareas = subareas.concat(parkSubAreas);
+    }
+    for (const subarea of subareas) {
+      const subAreaRecords = await getRecords(subarea, true);
+      records = records.concat(subAreaRecords);
+    }
+    return records;
+  } catch (err) {
+    logger.error(err);
+  }
 }
 
 async function groupBySubAreaAndDate(

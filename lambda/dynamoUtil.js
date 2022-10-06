@@ -24,6 +24,16 @@ const PASS_TYPE_EXPIRY_HOURS = {
   DAY: 0,
 };
 
+const RECORD_ACTIVITY_LIST = [
+  'Frontcountry Camping',
+  'Frontcountry Cabins',
+  'Backcountry Camping',
+  'Backcountry Cabins',
+  'Group Camping',
+  'Day Use',
+  'Boating'
+];
+
 const dynamodb = new AWS.DynamoDB(options);
 
 exports.dynamodb = new AWS.DynamoDB();
@@ -33,7 +43,7 @@ async function getOne(pk, sk) {
   logger.debug(`getItem: { pk: ${pk}, sk: ${sk} }`);
   const params = {
     TableName: TABLE_NAME,
-    Key: AWS.DynamoDB.Converter.marshall({pk, sk})
+    Key: AWS.DynamoDB.Converter.marshall({ pk, sk })
   };
   let item = await dynamodb.getItem(params).promise();
   if (item?.Item) {
@@ -137,6 +147,30 @@ async function getSubAreas(orcs) {
   return await runQuery(subAreaQuery);
 }
 
+// returns all records within a subarea.
+// pass the full subarea object.
+// pass filter = false to look for every possible activity
+async function getRecords(subArea, filter = true) {
+  let records = [];
+  let filteredActivityList = RECORD_ACTIVITY_LIST;
+  if (filter && subArea.activites) {
+    filteredActivityList = AWS.DynamoDB.Converter.unmarshall(subArea.activites);
+  }
+  for (let activity of filteredActivityList) {
+    const recordQuery = {
+      TableName: TABLE_NAME,
+      KeyConditionExpression: `pk = :pk`,
+      ExpressionAttributeValues: {
+        ':pk': { S: `${subArea.sk}::${activity}` },
+      },
+    }
+    // will return at most 1 record.
+    const record = await runQuery(recordQuery);
+    records = records.concat(record);
+  }
+  return records;
+}
+
 module.exports = {
   ACTIVE_STATUS,
   RESERVED_STATUS,
@@ -154,5 +188,6 @@ module.exports = {
   runScan,
   getOne,
   getParks,
-  getSubAreas
+  getSubAreas,
+  getRecords
 };
