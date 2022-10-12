@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ConfigService } from '../shared/services/config.service';
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 import { PassLookupComponent } from './pass-lookup.component';
 
@@ -12,8 +13,12 @@ describe('PassLookupComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PassLookupComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [ConfigService]
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
+      ],
+      providers: [ConfigService, SwUpdate]
     }).compileComponents();
   });
 

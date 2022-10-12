@@ -7,7 +7,7 @@ import { ParkService } from '../services/park.service';
 import { ImportantBookingInfoComponent } from '../shared/components/important-booking-info/important-booking-info.component';
 import { ConfigService } from '../shared/services/config.service';
 import { TipsComponent } from '../tips/tips.component';
-
+import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -16,11 +16,14 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HomeComponent, ImportantBookingInfoComponent, ParksListComponent, TipsComponent ],
-      imports: [ RouterTestingModule, HttpClientTestingModule ],
-      providers: [ ParkService, ApiService, ConfigService ]
-    })
-    .compileComponents();
+      declarations: [HomeComponent, ImportantBookingInfoComponent, ParksListComponent, TipsComponent],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
+      ],
+      providers: [ParkService, ApiService, ConfigService, SwUpdate]
+    }).compileComponents();
   });
 
   beforeEach(() => {
