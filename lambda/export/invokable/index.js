@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const fs = require("fs");
 const writeXlsxFile = require("write-excel-file/node");
-const { runScan, runQuery, TABLE_NAME, getParks, getSubAreas, getRecords } = require("../../dynamoUtil");
+const { runScan, runQuery, TABLE_NAME, getParks, getSubAreas, getRecords, getOne } = require("../../dynamoUtil");
 const {
   EXPORT_NOTE_KEYS,
   EXPORT_MONTHS,
@@ -369,6 +369,18 @@ async function modifyReportForCSV(report) {
   return report;
 }
 
+//calculate fiscal year based on data available
+function calculateFiscalYear(year, month) {
+  if (month === "Jan" || month === "Feb" || month === "Mar") {
+    fiscalYear = Number(year)-1;
+    fiscalYear = year + "-" + fiscalYear;
+  } else {
+    fiscalYear = Number(year)+1;
+    fiscalYear = year + "-" + fiscalYear;
+  }
+  return fiscalYear;
+}
+
 async function mergeReports(result, report) {
   // We can use the report.date for sorting in a later step
   const subAreaName = report.config.subAreaName;
@@ -391,6 +403,7 @@ async function mergeReports(result, report) {
       parkName: report.parkName,
       subAreaName: subAreaName,
       year: Number(report.date.substring(0, 4)),
+      fiscalYear: calculateFiscalYear(report.date.substring(0, 4), EXPORT_MONTHS[report.date.slice(-2)]),
       month: EXPORT_MONTHS[report.date.slice(-2)],
     };
   }
