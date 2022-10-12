@@ -30,6 +30,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ImportantBookingInfoModule } from './shared/components/important-booking-info/important-booking-info.module';
 import { ListModule } from './shared/components/list/list.module';
 import { Utils } from './shared/utils/utils';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -63,7 +65,13 @@ export function initConfig(configService: ConfigService) {
     }),
     FormsModule,
     ImportantBookingInfoModule,
-    ListModule
+    ListModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   exports: [CardComponent],
   providers: [
