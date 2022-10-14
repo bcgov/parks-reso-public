@@ -373,7 +373,7 @@ async function modifyReportForCSV(report) {
 function calculateFiscalYear(year, month) {
   if (month === "Jan" || month === "Feb" || month === "Mar") {
     fiscalYear = Number(year)-1;
-    fiscalYear = year + "-" + fiscalYear;
+    fiscalYear = fiscalYear + "-" + year;
   } else {
     fiscalYear = Number(year)+1;
     fiscalYear = year + "-" + fiscalYear;
