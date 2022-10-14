@@ -12,7 +12,6 @@ if (process.env.IS_OFFLINE) {
 const ACTIVE_STATUS = "active";
 const RESERVED_STATUS = "reserved";
 const EXPIRED_STATUS = "expired";
-const timeZone = "America/Vancouver";
 const PASS_TYPE_AM = "AM";
 const PASS_TYPE_PM = "PM";
 const PASS_TYPE_DAY = "DAY";
@@ -23,6 +22,8 @@ const PASS_TYPE_EXPIRY_HOURS = {
   PM: 0,
   DAY: 0,
 };
+
+const FISCAL_YEAR_FINAL_MONTH = 3; // March
 
 const RECORD_ACTIVITY_LIST = [
   'Frontcountry Camping',
@@ -181,7 +182,7 @@ module.exports = {
   TIMEZONE,
   PM_ACTIVATION_HOUR,
   PASS_TYPE_EXPIRY_HOURS,
-  timeZone,
+  FISCAL_YEAR_FINAL_MONTH,
   TABLE_NAME,
   dynamodb,
   runQuery,

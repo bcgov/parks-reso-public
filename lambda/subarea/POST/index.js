@@ -1,10 +1,9 @@
 const AWS = require("aws-sdk");
-const { dynamodb, runQuery, TABLE_NAME, getOne } = require("../../dynamoUtil");
+const { dynamodb, runQuery, TABLE_NAME, getOne, FISCAL_YEAR_FINAL_MONTH, TIMEZONE } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
 const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionUtil');
 const { logger } = require('../../logger');
-
-const FISCAL_YEAR_FINAL_MONTH = 3;
+const { DateTime } = require('luxon');
 
 exports.handlePost = async (event, context) => {
   logger.debug('Subarea POST:', event);
@@ -37,6 +36,10 @@ async function main(event, context, lock = null) {
       return sendResponse(403, { msg: 'Unauthorized.' }, context);
     }
 
+    if (await verifyBody(body)) {
+      return sendResponse(400, { msg: "Invalid request." });
+    }
+
     // check if fiscal year is locked
     if (await checkFiscalYearLock(body)) {
       return sendResponse(403, { msg: `This fiscal year has been locked against editing by the system administrator.` }, context)
@@ -47,7 +50,11 @@ async function main(event, context, lock = null) {
     // Queryparams no longer required. All info included in request body. 
     // Refer to code prior to 2022-09-27 for handleConfig.
 
-    await verifyBody(body);
+    // check if attempting to lock current/future month
+    // Not allowed as per https://bcparksdigital.atlassian.net/browse/BRS-817
+    if (lock && await checkLockingDates(body)) {
+      return sendResponse(403, { msg: 'Cannot lock a record for a month that has not yet concluded.' }, context);
+    }
 
     // check if record is locked
     const unlocking = lock === false ? true : false;
@@ -89,13 +96,27 @@ async function checkFiscalYearLock(body) {
   return false;
 }
 
+async function checkLockingDates(body) {
+  const beginningOfMonth = DateTime.now().setZone(TIMEZONE).startOf('month');
+  const recordDate = DateTime.fromObject({
+    year: Number(body.date.slice(0, 4)),
+    month: Number(body.date.slice(4, 6)),
+  }, {
+    zone: TIMEZONE
+  });
+  if (recordDate >= beginningOfMonth) {
+    return true;
+  }
+  return false;
+}
+
 async function verifyBody(body) {
   if (!body.subAreaId || !body.activity || !body.date) {
-    return sendResponse(400, { msg: "Invalid request." });
+    return true
   };
-
   // delete isLocked - need correct path to lock/unlock records
   delete body.isLocked;
+  return false;
 }
 
 async function handleLockUnlock(record, lock, context) {

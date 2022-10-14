@@ -1,8 +1,9 @@
 const AWS = require('aws-sdk');
-const { TABLE_NAME, dynamodb } = require('../../dynamoUtil');
+const { TABLE_NAME, dynamodb, TIMEZONE, FISCAL_YEAR_FINAL_MONTH } = require('../../dynamoUtil');
 const { sendResponse } = require('../../responseUtil');
 const { logger } = require('../../logger');
 const { decodeJWT, resolvePermissions } = require('../../permissionUtil');
+const { DateTime } = require('luxon');
 
 // lock the fiscal year from further edits
 exports.lockFiscalYear = async (event, context) => {
@@ -19,7 +20,7 @@ async function handleLockUnlock(isLocked, event, context) {
   logger.debug(`POST: ${type} fiscal year`, event);
   try {
     await checkPermissions(event);
-    const params = verifyEventParams(event);
+    const params = verifyEventParams(event, isLocked);
     const res = await putFiscalYear(isLocked, params);
     logger.debug('POST result:', res);
     return sendResponse(200, res);
@@ -41,7 +42,7 @@ async function checkPermissions(event) {
   return permissionObject;
 }
 
-function verifyEventParams(event) {
+function verifyEventParams(event, isLocked) {
   const params = event?.queryStringParameters || null;
   if (!params || !params.fiscalYearEnd) {
     throw {
@@ -49,14 +50,26 @@ function verifyEventParams(event) {
       msg: `Missing parameters. Must provide 'fiscalYearEnd'.`
     };
   }
-  const regex = new RegExp('^[0-9]{4}$');
-  const validYear = regex.test(params.fiscalYearEnd);
-  if (!validYear) {
+  const validYear = DateTime.fromFormat(params.fiscalYearEnd, 'yyyy');
+  if (validYear.invalid) {
     throw {
       code: 400,
       msg: `Invalid fiscal year. Format: 'yyyy'`
     };
   }
+  const today = DateTime.now().setZone(TIMEZONE);
+  const currentFiscalYearEnd = DateTime.fromObject({
+    year: params.fiscalYearEnd,
+    month: FISCAL_YEAR_FINAL_MONTH,
+  }, {
+    zone: TIMEZONE
+  }).endOf('month');
+  if (currentFiscalYearEnd > today && isLocked) {
+    throw {
+      code: 400,
+      msg: `You cannot lock a fiscal year that has not yet concluded.`
+    }
+  } 
   return params;
 }
 
