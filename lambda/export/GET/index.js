@@ -111,7 +111,7 @@ exports.handler = async (event, context) => {
           ":error": { S: 'error' }
         },
         ConditionExpression:
-          "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR progressState = :complete OR progressState = :error",
+          "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR attribute_not_exists(progressState) OR progressState = :complete OR progressState = :error",
         Item: AWS.DynamoDB.Converter.marshall({
           pk: "job",
           sk: sk,
