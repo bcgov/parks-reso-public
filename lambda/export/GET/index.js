@@ -40,34 +40,45 @@ exports.handler = async (event, context) => {
     // This will give us the sk
     const sk = convertRolesToMD5(permissionObject.roles, "export-");
 
-    if (event?.queryStringParameters?.getJob) {
-      let queryObj = {
-        TableName: TABLE_NAME,
-        ExpressionAttributeValues: {
-          ":pk": { S: "job" },
-          ":sk": { S: sk },
-        },
-        KeyConditionExpression: "pk =:pk and sk =:sk",
-      };
-      const res = (await runQuery(queryObj))[0];
+    // Check for existing job
+    let queryObj = {
+      TableName: TABLE_NAME,
+      ExpressionAttributeValues: {
+        ":pk": { S: "job" },
+        ":sk": { S: sk },
+      },
+      KeyConditionExpression: "pk =:pk and sk =:sk",
+    };
 
+    const res = (await runQuery(queryObj))[0];
+
+    if (event?.queryStringParameters?.getJob) {
       // If the getJob flag is set, that means we are trying to download the report
       if (!res) {
         // Job does not exist.
         return sendResponse(200, { status: "Job not found" }, context);
-      } else if (res.progressPercentage === 100) {
-        // Job is 100% complete, return signed url
-        const URL = await s3.getSignedUrl("getObject", {
-          Bucket: process.env.S3_BUCKET_DATA,
-          Expires: EXPIRY_TIME,
-          Key: res.key,
-        });
+      } else if (res.progressState === 'complete' || res.progressState === 'error') {
+        // Job is not currently running. Return signed url
+        let urlKey = res.key
+        let message = 'Job complete'
+        if (res.progressState === 'error') {
+          urlKey = res.lastSuccessfulJob.key || {};
+          message = 'Job failed. Returning last successful job.'
+        }
+        let URL = '';
+        if (!process.env.IS_OFFLINE) {
+          URL = await s3.getSignedUrl("getObject", {
+            Bucket: process.env.S3_BUCKET_DATA,
+            Expires: EXPIRY_TIME,
+            Key: urlKey,
+          });
+        }
         delete res.pk;
         delete res.sk;
         delete res.key;
         return sendResponse(
           200,
-          { status: "Job complete", signedURL: URL, jobObj: res },
+          { status: message, signedURL: URL, jobObj: res },
           context
         );
       } else {
@@ -83,24 +94,37 @@ exports.handler = async (event, context) => {
       }
     } else {
       // We are trying to create a report.
+      // If there's already a completed job, we want to save this in case the new job fails. 
+      let lastSuccessfulJob = {};
+      if (res?.progressState === 'complete' && res?.key) {
+        lastSuccessfulJob = {
+          key: res.key,
+          dateGenerated: res.dateGenerated || new Date().toISOString()
+        }
+      } else if (res?.progressState === 'error') {
+        lastSuccessfulJob = res.lastSuccessfulJob || {};
+      };
       const putObject = {
         TableName: TABLE_NAME,
         ExpressionAttributeValues: {
-          ":percent": { N: "100" },
+          ":complete": { S: 'complete' },
+          ":error": { S: 'error' }
         },
         ConditionExpression:
-          "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR progressPercentage = :percent",
+          "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR progressState = :complete OR progressState = :error",
         Item: AWS.DynamoDB.Converter.marshall({
           pk: "job",
           sk: sk,
           progressPercentage: 0,
           progressDescription: "Initializing job.",
+          progressState: 'initializing',
+          lastSuccessfulJob: lastSuccessfulJob
         }),
       };
       logger.debug(putObject);
-      let res;
+      let newJob;
       try {
-        res = await dynamodb.putItem(putObject).promise();
+        newJob = await dynamodb.putItem(putObject).promise();
         // Check if there's already a report being generated.
         // If there are is no instance of a job or the job is 100% complete, generate a report.
         logger.debug("Creating a new export job.");
@@ -112,6 +136,7 @@ exports.handler = async (event, context) => {
           Payload: JSON.stringify({
             jobId: sk,
             roles: permissionObject.roles,
+            lastSuccessfulJob: lastSuccessfulJob,
           }),
         };
         // Invoke generate report function

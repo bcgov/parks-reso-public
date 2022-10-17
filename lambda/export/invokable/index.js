@@ -50,6 +50,7 @@ const DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE =
 let JOB_ID;
 let S3_KEY;
 let CURRENT_PROGRESS_PERCENT = 0;
+let LAST_SUCCESSFUL_JOB = {};
 
 exports.handler = async (event, context) => {
   logger.debug("EXPORT", event || {});
@@ -59,6 +60,7 @@ exports.handler = async (event, context) => {
   };
 
   try {
+    LAST_SUCCESSFUL_JOB = event.lastSuccessfulJob || {};
     if (event?.jobId && event?.roles) {
       JOB_ID = event.jobId;
       S3_KEY = JOB_ID + "/" + FILE_NAME + ".xlsx";
@@ -113,6 +115,11 @@ exports.handler = async (event, context) => {
         await updateJobWithState(STATE_DICTIONARY.UPLOAD_TO_S3);
         await uploadToS3();
       }
+      // success
+      LAST_SUCCESSFUL_JOB = {
+        key: S3_KEY,
+        dateGenerated: new Date().toISOString()
+      };
       await updateJobWithState(STATE_DICTIONARY.COMPLETE);
 
       // TODO: Log job into separate DB
@@ -120,6 +127,7 @@ exports.handler = async (event, context) => {
     }
   } catch (err) {
     logger.error(err);
+    await updateJobWithState(STATE_DICTIONARY.ERROR);
   }
 };
 
@@ -138,7 +146,7 @@ async function getAllRecords(queryObj) {
     }
     return records;
   } catch (err) {
-    logger.error(err);
+    throw err;
   }
 }
 
@@ -372,10 +380,10 @@ async function modifyReportForCSV(report) {
 //calculate fiscal year based on data available
 function calculateFiscalYear(year, month) {
   if (month === "Jan" || month === "Feb" || month === "Mar") {
-    fiscalYear = Number(year)-1;
+    fiscalYear = Number(year) - 1;
     fiscalYear = fiscalYear + "-" + year;
   } else {
-    fiscalYear = Number(year)+1;
+    fiscalYear = Number(year) + 1;
     fiscalYear = year + "-" + fiscalYear;
   }
   return fiscalYear;
@@ -548,46 +556,68 @@ async function updateJobWithState(
     progressPercentage: 0,
     key: S3_KEY,
     progressDescription: "",
+    lastSuccessfulJob: LAST_SUCCESSFUL_JOB
   };
   if (!DISABLE_PROGRESS_UPDATES) {
     switch (state) {
+      case 99:
+        jobObj.progressPercentage = percentageOverride || 0;
+        jobObj.progressState = 'error';
+        jobObj.progressDescription =
+          messageOverride || "Job failed. Exporter encountered an error.";
+        jobObj.dateGenerated = new Date().toISOString();
+        break;
       case 1:
         jobObj.progressPercentage = percentageOverride || 0;
+        jobObj.progressState = 'fetching_entries';
         jobObj.progressDescription =
           messageOverride || "Fetching entries from Database.";
         break;
       case 2:
         jobObj.progressPercentage = percentageOverride || 20;
+        jobObj.progressState = 'fetching_complete';
         jobObj.progressDescription = messageOverride || "Fetch complete.";
         break;
       case 3:
         jobObj.progressPercentage = percentageOverride || 35;
+        jobObj.progressState = 'grouping_activities';
         jobObj.progressDescription =
           messageOverride || "Grouping activities by subarea and date.";
         break;
       case 4:
         jobObj.progressPercentage = percentageOverride || 65;
+        jobObj.progressState = 'generating_rows';
         jobObj.progressDescription =
           messageOverride || "Generating rows for report.";
         break;
       case 5:
         jobObj.progressPercentage = 80;
+        jobObj.progressState = 'generating_report';
         jobObj.progressDescription = "Generating report.";
         break;
       case 6:
         jobObj.progressPercentage = 90;
+        jobObj.progressState = 'uploading_report';
         jobObj.progressDescription = "Uploading document to S3.";
         break;
       case 7:
         jobObj.progressPercentage = 100;
+        jobObj.progressState = 'complete';
         jobObj.progressDescription = "Job Complete. Your document is ready.";
         jobObj.dateGenerated = new Date().toISOString();
       default:
         break;
     }
     await updateJobEntry(jobObj, TABLE_NAME);
+  } else if (state === 99) {
+    jobObj.progressPercentage = 0;
+    jobObj.progressState = 'error';
+    jobObj.progressDescription = "Job failed. Exporter encountered an error.";
+    jobObj.dateGenerated = new Date().toISOString();
+    await updateJobEntry(jobObj, TABLE_NAME);
   } else if (state === 7) {
     jobObj.progressPercentage = 100;
+    jobObj.progressState = 'complete';
     jobObj.progressDescription = "Job Complete. Your document is ready.";
     jobObj.dateGenerated = new Date().toISOString();
     await updateJobEntry(jobObj, TABLE_NAME);
