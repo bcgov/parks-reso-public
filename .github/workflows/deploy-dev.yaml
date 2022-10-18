@@ -85,6 +85,8 @@ jobs:
 
       - run: yarn build
 
+      - run: ./node_modules/.bin/ngsw-config dist/parks-reso-public/ ./ngsw-config.json /dayuse
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
