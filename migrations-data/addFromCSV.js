@@ -190,8 +190,7 @@ async function updateItem(record, subarea) {
   // we have to check that the subarea isnt already on the park record.
   try {
     const park = await getOne(record.pk.S, record.sk.S);
-    const subAreas = AWS.DynamoDB.Converter.output(park.subAreas);
-    let exists = subAreas.filter(s => s.id === subarea.id);
+    let exists = park.subAreas.filter(s => s.id === subarea.id);
     if (exists.length > 0) {
       throw 'Subarea already exists on park.'
     }
