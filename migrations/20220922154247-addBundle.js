@@ -60,8 +60,8 @@ async function updateSubAreas(data) {
       const updateObj = {
         TableName: TABLE_NAME,
         Key: {
-          pk: { S: subArea.pk.S },
-          sk: { S: subArea.sk.S }
+          pk: { S: subArea.pk },
+          sk: { S: subArea.sk }
         },
         UpdateExpression: 'set bundle = :bundle',
 
@@ -72,9 +72,9 @@ async function updateSubAreas(data) {
       };
       try {
         await dynamodb.updateItem(updateObj).promise();
-        successes.push(subArea.sk.S);
+        successes.push(subArea.sk);
       } catch (err) {
-        console.log(`Update for ${subArea.sk.S} failed: ${err}`);
+        console.log(`Update for ${subArea.sk} failed: ${err}`);
         failures.push(row['Sub Area ID']);
       };
     }
