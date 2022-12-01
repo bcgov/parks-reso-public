@@ -15,8 +15,32 @@ export class ParkDetailsComponent implements OnInit {
   ngOnInit(): void {
     if (this.park) {
       this.altText = this.park.name + ' Image';
-      this.url = this.configService.config['ASSETS_S3_URL'];
-      this.url += `/images/${this.park.sk}/card.jpg`;
+      let altUrl = `${this.configService.config['ASSETS_S3_URL']}/images/${this.park.sk}/alt.jpg`;
+
+      this.checkIfImageExists(altUrl, exists => {
+        if (exists) {
+          this.url = altUrl;
+        } else {
+          this.url = `${this.configService.config['ASSETS_S3_URL']}/images/${this.park.sk}/card.jpg`;
+        }
+      });
+    }
+  }
+
+  checkIfImageExists(url, callback) {
+    const img = new Image();
+    img.src = url;
+
+    if (img.complete) {
+      callback(true);
+    } else {
+      img.onload = () => {
+        callback(true);
+      };
+
+      img.onerror = () => {
+        callback(false);
+      };
     }
   }
 
