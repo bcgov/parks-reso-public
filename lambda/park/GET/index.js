@@ -5,7 +5,8 @@ const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionU
 const { logger } = require('../../logger');
 
 exports.handler = async (event, context) => {
-  logger.debug('GET: Park', event);
+  logger.info('GET: Park');
+  logger.debug(event);
 
   let queryObj = {
     TableName: TABLE_NAME
@@ -16,7 +17,7 @@ exports.handler = async (event, context) => {
     const permissionObject = resolvePermissions(token);
 
     if (!permissionObject.isAuthenticated) {
-      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      logger.info("**NOT AUTHENTICATED, PUBLIC**")
       return sendResponse(403, {msg: "Error: UnAuthenticated."}, context);
     }
 
@@ -36,12 +37,11 @@ exports.handler = async (event, context) => {
 
       if (permissionObject.isAdmin) {
         // Sysadmin, they get it all
-        logger.debug("**Sysadmin**")
+        logger.info("**Sysadmin**")
       } else {
         // Some other authenticated role
-        logger.debug("**Some other authenticated person with attendance-and-revenue roles**")
-        // logger.debug("results1:", results);
-        // logger.debug("permissionObject.roles:", permissionObject.roles);
+        logger.info("**Some other authenticated person with attendance-and-revenue roles**")
+        logger.debug("permissionObject.roles:", permissionObject.roles);
         // We're getting parks, so take their role and grab the orcs id from the front
         const parkRoles = permissionObject.roles.map(item => {
           return item.split(":")[0]
@@ -75,10 +75,11 @@ exports.handler = async (event, context) => {
 
       if (permissionObject.isAdmin) {
         // Sysadmin, they get it all
-        logger.debug("**Sysadmin**")
+        logger.info("**Sysadmin**")
       } else {
         // Some other authenticated role
-        logger.debug("**Some other authenticated person with attendance-and-revenue roles**")
+        logger.info("**Some other authenticated person with attendance-and-revenue roles**")
+        logger.debug("permissionObject.roles:", permissionObject.roles);
         const parkRoles = permissionObject.roles.map(item => {
           return item.split(":")[0]
         });
@@ -105,7 +106,7 @@ async function filterSubAreaAccess(permissionObject, parks) {
   for (let park of parks) {
     let parkSubAreaAccess = [];
     let results = [];
-    logger.debug("CHECKING:", park.orcs);
+    logger.info("filterSubAreaAccess:", park.orcs);
     let queryObj = {
       TableName: TABLE_NAME
     };

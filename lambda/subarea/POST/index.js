@@ -26,22 +26,27 @@ async function main(event, context, lock = null) {
     const permissionObject = resolvePermissions(token);
 
     if (!permissionObject.isAuthenticated) {
-      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      logger.info("**NOT AUTHENTICATED, PUBLIC**")
       return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
     }
 
     const body = JSON.parse(event.body);
 
     if (!permissionObject.isAdmin && permissionObject.roles.includes(`${body.orcs}:${body.subAreaId}`) === false) {
+      logger.info("Not authorized.");
+      logger.debug(permissionObject.roles);
       return sendResponse(403, { msg: 'Unauthorized.' }, context);
     }
 
     if (await verifyBody(body)) {
+      logger.info("Fiscal year is locked.");
+      logger.debug("verifyBody", body);
       return sendResponse(400, { msg: "Invalid request." });
     }
 
     // check if fiscal year is locked
     if (await checkFiscalYearLock(body)) {
+      logger.debug("checkFiscalYearLock", body);
       return sendResponse(403, { msg: `This fiscal year has been locked against editing by the system administrator.` }, context)
     }
 
@@ -53,6 +58,7 @@ async function main(event, context, lock = null) {
     // check if attempting to lock current/future month
     // Not allowed as per https://bcparksdigital.atlassian.net/browse/BRS-817
     if (lock && await checkLockingDates(body)) {
+      logger.debug("checkLockingDates", body);
       return sendResponse(403, { msg: 'Cannot lock a record for a month that has not yet concluded.' }, context);
     }
 
@@ -60,6 +66,8 @@ async function main(event, context, lock = null) {
     const unlocking = lock === false ? true : false;
     const existingRecord = await getOne(`${body.subAreaId}::${body.activity}`, body.date);
     if (existingRecord?.isLocked && !unlocking) {
+      logger.info("Record is locked.");
+      logger.debug("locking", existingRecord?.isLocked, !unlocking);
       return sendResponse(409, { msg: 'Record is locked.' });
     }
 
@@ -69,6 +77,7 @@ async function main(event, context, lock = null) {
         return await handleLockUnlock(existingRecord, lock, context);
       } else if (lock === false) {
         // if record doesnt exist, we can't unlock it
+        logger.info("Record not found.");
         return sendResponse(404, { msg: 'Record not found.' });
       }
       // if we are locking a record that doesn't exist, we need to create it.
@@ -135,7 +144,7 @@ async function handleLockUnlock(record, lock, context) {
   };
   try {
     const res = await dynamodb.updateItem(updateObj).promise();
-    logger.debug(`Updated record pk: ${record.pk}, sk: ${record.sk} `);
+    logger.info(`Updated record pk: ${record.pk}, sk: ${record.sk} `);
     const s = lock ? 'locked' : 'unlocked';
     return sendResponse(200, { msg: `Record successfully ${s}`, data: AWS.DynamoDB.Converter.unmarshall(res.Attributes) });
   } catch (err) {
@@ -189,6 +198,7 @@ async function handleActivity(body, lock = false, context) {
     };
 
     await dynamodb.putItem(putObject).promise();
+    logger.info("Activity Updated.");
     return sendResponse(200, body, context);
   } catch (err) {
     logger.error(err);

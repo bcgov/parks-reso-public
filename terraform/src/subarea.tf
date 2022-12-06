@@ -18,7 +18,8 @@ resource "aws_lambda_function" "subareaGetLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }
@@ -57,7 +58,8 @@ resource "aws_lambda_function" "subareaPostLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }
@@ -96,7 +98,8 @@ resource "aws_lambda_function" "subareaRecordLockLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }
@@ -135,7 +138,8 @@ resource "aws_lambda_function" "subareaRecordUnlockLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }

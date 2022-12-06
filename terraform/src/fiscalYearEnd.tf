@@ -18,7 +18,8 @@ resource "aws_lambda_function" "fiscalYearEndGetLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }
@@ -57,7 +58,8 @@ resource "aws_lambda_function" "fiscalYearEndLockLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }
@@ -96,7 +98,8 @@ resource "aws_lambda_function" "fiscalYearEndUnlockLambda" {
     variables = {
       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "info"
     }
   }
 }

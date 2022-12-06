@@ -13,7 +13,8 @@ resource "aws_lambda_function" "readConfigLambda" {
 
   environment {
     variables = {
-      TABLE_NAME = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}"
+      TABLE_NAME = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      LOG_LEVEL   = "error"
     }
   }
 

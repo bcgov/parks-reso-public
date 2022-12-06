@@ -16,7 +16,7 @@ exports.handler = async (event, context) => {
     const permissionObject = resolvePermissions(token);
 
     if (!permissionObject.isAuthenticated) {
-      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+      logger.info("**NOT AUTHENTICATED, PUBLIC**")
       return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
     }
 
@@ -31,6 +31,8 @@ exports.handler = async (event, context) => {
       const orcs = event.queryStringParameters?.orcs;
 
       if (!permissionObject.isAdmin && permissionObject.roles.includes(`${orcs}:${subAreaId}`) === false) {
+        logger.info("Not authorized.");
+        logger.debug(permissionObject);
         return sendResponse(403, { msg: 'Unauthorized.'}, context);
       }
 
@@ -56,6 +58,7 @@ exports.handler = async (event, context) => {
       const configData = (await runQuery(configObj))[0];
 
       const { pk, sk, ...otherProps } = configData;
+      logger.info('Subarea Get returning.');
       return sendResponse(200, { ...parkData, config: otherProps }, context);
     } else {
       throw "Invalid parameter call.";
