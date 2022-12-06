@@ -19,6 +19,7 @@ export class ContactFormComponent implements OnInit {
   public assetsUrl;
   public saving = false;
   public captchaJwt: string;
+  public displayWinterWarning = false;
 
   public months = [
     'January',
@@ -43,7 +44,7 @@ export class ContactFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-
+    this.displayWinterWarning = this.park?.winterWarning
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
   }
 
@@ -111,5 +112,13 @@ export class ContactFormComponent implements OnInit {
     this.captchaJwt = event;
     this.captchaCheck = true;
     this.changeDetectionRef.detectChanges();
+  }
+
+  winterWaiverCheck(): boolean {
+    if (this.displayWinterWarning) {
+      return (this.liabilityNoticeCheck && this.weatherStatementCheck)
+    } else {
+      return true
+    }
   }
 }

@@ -95,7 +95,7 @@
       </div>
 
       <!--TEXT AND AKNOWLEDGEMENT FOR WINTER CONDITIONS-->
-      <div hidden>
+      <div *ngIf="displayWinterWarning">
         <div class="mb-4">
           <p>
             Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at any time
@@ -143,6 +143,7 @@
             myForm.status === 'INVALID' ||
             !collectionNoticeCheck ||
             !captchaCheck ||
+            !winterWaiverCheck() ||
             saving
           "
           class="btn btn-primary"
