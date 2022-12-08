@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Constants } from '../shared/utils/constants';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
+import { LoggerService } from './logger.service';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -15,6 +16,7 @@ export class ParkService {
   constructor(
     private apiService: ApiService,
     private eventService: EventService,
+    private loggerService: LoggerService,
     private toastService: ToastService
   ) {
     this.item = new BehaviorSubject(null);
@@ -42,16 +44,19 @@ export class ParkService {
       if (sk) {
         // we're getting a single item
         errorSubject = 'park';
+        this.loggerService.debug(`Park GET: ${sk}`);
         res = await this.apiService.get('park', { park: sk });
         // TODO: checks before sending back item.
         this.setItemValue(res[0]);
       } else {
         // We're getting a list
         errorSubject = 'parks';
+        this.loggerService.debug(`Park List GET:`);
         res = await this.apiService.getList('park');
         this.setListValue(res);
       }
     } catch (e) {
+      this.loggerService.error(`${e}`);
       this.toastService.addMessage(`Please refresh the page.`, `Error getting ${errorSubject}`, Constants.ToastTypes.ERROR);
       this.eventService.setError(
         new EventObject(
