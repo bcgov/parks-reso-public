@@ -29,8 +29,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/parks-reso-public'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text' }
       ]
     },
     reporters: ['progress', 'kjhtml', 'spec'],
