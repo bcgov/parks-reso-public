@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Constants } from '../shared/utils/constants';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
+import { LoggerService } from './logger.service';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -13,8 +14,9 @@ export class FacilityService {
   private list: BehaviorSubject<any>;
 
   constructor(
-    private apiService: ApiService, 
-    private eventService: EventService, 
+    private apiService: ApiService,
+    private eventService: EventService,
+    private loggerService: LoggerService,
     private toastService: ToastService
   ) {
       this.item = new BehaviorSubject(null);
@@ -42,22 +44,26 @@ export class FacilityService {
       if (!facilitySk && parkSk) {
         // We are getting a facilities of a given park.
         errorSubject = 'facilities';
+        this.loggerService.debug(`Facility GET: ${parkSk}`);
         res = await this.apiService.get('facility', { park: parkSk, facilities: true });
         this.setListValue(res);
       } else if (facilitySk && parkSk) {
         errorSubject = 'facility';
         // we're getting a single item for a given park
+        this.loggerService.debug(`Facility GET: ${parkSk} ${facilitySk}`);
         res = await this.apiService.get('facility', { facilityName: facilitySk, park: parkSk });
         this.setItemValue(res[0]);
       } else {
         // We're getting a list
         errorSubject = 'facilities';
+        this.loggerService.debug(`Facility List GET:`);
         res = await this.apiService.getList('facility');
         this.setListValue(res);
       }
       //get reservations
       await this.fetchReservationData(res);
     } catch (e) {
+      this.loggerService.error(`${e}`);
       this.toastService.addMessage(
         `Please refresh the page.`,
         `Error getting ${errorSubject}`,
@@ -76,11 +82,13 @@ export class FacilityService {
     for (let facility of facilities) {
       let reservationRes;
       try {
+        this.loggerService.debug(`Reservation GET: ${facility.name} ${facility.pk.substring(facility.pk.indexOf('::') + 2)}`);
         reservationRes = await this.apiService.get('reservation', {
           facility: facility.name,
           park: facility.pk.substring(facility.pk.indexOf('::') + 2)
         });
       } catch (error) {
+        this.loggerService.debug(`${error}`);
         console.log(error);
         throw 'An error has occurred, please try again.';
       }

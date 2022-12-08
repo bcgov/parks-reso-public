@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ConfigService {
-  private configuration = {};
+  private configuration: any = {};
 
   constructor(
     private httpClient: HttpClient
@@ -38,7 +38,7 @@ export class ConfigService {
     // Override hash version as this comes from the buid.
     this.configuration['hashVersion'] = hashVersion;
 
-    if (this.configuration['debugMode']) {
+    if (this.configuration['logLevel']) {
       console.log('Configuration:', this.configuration);
     }
 
@@ -47,5 +47,14 @@ export class ConfigService {
 
   get config(): any {
     return this.configuration;
+  }
+
+  get logLevel(): any {
+    // Can be overidden by the js console.
+    if(window['__env'] && window['__env'].logLevel) {
+      return window['__env'].logLevel;
+    } else {
+      return 0;
+    }
   }
 }

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { RegistrationModule } from './registration/registration.module';
+import { LoggerService } from './services/logger.service';
 import { CaptchaModule } from './shared/components/captcha/captcha.module';
 import { ImportantBookingInfoModule } from './shared/components/important-booking-info/important-booking-info.module';
 import { TableTemplateModule } from './shared/components/table-template/table-template.module';
@@ -26,7 +27,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent, HeaderComponent, FooterComponent
       ],
-      providers: [ ConfigService ]
+      providers: [ ConfigService, LoggerService ]
     }).compileComponents();
   });
 

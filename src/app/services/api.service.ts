@@ -4,6 +4,7 @@ import { ConfigService } from '../shared/services/config.service';
 import { SwUpdate } from '@angular/service-worker';
 import { ToastService } from './toast.service';
 import { Constants } from '../shared/utils/constants';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +20,22 @@ export class ApiService {
     readonly updates: SwUpdate,
     private toastService: ToastService,
     private http: HttpClient,
+    private loggerService: LoggerService,
     private configService: ConfigService
   ) {
     this.apiPath = this.configService.config['API_LOCATION'] + this.configService.config['API_PUBLIC_PATH'];
     this.env = this.configService.config['ENVIRONMENT'];
 
-    console.log(`Update checking enabled? (${updates.isEnabled})`);
+    this.loggerService.info(`Update checking enabled? (${updates.isEnabled})`);
 
     updates.versionUpdates.subscribe(evt => {
       switch (evt.type) {
         case 'VERSION_DETECTED':
-          console.log(`Downloading new app version: ${evt.version.hash}`);
+          this.loggerService.info(`Downloading new app version: ${evt.version.hash}`);
           break;
         case 'VERSION_READY':
-          console.log(`Current app version: ${evt.currentVersion.hash}`);
-          console.log(`New app version ready for use: ${evt.latestVersion.hash}`);
+          this.loggerService.info(`Current app version: ${evt.currentVersion.hash}`);
+          this.loggerService.info(`New app version ready for use: ${evt.latestVersion.hash}`);
           this.toastService.addMessage(
             `Please reload your browser, there is an update available.`,
             `Update detected`,
@@ -42,10 +44,10 @@ export class ApiService {
 
           break;
         case 'VERSION_INSTALLATION_FAILED':
-          console.log(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
+          this.loggerService.info(`Failed to install app version '${evt.version.hash}': ${evt.error}`);
           break;
         case 'NO_NEW_VERSION_DETECTED':
-          console.log('No new version detected.')
+          this.loggerService.info('No new version detected.')
       }
     });
   }

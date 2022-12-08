@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PostPass } from '../models/pass';
-import { Constants } from '../shared/utils/constants';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
-import { ToastService } from './toast.service';
+import { LoggerService } from './logger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ export class PassService {
   constructor(
     private apiService: ApiService,
     private eventService: EventService,
-    private toastService: ToastService
+    private loggerService: LoggerService
   ) {
   }
 
@@ -44,8 +43,10 @@ export class PassService {
       let postObj = new PostPass(obj);
       postObj.parkName = parkSk;
       postObj.facilityName = facilitySk;
+      this.loggerService.debug(`Pass POST: ${JSON.stringify(postObj)}`);
       res = await this.apiService.post('pass', postObj);
     } catch (e) {
+      this.loggerService.error(`${e}`);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,
@@ -72,9 +73,10 @@ export class PassService {
         delete obj.code;
       }
       this.checkPassToCancel(obj);
+      this.loggerService.debug(`Pass GET: ${JSON.stringify(obj)}`);
       res = await this.apiService.get('pass', obj);
     } catch (e) {
-      console.log('ERROR: ', e);
+      this.loggerService.error(`${e}`);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,
@@ -98,9 +100,10 @@ export class PassService {
     let res = null;
     try {
       this.checkCancelPass(obj);
+      this.loggerService.debug(`Pass DELETE: ${JSON.stringify(obj)}`);
       res = await this.apiService.delete('pass', obj);
     } catch (e) {
-      console.log('ERROR: ', e);
+      this.loggerService.error(`${e}`);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,

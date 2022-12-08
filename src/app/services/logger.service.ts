@@ -1,4 +1,5 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ConfigService } from '../shared/services/config.service';
 
 export enum LogLevel {
   All = 0,
@@ -19,13 +20,7 @@ export class LoggerService {
 
   // For future enhancement, constructor could be updated to take a config struct
   // and move providedIn to a forRoot call.
-  constructor() {
-    if (isDevMode()) {
-      this.level = LogLevel.All;
-    } else {
-      this.level = LogLevel.Fatal;
-    }
-  }
+  constructor(private configService: ConfigService) {}
 
   debug(msg: any) {
     this.log(msg, LogLevel.Debug);
@@ -51,7 +46,7 @@ export class LoggerService {
     if (this.shouldLog(level)) {
       const logEntry = {
         level: level,
-        date: new Date(),
+        date: new Date().getTime() / 1000, // Epoch time
         message: msg
       };
 
@@ -60,12 +55,12 @@ export class LoggerService {
   }
 
   private entryToString(logEntry) {
-    return `${LogLevel[logEntry.level]}${this.logWithDate ? ' : ' + logEntry.date : ''} : ${logEntry.message}`;
+    return `(${LogLevel[logEntry.level]}) ${this.logWithDate ? logEntry.date + ' ' : '' }${logEntry.message}`;
   }
 
   private shouldLog(level: LogLevel): boolean {
-    if ((level >= this.level && level !== LogLevel.Off) ||
-      this.level === LogLevel.All) {
+    const configLevel = this.configService.logLevel;
+    if ((level >= configLevel && level !== LogLevel.Off) || configLevel === LogLevel.All) {
       return true;
     }
 
