@@ -43,6 +43,10 @@ export class BreadcrumbComponent implements OnInit {
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
 
+    if (undefined === route) {
+      return breadcrumbs;
+    }
+
     // get the child routes
     const children: ActivatedRoute[] = route.children;
 
