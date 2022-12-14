@@ -85,10 +85,6 @@ export class RegistrationComponent implements OnInit {
         default:
           break;
       }
-    } else {
-      this.state = 'facility-select';
-      this.scrollToTop();
-      this.backButtonText = 'Home';
     }
   }
 
