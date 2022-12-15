@@ -1,6 +1,6 @@
 <div class="py-3 mb-2">
     <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="from-group">
-        <label for="confirmation">Reservation Number:</label>
+        <label for="passId">Reservation Number:</label>
         <div class="input-group mb-3">
             <input type="text" id="passId" placeholder="Reservation number" class="form-control"
                 formControlName="passId" required>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div *ngIf="urlData?.park">
-            <label for="Park">Park:</label>
+            <label for="park">Park:</label>
             <div class="input-group mb-3">
                 <input type="text" id="park" placeholder="Park" class="form-control" formControlName="park" required>
             </div>
