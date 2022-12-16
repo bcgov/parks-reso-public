@@ -1,4 +1,4 @@
-@import "/src/assets/themes/default.scss";
+@import '/src/assets/themes/default.scss';
 
 .card {
   display: block;
@@ -53,10 +53,12 @@
   align-items: center;
   overflow: hidden;
 }
+
 .fill img {
-  flex-shrink: 0;
-  min-width: 555px;
-  max-height: 275px;
+  width: 555px;
+  height: 275px;
+  background-size: cover;
+  background-repeat: no-repeat;
   object-fit: cover;
 }
 

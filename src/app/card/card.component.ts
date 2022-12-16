@@ -25,7 +25,7 @@ export class CardComponent implements OnInit {
     if (this.data) {
       this.altText = this.data.name + ' Image';
       this.url = this.configService.config['ASSETS_S3_URL'];
-      this.url += `/images/${this.data.sk}/card.jpg`;
+      this.url += `/images/${this.data.sk}/card.webp`;
     }
   }
 
