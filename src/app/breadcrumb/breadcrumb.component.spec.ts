@@ -8,56 +8,51 @@ import { BreadcrumbComponent } from './breadcrumb.component';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
-  let activatedRoute: ActivatedRoute;
-  let router: Router;
   let fixture: ComponentFixture<BreadcrumbComponent>;
   let eventsSub = new BehaviorSubject<any>(null);
   let routerStub = {
-    events: eventsSub,
+    events: eventsSub
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BreadcrumbComponent],
       imports: [
         RouterTestingModule,
-        RouterTestingModule.withRoutes(
-          [
-            {
-              path: 'home',
-              component: BreadcrumbComponent,
-              children: [
-                {
-                  path: 'something/else',
-                  component: BreadcrumbComponent
-                }
-              ]
-            }
-          ]
-        )
+        RouterTestingModule.withRoutes([
+          {
+            path: 'home',
+            component: BreadcrumbComponent,
+            children: [
+              {
+                path: 'something/else',
+                component: BreadcrumbComponent
+              }
+            ]
+          }
+        ])
       ],
       providers: [
         {
-          provide: Router, useValue: routerStub
+          provide: Router,
+          useValue: routerStub
         },
         {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
               params: {
-                    property: 'yourProperty',
-                    someId: 3
-                  },
-             queryParams: of({})
+                property: 'yourProperty',
+                someId: 3
+              },
+              queryParams: of({})
             },
             queryParams: of({}),
             queryParamMap: of({}),
-            params: of({id: 'something'})
+            params: of({ id: 'something' })
           }
         }
       ]
     }).compileComponents();
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    router = TestBed.inject(Router);
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,12 +64,12 @@ describe('BreadcrumbComponent', () => {
 
   it('should emit breadcrumbs', async () => {
     const url = 'http://localhost/foo';
-    const params =  { someParam: '123'};
+    const params = { someParam: '123' };
     expect(component).toBeTruthy();
     spyOn(component.navigateBreadcrumb, 'emit');
     component.emitBreadcrumb(url, params);
     fixture.detectChanges();
-    expect(component.navigateBreadcrumb.emit).toHaveBeenCalledWith({url, params});
+    expect(component.navigateBreadcrumb.emit).toHaveBeenCalledWith({ url, params });
   });
 
   it('Init, subscribe and get breadcrumbs', async () => {

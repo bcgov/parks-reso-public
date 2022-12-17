@@ -36,8 +36,6 @@ export class PageSizePickerComponent {
 
   @Output() pageSizeChosen: EventEmitter<IPageSizePickerOption> = new EventEmitter();
 
-  constructor() {}
-
   getTitle(sizeOption: IPageSizePickerOption) {
     return `Show ${sizeOption.value} records per page`;
   }

@@ -19,8 +19,6 @@ export class ListComponent implements OnChanges {
   // Table
   public tableData: TableObject = new TableObject();
 
-  constructor() { }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.tableRowComponent) {
       this.tableData.component = changes.tableRowComponent.currentValue;

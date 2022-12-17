@@ -1,9 +1,8 @@
-import { ViewEncapsulation, ChangeDetectionStrategy, OnInit, Component, Input, EventEmitter, Output, Inject, AfterViewInit } from '@angular/core';
+import { ViewEncapsulation, ChangeDetectionStrategy, OnInit, Component, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { FilterObject, FilterType } from './filter-object';
 import { ActivatedRoute } from '@angular/router';
 import { SubsetsObject } from './subset-object';
 import { FormGroup, FormControl } from '@angular/forms';
-import { DOCUMENT } from '@angular/common';
 import { takeWhile } from 'rxjs/operators';
 import { Utils } from '../../utils/utils';
 
@@ -78,7 +77,6 @@ export class SearchFilterTemplateComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     public utils: Utils,
-    @Inject(DOCUMENT) _document
   ) { }
 
   ngOnInit() {

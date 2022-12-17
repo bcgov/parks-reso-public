@@ -7,7 +7,7 @@ import { Constants } from '../../utils/constants';
 export class TableTemplate {
   constructor(private router: Router) { }
 
-  public updateTableObjectWithUrlParams(routeParams: Params, tableObject: TableObject, suffix: string = '') {
+  public updateTableObjectWithUrlParams(routeParams: Params, tableObject: TableObject, suffix = '') {
     Object.keys(routeParams).forEach(item => {
       if (
         !routeParams ||

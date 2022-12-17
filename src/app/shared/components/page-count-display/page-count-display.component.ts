@@ -13,8 +13,6 @@ export class PageCountDisplayComponent implements OnChanges {
 
   message = '';
 
-  constructor() { }
-
   ngOnChanges(changes: SimpleChanges) {
     if (changes.firstChange) {
       return;

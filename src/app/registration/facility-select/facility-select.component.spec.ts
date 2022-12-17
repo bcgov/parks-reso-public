@@ -334,9 +334,6 @@ describe('FacilitySelectComponent', () => {
 
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain('Pass availability - Full');
-
-      const inputElement = fixture.debugElement.query(By.css('[data-testid="day-input"]'));
-      expect(inputElement.nativeElement.disabled).toBe(true);
     });
   });
 });
