@@ -102,7 +102,7 @@ async function main() {
     const clientIDs = process.argv[4] === 'ar' ? clientIDsAR : clientIDsDUP;
     const clientID = clientIDs[env];
     const token = process.argv[5];
-    const url = `https://${environment}oidc.gov.bc.ca/auth/admin/realms/g7v0xlf4/clients/${clientID}/roles`;
+    const url = `https://${environment}loginproxy.gov.bc.ca/auth/admin/realms/bcparks-service-transformation/clients/${clientID}/roles`;
     console.log("Setting KC URL:", url);
 
     // If parking-pass, we just need the park for now, add role by orcs #
