@@ -85,6 +85,8 @@ export class RegistrationComponent implements OnInit {
         default:
           break;
       }
+    } else if (this.state === 'failure') {
+      this.router.navigate(['']);
     }
   }
 
