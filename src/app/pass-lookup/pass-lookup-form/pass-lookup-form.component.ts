@@ -26,8 +26,6 @@ export class PassLookupFormComponent implements OnInit {
     type: new UntypedFormControl('', Validators.required)
   });
 
-  constructor() { }
-
   ngOnInit(): void {
     this.disableForm();
     if (this.urlData) {

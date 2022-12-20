@@ -10,8 +10,6 @@ import { AlertObject } from './alert-object';
 export class AlertComponent {
   @Input() data: AlertObject;
 
-  constructor() { }
-
   getAlertClass(type): string {
     switch (type) {
       case 'error':

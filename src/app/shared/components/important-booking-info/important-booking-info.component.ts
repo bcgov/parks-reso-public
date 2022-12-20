@@ -5,8 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './important-booking-info.component.html',
   styleUrls: ['./important-booking-info.component.scss']
 })
-export class ImportantBookingInfoComponent {
-
-  constructor() { }
-
-}
+export class ImportantBookingInfoComponent {}

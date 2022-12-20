@@ -28,7 +28,7 @@ export class FilterObject {
     public name: string,
     public filterDefinition: any,
     public itemPanelSize: number = null
-  ) { }
+  ) {}
 }
 
 /**
@@ -60,7 +60,6 @@ export abstract class FilterDefinition {
    * Creates an instance of FilterDefinition.
    * @memberof FilterDefinition
    */
-  constructor() { }
 }
 /**
  * DateFiterDefinition defines mappings to IDs used in date filters
@@ -87,7 +86,9 @@ export class DateFilterDefinition extends FilterDefinition {
     public endDateLabel: string = 'End Date',
     public minDate = new Date('01-01-1900'),
     public maxDate = new Date()
-  ) { super(); }
+  ) {
+    super();
+  }
 }
 
 /**
@@ -116,7 +117,9 @@ export class CheckOrRadioFilterDefinition extends FilterDefinition {
   constructor(
     public options: OptionItem[] = [],
     public grouped: boolean = false // note, radio buttons are grouped by default
-  ) { super(); }
+  ) {
+    super();
+  }
 }
 
 /**
@@ -134,11 +137,7 @@ export class OptionItem {
    * @param {boolean} [isChecked=false] Is this checkbox checked by default?
    * @memberof OptionItem
    */
-  constructor(
-    public id: string,
-    public label: string,
-    public isChecked: boolean = false
-  ) { }
+  constructor(public id: string, public label: string, public isChecked: boolean = false) {}
 }
 
 /**
@@ -160,12 +159,9 @@ export class RadioOptionItem extends OptionItem {
    * @param {boolean} [isChecked=false] Is this option selected by default
    * @memberof RadioOptionItem
    */
-  constructor(
-    public id: string,
-    public label: string,
-    public value: string,
-    public isChecked: boolean = false
-  ) { super(id, label, isChecked); }
+  constructor(public id: string, public label: string, public value: string, public isChecked: boolean = false) {
+    super(id, label, isChecked);
+  }
 }
 
 /**
@@ -218,10 +214,9 @@ export class DropdownDefinition extends FilterDefinition {
    * @param {boolean} [multiselect=true] Should this dropdown allow for multiselection?
    * @memberof DropdownDefinition
    */
-  constructor(
-    public options: string[] = [],
-    public multiselect: boolean = true
-  ) { super(); }
+  constructor(public options: string[] = [], public multiselect: boolean = true) {
+    super();
+  }
 }
 
 /**
@@ -239,16 +234,11 @@ export class SliderToggleFilterDefinition extends FilterDefinition {
    * @param {OptionItem} onOption an ID and label for the on postition
    * @memberof SliderToggleFilterDefinition
    */
-  constructor(
-    public offOption: OptionItem,
-    public onOption: OptionItem
-  ) { super(); }
+  constructor(public offOption: OptionItem, public onOption: OptionItem) {
+    super();
+  }
 }
 
 export class FilterGroupObject {
-  constructor(
-    public name: string,
-    public labelPrefix: string,
-    public labelPostfix: string,
-  ) { }
+  constructor(public name: string, public labelPrefix: string, public labelPostfix: string) {}
 }

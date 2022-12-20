@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
 
   private watchForToast() {
     // tslint:disable-next-statement
-    const self = this;
     this.toastSubscription = this.toastService.messages.subscribe(messages => {
       messages.forEach(msg => {
         switch (msg.type) {
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit {
             break;
         }
         // Remove message from memory
-        self.toastService.removeMessage(msg.guid);
+        this.toastService.removeMessage(msg.guid);
       });
     });
   }
