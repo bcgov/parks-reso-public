@@ -1,5 +1,7 @@
 name: Deploy Prod
 
+run-name: Deploying ${{ github.event.inputs.releaseTag }} to prod
+
 on:
   workflow_dispatch:
     inputs:
