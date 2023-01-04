@@ -9,6 +9,7 @@ import {
   AbstractControlOptions
 } from '@angular/forms';
 import { ConfigService } from 'src/app/shared/services/config.service';
+import { Constants } from 'src/app/shared/utils/constants';
 
 @Component({
   selector: 'app-contact-form',
@@ -67,9 +68,9 @@ export class ContactFormComponent implements OnInit {
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        email: ['', [Validators.required, Validators.pattern(Constants.emailValidationRegex)]],
         emailCheck: ['', [Validators.required]],
-        phone: ['', [Validators.pattern('^[0-9]{10}$')]]
+        phone: ['', [Validators.pattern(Constants.phoneValidationRegex)]]
       },
       {
         validator: this.checkMatchEmails('email', 'emailCheck')
