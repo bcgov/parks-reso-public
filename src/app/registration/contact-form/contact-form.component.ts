@@ -1,5 +1,13 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, AbstractControl, ValidationErrors, AbstractControlOptions } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  AbstractControlOptions
+} from '@angular/forms';
 import { ConfigService } from 'src/app/shared/services/config.service';
 
 @Component({
@@ -44,7 +52,7 @@ export class ContactFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.displayWinterWarning = this.park?.winterWarning
+    this.displayWinterWarning = this.park?.winterWarning;
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
   }
 
@@ -55,16 +63,26 @@ export class ContactFormComponent implements OnInit {
       email: new UntypedFormControl(),
       emailCheck: new UntypedFormControl()
     });
-    this.myForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      emailCheck: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.pattern('^[0-9]{10}$')]]
-    },
-    {
-      validator: this.checkMatchEmails('email', 'emailCheck')
-    } as AbstractControlOptions);
+    this.myForm = this.fb.group(
+      {
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        emailCheck: ['', [Validators.required]],
+        phone: ['', [Validators.pattern('^[0-9]{10}$')]]
+      },
+      {
+        validator: this.checkMatchEmails('email', 'emailCheck')
+      } as AbstractControlOptions
+    );
+  }
+
+  get email() {
+    return this.myForm.get('email');
+  }
+
+  get emailCheck() {
+    return this.myForm.get('emailCheck');
   }
 
   keyPressNumbers(event) {
@@ -89,7 +107,7 @@ export class ContactFormComponent implements OnInit {
         let emailCheckVal = control.get(emailCheck).value;
 
         if (emailVal !== '' && emailVal !== emailCheckVal) {
-          return { not_the_same: true };
+          return { notTheSame: true };
         }
         return null;
       }
@@ -116,9 +134,9 @@ export class ContactFormComponent implements OnInit {
 
   winterWaiverCheck(): boolean {
     if (this.displayWinterWarning) {
-      return (this.liabilityNoticeCheck && this.weatherStatementCheck)
+      return this.liabilityNoticeCheck && this.weatherStatementCheck;
     } else {
-      return true
+      return true;
     }
   }
 }
