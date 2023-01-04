@@ -47,30 +47,36 @@
             Email Address
             <span class="asteriks">*</span>
           </label>
-          <input 
-            id="email" 
-            type="email" 
-            class="form-control mb-1" 
-            formControlName="email" 
+          <input
+            [class.is-invalid]="email.invalid && email.touched"
+            id="email"
+            type="email"
+            class="form-control mb-1"
+            formControlName="email"
             placeholder="name@example.com" />
+          <div *ngIf="(email.invalid && email.touched) || email.dirty">
+            <small *ngIf="email.errors?.required" class="text-danger">*An email is required</small>
+            <small *ngIf="email.errors?.pattern" class="text-danger">*Please provide a valid email address</small>
+          </div>
         </div>
         <div class="form-group">
           <label class="mb-2" for="emailCheck">
             Please Re-Type Your Email Address
             <span class="asteriks">*</span>
           </label>
-          <input 
-            id="emailCheck" 
-            type="email" 
-            class="form-control mb-1" 
+          <input
+            id="emailCheck"
+            type="email"
+            class="form-control mb-1"
             formControlName="emailCheck"
-            placeholder="name@example.com" 
-            (paste)="$event.preventDefault()"/>
-          <div *ngIf="myForm.errors" class="error-message">
-            *Your email addresses must match
+            placeholder="name@example.com"
+            (paste)="$event.preventDefault()" />
+          <div *ngIf="(myForm.errors?.['notTheSame'] && emailCheck.invalid && emailCheck.touched) || emailCheck.dirty">
+            <small *ngIf="myForm.errors?.['notTheSame']" class="text-danger">*Your email addresses must match</small>
           </div>
           <small class="text-muted">
-            We’ll send you your pass by email. We may also email you with reminders or advisories that could impact your visit.
+            We’ll send you your pass by email. We may also email you with reminders or advisories that could impact your
+            visit.
           </small>
         </div>
         <!-- Optional phone number field removed -->
@@ -82,7 +88,8 @@
           Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use location and to
           evaluate the reservation system and process. Questions regarding this collection can be directed to:
           Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9,
-          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">ParkInfo@gov.bc.ca</a>.
+          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">ParkInfo@gov.bc.ca</a>
+          .
         </p>
 
         <div class="mt-3">
@@ -98,11 +105,12 @@
       <div *ngIf="displayWinterWarning">
         <div class="mb-4">
           <p>
-            Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at any time
-            and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing and
-            footwear for winter conditions (winter boots with grip and/or Yak Tracks). Weather and road surface conditions
-            can change quickly, be aware of your surroundings from the moment you exit your vehicle or the shuttle bus.
-            Please ensure all members of your party are aware of the above information and are prepared for winter conditions.
+            Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at any
+            time and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing
+            and footwear for winter conditions (winter boots with grip and/or Yak Tracks). Weather and road surface
+            conditions can change quickly, be aware of your surroundings from the moment you exit your vehicle or the
+            shuttle bus. Please ensure all members of your party are aware of the above information and are prepared for
+            winter conditions.
           </p>
 
           <div class="mt-3">
@@ -129,8 +137,8 @@
             </label>
           </div>
         </div>
-    </div>
-    
+      </div>
+
       <div class="mb-4">
         <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
       </div>
@@ -140,11 +148,7 @@
         <button
           type="button"
           [disabled]="
-            myForm.status === 'INVALID' ||
-            !collectionNoticeCheck ||
-            !captchaCheck ||
-            !winterWaiverCheck() ||
-            saving
+            myForm.status === 'INVALID' || !collectionNoticeCheck || !captchaCheck || !winterWaiverCheck() || saving
           "
           class="btn btn-primary"
           (click)="submit()">
