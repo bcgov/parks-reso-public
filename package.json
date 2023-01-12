@@ -26,7 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^14.0.0",
     "@popperjs/core": "^2.10.2",
     "guid-typescript": "^1.0.9",
-    "luxon": "^2.4.0",
+    "luxon": "^2.5.2",
     "material-icons": "^0.6.3",
     "ngx-pagination": "^5.1.0",
     "ngx-toastr": "^16.0.1",
