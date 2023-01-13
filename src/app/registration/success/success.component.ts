@@ -10,12 +10,12 @@ export class SuccessComponent implements OnInit {
   @Input() regData;
   @Input() park;
 
-  constructor(
-    private router: Router,
-  ) { }
+  public qrColourLight = '#f1f1f1';
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    if (this.regData){
+    if (this.regData) {
       this.regData['park'] = this.park || null;
     }
   }

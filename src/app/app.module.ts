@@ -32,6 +32,7 @@ import { ListModule } from './shared/components/list/list.module';
 import { Utils } from './shared/utils/utils';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { SuccessComponent } from './registration/success/success.component';
 
 export function initConfig(configService: ConfigService) {
   return async () => {

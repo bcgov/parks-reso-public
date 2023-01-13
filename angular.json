@@ -51,7 +51,8 @@
             "optimization": false,
             "namedChunks": true,
             "allowedCommonJsDependencies": [
-              "guid-typescript"
+              "guid-typescript",
+              "qrcode"
             ]
           },
           "configurations": {

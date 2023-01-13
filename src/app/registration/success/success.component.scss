@@ -1,3 +1,5 @@
+@import '/src/assets/themes/default.scss';
+
 .left-col {
   border-right: 2px solid lightgray;
   padding-left: none;
@@ -9,26 +11,21 @@
   padding-right: none;
 }
 
-.success-title{
-  text-align: left;
-  justify-content: left;
-}
-
 @media screen and (max-width: 992px) {
   .left-col {
-      border-right: none;
-      padding-left: 1rem;
-      padding-right: 1rem;
+    border-right: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-  
+
   .right-col {
-      padding-left: 1rem;
-      padding-right: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
+}
 
-  .success-title{
-    text-align:center;
-    justify-content: center;
-  }
-
+.qr-container {
+  background: $bg-default;
+  padding-top: 10%;
+  padding-bottom: 10%;
 }
