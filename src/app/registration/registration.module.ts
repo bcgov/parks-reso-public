@@ -12,6 +12,7 @@ import { ImportantBookingInfoModule } from '../shared/components/important-booki
 import { DatePickerModule } from '../shared/components/date-picker/date-picker.module';
 import { RegistrationDetailsComponent } from './registration-details/registration-details.component';
 import { CaptchaModule } from '../shared/components/captcha/captcha.module';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CaptchaModule } from '../shared/components/captcha/captcha.module';
     ReactiveFormsModule,
     ImportantBookingInfoModule,
     DatePickerModule,
-    CaptchaModule
+    CaptchaModule,
+    QRCodeModule
   ],
   providers: []
 })
