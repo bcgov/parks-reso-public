@@ -21,15 +21,28 @@
         </p>
       </div>
 
-      <div *ngIf="regData?.adminPassLink" class="pb-2">
+      <div *ngIf="regData?.adminPassLink" class="pb-3">
         <!-- QR CODE -->
         <p>Please have the following QR code saved and ready for check-in</p>
         <div class="d-flex justify-content-center qr-container">
           <qrcode
             [qrdata]="regData.adminPassLink"
+            [width]="275"
+            [imageSrc]="'assets/images/BC-QR.svg'"
+            [errorCorrectionLevel]="'M'"
+            [colorLight]="qrColourLight"
+            [imageHeight]="100"
+            [imageWidth]="100"
+            [margin]="0"></qrcode>
+        </div>
+        <!-- Invisible div that's hidden for print button -->
+        <div id="qr-code" class="d-none">
+          <qrcode
+            [qrdata]="regData.adminPassLink"
             [width]="300"
             [errorCorrectionLevel]="'M'"
-            [colorLight]="qrColourLight"></qrcode>
+            [margin]="0"
+            [elementType]="svg"></qrcode>
         </div>
       </div>
 
