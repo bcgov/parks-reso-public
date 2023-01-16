@@ -88,4 +88,18 @@ describe('Fiscal Year End Test', () => {
     expect(response.statusCode).toBe(200);
   });
 
+  test('HandleLock - 403 unlock fiscal year without perms', async () => {
+    const response = await fiscalYearEndPOST.unlockFiscalYear({
+      headers: {
+        Authorization: "Bearer " + token,
+        PsuedoToken: { resource_access: { 'attendance-and-revenue': { roles: [''] } } }
+      },
+      queryStringParameters: {
+        fiscalYearEnd: "2018"
+      }
+    }, null);
+
+    expect(response.statusCode).toBe(403);
+  });
+
 });

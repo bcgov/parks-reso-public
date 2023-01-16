@@ -8,6 +8,7 @@ const subareaPOST = require('../lambda/subarea/POST/index');
 
 const jwt = require('jsonwebtoken');
 const token = jwt.sign({ resource_access: { 'attendance-and-revenue': { roles: ['sysadmin'] } } }, 'defaultSecret');
+const emptyRole = { resource_access: { 'attendance-and-revenue': { roles: [''] } } }
 
 async function setupDb() {
   new AWS.DynamoDB({
@@ -67,6 +68,40 @@ describe('Subarea Test', () => {
     expect(JSON.parse(obj.body)).toMatchObject(SUBAREA_ENTRIES[0]);
   });
 
+  test('Handler - 403 GET Not Authenticated', async () => {
+    const response = await subareaGET.handler({
+      headers: {
+        Authorization: "Bearer " + token,
+        PsuedoToken: "error"
+      },
+      queryStringParameters: {
+        orcs: SUBAREA_ENTRIES[0].orcs,
+        subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+        activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
+        date: SUBAREA_ENTRIES[0].sk
+      }
+    }, null);
+
+    expect(response.statusCode).toBe(403);
+  });
+
+  test('Handler - 403 GET Unauthorized role', async () => {
+    const response = await subareaGET.handler({
+      headers: {
+        Authorization: "Bearer " + token,
+        PsuedoToken: emptyRole
+      },
+      queryStringParameters: {
+        orcs: SUBAREA_ENTRIES[0].orcs,
+        subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+        activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
+        date: SUBAREA_ENTRIES[0].sk
+      }
+    }, null);
+
+    expect(response.statusCode).toBe(403);
+  });
+
   test('Handler - 400 GET Bad Request', async () => {
     const response = await subareaGET.handler({
       headers: {
@@ -94,6 +129,40 @@ describe('Subarea Test', () => {
         })
       }, null);
     expect(response.statusCode).toBe(200);
+  });
+
+  test('Handler - 403 POST Not Authenticated', async () => {
+    const response = await subareaPOST.handlePost({
+      headers: {
+        Authorization: "Bearer " + token,
+        PsuedoToken: "error" //{ resource_access: { 'attendance-and-revenue': { roles: [''] } } }
+      },
+      body: JSON.stringify({
+        orcs: SUBAREA_ENTRIES[0].orcs,
+        subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+        activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
+        date: "202201"
+      })
+    }, null);
+
+    expect(response.statusCode).toBe(403);
+  });
+
+  test('Handler - 403 POST Unauthorized role', async () => {
+    const response = await subareaPOST.handlePost({
+      headers: {
+        Authorization: "Bearer " + token,
+        PsuedoToken: emptyRole
+      },
+      body: JSON.stringify({
+        orcs: SUBAREA_ENTRIES[0].orcs,
+        subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+        activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
+        date: "202201"
+      })
+    }, null);
+
+    expect(response.statusCode).toBe(403);
   });
 
   // note: CONFIG POST disabled 2022-09-27

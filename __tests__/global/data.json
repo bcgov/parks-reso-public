@@ -50,7 +50,11 @@
       ],
       "parkName": "Cultus Lake Park",
       "orcs": 41,
-      "subAreaName": "Maple Bay"
+      "subAreaName": "Maple Bay",
+      "roles": [
+        "sysadmin",
+        "0041"
+      ]
     },
     {
       "pk": "park::0041",
@@ -60,7 +64,11 @@
       ],
       "parkName": "Cultus Lake Park",
       "orcs": 41,
-      "subAreaName": "Teapot Hill"
+      "subAreaName": "Teapot Hill",
+      "roles": [
+        "sysadmin",
+        "0041"
+      ]
     },
     {
       "pk": "park::6161",
@@ -159,5 +167,27 @@
       "sk": "2018",
       "isLocked": true
     }
-  ]
+  ],
+  "JOBSLIST": [
+    {
+      "dateGenerated": "2023-01-05T22:12:49.314Z",
+      "lastSuccessfulJob": {
+        "dateGenerated": "2023-01-05T22:12:49.314Z",
+        "key": "8404d420fd0dd5dc00986111a6bb8d6d/A&R_Export.xlsx"
+      },
+      "progressDescription": "Job Complete. Your document is ready.",
+      "progressState": "complete",
+      "sk": "8404d420fd0dd5dc00986111a6bb8d6d",
+      "pk": "job",
+      "key": "8404d420fd0dd5dc00986111a6bb8d6d/A&R_Export.xlsx",
+      "progressPercentage": 100
+    }
+  ],
+  "MOCKJOB": {
+    "sk": "MOCK_JOB_ID",
+    "progressPercentage": 0,
+    "key": "MOCK_S3_KEY",
+    "progressDescription": "",
+    "lastSuccessfulJob": {}
+  }
 }
