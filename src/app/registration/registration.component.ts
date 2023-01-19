@@ -149,6 +149,7 @@ export class RegistrationComponent implements OnInit {
     );
     const visitUTCISODate = visitDateTime.toUTC().toISO();
     // Mandatory fields:
+    obj.parkOrcs = this.park.sk
     obj.firstName = this.regData.firstName;
     obj.lastName = this.regData.lastName;
     obj.facilityName = this.regData.passType.name;

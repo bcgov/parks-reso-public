@@ -17,6 +17,7 @@ export class PassService {
 
   // example obj:
   // {
+  //   "parkOrcs": "1234",
   //   "numberOfGuests": 2,
   //   "lastName": "joe",
   //   "facilityName": "Facility A",
@@ -41,7 +42,7 @@ export class PassService {
         throw ('You must provide a facility sk');
       }
       let postObj = new PostPass(obj);
-      postObj.parkName = parkSk;
+      postObj.parkOrcs = parkSk;
       postObj.facilityName = facilitySk;
       this.loggerService.debug(`Pass POST: ${JSON.stringify(postObj)}`);
       res = await this.apiService.post('pass', postObj);
