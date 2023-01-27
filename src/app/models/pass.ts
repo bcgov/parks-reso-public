@@ -10,6 +10,7 @@ export class Pass {
     numberOfGuests: number;
     registrationNumber: string;
     facilityName: string;
+    parkName: string;
     date: Date;
     passStatus: string;
     phoneNumber: number;
@@ -26,6 +27,7 @@ export class Pass {
         this.type = obj && obj.type || null;
         this.numberOfGuests = obj && obj.numberOfGuests || null;
         this.registrationNumber = obj && obj.registrationNumber || null;
+        this.parkName = obj && obj.parkName || null;
         this.facilityName = obj && obj.facilityName || null;
         this.date = obj && obj.date || null;
         this.passStatus = obj && obj.passStatus || null;
@@ -44,10 +46,11 @@ export class PostPass {
     date: Date;
     phoneNumber: number;
     facilityType: string; // Parking Lot, Trail
+    parkName: string;
 
     // SKs
     facilityName: string;
-    parkName: string;
+    parkOrcs: string;
 
     captchaJwt: string;
 
@@ -64,6 +67,7 @@ export class PostPass {
 
         this.facilityName = obj && obj.facilityName || null;
         this.parkName = obj && obj.parkName || null;
+        this.parkOrcs = obj && obj.parkOrcs || null;
 
         this.captchaJwt = obj?.captchaJwt || null;
     }
