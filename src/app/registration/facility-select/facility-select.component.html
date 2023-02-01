@@ -56,15 +56,17 @@
             [class.card-header-selected]="timeConfig.AM.selected && !timeConfig.AM.disabled"
             [class.card-header-enabled]="!timeConfig.AM.disabled && !timeConfig.AM.selected"
             [class.card-header-disabled]="timeConfig.AM.disabled">
-            <input
-              type="radio"
-              id="visitTimeAM"
-              name="visitTime"
-              class="custom-control-label"
-              formControlName="visitTime"
-              value="AM"
-              [attr.disabled]="timeConfig.AM.disabled ? true : null"
-              (change)="onTimeChange('AM')" />
+            <span>
+              <input
+                type="radio"
+                id="visitTimeAM"
+                name="visitTime"
+                class="custom-control-label"
+                formControlName="visitTime"
+                value="AM"
+                [attr.disabled]="timeConfig.AM.disabled ? true : null"
+                (change)="onTimeChange('AM')" />
+            </span>
             &nbsp;
             <span class="ml-2 time-header"><strong>AM</strong></span>
           </div>
@@ -88,15 +90,17 @@
             [class.card-header-selected]="timeConfig.PM.selected && !timeConfig.PM.disabled"
             [class.card-header-enabled]="!timeConfig.PM.disabled && !timeConfig.PM.selected"
             [class.card-header-disabled]="timeConfig.PM.disabled">
-            <input
-              type="radio"
-              id="visitTimePM"
-              name="visitTime"
-              class="custom-control-label"
-              formControlName="visitTime"
-              value="PM"
-              [attr.disabled]="timeConfig.PM.disabled ? true : null"
-              (change)="onTimeChange('PM')" />
+            <span>
+              <input
+                type="radio"
+                id="visitTimePM"
+                name="visitTime"
+                class="custom-control-label"
+                formControlName="visitTime"
+                value="PM"
+                [attr.disabled]="timeConfig.PM.disabled ? true : null"
+                (change)="onTimeChange('PM')" />
+            </span>
             &nbsp;
             <span class="ml-2 time-header"><strong>PM</strong></span>
           </div>
@@ -120,16 +124,18 @@
             [class.card-header-selected]="timeConfig.DAY.selected && !timeConfig.DAY.disabled"
             [class.card-header-enabled]="!timeConfig.DAY.disabled && !timeConfig.DAY.selected"
             [class.card-header-disabled]="timeConfig.DAY.disabled">
-            <input
-              type="radio"
-              id="visitTimeDAY"
-              name="visitTime"
-              class="custom-control-label"
-              formControlName="visitTime"
-              value="DAY"
-              data-testid="day-input"
-              [attr.disabled]="timeConfig.DAY.disabled ? true : null"
-              (change)="onTimeChange('DAY')" />
+            <span>
+              <input
+                type="radio"
+                id="visitTimeDAY"
+                name="visitTime"
+                class="custom-control-label"
+                formControlName="visitTime"
+                value="DAY"
+                data-testid="day-input"
+                [attr.disabled]="timeConfig.DAY.disabled ? true : null"
+                (change)="onTimeChange('DAY')" />
+            </span>
             &nbsp;
             <span class="ml-2 time-header"><strong>ALL DAY</strong></span>
           </div>
