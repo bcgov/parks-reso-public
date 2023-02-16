@@ -77,13 +77,17 @@ describe('SuccessComponent', () => {
     };
     const windowMock = {
       document: {
-        write() {},
-        close() {}
+        write(data) {
+          return data;
+        },
+        close(data) {
+          return data;
+        }
       },
       focus() {},
       print() {}
     } as unknown as Window;
-    var dummyElement = document.createElement('div');
+    let dummyElement = document.createElement('div');
     document.getElementById = jasmine.createSpy('HTML Element').and.returnValue(dummyElement);
     let spy = spyOn(window, 'open').and.returnValue(windowMock)
     let spy2 = spyOn(windowMock, 'focus');
