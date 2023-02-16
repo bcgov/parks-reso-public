@@ -84,8 +84,12 @@ describe('SuccessComponent', () => {
           return data;
         }
       },
-      focus() {},
-      print() {}
+      focus() {
+        return null;
+      },
+      print() {
+        return null;
+      }
     } as unknown as Window;
     let dummyElement = document.createElement('div');
     document.getElementById = jasmine.createSpy('HTML Element').and.returnValue(dummyElement);
