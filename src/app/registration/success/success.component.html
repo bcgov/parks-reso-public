@@ -29,10 +29,10 @@
             [qrdata]="regData.adminPassLink"
             [width]="275"
             [imageSrc]="'assets/images/BC-QR.svg'"
-            [errorCorrectionLevel]="'M'"
+            [errorCorrectionLevel]="'H'"
             [colorLight]="qrColourLight"
-            [imageHeight]="100"
-            [imageWidth]="100"
+            [imageHeight]="50"
+            [imageWidth]="50"
             [margin]="0"></qrcode>
         </div>
         <!-- Invisible div that's hidden for print button -->
@@ -47,7 +47,7 @@
       </div>
 
       <div class="mt-4 d-none d-lg-block">
-        <button type="button" class="btn btn-primary" (click)="print()">Print</button>
+        <button id="qrCodePrintButton" type="button" class="btn btn-primary" (click)="print()">Print</button>
       </div>
     </div>
 
