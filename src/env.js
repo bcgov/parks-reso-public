@@ -9,7 +9,7 @@
     // Environment name
     window.__env.ENVIRONMENT = 'local';
 
-    window.__env.API_LOCATION = 'https://tvukfg2g0b.execute-api.ca-central-1.amazonaws.com';
+    window.__env.API_LOCATION = 'http://localhost:3000';
     window.__env.API_PATH = '/api';
     window.__env.API_PUBLIC_PATH = '/api';
     window.__env.ASSETS_S3_URL = 'https://d3ptawfth8sh71.cloudfront.net';
