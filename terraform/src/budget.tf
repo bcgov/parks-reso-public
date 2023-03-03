@@ -17,7 +17,10 @@ resource "aws_budgets_budget" "cost" {
   }
 
   cost_filter {
-    TagKeyValue = "user:Project$BC Parks Day Pass Public System"
+    name = "Service"
+    values = [
+      "user:Project$BC Parks Day Pass Public System",
+    ]
   }
 }
 
