@@ -54,10 +54,9 @@ jobs:
           role-session-name: parks-reso-public-sandbox-gh-action
           role-skip-session-tagging: true
 
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+      - uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ssm_parameter: '/parks-reso-sandbox/s3-bucket-public-artifacts'
-          env_variable_name: 'S3_BUCKET_ARTIFACTS'
+          parameterPairs: '/parks-reso-sandbox/s3-bucket-public-artifacts = S3_BUCKET_ARTIFACTS'
 
       - name: Save artifact to S3
         env:
@@ -78,10 +77,10 @@ jobs:
           role-session-name: parks-reso-public-dev-gh-action
           role-skip-session-tagging: true
 
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+      - Name: Get public variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ssm_parameter: '/parks-reso-public/s3-bucket'
-          env_variable_name: 'S3_BUCKET'
+          parameterPairs: '/parks-reso-public/s3-bucket = S3_BUCKET, /parks-reso-public/origin-id = ORIGIN_ID'
 
       - name: Deploy to Dev S3
         env:
@@ -90,35 +89,15 @@ jobs:
         run: |
           aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
 
-      # Public variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+      - Name: Get API variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ssm_parameter: '/parks-reso-public/origin-id'
-          env_variable_name: 'ORIGIN_ID'
+          parameterPairs: '/parks-reso-api/origin-domain = API_GATEWAY_ORIGIN_DOMAIN, /parks-reso-api/origin-id = API_GATEWAY_ORIGIN_ID, /parks-reso-api/gateway-path-pattern = API_GATEWAY_PATH_PATTERN'
 
-      # API variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+      - Name: Get shared variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ssm_parameter: /parks-reso-api/origin-domain
-          env_variable_name: 'API_GATEWAY_ORIGIN_DOMAIN'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: /parks-reso-api/origin-id
-          env_variable_name: 'API_GATEWAY_ORIGIN_ID'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: /parks-reso-api/gateway-path-pattern
-          env_variable_name: 'API_GATEWAY_PATH_PATTERN'
-
-      # Shared variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: '/parks-reso-shared/s3-bucket-assets'
-          env_variable_name: 'S3_BUCKET_ASSETS'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: '/parks-reso-shared/origin-id-assets'
-          env_variable_name: 'ORIGIN_ID_ASSETS'
+          parameterPairs: '/parks-reso-shared/s3-bucket-assets = S3_BUCKET_ASSETS, /parks-reso-shared/origin-id-assets = ORIGIN_ID_ASSETS'
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
