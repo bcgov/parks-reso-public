@@ -1,21 +1,29 @@
 #Public site - bucket containing the static files to serve out
 resource "aws_s3_bucket" "bcgov-parks-reso-public" {
   bucket = "${var.s3_bucket}-${var.target_env}"
-  acl    = "private"
 
   tags = {
     Name = var.s3_bucket_name
   }
 }
 
+resource "aws_s3_bucket_acl" "bcgov-parks-reso-public-acl" {
+  bucket = "${var.s3_bucket}-${var.target_env}"
+  acl    = "private"
+}
+
 #bucket to hold cloudfront logs
 resource "aws_s3_bucket" "parks-reso-public-logs" {
   bucket = "${var.s3_bucket}-logs-${var.target_env}"
-  acl    = "private"
 
   tags = {
     Name = "${var.s3_bucket_name} Logs"
   }
+}
+
+resource "aws_s3_bucket_acl" "parks-reso-public-logs-acl" {
+  bucket = "${var.s3_bucket}-logs-${var.target_env}"
+  acl    = "private"
 }
 
 resource "aws_cloudfront_origin_access_identity" "parks-reso-public-oai" {
@@ -158,8 +166,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     for_each = var.enable_vanity_domain ? [1] : []
 
     content {
-      acm_certificate_arn = var.vanity_domain_certs_arn
-      ssl_support_method = "sni-only"
+      acm_certificate_arn      = var.vanity_domain_certs_arn
+      ssl_support_method       = "sni-only"
       minimum_protocol_version = "TLSv1.2_2021"
     }
   }
@@ -170,11 +178,15 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 #Distrubtion and bucket for parks assets such as images
 resource "aws_s3_bucket" "bcgov-parks-reso-assets" {
   bucket = "${var.s3_bucket_assets}-${var.target_env}"
-  acl    = "private"
 
   tags = {
     Name = var.s3_bucket_assets_name
   }
+}
+
+resource "aws_s3_bucket_acl" "bcgov-parks-reso-assets-acl" {
+  bucket = "${var.s3_bucket_assets}-${var.target_env}"
+  acl    = "private"
 }
 
 resource "aws_cloudfront_origin_access_identity" "parks-reso-assets-oai" {
