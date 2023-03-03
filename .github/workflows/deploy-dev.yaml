@@ -77,7 +77,7 @@ jobs:
           role-session-name: parks-reso-public-dev-gh-action
           role-skip-session-tagging: true
 
-      - Name: Get public variables
+      - name: Get public variables
         uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
           parameterPairs: '/parks-reso-public/s3-bucket = S3_BUCKET, /parks-reso-public/origin-id = ORIGIN_ID'
@@ -89,12 +89,12 @@ jobs:
         run: |
           aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
 
-      - Name: Get API variables
+      - name: Get API variables
         uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
           parameterPairs: '/parks-reso-api/origin-domain = API_GATEWAY_ORIGIN_DOMAIN, /parks-reso-api/origin-id = API_GATEWAY_ORIGIN_ID, /parks-reso-api/gateway-path-pattern = API_GATEWAY_PATH_PATTERN'
 
-      - Name: Get shared variables
+      - name: Get shared variables
         uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
           parameterPairs: '/parks-reso-shared/s3-bucket-assets = S3_BUCKET_ASSETS, /parks-reso-shared/origin-id-assets = ORIGIN_ID_ASSETS'
