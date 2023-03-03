@@ -10,7 +10,7 @@ jobs:
     name: Scan the application
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: main
 
@@ -18,7 +18,6 @@ jobs:
         uses: zaproxy/action-full-scan@v0.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          format: soap
           docker_name: 'owasp/zap2docker-stable'
           issue_title: 'ZAP Scan Report'
           target: '${{ secrets.DEV_ROUTE }}'
