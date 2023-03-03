@@ -54,6 +54,11 @@ jobs:
           role-session-name: parks-reso-public-sandbox-gh-action
           role-skip-session-tagging: true
 
+      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+        with:
+          ssm_parameter: '/parks-reso-sandbox/s3-bucket-public-artifacts'
+          env_variable_name: 'S3_BUCKET_ARTIFACTS'
+
       - name: Save artifact to S3
         env:
           s3_bucket: '${{ env.S3_BUCKET_ARTIFACTS }}'
@@ -73,6 +78,11 @@ jobs:
           role-session-name: parks-reso-public-dev-gh-action
           role-skip-session-tagging: true
 
+      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
+        with:
+          ssm_parameter: '/parks-reso-public/s3-bucket'
+          env_variable_name: 'S3_BUCKET'
+
       - name: Deploy to Dev S3
         env:
           s3_bucket: '${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}'
@@ -81,10 +91,6 @@ jobs:
           aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
 
       # Public variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: '/parks-reso-public/s3-bucket'
-          env_variable_name: 'S3_BUCKET'
       - uses: 'marvinpinto/action-inject-ssm-secrets@latest'
         with:
           ssm_parameter: '/parks-reso-public/origin-id'
