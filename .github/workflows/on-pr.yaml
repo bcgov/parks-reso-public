@@ -5,46 +5,47 @@ on: [pull_request]
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: dev
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
-      
+        run: yarn install --silent --frozen-lockfile
+
       - run: yarn lint
-      - name: Cancelling workflow due to error
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2
-  
+
   test:
     name: Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: dev
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v3
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile
+        run: yarn install --silent --frozen-lockfile
 
       - run: yarn test-ci
-      - name: Cancelling workflow due to error
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2
