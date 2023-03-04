@@ -5,7 +5,7 @@ run-name: Deploying ${{ github.ref_name }} to test
 on:
   push:
     tags:
-      - "*"
+      - '*'
 
 env:
   TF_VERSION: 0.14.7
@@ -15,37 +15,30 @@ env:
   TARGET_ENV: test
 
 jobs:
-  s3:
-    name: Upload to S3
-    runs-on: ubuntu-20.04
+  deploy:
+    name: Deploy to Test
+    runs-on: ubuntu-latest
     environment: test
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
     steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME_SANDBOX }}
-          role-duration-seconds: 900
-          role-session-name: parks-reso-public-sandbox-gh-action
-          role-skip-session-tagging: true
+          ref: ${{ github.ref_name }}
 
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
+      - name: Declare short SHA
+        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
+
+      ### Get dist from cache ###
+      - name: Cache Dist
+        uses: actions/cache@v3
         with:
-          ssm_parameter: '/parks-reso-sandbox/s3-bucket-public-artifacts'
-          env_variable_name: 'S3_BUCKET_ARTIFACTS'
+          path: '**/dist'
+          key: ${{ GITHUB_SHA_SHORT }}-dist
 
-      - name: Copy from s3 sandbox
-        env:
-          s3_bucket: '${{ env.S3_BUCKET_ARTIFACTS }}'
-          dir_name: ${{ github.sha }}
-        run: |
-          aws s3 sync s3://$s3_bucket/$dir_name/ dist/parks-reso-public
-
+      ### Upload to S3 ###
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -57,10 +50,10 @@ jobs:
           role-session-name: parks-reso-public-test-gh-action
           role-skip-session-tagging: true
 
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
+      - name: Get public variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ssm_parameter: '/parks-reso-public/s3-bucket'
-          env_variable_name: 'S3_BUCKET'
+          parameterPairs: '/parks-reso-public/s3-bucket = S3_BUCKET, /parks-reso-public/origin-id = ORIGIN_ID'
 
       - name: Deploy to Test S3
         env:
@@ -69,72 +62,25 @@ jobs:
         run: |
           aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
 
-  terragrunt:
-    name: Run Terragrunt
-    needs: ['s3']
-    runs-on: ubuntu-20.04
-    environment: test
-    strategy:
-      matrix:
-        node-version: [14.x]
-    steps:
-      - uses: actions/checkout@v3
+      ### Run Terragrunt ###
+      - name: Get API variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          ref: ${{ github.ref_name }}
+          parameterPairs: '/parks-reso-api/origin-domain = API_GATEWAY_ORIGIN_DOMAIN, /parks-reso-api/origin-id = API_GATEWAY_ORIGIN_ID, /parks-reso-api/gateway-path-pattern = API_GATEWAY_PATH_PATTERN'
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Get shared variables
+        uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-duration-seconds: 900
-          role-session-name: parks-reso-public-test-gh-action
-          role-skip-session-tagging: true
+          parameterPairs: '/parks-reso-shared/s3-bucket-assets = S3_BUCKET_ASSETS, /parks-reso-shared/origin-id-assets = ORIGIN_ID_ASSETS'
 
-      # Public variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: '/parks-reso-public/s3-bucket'
-          env_variable_name: 'S3_BUCKET'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: '/parks-reso-public/origin-id'
-          env_variable_name: 'ORIGIN_ID'
-
-      # API variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: /parks-reso-api/origin-domain
-          env_variable_name: 'API_GATEWAY_ORIGIN_DOMAIN'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: /parks-reso-api/origin-id
-          env_variable_name: 'API_GATEWAY_ORIGIN_ID'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: /parks-reso-api/gateway-path-pattern
-          env_variable_name: 'API_GATEWAY_PATH_PATTERN'
-
-      # Shared variables
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: '/parks-reso-shared/s3-bucket-assets'
-          env_variable_name: 'S3_BUCKET_ASSETS'
-      - uses: 'marvinpinto/action-inject-ssm-secrets@v1.2.1'
-        with:
-          ssm_parameter: '/parks-reso-shared/origin-id-assets'
-          env_variable_name: 'ORIGIN_ID_ASSETS'
-
-      - name: Setup Terrafrom
-        uses: hashicorp/setup-terraform@v1
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
 
-      - name: Setup terragrunt
-        uses: peter-murray/terragrunt-github-action@v1.0.0
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.3.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
 
