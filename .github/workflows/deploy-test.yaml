@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: '**/dist'
-          key: ${{ GITHUB_SHA_SHORT }}-dist
+          key: ${{ env.GITHUB_SHA_SHORT }}-dist
 
       ### Upload to S3 ###
       - name: Configure AWS credentials
