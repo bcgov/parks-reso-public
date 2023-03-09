@@ -30,17 +30,14 @@ jobs:
         with:
           ref: ${{ github.event.inputs.releaseTag }}
 
-      - name: Declare short SHA
-        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-
-      ### Get dist from cache ###
-      - name: Cache Dist
-        uses: actions/cache@v3
+      # Get build from cache
+      - name: Restore cached build
+        uses: actions/cache/restore@v3
         with:
-          path: '**/dist'
-          key: ${{ env.GITHUB_SHA_SHORT }}-dist
+          path: |
+            **/dist
+          key: ${{ github.sha }}-dist
 
-      ### Upload to S3 ###
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -57,14 +54,6 @@ jobs:
         with:
           parameterPairs: '/parks-reso-public/s3-bucket = S3_BUCKET, /parks-reso-public/origin-id = ORIGIN_ID'
 
-      - name: Deploy to Prod S3
-        env:
-          s3_bucket: '${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}'
-          dir_name: ${{ github.event.inputs.releaseTag }}
-        run: |
-          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
-
-      ### Run Terragrunt ###
       - name: Get API variables
         uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
@@ -75,6 +64,15 @@ jobs:
         with:
           parameterPairs: '/parks-reso-shared/s3-bucket-assets = S3_BUCKET_ASSETS, /parks-reso-shared/origin-id-assets = ORIGIN_ID_ASSETS'
 
+      ### Upload dist to S3 ###
+      - name: Deploy to Prod S3
+        env:
+          s3_bucket: '${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}'
+          dir_name: ${{ github.event.inputs.releaseTag }}
+        run: |
+          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
+
+      ### Run Terragrunt ###
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
