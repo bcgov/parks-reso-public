@@ -1,12 +1,30 @@
-name: Linting & Unit Tests on PR
+name: PR Checks
 
 on: [pull_request]
 
 jobs:
+  install:
+    name: Install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      ### Install if no cache exists ###
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn install --silent --frozen-lockfile
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    environment: dev
+    needs: install
     strategy:
       matrix:
         node-version: [16.x]
@@ -28,7 +46,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    environment: dev
+    needs: install
     strategy:
       matrix:
         node-version: [16.x]
