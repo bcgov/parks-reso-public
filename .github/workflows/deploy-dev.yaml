@@ -12,7 +12,7 @@ env:
   TARGET_ENV: dev
 
 jobs:
-  build:
+  deploy:
     name: Build and Deploy
     runs-on: ubuntu-latest
     environment: dev
@@ -20,37 +20,33 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
-      ### Build ###
       - name: Checkout
         uses: actions/checkout@v3
+
+      ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn install --silent --frozen-lockfile
+          cache: 'yarn'
+      - run: yarn install --silent --frozen-lockfile
 
-      - name: Declare short SHA
-        run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
-
-      - name: Setting configEndpoint to true
-        run: sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GITHUB_SHA_SHORT"'@g' > src/env.js
-
-      - run: yarn build
-      - run: ./node_modules/.bin/ngsw-config dist/parks-reso-public/ ./ngsw-config.json /dayuse
-
-      ### Cache dist ###
-      - name: Cache Dist
+      ### Build if no cache exists ###
+      - name: Cache Build
+        id: cache-build
         uses: actions/cache@v3
         with:
-          path: '**/dist'
-          key: ${{ env.GITHUB_SHA_SHORT }}-dist
+          path: |
+            **/dist
+          key: ${{ github.sha }}-dist
+      - name: Run Build
+        if: steps.cache-build.outputs.cache-hit != 'true'
+        run: |
+          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GITHUB_SHA_SHORT"'@g' > src/env.js
+          yarn build
+          ./node_modules/.bin/ngsw-config dist/parks-reso-public/ ./ngsw-config.json /dayuse
 
-      ### Upload to S3 ###
+      ### Get environment variables from AWS Parameter Store ###
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -67,14 +63,6 @@ jobs:
         with:
           parameterPairs: '/parks-reso-public/s3-bucket = S3_BUCKET, /parks-reso-public/origin-id = ORIGIN_ID'
 
-      - name: Deploy to Dev S3
-        env:
-          s3_bucket: '${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}'
-          dir_name: ${{ github.sha }}
-        run: |
-          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
-
-      ### Run Terragrunt ###
       - name: Get API variables
         uses: dkershner6/aws-ssm-getparameters-action@v1
         with:
@@ -85,6 +73,15 @@ jobs:
         with:
           parameterPairs: '/parks-reso-shared/s3-bucket-assets = S3_BUCKET_ASSETS, /parks-reso-shared/origin-id-assets = ORIGIN_ID_ASSETS'
 
+      ### Upload dist to S3 ###
+      - name: Deploy to Dev S3
+        env:
+          s3_bucket: '${{ env.S3_BUCKET }}-${{ env.TARGET_ENV }}'
+          dir_name: ${{ github.sha }}
+        run: |
+          aws s3 sync dist/parks-reso-public s3://$s3_bucket/$dir_name/dayuse
+
+      ### Run Terragrunt ###
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:

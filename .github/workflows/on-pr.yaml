@@ -14,16 +14,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn install --silent --frozen-lockfile
+          cache: 'yarn'
+      - run: yarn install --silent --frozen-lockfile
 
       - run: yarn lint
 
@@ -37,15 +35,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v3
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Install dependencies
-        run: yarn install --silent --frozen-lockfile
+          cache: 'yarn'
+      - run: yarn install --silent --frozen-lockfile
 
       - run: yarn test-ci
