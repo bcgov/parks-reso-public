@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "BCParks Attendance and Revenue Backend",
   "devDependencies": {
-    "@digitalspace/dynamodb-migrate": "^1.0.2",
+    "@digitalspace/dynamodb-migrate": "^1.0.6",
     "aws-sdk-mock": "^5.4.0",
     "jest": "^28.1.0",
     "read-excel-file": "^5.3.4",
     "serverless": "^3.18.1",
-    "serverless-dynamodb-local": "^0.2.40",
     "serverless-offline": "^8.2.0",
     "serverless-plugin-include-dependencies": "^5.0.0"
   },
