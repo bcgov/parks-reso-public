@@ -15,6 +15,7 @@
   "scripts": {
     "start": "sls offline start",
     "build": "sls package --package ./artifacts",
+    "build-ci": "sls package --package ./terraform/src/artifacts",
     "test": "IS_OFFLINE=1 IS_TEST=1 TABLE_NAME=bcparks-ar-tests jest --coverage",
     "migration": "node ./node_modules/@digitalspace/dynamodb-migrate/migrate.js"
   },

@@ -1,41 +1,50 @@
-name: Deploy Test
+name: Deploy Prod
 
-run-name: Deploying ${{ github.ref_name }} to test
+run-name: Deploying ${{ github.event.inputs.releaseTag }} to prod
 
 on:
-  push:
-    tags:
-      - "*"
+  workflow_dispatch:
+    inputs:
+      releaseTag:
+        description: "Tag of version to be promoted to prod"
+        required: true
 
 env:
   TF_VERSION: 0.14.7
   TG_VERSION: 0.26.7
   TG_SRC_PATH: terraform
-  TFC_WORKSPACE: test
-  TARGET_ENV: test
+  TFC_WORKSPACE: prod
+  TARGET_ENV: prod
 
 jobs:
   ci:
     name: Push to AWS Lambda
-    runs-on: ubuntu-20.04
-    environment: test
+    runs-on: ubuntu-latest
+    environment: prod
 
     steps:
       - name: Attempt to checkout tag
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.inputs.releaseTag }}
 
       - name: Tag not found
         if: ${{ failure() }}
         run: |
           echo "::error::Git Tag not found, please double check input"
           exit 1
-      - name: Save SHORT_HASH
-        run: echo "SHORT_HASH=`git rev-parse --short HEAD`" >> $GITHUB_ENV
 
+      # Get artifacts from cache
+      - name: Restore cached artifacts
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            **/terraform/src/artifacts
+          key: ${{ github.sha }}-artifacts
+
+      ### Get environment variables from AWS Parameter Store ###
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -45,18 +54,15 @@ jobs:
           role-session-name: parks-ar-api-sandbox-gh-action
           role-skip-session-tagging: true
 
-      - name: Download previous build from S3
-        run: aws s3 cp s3://parks-ar-lambda-artifacts/${{ env.SHORT_HASH }}/ terraform/src/artifacts/ --recursive
-
       ### Run Terragrunt ###
-
       - name: Setup terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
 
-      - uses: peter-murray/terragrunt-github-action@v1.0.0
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.3.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
 
@@ -65,13 +71,13 @@ jobs:
         env:
           aws_region: ${{ secrets.AWS_REGION }}
         run: terragrunt apply-all --terragrunt-non-interactive
-        
+
   alert-if-failure:
     if: ${{ always() && (needs.ci.result=='failure')}}
     runs-on: ubuntu-latest
     needs: [ci]
     steps:
-      - name: Send alert if building api-test fails. 
+      - name: Send alert if building api-prod fails.
         id: failure_alert
         run: |
           curl -X POST -H 'Content-Type: application/json' --data '{"workflow":"${{github.workflow}}","repo":"${{github.repository}}"}' https://chat.developer.gov.bc.ca/hooks/${{ secrets.ROCKETCHAT_TOKEN }}
