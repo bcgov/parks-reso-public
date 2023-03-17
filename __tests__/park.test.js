@@ -57,8 +57,15 @@ describe("Pass Succeeds", () => {
       },
       httpMethod: "GET",
     };
+    // Ignore legacy parks for now.
+    let modifiedParksList = [...PARKSLIST];
+    for (const [index, park] of modifiedParksList.entries()) {
+      if (park.hasOwnProperty('isLegacy')) {
+        modifiedParksList.splice(index, 1);
+      }
+    }
     expect(await parkGET.handler(event, null)).toMatchObject({
-      body: JSON.stringify(PARKSLIST),
+      body: JSON.stringify(modifiedParksList),
       headers: {
         "Access-Control-Allow-Headers":
           "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
