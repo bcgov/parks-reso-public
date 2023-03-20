@@ -8,9 +8,9 @@ const clientIDsDUP = {
 };
 
 const clientIDsAR = {
-  'dev': '447474f3-17a7-4379-a688-e35923be2bbe',
-  'test': 'e135e357-b5d1-4a16-b8ea-7faf53236d85',
-  'prod': '098b8101-fb50-492f-9f88-da9b57b85d44'
+  'dev': 'e530debc-b4e0-417a-947d-2907d70404da',
+  'test': '2246a87f-96b7-4907-ba54-6202339560a1',
+  'prod': '4dc679f8-c726-4e65-afb9-0edf664b93e0'
 };
 
 let action = ["|", "/", "-", "\\"];

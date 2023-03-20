@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const readXlsxFile = require('read-excel-file/node');
 const { TABLE_NAME, dynamodb } = require('../../../lambda/dynamoUtil');
-const { createCSV, getDBSnapshot, validateSchema, updateConsoleProgress, determineActivities, createLegacySubAreaObject, createLegacyParkObject, getConsoleInput, createLegacyRecordObject, createFieldListByActivity } = require('../legacy-data-functions');
+const { createCSV, getDBSnapshot, validateSchema, updateConsoleProgress, determineActivities, createLegacySubAreaObject, createLegacyParkObject, getConsoleInput, createLegacyRecordObject, clientIDsAR, addRoleToKeycloak, isTokenExpired } = require('../legacy-data-functions');
 const { schema } = require('../legacy-data-constants');
 
 const MAX_TRANSACTION_SIZE = 25;
@@ -15,11 +15,40 @@ let newParks = {}; // Legacy parks to be created in the migration.
 let newSubAreas = {}; // Legacy subareas to be created in the migration. 
 let newRecordsCount = 0; // Quantity of legacy records to be created.
 let failures = []; // List of errors encountered.
+let newRoles = []; // List of new KeyCloak roles
+
+let env; // Target keycloak environment
+let kcURL; // KC Realm URL
+let token; // KC Realm token
 
 async function run() {
   console.log('********************');
   console.log('A&R HISTORICAL DATA MIGRATION\n');
+  // Must provide arguments for keycloak roles
   try {
+    if (process.argv.length <= 3) {
+      console.log("Invalid parameters.");
+      console.log("");
+      console.log("Usage: node migrate.js <env> <token>");
+      console.log("");
+      console.log("Options");
+      console.log("    <env>: dev/test/prod");
+      console.log("    <token>: Your encoded JWT for the KeyCloak realm.");
+      console.log("");
+      console.log("example: node migrate.js dev xxxx");
+      console.log("");
+      return;
+    } else {
+      env = process.argv[2];
+      token = process.argv[3];
+      const environment = env === 'prod' ? '' : env + '.';
+      const clientID = clientIDsAR[env];
+      kcURL = `https://${environment}loginproxy.gov.bc.ca/auth/admin/realms/bcparks-service-transformation/clients/${clientID}/roles`;
+      console.log("Setting KC URL:", kcURL);
+    }
+    if (isTokenExpired(token)){
+      throw 'KeyCloak token has expired.'
+    }
     // 1. validate schema (safety check).
     validateSchema(schema);
     // 2. Get simplified map of existing db so we don't have to continually hit the db when checking for existing entries. 
@@ -362,10 +391,30 @@ async function executeChangelog() {
       let intervalStartTime = new Date().getTime();
       for (const transaction of subAreaTransactObjList) {
         updateConsoleProgress(intervalStartTime, 'Executing legacy subarea transaction', subAreaTransactObjList.indexOf(transaction) + 1, subAreaTransactObjList.length, 1);
+        for (const item of transaction.TransactItems) {
+          try {
+            // create KC roles
+            const key = AWS.DynamoDB.Converter.unmarshall(item?.Put?.Item);
+            if (key.orcs && key.sk && key.parkName && key.subAreaName) {
+              const role = {
+                name: `${key.orcs}:${key.sk}`,
+                description: `${key.parkName}:${key.subAreaName}`
+              };
+              await addRoleToKeycloak(role, kcURL, token);
+              newRoles.push(role);
+            }
+          } catch (error) {
+            if (error?.response?.status === 409) {
+              // Role already exists
+              continue;
+            }
+            throw `Failed to create KeyCloak role: ${error}`;
+          }
+        }
         await dynamodb.transactWriteItems(transaction).promise();
       }
       process.stdout.write('\n')
-      console.log('Legacy subareas complete.\n');
+      console.log('Legacy subareas and KC role generation complete.\n');
     } catch (error) {
       process.stdout.write('\n')
       throw `Failed to execute legacy subarea transaction. Subarea transaction must succeed to continue: ${error}`
@@ -437,10 +486,12 @@ async function executeChangelog() {
   console.log('MIGRATION SUMMARY:');
 
   console.log('Legacy records created:', successfulRecordCount);
+  console.log('(Rows migrated:', successes.length, ')');
+  console.log('KeyCloak roles created:', newRoles.length);
   console.log('Failures:', failures.length);
 
   // Review newly created areas.
-  let saveAreas = await getConsoleInput(`Do you want to save lists of the successfully created parks and subareas? [Y/N] >>> `)
+  let saveAreas = await getConsoleInput(`Do you want to save lists of the successfully created parks, subareas, and KeyCloak roles? [Y/N] >>> `)
   if (saveAreas === 'Y' || saveAreas === 'y') {
     // Save parks to file
     if (Object.keys(newParks).length) {
@@ -464,6 +515,12 @@ async function executeChangelog() {
       createCSV(subAreaSchema, subAreaCSVList, `legacy_subareas${new Date().toISOString()}`);
       process.stdout.write('\n')
     }
+    // Save keycloak roles to file 
+    if (Object.keys(newRoles).length) {
+      let roleSchema = ['name', 'description'];
+      createCSV(roleSchema, newRoles, `legacy_kc_roles${new Date().toISOString()}`)
+    }
+    process.stdout.write('\n')
   }
 
   let saveSchema = [];

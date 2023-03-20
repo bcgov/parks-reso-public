@@ -2,8 +2,16 @@ const fs = require('fs');
 const readline = require('readline');
 const { getParks, getSubAreas } = require('../../lambda/dynamoUtil');
 const { activitiesEnum } = require('./legacy-data-constants');
+const axios = require('axios');
+const jwt = require("jsonwebtoken");
 
 let recordFieldsByActivity = {};
+
+const clientIDsAR = {
+  'dev': 'e530debc-b4e0-417a-947d-2907d70404da',
+  'test': '2246a87f-96b7-4907-ba54-6202339560a1',
+  'prod': '4dc679f8-c726-4e65-afb9-0edf664b93e0'
+};
 
 function formatTime(time) {
   let sec = parseInt(time / 1000, 10);
@@ -197,7 +205,7 @@ function createLegacySubAreaObject(data, id, subAreaName, activities) {
       subAreaName: subAreaName,
       activities: activities || [],
       orcs: data.legacy_orcs,
-      roles: ['sysadmin', data.legacy_orcs],
+      roles: ['sysadmin', `${data.legacy_orcs}::${id}`],
       managementArea: '',
       section: data.legacy_section,
       region: data.legacy_region,
@@ -257,6 +265,55 @@ function createLegacyActivityRecord(data, activity) {
   return recordObj;
 }
 
+async function addRoleToKeycloak(role, url, token) {
+  try {
+    if (isTokenExpired(token)) {
+      throw 'Expired token';
+    }
+    const json = {
+      "name": role.name,
+      "composite": false,
+      "clientRole": true,
+      "description": role.description
+    };
+    await axios.post(encodeURI(url), json, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json'
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function removeRoleFromKeycloak(role, url, token) {
+  try {
+    if (isTokenExpired(token)) {
+      throw 'Expired token';
+    }
+    const deleteURL = url + `/${role}`;
+    await axios.delete(encodeURI(deleteURL), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json'
+      }
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+function isTokenExpired(token) {
+  const { exp } = jwt.decode(token);
+  if (Date.now() >= exp * 1000) {
+    return true;
+  }
+  return false;
+}
+
 module.exports = {
   updateConsoleProgress,
   createFieldListByActivity,
@@ -268,5 +325,9 @@ module.exports = {
   getConsoleInput,
   createLegacyRecordObject,
   getDBSnapshot,
-  createCSV
+  createCSV,
+  addRoleToKeycloak,
+  removeRoleFromKeycloak,
+  isTokenExpired,
+  clientIDsAR
 }
