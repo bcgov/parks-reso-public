@@ -58,9 +58,19 @@ const CSV_SYSADMIN_SCHEMA = [
     value: (report) => report.parkName,
   },
   {
+    column: "ORCS",
+    type: String,
+    value: (report) => report.orcs,
+  },
+  {
     column: "Park Sub Area",
     type: String,
     value: (report) => report.subAreaName,
+  },
+  {
+    column: "Sub-Area ID",
+    type: String,
+    value: (report) => report.subAreaId,
   },
   {
     column: "Calendar Year",
@@ -190,7 +200,8 @@ const CSV_SYSADMIN_SCHEMA = [
     type: Number,
     width: 63,
     backgroundColor: "#aee5ba",
-    value: (report) => report.calc_frontCountryCamping_other_electrical_netRevenue,
+    value: (report) =>
+      report.calc_frontCountryCamping_other_electrical_netRevenue,
   },
   {
     column: "Frontcountry Camping - Other - Gross shower revenue",
@@ -567,7 +578,7 @@ const CSV_SYSADMIN_SCHEMA = [
     backgroundColor: "#fff3cd",
     value: (report) => report.notes_dayUse,
   },
-  // Day Use Totals 
+  // Day Use Totals
   {
     column: "Day Use Total Attendance (People)",
     type: Number,
@@ -662,5 +673,5 @@ module.exports = {
   EXPORT_NOTE_KEYS,
   EXPORT_MONTHS,
   CSV_SYSADMIN_SCHEMA,
-  STATE_DICTIONARY
+  STATE_DICTIONARY,
 };

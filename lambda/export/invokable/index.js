@@ -2,7 +2,15 @@ const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const fs = require("fs");
 const writeXlsxFile = require("write-excel-file/node");
-const { runScan, runQuery, TABLE_NAME, getParks, getSubAreas, getRecords, getOne } = require("../../dynamoUtil");
+const {
+  runScan,
+  runQuery,
+  TABLE_NAME,
+  getParks,
+  getSubAreas,
+  getRecords,
+  getOne,
+} = require("../../dynamoUtil");
 const {
   EXPORT_NOTE_KEYS,
   EXPORT_MONTHS,
@@ -10,7 +18,7 @@ const {
   STATE_DICTIONARY,
 } = require("../constants");
 const { updateJobEntry } = require("../functions");
-const { logger } = require('../../logger');
+const { logger } = require("../../logger");
 
 const {
   arraySum,
@@ -37,13 +45,13 @@ const JOB_UPDATE_MODULO = process.env.JOB_UPDATE_MODULO
 
 const DISABLE_PROGRESS_UPDATES =
   process.env.DISABLE_PROGRESS_UPDATES &&
-    process.env.DISABLE_PROGRESS_UPDATES === "true"
+  process.env.DISABLE_PROGRESS_UPDATES === "true"
     ? true
     : false;
 
 const DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE =
   process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE &&
-    process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE === "true"
+  process.env.DISABLE_HIGH_ACCURACY_PROGRESS_PERCENTAGE === "true"
     ? true
     : false;
 
@@ -118,7 +126,7 @@ exports.handler = async (event, context) => {
       // success
       LAST_SUCCESSFUL_JOB = {
         key: S3_KEY,
-        dateGenerated: new Date().toISOString()
+        dateGenerated: new Date().toISOString(),
       };
       await updateJobWithState(STATE_DICTIONARY.COMPLETE);
 
@@ -175,15 +183,15 @@ async function groupBySubAreaAndDate(
       await updateJobWithState(
         STATE_DICTIONARY.GROUP_BY_SUBAREA_AND_DATE,
         "Grouping activities by subarea and date: " +
-        (i + 1) +
-        " of " +
-        scanResults.length,
+          (i + 1) +
+          " of " +
+          scanResults.length,
         CURRENT_PROGRESS_PERCENT + increment
       );
     }
   }
   // Once the raw report data is collected, we can generate the columns
-  // that depend on the raw data but span multiple activities. 
+  // that depend on the raw data but span multiple activities.
   await generateSummaryColumns(result);
 
   return result;
@@ -230,26 +238,26 @@ async function modifyReportForCSV(report) {
 
       // Other frontcountry / sani - NET REVENUE
       report.calc_frontCountryCamping_other_sani_netRevenue = basicNetRevenue([
-        report.otherRevenueGrossSani
+        report.otherRevenueGrossSani,
       ]).result;
 
       // Other frontcountry / electrical - NET REVENUE
-      report.calc_frontCountryCamping_other_electrical_netRevenue = basicNetRevenue([
-        report.otherRevenueElectrical
-      ]).result;
+      report.calc_frontCountryCamping_other_electrical_netRevenue =
+        basicNetRevenue([report.otherRevenueElectrical]).result;
 
       // Other frontcountry / shower - NET REVENUE
-      report.calc_frontCountryCamping_other_shower_netRevenue = basicNetRevenue([
-        report.otherRevenueShower
-      ]).result;
+      report.calc_frontCountryCamping_other_shower_netRevenue = basicNetRevenue(
+        [report.otherRevenueShower]
+      ).result;
       break;
 
     case "Frontcountry Cabins":
       // Parties - TOTAL ATTENDANCE
-      report.calc_frontcountryCabins_parties_totalAttendance = frontcountryCabinsPartiesAttendance(
-        [report.totalAttendanceParties],
-        report.config.attendanceModifier
-      ).result;
+      report.calc_frontcountryCabins_parties_totalAttendance =
+        frontcountryCabinsPartiesAttendance(
+          [report.totalAttendanceParties],
+          report.config.attendanceModifier
+        ).result;
       // NET REVENUE
       report.calc_frontcountryCabins_camping_netRevenue = basicNetRevenue([
         report.revenueGrossCamping,
@@ -276,20 +284,22 @@ async function modifyReportForCSV(report) {
       ]).result;
 
       // Group Camping - TOTAL ATTENDANCE
-      report.calc_groupCamping_totalPeople = arraySum([
-        report.calc_groupCamping_standardRate_totalPeople,
-        report.youthRateGroupsAttendancePeople
-      ]) || null;
+      report.calc_groupCamping_totalPeople =
+        arraySum([
+          report.calc_groupCamping_standardRate_totalPeople,
+          report.youthRateGroupsAttendancePeople,
+        ]) || null;
 
       // Group Camping - TOTAL GROSS REVENUE
-      report.calc_groupCamping_totalGrossRevenue = arraySum([
-        report.standardRateGroupsRevenueGross,
-        report.youthRateGroupsRevenueGross
-      ]) || null;
+      report.calc_groupCamping_totalGrossRevenue =
+        arraySum([
+          report.standardRateGroupsRevenueGross,
+          report.youthRateGroupsRevenueGross,
+        ]) || null;
 
       // Group Camping - TOTAL NET REVENUE
       report.calc_groupCamping_totalNetRevenue = basicNetRevenue([
-        report.calc_groupCamping_totalGrossRevenue
+        report.calc_groupCamping_totalGrossRevenue,
       ]).result;
       break;
 
@@ -314,22 +324,24 @@ async function modifyReportForCSV(report) {
         report.otherDayUseRevenueHotSprings,
       ]).result;
 
-      // Day Use - Total Attendance 
-      report.calc_dayUse_totalAttendancePeople = arraySum([
-        report.calc_dayUse_peopleAndVehicles_vehicleAttendance,
-        report.picnicShelterPeople,
-        report.otherDayUsePeopleHotSprings
-      ]) || null;
+      // Day Use - Total Attendance
+      report.calc_dayUse_totalAttendancePeople =
+        arraySum([
+          report.calc_dayUse_peopleAndVehicles_vehicleAttendance,
+          report.picnicShelterPeople,
+          report.otherDayUsePeopleHotSprings,
+        ]) || null;
 
       // Day Use - Total Gross Revenue
-      report.calc_dayUse_totalGrossRevenue = arraySum([
-        report.picnicRevenueGross,
-        report.otherDayUseRevenueHotSprings
-      ]) || null;
+      report.calc_dayUse_totalGrossRevenue =
+        arraySum([
+          report.picnicRevenueGross,
+          report.otherDayUseRevenueHotSprings,
+        ]) || null;
 
       // Day Use - Total Net Revenue
       report.calc_dayUse_totalNetRevenue = basicNetRevenue([
-        report.calc_dayUse_totalGrossRevenue
+        report.calc_dayUse_totalGrossRevenue,
       ]).result;
       break;
 
@@ -411,14 +423,16 @@ async function mergeReports(result, report) {
       parkName: report.parkName,
       subAreaName: subAreaName,
       year: Number(report.date.substring(0, 4)),
-      fiscalYear: calculateFiscalYear(report.date.substring(0, 4), EXPORT_MONTHS[report.date.slice(-2)]),
+      fiscalYear: calculateFiscalYear(
+        report.date.substring(0, 4),
+        EXPORT_MONTHS[report.date.slice(-2)]
+      ),
       month: EXPORT_MONTHS[report.date.slice(-2)],
     };
   }
 
   // Remove unneeded attributes
   delete report.config;
-  delete report.orcs;
   delete report.pk;
   delete report.sk;
   delete report.activity;
@@ -431,73 +445,80 @@ async function mergeReports(result, report) {
 async function generateSummaryColumns(table) {
   // do math and create summary columns
   for (const key of Object.keys(table)) {
-
     // Frontcountry Totals
-    table[key].calc_frontcountry_totalAttendancePeople = arraySum([
-      table[key].calc_frontCountryCamping_frontCountryCamping_campingPartyNights_totalAttendance,
-      table[key].calc_frontcountryCabins_parties_totalAttendance,
-      table[key].calc_groupCamping_totalPeople
-    ]) || null;
+    table[key].calc_frontcountry_totalAttendancePeople =
+      arraySum([
+        table[key]
+          .calc_frontCountryCamping_frontCountryCamping_campingPartyNights_totalAttendance,
+        table[key].calc_frontcountryCabins_parties_totalAttendance,
+        table[key].calc_groupCamping_totalPeople,
+      ]) || null;
 
-    table[key].calc_frontcountry_totalGrossRevenue = arraySum([
-      table[key].campingPartyNightsRevenueGross,
-      table[key].secondCarsRevenueGross,
-      table[key].otherRevenueGrossSani,
-      table[key].otherRevenueShower,
-      table[key].revenueGrossCamping,
-      table[key].calc_groupCamping_totalGrossRevenue
-    ]) || null;
+    table[key].calc_frontcountry_totalGrossRevenue =
+      arraySum([
+        table[key].campingPartyNightsRevenueGross,
+        table[key].secondCarsRevenueGross,
+        table[key].otherRevenueGrossSani,
+        table[key].otherRevenueShower,
+        table[key].revenueGrossCamping,
+        table[key].calc_groupCamping_totalGrossRevenue,
+      ]) || null;
 
     table[key].calc_frontcountry_totalNetRevenue = basicNetRevenue([
-      table[key].calc_frontcountry_totalGrossRevenue || 0
+      table[key].calc_frontcountry_totalGrossRevenue || 0,
     ]).result;
 
     // Backcountry Totals
-    table[key].calc_backcountry_totalAttendancePeople = arraySum([
-      table[key].calc_backcountryCabins_totalPeople,
-      table[key].people
-    ]) || null;
+    table[key].calc_backcountry_totalAttendancePeople =
+      arraySum([
+        table[key].calc_backcountryCabins_totalPeople,
+        table[key].people,
+      ]) || null;
 
-    table[key].calc_backcountry_totalGrossRevenue = arraySum([
-      table[key].revenueFamily,
-      table[key].grossCampingRevenue
-    ]) || null;
+    table[key].calc_backcountry_totalGrossRevenue =
+      arraySum([table[key].revenueFamily, table[key].grossCampingRevenue]) ||
+      null;
 
     table[key].calc_backcountry_totalNetRevenue = basicNetRevenue([
-      table[key].calc_backcountry_totalGrossRevenue || 0
+      table[key].calc_backcountry_totalGrossRevenue || 0,
     ]).result;
 
     // Overall Camping Totals
-    table[key].calc_totalCampingAttendancePeople = arraySum([
-      table[key].calc_frontcountry_totalAttendancePeople,
-      table[key].calc_backcountry_totalAttendancePeople
-    ]) || null;
+    table[key].calc_totalCampingAttendancePeople =
+      arraySum([
+        table[key].calc_frontcountry_totalAttendancePeople,
+        table[key].calc_backcountry_totalAttendancePeople,
+      ]) || null;
 
-    table[key].calc_totalCampingGrossRevenue = arraySum([
-      table[key].calc_frontcountry_totalGrossRevenue,
-      table[key].calc_backcountry_totalGrossRevenue
-    ]) || null;
+    table[key].calc_totalCampingGrossRevenue =
+      arraySum([
+        table[key].calc_frontcountry_totalGrossRevenue,
+        table[key].calc_backcountry_totalGrossRevenue,
+      ]) || null;
 
-    table[key].calc_totalCampingNetRevenue = basicNetRevenue([table[key].calc_totalCampingGrossRevenue]).result;
-
-    // Overall Totals
-    table[key].calc_totalAttendancePeople = arraySum([
-      table[key].calc_totalCampingAttendancePeople,
-      table[key].calc_dayUse_totalAttendancePeople,
-      table[key].calc_boating_boats_boatAttendance
-    ]) || null;
-
-    table[key].calc_totalGrossRevenue = arraySum([
+    table[key].calc_totalCampingNetRevenue = basicNetRevenue([
       table[key].calc_totalCampingGrossRevenue,
-      table[key].calc_dayUse_totalGrossRevenue,
-      table[key].boatRevenueGross
-    ]) || null;
-
-    table[key].calc_totalNetRevenue = basicNetRevenue([
-      table[key].calc_totalGrossRevenue
     ]).result;
 
-  };
+    // Overall Totals
+    table[key].calc_totalAttendancePeople =
+      arraySum([
+        table[key].calc_totalCampingAttendancePeople,
+        table[key].calc_dayUse_totalAttendancePeople,
+        table[key].calc_boating_boats_boatAttendance,
+      ]) || null;
+
+    table[key].calc_totalGrossRevenue =
+      arraySum([
+        table[key].calc_totalCampingGrossRevenue,
+        table[key].calc_dayUse_totalGrossRevenue,
+        table[key].boatRevenueGross,
+      ]) || null;
+
+    table[key].calc_totalNetRevenue = basicNetRevenue([
+      table[key].calc_totalGrossRevenue,
+    ]).result;
+  }
 
   return table;
 }
@@ -556,53 +577,53 @@ async function updateJobWithState(
     progressPercentage: 0,
     key: S3_KEY,
     progressDescription: "",
-    lastSuccessfulJob: LAST_SUCCESSFUL_JOB
+    lastSuccessfulJob: LAST_SUCCESSFUL_JOB,
   };
   if (!DISABLE_PROGRESS_UPDATES) {
     switch (state) {
       case 99:
         jobObj.progressPercentage = percentageOverride || 0;
-        jobObj.progressState = 'error';
+        jobObj.progressState = "error";
         jobObj.progressDescription =
           messageOverride || "Job failed. Exporter encountered an error.";
         jobObj.dateGenerated = new Date().toISOString();
         break;
       case 1:
         jobObj.progressPercentage = percentageOverride || 0;
-        jobObj.progressState = 'fetching_entries';
+        jobObj.progressState = "fetching_entries";
         jobObj.progressDescription =
           messageOverride || "Fetching entries from Database.";
         break;
       case 2:
         jobObj.progressPercentage = percentageOverride || 20;
-        jobObj.progressState = 'fetching_complete';
+        jobObj.progressState = "fetching_complete";
         jobObj.progressDescription = messageOverride || "Fetch complete.";
         break;
       case 3:
         jobObj.progressPercentage = percentageOverride || 35;
-        jobObj.progressState = 'grouping_activities';
+        jobObj.progressState = "grouping_activities";
         jobObj.progressDescription =
           messageOverride || "Grouping activities by subarea and date.";
         break;
       case 4:
         jobObj.progressPercentage = percentageOverride || 65;
-        jobObj.progressState = 'generating_rows';
+        jobObj.progressState = "generating_rows";
         jobObj.progressDescription =
           messageOverride || "Generating rows for report.";
         break;
       case 5:
         jobObj.progressPercentage = 80;
-        jobObj.progressState = 'generating_report';
+        jobObj.progressState = "generating_report";
         jobObj.progressDescription = "Generating report.";
         break;
       case 6:
         jobObj.progressPercentage = 90;
-        jobObj.progressState = 'uploading_report';
+        jobObj.progressState = "uploading_report";
         jobObj.progressDescription = "Uploading document to S3.";
         break;
       case 7:
         jobObj.progressPercentage = 100;
-        jobObj.progressState = 'complete';
+        jobObj.progressState = "complete";
         jobObj.progressDescription = "Job Complete. Your document is ready.";
         jobObj.dateGenerated = new Date().toISOString();
       default:
@@ -611,13 +632,13 @@ async function updateJobWithState(
     await updateJobEntry(jobObj, TABLE_NAME);
   } else if (state === 99) {
     jobObj.progressPercentage = 0;
-    jobObj.progressState = 'error';
+    jobObj.progressState = "error";
     jobObj.progressDescription = "Job failed. Exporter encountered an error.";
     jobObj.dateGenerated = new Date().toISOString();
     await updateJobEntry(jobObj, TABLE_NAME);
   } else if (state === 7) {
     jobObj.progressPercentage = 100;
-    jobObj.progressState = 'complete';
+    jobObj.progressState = "complete";
     jobObj.progressDescription = "Job Complete. Your document is ready.";
     jobObj.dateGenerated = new Date().toISOString();
     await updateJobEntry(jobObj, TABLE_NAME);
