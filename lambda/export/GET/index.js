@@ -32,8 +32,7 @@ exports.handler = async (event, context) => {
     const token = await decodeJWT(event);
     const permissionObject = resolvePermissions(token);
 
-    if (!permissionObject.isAdmin) {
-      logger.debug("**NOT AUTHENTICATED, PUBLIC**")
+    if (!permissionObject.isAuthenticated) {
       return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
     }
 

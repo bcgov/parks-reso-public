@@ -101,7 +101,7 @@ exports.handler = async (event, context) => {
 };
 
 async function filterSubAreaAccess(permissionObject, parks) {
-  logger.debug("filterSubAreaAccess:", permissionObject);
+  logger.debug("filterSubAreaAccess:", permissionObject, parks);
 
   let newParks = [];
   for (let park of parks) {

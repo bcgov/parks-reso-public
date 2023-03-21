@@ -63,10 +63,6 @@ let LAST_SUCCESSFUL_JOB = {};
 exports.handler = async (event, context) => {
   logger.debug("EXPORT", event || {});
 
-  let queryObj = {
-    TableName: TABLE_NAME,
-  };
-
   try {
     LAST_SUCCESSFUL_JOB = event.lastSuccessfulJob || {};
     if (event?.jobId && event?.roles) {
@@ -80,26 +76,26 @@ exports.handler = async (event, context) => {
 
       // Get reports - 0-20
       let scanResults = [];
-      if (roles.includes("sysadmin")) {
-        await updateJobWithState(
-          STATE_DICTIONARY.FETCHING,
-          "Fetching all entires for Sysadmin."
-        );
+      let roleFilter = null;
 
-        // Exporting all data
-        logger.debug("=== Exporting all data ===");
-        scanResults = await getAllRecords({ ...queryObj });
-
-        await updateJobWithState(
-          STATE_DICTIONARY.FETCHED,
-          "Fetch complete. " + scanResults.length + " entries found."
-        );
-      } else {
-        // TODO: Change query according to other roles.
-        // 1. get their list of subarea role(s) from token
-        // 2. query db filter by subarea name from list of subareas in role(s)
+      if (!roles.includes("sysadmin")) {
+        roleFilter = roles;
       }
-      logger.debug(scanResults.length + " records found");
+
+      await updateJobWithState(
+        STATE_DICTIONARY.FETCHING,
+        `Fetching all entires for ${roles}`
+      );
+
+      logger.info(`=== Exporting filtered data ===`);
+      scanResults = await getAllRecords(roleFilter);
+
+      await updateJobWithState(
+        STATE_DICTIONARY.FETCHED,
+        "Fetch complete. " + scanResults.length + " entries found."
+      );
+
+      logger.info(scanResults.length + " records found");
 
       // Combine reports that are part of the same date and subarea - 20-50
       CURRENT_PROGRESS_PERCENT = 30;
@@ -108,7 +104,7 @@ exports.handler = async (event, context) => {
       // Create sorted rows array - 50-80
       CURRENT_PROGRESS_PERCENT = 50;
       const rowsArray = await generateRowsArray(groupedReports, 30);
-      logger.debug(rowsArray.length + " rows generated");
+      logger.info(rowsArray.length + " rows generated");
 
       // 80-90
       await updateJobWithState(STATE_DICTIONARY.GENERATE_REPORT);
@@ -116,7 +112,7 @@ exports.handler = async (event, context) => {
         schema,
         filePath: FILE_PATH + FILE_NAME + ".xlsx",
       });
-      logger.debug("Report generated");
+      logger.info("Report generated:", FILE_PATH + FILE_NAME + ".xlsx");
 
       // This means we are uploading to S3 - 90-100
       if (FILE_PATH === "/tmp/" && process.env.S3_BUCKET_DATA) {
@@ -131,7 +127,7 @@ exports.handler = async (event, context) => {
       await updateJobWithState(STATE_DICTIONARY.COMPLETE);
 
       // TODO: Log job into separate DB
-      logger.debug("=== Export successful ===");
+      logger.info("=== Export successful ===");
     }
   } catch (err) {
     logger.error(err);
@@ -139,14 +135,31 @@ exports.handler = async (event, context) => {
   }
 };
 
-async function getAllRecords(queryObj) {
+async function getAllRecords(roles = null) {
   let records = [];
   let subareas = [];
   try {
     const parks = await getParks();
     for (const park of parks) {
-      const parkSubAreas = await getSubAreas(park.sk);
-      subareas = subareas.concat(parkSubAreas);
+      if (roles !== null) {
+        let result = roles.filter((item) => item.startsWith(park.sk));
+        if (result.length > 0) {
+          // We have access to the park.
+          const parkSubAreas = await getSubAreas(park.sk);
+          parkSubAreas.filter((subAreaItem) => {
+            const found = subAreaItem.roles.some(r => roles.indexOf(r) >= 0);
+            if (found) {
+              subareas = subareas.concat(subAreaItem);
+            }
+          });
+        } else {
+          logger.info(`Skipping ${park.sk}`)
+        }
+      } else {
+        // Sysadmin
+        const parkSubAreas = await getSubAreas(park.sk);
+        subareas = subareas.concat(parkSubAreas);
+      }
     }
     for (const subarea of subareas) {
       const subAreaRecords = await getRecords(subarea, true);

@@ -2,6 +2,7 @@
   "PARKSLIST": [
     {
       "sk": "0041",
+      "orcs": "0041",
       "subAreas": [
         {
           "name": "Maple Bay",
@@ -17,6 +18,7 @@
     },
     {
       "sk": "6161",
+      "orcs": "6161",
       "subAreas": [
         {
           "name": "Holt Creek",
@@ -208,6 +210,13 @@
     {
       "pk": "fiscalYearEnd",
       "sk": "2018",
+      "isLocked": true
+    }
+  ],
+  "FISCAL_YEAR_LOCKS2": [
+    {
+      "pk": "fiscalYearEnd",
+      "sk": "2017",
       "isLocked": true
     }
   ],
