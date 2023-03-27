@@ -46,39 +46,73 @@ functions:
           path: /park
           cors: true
 
+  # ###########
+  # # SubArea
+  # ###########
+  # subareaGet:
+  #   handler: lambda/subarea/GET/index.handler
+  #   events:
+  #     - http:
+  #         method: GET
+  #         path: /subarea
+  #         cors: true
+
+  # subareaPost:
+  #   handler: lambda/subarea/POST/index.handlePost
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: /subarea
+  #         cors: true
+
+  # subareaRecordLock:
+  #   handler: lambda/subarea/POST/index.handleLock
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: /subarea/lock
+  #         cors: true
+
+  # subareaRecordUnlock:
+  #   handler: lambda/subarea/POST/index.handleUnlock
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: /subarea/unlock
+
   ###########
-  # SubArea
+  # Activity
   ###########
-  subareaGet:
-    handler: lambda/subarea/GET/index.handler
+  activityGet:
+    handler: lambda/activity/GET/index.handler
     events:
       - http:
           method: GET
-          path: /subarea
+          path: /activity
           cors: true
 
-  subareaPost:
-    handler: lambda/subarea/POST/index.handlePost
+  activityPost:
+    handler: lambda/activity/POST/index.handlePost
     events:
       - http:
           method: POST
-          path: /subarea
+          path: /activity
           cors: true
 
-  subareaRecordLock:
-    handler: lambda/subarea/POST/index.handleLock
+  activityRecordLock:
+    handler: lambda/activity/POST/index.handleLock
     events:
       - http:
           method: POST
-          path: /subarea/lock
+          path: /activity/lock
           cors: true
 
-  subareaRecordUnlock:
-    handler: lambda/subarea/POST/index.handleUnlock
+  activityRecordUnlock:
+    handler: lambda/activity/POST/index.handleUnlock
     events:
       - http:
           method: POST
-          path: /subarea/unlock
+          path: /activity/unlock
           cors: true
 
   ###########

@@ -26,8 +26,8 @@ resource "aws_api_gateway_deployment" "apideploy" {
   depends_on = [
     aws_api_gateway_integration.parkGetIntegration,
     aws_api_gateway_integration.parkPostIntegration,
-    aws_api_gateway_integration.subareaGetIntegration,
-    aws_api_gateway_integration.subareaPostIntegration,
+    aws_api_gateway_integration.activityGetIntegration,
+    aws_api_gateway_integration.activityPostIntegration,
     aws_api_gateway_integration.exportGetIntegration,
     aws_api_gateway_integration.fiscalYearEndGetIntegration,
     aws_api_gateway_integration.fiscalYearEndLockIntegration,
