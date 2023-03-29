@@ -8,11 +8,7 @@ const {
   TIMEZONE,
 } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
-const {
-  decodeJWT,
-  roleFilter,
-  resolvePermissions,
-} = require("../../permissionUtil");
+const { decodeJWT, resolvePermissions } = require("../../permissionUtil");
 const { logger } = require("../../logger");
 const { DateTime } = require("luxon");
 

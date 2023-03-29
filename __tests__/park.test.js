@@ -41,66 +41,62 @@ async function setupDb() {
 
 describe("Pass Succeeds", () => {
   const mockedUnauthenticatedInvalidUser = {
-    decodeJWT: jest.fn((event) => {
-    }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
         roles: [],
-        isAuthenticated: false
-      }
+        isAuthenticated: false,
+      };
     }),
     getParkAccess: jest.fn((orcs, permissionObject) => {
       return {};
-    })
-  }
+    }),
+  };
 
   const mockedLimitedUser = {
-    decodeJWT: jest.fn((event) => {
-    }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
-        roles: ['0041:0084'],
-        isAuthenticated: true
-      }
+        roles: ["0041:0084"],
+        isAuthenticated: true,
+      };
     }),
     getParkAccess: jest.fn((orcs, permissionObject) => {
       return {};
     }),
     roleFilter: jest.fn((records, roles) => {
-      return records.filter(park => park.orcs === '0041')
-    })
-  }
+      return records.filter((park) => park.orcs === "0041");
+    }),
+  };
 
   const mockedUnauthenticatedUser = {
-    decodeJWT: jest.fn((event) => {
-    }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
         roles: [],
-        isAuthenticated: false
-      }
+        isAuthenticated: false,
+      };
     }),
     getParkAccess: jest.fn((orcs, permissionObject) => {
       return {};
-    })
+    }),
   };
 
   const mockedSysadmin = {
-    decodeJWT: jest.fn((event) => {
-    }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: true,
-        roles: ['sysadmin'],
-        isAuthenticated: true
-      }
+        roles: ["sysadmin"],
+        isAuthenticated: true,
+      };
     }),
     getParkAccess: jest.fn((orcs, permissionObject) => {
       return {};
-    })
+    }),
   };
 
   const OLD_ENV = process.env;
@@ -127,11 +123,11 @@ describe("Pass Succeeds", () => {
     // Ignore legacy parks for now.
     let modifiedParksList = [...PARKSLIST];
     for (const [index, park] of modifiedParksList.entries()) {
-      if (park.hasOwnProperty('isLegacy')) {
+      if (park.hasOwnProperty("isLegacy")) {
         modifiedParksList.splice(index, 1);
       }
     }
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const parkGET = require("../lambda/park/GET/index");
@@ -147,14 +143,14 @@ describe("Pass Succeeds", () => {
         specificSubAreas.push(area);
       }
     }
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedLimitedUser;
     });
     const parkGET = require("../lambda/park/GET/index");
     const response = await parkGET.handler(
       {
         headers: {
-          Authorization: "Bearer " + token
+          Authorization: "Bearer " + token,
         },
       },
       null
@@ -162,13 +158,15 @@ describe("Pass Succeeds", () => {
 
     const body = JSON.parse(response.body);
     // Body should be empty
-    expect(body).toMatchObject([{
-      "orcs": "0041",
-      "parkName": "Cultus Lake Park",
-      "pk": "park",
-      "sk": "0041",
-      "subAreas": [],
-    }]);
+    expect(body).toMatchObject([
+      {
+        orcs: "0041",
+        parkName: "Cultus Lake Park",
+        pk: "park",
+        sk: "0041",
+        subAreas: [],
+      },
+    ]);
   });
 
   test("Handler - 200 Receive park specific information", async () => {
@@ -178,7 +176,7 @@ describe("Pass Succeeds", () => {
         specificSubAreas.push(area);
       }
     }
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const parkGET = require("../lambda/park/GET/index");
@@ -207,14 +205,14 @@ describe("Pass Succeeds", () => {
         specificSubAreas.push(area);
       }
     }
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedLimitedUser;
     });
     const parkGET = require("../lambda/park/GET/index");
     const response = await parkGET.handler(
       {
         headers: {
-          Authorization: "Bearer " + token
+          Authorization: "Bearer " + token,
         },
         queryStringParameters: {
           orcs: PARKSLIST[0].sk,
@@ -229,14 +227,14 @@ describe("Pass Succeeds", () => {
   });
 
   test("Handler - 403 GET Invalid", async () => {
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedUnauthenticatedInvalidUser;
     });
     const parkGET = require("../lambda/park/GET/index");
     const response = await parkGET.handler(
       {
         headers: {
-          Authorization: "Bearer " + token + "invalid"
+          Authorization: "Bearer " + token + "invalid",
         },
       },
       null
@@ -246,7 +244,7 @@ describe("Pass Succeeds", () => {
   });
 
   test("Handler - 400 GET Bad Request", async () => {
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const parkGET = require("../lambda/park/GET/index");
@@ -266,7 +264,7 @@ describe("Pass Succeeds", () => {
   });
 
   test("Handler - 400 POST Bad Request", async () => {
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const parkPOST = require("../lambda/park/POST/index");
@@ -286,7 +284,7 @@ describe("Pass Succeeds", () => {
   });
 
   test("Handler - 400 POST Park", async () => {
-    jest.mock('../lambda/permissionUtil', () => {
+    jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const parkPOST = require("../lambda/park/POST/index");
@@ -304,5 +302,60 @@ describe("Pass Succeeds", () => {
     );
 
     expect(response.statusCode).toBe(400);
+  });
+
+  test("Handler - 200 POST Park", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedSysadmin;
+    });
+    const parkPOST = require("../lambda/park/POST/index");
+    const response = await parkPOST.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          orcs: "0000",
+          parkName: "test",
+        }),
+      },
+      null
+    );
+
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("Handler - 403 POST Park Invalid User", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedUnauthenticatedInvalidUser;
+    });
+    const parkPOST = require("../lambda/park/POST/index");
+    const response = await parkPOST.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token + "invalid",
+        },
+      },
+      null
+    );
+
+    expect(response.statusCode).toBe(403);
+  });
+
+  test("Handler - 403 POST Park Unauthorized User", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedUnauthenticatedUser;
+    });
+    const parkPOST = require("../lambda/park/POST/index");
+    const response = await parkPOST.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token + "invalid",
+        },
+      },
+      null
+    );
+
+    expect(response.statusCode).toBe(403);
   });
 });

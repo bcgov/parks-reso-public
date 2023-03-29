@@ -1,11 +1,7 @@
 const AWS = require("aws-sdk");
 const { runQuery, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
-const {
-  decodeJWT,
-  roleFilter,
-  resolvePermissions,
-} = require("../../permissionUtil");
+const { decodeJWT, resolvePermissions } = require("../../permissionUtil");
 const { logger } = require("../../logger");
 
 exports.handler = async (event, context) => {
