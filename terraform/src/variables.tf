@@ -31,6 +31,14 @@ data "aws_ssm_parameter" "sso_issuer" {
   name = "/parks-ar-api/sso-issuer"
 }
 
+data "aws_ssm_parameter" "sso_origin" {
+  name = "/parks-ar-api/sso-origin"
+}
+
 data "aws_ssm_parameter" "sso_jwksuri" {
   name = "/parks-ar-api/sso-jwksuri"
+}
+
+data "aws_ssm_parameter" "keycloak_client_id" {
+  name = "/parks-ar-api/keycloak-client-id"
 }

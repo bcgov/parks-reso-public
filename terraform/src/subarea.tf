@@ -19,6 +19,7 @@
 #   environment {
 #     variables = {
 #       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
+#       SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
 #       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
 #       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
 #       LOG_LEVEL   = "info"
@@ -59,6 +60,7 @@
 #   environment {
 #     variables = {
 #       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
+#       SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
 #       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
 #       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
 #       LOG_LEVEL   = "info"
@@ -99,6 +101,7 @@
 #   environment {
 #     variables = {
 #       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
+#       SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
 #       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
 #       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
 #       LOG_LEVEL   = "info"
@@ -139,6 +142,7 @@
 #   environment {
 #     variables = {
 #       SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
+#       SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
 #       SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
 #       TABLE_NAME  = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
 #       LOG_LEVEL   = "info"
