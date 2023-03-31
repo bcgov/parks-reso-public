@@ -2,6 +2,7 @@ const AWS = require("aws-sdk");
 const { logger } = require("./logger");
 
 const TABLE_NAME = process.env.TABLE_NAME || "ar-tests";
+const CONFIG_TABLE_NAME = process.env.CONFIG_TABLE_NAME || "ar-config"
 const options = {
   region: "ca-central-1",
 };
@@ -172,6 +173,22 @@ async function getRecords(subArea, filter = true) {
   return records;
 }
 
+async function incrementAndGetNextSubAreaID() {
+  const configUpdateObj = {
+    TableName: CONFIG_TABLE_NAME,
+    Key: {
+      'pk': { S: 'subAreaID' }
+    },
+    UpdateExpression: 'ADD lastID :incrVal',
+    ExpressionAttributeValues: {
+      ':incrVal': { 'N': '1' }
+    },
+    ReturnValues:'UPDATED_NEW'
+  }
+  const response = await dynamodb.updateItem(configUpdateObj).promise();
+  return response?.Attributes?.lastID?.N;
+}
+
 module.exports = {
   ACTIVE_STATUS,
   RESERVED_STATUS,
@@ -190,5 +207,6 @@ module.exports = {
   getOne,
   getParks,
   getSubAreas,
-  getRecords
+  getRecords,
+  incrementAndGetNextSubAreaID
 };

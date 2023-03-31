@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const { REGION, ENDPOINT, TABLE_NAME } = require('./settings');
+const { REGION, ENDPOINT, TABLE_NAME, CONFIG_TABLE_NAME } = require('./settings');
 const { logger } = require('../../lambda/logger');
 
 module.exports = async () => {
@@ -13,6 +13,11 @@ module.exports = async () => {
     await dynamoDb
       .deleteTable({
         TableName: TABLE_NAME
+      })
+      .promise();
+    await dynamoDb
+      .deleteTable({
+        TableName: CONFIG_TABLE_NAME
       })
       .promise();
   } catch (err) {

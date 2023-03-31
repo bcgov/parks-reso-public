@@ -45,6 +45,16 @@ async function setupDb() {
 }
 
 describe("Pass Succeeds", () => {
+  const OLD_ENV = process.env;
+  beforeEach(async () => {
+    jest.resetModules();
+    process.env = { ...OLD_ENV }; // Make a copy of environment
+  });
+
+  afterEach(() => {
+    process.env = OLD_ENV; // Restore old environment
+  });
+
   beforeAll(async () => {
     return await setupDb();
   });
@@ -118,5 +128,13 @@ describe("Pass Succeeds", () => {
         })
       ])
     );
+  });
+
+  test("dynamoUtil - incrementAndGetNextSubAreaID works with and without an entry in the DB", async () => {
+    const result = await utils.incrementAndGetNextSubAreaID();
+    expect(result).toEqual('1');
+
+    const result2 = await utils.incrementAndGetNextSubAreaID();
+    expect(result2).toEqual('2');
   });
 });
