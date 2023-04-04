@@ -18,7 +18,7 @@ resource "aws_dynamodb_table" "ar_config_table" {
   }
 }
 
-resource "aws_backup_plan" "backup" {
+resource "aws_backup_plan" "backup-config" {
   name = "backup_plan-config-${random_string.postfix.result}"
 
   rule {
