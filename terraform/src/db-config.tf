@@ -2,7 +2,6 @@ resource "aws_dynamodb_table" "ar_config_table" {
   name           = "config-${random_string.postfix.result}"
   hash_key       = "pk"
   billing_mode   = "PAY_PER_REQUEST"
-  table_class    = "STANDARD_INFREQUENT_ACCESS"
 
   point_in_time_recovery {
     enabled = true
