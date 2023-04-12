@@ -101,6 +101,14 @@ functions:
           path: /activity
           cors: true
 
+  activityPut:
+    handler: lambda/activity/PUT/index.handler
+    events:
+      - http:
+          method: PUT
+          path: /activity
+          cors: true
+
   activityRecordLock:
     handler: lambda/activity/POST/index.handleLock
     events:
