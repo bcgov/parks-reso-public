@@ -14,9 +14,9 @@ const lambda = new AWS.Lambda(options);
 
 const { runQuery, dynamodb, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
-const { decodeJWT, resolvePermissions } = require('../../permissionUtil');
+const { decodeJWT, resolvePermissions } = require("../../permissionUtil");
 const { convertRolesToMD5 } = require("../functions");
-const { logger } = require('../../logger');
+const { logger } = require("../../logger");
 
 const EXPORT_FUNCTION_NAME =
   process.env.EXPORT_FUNCTION_NAME || "bcparks-ar-api-api-exportInvokable";
@@ -56,15 +56,18 @@ exports.handler = async (event, context) => {
       if (!res) {
         // Job does not exist.
         return sendResponse(200, { status: "Job not found" }, context);
-      } else if (res.progressState === 'complete' || res.progressState === 'error') {
+      } else if (
+        res.progressState === "complete" ||
+        res.progressState === "error"
+      ) {
         // Job is not currently running. Return signed url
-        let urlKey = res.key
-        let message = 'Job complete'
-        if (res.progressState === 'error') {
+        let urlKey = res.key;
+        let message = "Job complete";
+        if (res.progressState === "error") {
           urlKey = res.lastSuccessfulJob.key || {};
-          message = 'Job failed. Returning last successful job.'
+          message = "Job failed. Returning last successful job.";
         }
-        let URL = '';
+        let URL = "";
         if (!process.env.IS_OFFLINE) {
           URL = await s3.getSignedUrl("getObject", {
             Bucket: process.env.S3_BUCKET_DATA,
@@ -93,21 +96,21 @@ exports.handler = async (event, context) => {
       }
     } else {
       // We are trying to create a report.
-      // If there's already a completed job, we want to save this in case the new job fails. 
+      // If there's already a completed job, we want to save this in case the new job fails.
       let lastSuccessfulJob = {};
-      if (res?.progressState === 'complete' && res?.key) {
+      if (res?.progressState === "complete" && res?.key) {
         lastSuccessfulJob = {
           key: res.key,
-          dateGenerated: res.dateGenerated || new Date().toISOString()
-        }
-      } else if (res?.progressState === 'error') {
+          dateGenerated: res.dateGenerated || new Date().toISOString(),
+        };
+      } else if (res?.progressState === "error") {
         lastSuccessfulJob = res.lastSuccessfulJob || {};
-      };
+      }
       const putObject = {
         TableName: TABLE_NAME,
         ExpressionAttributeValues: {
-          ":complete": { S: 'complete' },
-          ":error": { S: 'error' }
+          ":complete": { S: "complete" },
+          ":error": { S: "error" },
         },
         ConditionExpression:
           "(attribute_not_exists(pk) AND attribute_not_exists(sk)) OR attribute_not_exists(progressState) OR progressState = :complete OR progressState = :error",
@@ -116,8 +119,8 @@ exports.handler = async (event, context) => {
           sk: sk,
           progressPercentage: 0,
           progressDescription: "Initializing job.",
-          progressState: 'initializing',
-          lastSuccessfulJob: lastSuccessfulJob
+          progressState: "initializing",
+          lastSuccessfulJob: lastSuccessfulJob,
         }),
       };
       logger.debug(putObject);

@@ -1,3 +1,7 @@
+const AWS = require("aws-sdk");
+const { TABLE_NAME } = require("./dynamoUtil");
+const { validActivities } = require("./subAreaUtils");
+
 const gstPercent = 5;
 const defaultDecimalPlaces = 1;
 
@@ -27,7 +31,7 @@ function arraySum(arr) {
 }
 
 function inversePercentage(value, percentage) {
-  const result = (value * 100) / (100 + percentage)
+  const result = (value * 100) / (100 + percentage);
   return result;
 }
 
@@ -62,7 +66,7 @@ function basicNetRevenue(revenues, customPercent) {
     formula: `Net revenue = Gross revenue - ${percent}% GST`,
   };
   return res;
-};
+}
 
 function totalWithModifier(arr, mod) {
   let result = arraySum(arr);
@@ -93,32 +97,32 @@ function frontcountryCampingPartyAttendance(attendances, modifier) {
     result: formatTotalWithModifier(attendances, modifier),
     formula: formula,
   };
-};
+}
 
 function frontcountryCampingSecondCarAttendance(attendances) {
   return {
     result: formatTotalWithModifier(attendances),
     formula: `Total attendance = (Standard + Senior + SSFE)`,
   };
-};
+}
 
- function frontcountryCabinsPartiesAttendance(attendances, modifier) {
+function frontcountryCabinsPartiesAttendance(attendances, modifier) {
   let formula = `Total attendance = Parties`;
   if (modifier) {
     formula += ` x ${modifier}`;
   }
   return {
     result: formatTotalWithModifier(attendances, modifier),
-    formula: formula
+    formula: formula,
   };
-};
+}
 
 function groupCampingStandardAttendance(attendances) {
   return {
     result: formatTotalWithModifier(attendances),
     formula: `Total people = (Adult + Youth + Children)`,
   };
-};
+}
 
 function dayUseVehicleAttendance(
   trailCount,
@@ -142,13 +146,9 @@ function dayUseVehicleAttendance(
     result: formatTotalWithModifier([vehicleTotal, busTotal, trailCountTotal]),
     formula: `Vehicle attendance = ${vehicleFormula} + ${busFormula} + Trail count`,
   };
-};
+}
 
-function backcountryCabinsAttendance(
-  individuals,
-  families,
-  familyMod
-) {
+function backcountryCabinsAttendance(individuals, families, familyMod) {
   let individualTotal = totalWithModifier(individuals);
   let familyTotal = totalWithModifier(families, familyMod);
   let familyFormula = "Family";
@@ -159,7 +159,7 @@ function backcountryCabinsAttendance(
     result: formatTotalWithModifier([individualTotal, familyTotal]),
     formula: `Total people = Adults + Children + ${familyFormula}`,
   };
-};
+}
 
 function boatingAttendance(attendances, modifier) {
   let formula = `Boat attendance = (On dock + On buoys + Miscellaneous boats)`;
@@ -170,7 +170,63 @@ function boatingAttendance(attendances, modifier) {
     result: formatTotalWithModifier(attendances, modifier),
     formula: formula,
   };
-};
+}
+
+function createPutFormulaConfigObj(
+  activities,
+  subAreaId,
+  parkName,
+  orcs,
+  subAreaName
+) {
+  // For each activity, add the config for that subAreaId::activity
+  let formulaConfigObjArray = [];
+  for (const activity of activities) {
+    let formulaConfigObj;
+    if (!validActivities.includes(activity)) {
+      break;
+    }
+    formulaConfigObj = {
+      pk: { S: "config::" + subAreaId },
+      sk: AWS.DynamoDB.Converter.input(activity),
+      parkName: AWS.DynamoDB.Converter.input(parkName),
+      orcs: AWS.DynamoDB.Converter.input(orcs),
+      subAreaId: AWS.DynamoDB.Converter.input(subAreaId),
+      subAreaName: AWS.DynamoDB.Converter.input(subAreaName),
+    };
+    // Default formula configs
+    switch (activity) {
+      case "Frontcountry Camping":
+        formulaConfigObj["attendanceModifier"] =
+          AWS.DynamoDB.Converter.input(3.2);
+        break;
+      case "Day Use":
+        formulaConfigObj["attendanceVehiclesModifier"] =
+          AWS.DynamoDB.Converter.input(3.5);
+        formulaConfigObj["attendanceBusModifier"] =
+          AWS.DynamoDB.Converter.input(40);
+        break;
+      case "Backcountry Cabins":
+        formulaConfigObj["attendanceModifier"] =
+          AWS.DynamoDB.Converter.input(3.2);
+        break;
+      case "Boating":
+        formulaConfigObj["attendanceModifier"] =
+          AWS.DynamoDB.Converter.input(3.2);
+        break;
+      case "Frontcountry Cabins":
+        formulaConfigObj["attendanceModifier"] =
+          AWS.DynamoDB.Converter.input(3.2);
+        break;
+    }
+    formulaConfigObjArray.push({
+      TableName: TABLE_NAME,
+      ConditionExpression: "attribute_not_exists(sk)",
+      Item: formulaConfigObj,
+    });
+  }
+  return formulaConfigObjArray;
+}
 
 module.exports = {
   arraySum,
@@ -181,5 +237,6 @@ module.exports = {
   frontcountryCabinsPartiesAttendance,
   groupCampingStandardAttendance,
   backcountryCabinsAttendance,
-  boatingAttendance
+  boatingAttendance,
+  createPutFormulaConfigObj,
 };

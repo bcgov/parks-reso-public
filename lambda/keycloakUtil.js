@@ -1,12 +1,12 @@
-const axios = require('axios');
-const { mainModule } = require('process');
+const axios = require("axios");
+const { mainModule } = require("process");
 const { logger } = require("./logger");
 
 const config = {
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  }
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 };
 
 /**
@@ -21,26 +21,32 @@ const config = {
  * @returns {Promise<AxiosResponse>} The HTTP response from the server.
  * @throws {Error} If the operation fails.
  */
-createKeycloakRole = async function (ssoURL, ssoClientID, token, role, description) {
+createKeycloakRole = async function (
+  ssoURL,
+  ssoClientID,
+  token,
+  role,
+  description
+) {
   const url = `${ssoURL}/auth/admin/realms/bcparks-service-transformation/clients/${ssoClientID}/roles`;
   const postBody = {
-    "name": `${role}`,
-    "composite": false,
-    "clientRole": true,
-    "description": description
+    name: `${role}`,
+    composite: false,
+    clientRole: true,
+    description: description,
   };
   try {
-    logger.info('Calling Keycloak Service');
-    const res = await axios.post(url,
-                                 postBody,
-                                 { ...config, headers: { ...config.headers, 'Authorization': 'Bearer ' + token }});
+    logger.info("Calling Keycloak Service");
+    const res = await axios.post(url, postBody, {
+      ...config,
+      headers: { ...config.headers, Authorization: "Bearer " + token },
+    });
     return res.data;
   } catch (error) {
     logger.error(error);
-    throw new Error('Operation Failed.')
+    throw new Error("Operation Failed.");
   }
 };
-
 
 /**
  * Deletes an existing role from the specified Keycloak realm's client.
@@ -56,16 +62,17 @@ createKeycloakRole = async function (ssoURL, ssoClientID, token, role, descripti
 deleteKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
   const url = `${ssoURL}/auth/admin/realms/bcparks-service-transformation/clients/${ssoClientID}/roles/${role}`;
   try {
-    logger.info('Calling Keycloak Service');
-    const res = await axios.delete(url,
-                                  { ...config, headers: { ...config.headers, 'Authorization': 'Bearer ' + token } });
+    logger.info("Calling Keycloak Service");
+    const res = await axios.delete(url, {
+      ...config,
+      headers: { ...config.headers, Authorization: "Bearer " + token },
+    });
     return res.data;
   } catch (error) {
     logger.error(error);
-    throw new Error('Operation Failed.')
+    throw new Error("Operation Failed.");
   }
-}
-
+};
 
 /**
  * Retrieves information about an existing role from the specified Keycloak realm's client.
@@ -81,18 +88,20 @@ deleteKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
 getKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
   const url = `${ssoURL}/auth/admin/realms/bcparks-service-transformation/clients/${ssoClientID}/roles/${role}`;
   try {
-    logger.info('Calling Keycloak Service');
-    const res = await axios.get(url,
-                                { ...config, headers: { ...config.headers, 'Authorization': 'Bearer ' + token } });
+    logger.info("Calling Keycloak Service");
+    const res = await axios.get(url, {
+      ...config,
+      headers: { ...config.headers, Authorization: "Bearer " + token },
+    });
     return res.data;
   } catch (error) {
     logger.error(error);
-    throw new Error('Operation Failed.')
+    throw new Error("Operation Failed.");
   }
-}
+};
 
 module.exports = {
   getKeycloakRole,
   deleteKeycloakRole,
-  createKeycloakRole
+  createKeycloakRole,
 };

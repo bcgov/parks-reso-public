@@ -13,7 +13,7 @@ resource "aws_lambda_function" "readConfigLambda" {
 
   environment {
     variables = {
-      TABLE_NAME = "${data.aws_ssm_parameter.db_name.value}-${random_string.postfix.result}",
+      TABLE_NAME = aws_dynamodb_table.ar_table.name,
       LOG_LEVEL  = "error"
     }
   }

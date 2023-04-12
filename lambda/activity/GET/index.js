@@ -1,4 +1,3 @@
-const AWS = require("aws-sdk");
 const { runQuery, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
 const { decodeJWT, resolvePermissions } = require("../../permissionUtil");

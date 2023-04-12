@@ -38,6 +38,7 @@ functions:
           method: GET
           path: /park
           cors: true
+
   parkPost:
     handler: lambda/park/POST/index.handler
     events:
@@ -46,39 +47,40 @@ functions:
           path: /park
           cors: true
 
+  parkPut:
+    handler: lambda/park/PUT/index.handler
+    events:
+      - http:
+          method: PUT
+          path: /park
+          cors: true
+
   # ###########
   # # SubArea
   # ###########
-  # subareaGet:
-  #   handler: lambda/subarea/GET/index.handler
-  #   events:
-  #     - http:
-  #         method: GET
-  #         path: /subarea
-  #         cors: true
+  subAreaGet:
+    handler: lambda/subArea/GET/index.handler
+    events:
+      - http:
+          method: GET
+          path: /subArea
+          cors: true
 
-  # subareaPost:
-  #   handler: lambda/subarea/POST/index.handlePost
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: /subarea
-  #         cors: true
+  subAreaPost:
+    handler: lambda/subArea/POST/index.handler
+    events:
+      - http:
+          method: POST
+          path: /subArea
+          cors: true
 
-  # subareaRecordLock:
-  #   handler: lambda/subarea/POST/index.handleLock
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: /subarea/lock
-  #         cors: true
-
-  # subareaRecordUnlock:
-  #   handler: lambda/subarea/POST/index.handleUnlock
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: /subarea/unlock
+  subAreaPut:
+    handler: lambda/subArea/PUT/index.handler
+    events:
+      - http:
+          method: PUT
+          path: /subArea
+          cors: true
 
   ###########
   # Activity

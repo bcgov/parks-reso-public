@@ -5,10 +5,6 @@ const { sendResponse } = require("../../responseUtil");
 
 exports.handler = async (event, context) => {
   logger.debug("Park POST:", event);
-  return await main(event, context);
-};
-
-async function main(event, context, lock = null) {
   try {
     const token = await decodeJWT(event);
     const permissionObject = resolvePermissions(token);
@@ -18,20 +14,16 @@ async function main(event, context, lock = null) {
       return sendResponse(403, { msg: "Error: Unauthenticated." }, context);
     }
 
-    const body = JSON.parse(event.body);
-
-    // Build post obj
-    if (!body.orcs || !body.parkName) {
-      return sendResponse(400, { msg: "Invalid request" }, context);
+    // Admins only
+    if (!permissionObject.isAdmin) {
+      logger.info("Not authorized.");
+      return sendResponse(403, { msg: "Unauthorized." }, context);
     }
 
-    if (
-      !permissionObject.isAdmin &&
-      permissionObject.roles.includes(`${body.orcs}`) === false
-    ) {
-      logger.info("Not authorized.");
-      logger.debug(permissionObject.roles);
-      return sendResponse(403, { msg: "Unauthorized." }, context);
+    const body = JSON.parse(event.body);
+
+    if (!body.orcs || !body.parkName) {
+      return sendResponse(400, { msg: "Invalid request" }, context);
     }
 
     const postObj = {
@@ -57,4 +49,4 @@ async function main(event, context, lock = null) {
     logger.error(err);
     return sendResponse(400, { msg: "Invalid request" }, context);
   }
-}
+};

@@ -1,15 +1,18 @@
-const AWS = require('aws-sdk');
-const { runQuery, TABLE_NAME } = require('../../dynamoUtil');
-const { sendResponse } = require('../../responseUtil');
-const { decodeJWT, roleFilter, resolvePermissions } = require('../../permissionUtil');
-const { logger } = require('../../logger');
+const { runQuery, TABLE_NAME } = require("../../dynamoUtil");
+const { sendResponse } = require("../../responseUtil");
+const {
+  decodeJWT,
+  roleFilter,
+  resolvePermissions,
+} = require("../../permissionUtil");
+const { logger } = require("../../logger");
 
 exports.handler = async (event, context) => {
-  logger.info('GET: Park');
+  logger.info("GET: Park");
   logger.debug(event);
 
   let queryObj = {
-    TableName: TABLE_NAME
+    TableName: TABLE_NAME,
   };
 
   try {
@@ -17,17 +20,18 @@ exports.handler = async (event, context) => {
     const permissionObject = resolvePermissions(token);
 
     if (!permissionObject.isAuthenticated) {
-      logger.info("**NOT AUTHENTICATED, PUBLIC**")
-      return sendResponse(403, {msg: "Error: UnAuthenticated."}, context);
+      logger.info("**NOT AUTHENTICATED, PUBLIC**");
+      return sendResponse(403, { msg: "Error: UnAuthenticated." }, context);
     }
 
     if (!event.queryStringParameters) {
       // Get me a list of parks, with subareas
       queryObj.ExpressionAttributeValues = {};
-      queryObj.ExpressionAttributeValues[':pk'] = { S: 'park' };
-      queryObj.ExpressionAttributeValues[':isLegacy'] = { BOOL: false };
-      queryObj.KeyConditionExpression = 'pk =:pk';
-      queryObj.FilterExpression = 'attribute_not_exists(isLegacy) OR isLegacy = :isLegacy';
+      queryObj.ExpressionAttributeValues[":pk"] = { S: "park" };
+      queryObj.ExpressionAttributeValues[":isLegacy"] = { BOOL: false };
+      queryObj.KeyConditionExpression = "pk =:pk";
+      queryObj.FilterExpression =
+        "attribute_not_exists(isLegacy) OR isLegacy = :isLegacy";
       let results = [];
       let parkData;
       do {
@@ -38,16 +42,18 @@ exports.handler = async (event, context) => {
 
       if (permissionObject.isAdmin) {
         // Sysadmin, they get it all
-        logger.info("**Sysadmin**")
+        logger.info("**Sysadmin**");
       } else {
         // Some other authenticated role
-        logger.info("**Some other authenticated person with attendance-and-revenue roles**")
+        logger.info(
+          "**Some other authenticated person with attendance-and-revenue roles**"
+        );
         logger.debug("permissionObject.roles:", permissionObject.roles);
         // We're getting parks, so take their role and grab the orcs id from the front
-        const parkRoles = permissionObject.roles.map(item => {
-          return item.split(":")[0]
+        const parkRoles = permissionObject.roles.map((item) => {
+          return item.split(":")[0];
         });
-        logger.debug("Effective park roles:", parkRoles)
+        logger.debug("Effective park roles:", parkRoles);
         results = await roleFilter(results, parkRoles);
         results = await filterSubAreaAccess(permissionObject, results);
         logger.debug(results);
@@ -57,13 +63,17 @@ exports.handler = async (event, context) => {
     } else if (event.queryStringParameters?.orcs) {
       // Get me a list of this parks' subareas with activities details, including config details
       queryObj.ExpressionAttributeValues = {};
-      queryObj.ExpressionAttributeValues[':pk'] = { S: 'park::'+ event.queryStringParameters?.orcs };
-      queryObj.KeyConditionExpression = 'pk =:pk';
+      queryObj.ExpressionAttributeValues[":pk"] = {
+        S: "park::" + event.queryStringParameters?.orcs,
+      };
+      queryObj.KeyConditionExpression = "pk =:pk";
 
       if (event?.queryStringParameters?.subAreaId) {
         // get specific subarea by subAreaId
-        queryObj.ExpressionAttributeValues[':sk'] = { S: `${event.queryStringParameters?.subAreaId}` };
-        queryObj.KeyConditionExpression += ' AND sk =:sk';
+        queryObj.ExpressionAttributeValues[":sk"] = {
+          S: `${event.queryStringParameters?.subAreaId}`,
+        };
+        queryObj.KeyConditionExpression += " AND sk =:sk";
       }
 
       let results = [];
@@ -76,13 +86,15 @@ exports.handler = async (event, context) => {
 
       if (permissionObject.isAdmin) {
         // Sysadmin, they get it all
-        logger.info("**Sysadmin**")
+        logger.info("**Sysadmin**");
       } else {
         // Some other authenticated role
-        logger.info("**Some other authenticated person with attendance-and-revenue roles**")
+        logger.info(
+          "**Some other authenticated person with attendance-and-revenue roles**"
+        );
         logger.debug("permissionObject.roles:", permissionObject.roles);
-        const parkRoles = permissionObject.roles.map(item => {
-          return item.split(":")[0]
+        const parkRoles = permissionObject.roles.map((item) => {
+          return item.split(":")[0];
         });
         results = await roleFilter(results, parkRoles);
         // TODO: Filter park, don't give everything
@@ -109,11 +121,11 @@ async function filterSubAreaAccess(permissionObject, parks) {
     let results = [];
     logger.info("filterSubAreaAccess:", park.orcs);
     let queryObj = {
-      TableName: TABLE_NAME
+      TableName: TABLE_NAME,
     };
     queryObj.ExpressionAttributeValues = {};
-    queryObj.ExpressionAttributeValues[':pk'] = { S: `park::${park.orcs}` };
-    queryObj.KeyConditionExpression = 'pk =:pk';
+    queryObj.ExpressionAttributeValues[":pk"] = { S: `park::${park.orcs}` };
+    queryObj.KeyConditionExpression = "pk =:pk";
 
     let parkData;
 
@@ -125,9 +137,9 @@ async function filterSubAreaAccess(permissionObject, parks) {
 
     results = await roleFilter(results, permissionObject.roles);
     results.forEach((item) => {
-      parkSubAreaAccess.push({name: item.subAreaName, id: item.sk});
+      parkSubAreaAccess.push({ name: item.subAreaName, id: item.sk });
     });
-    park.subAreas = parkSubAreaAccess
+    park.subAreas = parkSubAreaAccess;
     newParks.push(park);
   }
 

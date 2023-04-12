@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "01cb4749-985c-42b5-a373-292e3f7feb40",
+		"_postman_id": "fda8f870-4c90-48bf-be3c-63cff210a46d",
 		"name": "BCParks Attendance and Revenue",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21509305"
@@ -76,6 +76,24 @@
 							]
 						},
 						"description": "Get specific subareas, either all subareas belonging to a specific park, or a single subarea given park ORCS and subarea ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Create SubArea",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"activities\": [\"Day Use\"],\r\n\t\"orcs\": \"0001\",\r\n\t\"managementArea\": \"Strathcona\",\r\n\t\"section\": \"South Central Coast/North Island\",\r\n\t\"region\": \"West Coast\",\r\n\t\"bundle\": \"Test Bundle\",\r\n\t\"subAreaName\": \"Test Sub Area\"\r\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}subArea",
+							"host": [
+								"{{base_url}}subArea"
+							]
+						}
 					},
 					"response": []
 				}
@@ -325,71 +343,71 @@
 				}
 			]
 		},
-    {
-      "name": "KeyCloak",
-      "item": [
-        {
-          "name": "All Roles",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "Get Specific Role",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        },
-        {
-          "name": "Create Role",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\": \"0001:0001\",\r\n    \"composite\": false,\r\n    \"clientRole\": true,\r\n    \"description\": \"Strathcona Park:New Subarea Name\"\r\n  }",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{keycloak_client_url}}/roles",
-              "host": [
-                "{{keycloak_client_url}}"
-              ],
-              "path": [
-                "roles"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Role",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{keycloak_client_url}}/roles/0001:0001",
-              "host": [
-                "{{keycloak_client_url}}"
-              ],
-              "path": [
-                "roles",
-                "0001:0001"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
+		{
+			"name": "KeyCloak",
+			"item": [
+				{
+					"name": "All Roles",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Role",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"0001:0001\",\r\n    \"composite\": false,\r\n    \"clientRole\": true,\r\n    \"description\": \"Strathcona Park:New Subarea Name\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{keycloak_client_url}}/roles",
+							"host": [
+								"{{keycloak_client_url}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{keycloak_client_url}}/roles/0001:0001",
+							"host": [
+								"{{keycloak_client_url}}"
+							],
+							"path": [
+								"roles",
+								"0001:0001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
 	],
 	"auth": {
 		"type": "oauth2",

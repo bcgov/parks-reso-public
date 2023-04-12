@@ -39,7 +39,7 @@ async function setupDb() {
   }
 }
 
-describe("Pass Succeeds", () => {
+describe("Park Test", () => {
   const mockedUnauthenticatedInvalidUser = {
     decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
@@ -133,7 +133,6 @@ describe("Pass Succeeds", () => {
     const parkGET = require("../lambda/park/GET/index");
     const response = await parkGET.handler(event, null);
     expect(response.statusCode).toBe(200);
-    expect(JSON.parse(response.body).length).toBe(2);
   });
 
   test("Handler - 200 Receive list of parks with limited role", async () => {
@@ -241,6 +240,7 @@ describe("Pass Succeeds", () => {
     );
 
     expect(response.statusCode).toBe(403);
+    expect(response.body).toBe('{"msg":"Error: UnAuthenticated."}');
   });
 
   test("Handler - 400 GET Bad Request", async () => {

@@ -2,7 +2,7 @@ const AWS = require("aws-sdk");
 const { logger } = require("./logger");
 
 const TABLE_NAME = process.env.TABLE_NAME || "ar-tests";
-const CONFIG_TABLE_NAME = process.env.CONFIG_TABLE_NAME || "ar-config"
+const CONFIG_TABLE_NAME = process.env.CONFIG_TABLE_NAME || "ar-config";
 const options = {
   region: "ca-central-1",
 };
@@ -27,13 +27,13 @@ const PASS_TYPE_EXPIRY_HOURS = {
 const FISCAL_YEAR_FINAL_MONTH = 3; // March
 
 const RECORD_ACTIVITY_LIST = [
-  'Frontcountry Camping',
-  'Frontcountry Cabins',
-  'Backcountry Camping',
-  'Backcountry Cabins',
-  'Group Camping',
-  'Day Use',
-  'Boating'
+  "Frontcountry Camping",
+  "Frontcountry Cabins",
+  "Backcountry Camping",
+  "Backcountry Cabins",
+  "Group Camping",
+  "Day Use",
+  "Boating",
 ];
 
 const dynamodb = new AWS.DynamoDB(options);
@@ -45,17 +45,17 @@ async function getOne(pk, sk) {
   logger.debug(`getItem: { pk: ${pk}, sk: ${sk} }`);
   const params = {
     TableName: TABLE_NAME,
-    Key: AWS.DynamoDB.Converter.marshall({ pk, sk })
+    Key: AWS.DynamoDB.Converter.marshall({ pk, sk }),
   };
   let item = await dynamodb.getItem(params).promise();
   if (item?.Item) {
     return AWS.DynamoDB.Converter.unmarshall(item.Item);
   }
   return {};
-};
+}
 // TODO: set paginated to TRUE by default. Query results will then be at most 1 page
 // (1MB) unless they are explicitly specified to retrieve more.
-// TODO: Ensure the returned object has the same structure whether results are paginated or not. 
+// TODO: Ensure the returned object has the same structure whether results are paginated or not.
 async function runQuery(query, paginated = false) {
   logger.debug("query:", query);
   let data = [];
@@ -66,19 +66,25 @@ async function runQuery(query, paginated = false) {
     page++;
     if (pageData?.LastEvaluatedKey) {
       query.ExclusiveStartKey = pageData.LastEvaluatedKey;
-    };
+    }
     pageData = await dynamodb.query(query).promise();
-    data = data.concat(pageData.Items.map(item => {
-      return AWS.DynamoDB.Converter.unmarshall(item);
-    }));
+    data = data.concat(
+      pageData.Items.map((item) => {
+        return AWS.DynamoDB.Converter.unmarshall(item);
+      })
+    );
     if (page < 2) {
       logger.debug(`Page ${page} data:`, data);
     } else {
-      logger.debug(`Page ${page} contains ${pageData.Items.length} additional query results...`);
-    };
+      logger.debug(
+        `Page ${page} contains ${pageData.Items.length} additional query results...`
+      );
+    }
   } while (pageData?.LastEvaluatedKey && !paginated);
 
-  logger.debug(`Query result pages: ${page}, total returned items: ${data.length}`);
+  logger.debug(
+    `Query result pages: ${page}, total returned items: ${data.length}`
+  );
   if (paginated) {
     return {
       LastEvaluatedKey: pageData.LastEvaluatedKey,
@@ -91,7 +97,7 @@ async function runQuery(query, paginated = false) {
 
 // TODO: set paginated to TRUE by default. Scan results will then be at most 1 page
 // (1MB) unless they are explicitly specified to retrieve more.
-// TODO: Ensure the returned object has the same structure whether results are paginated or not. 
+// TODO: Ensure the returned object has the same structure whether results are paginated or not.
 async function runScan(query, paginated = false) {
   logger.debug("query:", query);
   let data = [];
@@ -102,19 +108,25 @@ async function runScan(query, paginated = false) {
     page++;
     if (pageData?.LastEvaluatedKey) {
       query.ExclusiveStartKey = pageData.LastEvaluatedKey;
-    };
+    }
     pageData = await dynamodb.scan(query).promise();
-    data = data.concat(pageData.Items.map(item => {
-      return AWS.DynamoDB.Converter.unmarshall(item);
-    }));
+    data = data.concat(
+      pageData.Items.map((item) => {
+        return AWS.DynamoDB.Converter.unmarshall(item);
+      })
+    );
     if (page < 2) {
       logger.debug(`Page ${page} data:`, data);
     } else {
-      logger.debug(`Page ${page} contains ${pageData.Items.length} additional scan results...`);
-    };
+      logger.debug(
+        `Page ${page} contains ${pageData.Items.length} additional scan results...`
+      );
+    }
   } while (pageData?.LastEvaluatedKey && !paginated);
 
-  logger.debug(`Scan result pages: ${page}, total returned items: ${data.length}`);
+  logger.debug(
+    `Scan result pages: ${page}, total returned items: ${data.length}`
+  );
   if (paginated) {
     return {
       LastEvaluatedKey: pageData.LastEvaluatedKey,
@@ -129,10 +141,10 @@ async function runScan(query, paginated = false) {
 async function getParks() {
   const parksQuery = {
     TableName: TABLE_NAME,
-    KeyConditionExpression: 'pk = :pk',
+    KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
-      ':pk': { S: 'park' }
-    }
+      ":pk": { S: "park" },
+    },
   };
   return await runQuery(parksQuery);
 }
@@ -141,10 +153,10 @@ async function getParks() {
 async function getSubAreas(orcs) {
   const subAreaQuery = {
     TableName: TABLE_NAME,
-    KeyConditionExpression: 'pk = :pk',
+    KeyConditionExpression: "pk = :pk",
     ExpressionAttributeValues: {
-      ':pk': { S: `park::${orcs}` },
-    }
+      ":pk": { S: `park::${orcs}` },
+    },
   };
   return await runQuery(subAreaQuery);
 }
@@ -163,9 +175,9 @@ async function getRecords(subArea, filter = true) {
       TableName: TABLE_NAME,
       KeyConditionExpression: `pk = :pk`,
       ExpressionAttributeValues: {
-        ':pk': { S: `${subArea.sk}::${activity}` },
+        ":pk": { S: `${subArea.sk}::${activity}` },
       },
-    }
+    };
     // will return at most 1 record.
     const record = await runQuery(recordQuery);
     records = records.concat(record);
@@ -177,14 +189,14 @@ async function incrementAndGetNextSubAreaID() {
   const configUpdateObj = {
     TableName: CONFIG_TABLE_NAME,
     Key: {
-      'pk': { S: 'subAreaID' }
+      pk: { S: "subAreaID" },
     },
-    UpdateExpression: 'ADD lastID :incrVal',
+    UpdateExpression: "ADD lastID :incrVal",
     ExpressionAttributeValues: {
-      ':incrVal': { 'N': '1' }
+      ":incrVal": { N: "1" },
     },
-    ReturnValues:'UPDATED_NEW'
-  }
+    ReturnValues: "UPDATED_NEW",
+  };
   const response = await dynamodb.updateItem(configUpdateObj).promise();
   return response?.Attributes?.lastID?.N;
 }
@@ -208,5 +220,5 @@ module.exports = {
   getParks,
   getSubAreas,
   getRecords,
-  incrementAndGetNextSubAreaID
+  incrementAndGetNextSubAreaID,
 };

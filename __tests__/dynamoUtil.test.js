@@ -1,12 +1,12 @@
 const AWS = require("aws-sdk");
 const { DocumentClient } = require("aws-sdk/clients/dynamodb");
 const { REGION, ENDPOINT, TABLE_NAME } = require("./global/settings");
-const { PARKSLIST, SUBAREAS, SUBAREA_ENTRIES} = require("./global/data.json");
+const { PARKSLIST, SUBAREAS, SUBAREA_ENTRIES } = require("./global/data.json");
 
-const utils = require("../lambda/dynamoUtil");
+const CONFIG_TABLE_NAME = "dynamo-config-test";
 
 async function setupDb() {
-  new AWS.DynamoDB({
+  const dynamoDb = new AWS.DynamoDB({
     region: REGION,
     endpoint: ENDPOINT,
   });
@@ -15,6 +15,28 @@ async function setupDb() {
     endpoint: ENDPOINT,
     convertEmptyValues: true,
   });
+
+  await dynamoDb
+    .createTable({
+      TableName: CONFIG_TABLE_NAME,
+      KeySchema: [
+        {
+          AttributeName: "pk",
+          KeyType: "HASH",
+        },
+      ],
+      AttributeDefinitions: [
+        {
+          AttributeName: "pk",
+          AttributeType: "S",
+        },
+      ],
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1,
+      },
+    })
+    .promise();
 
   for (const park of PARKSLIST) {
     await docClient
@@ -49,6 +71,7 @@ describe("Pass Succeeds", () => {
   beforeEach(async () => {
     jest.resetModules();
     process.env = { ...OLD_ENV }; // Make a copy of environment
+    process.env.CONFIG_TABLE_NAME = CONFIG_TABLE_NAME;
   });
 
   afterEach(() => {
@@ -59,82 +82,105 @@ describe("Pass Succeeds", () => {
     return await setupDb();
   });
 
+  afterAll(async () => {
+    const dynamoDb = new AWS.DynamoDB({
+      region: REGION,
+      endpoint: ENDPOINT,
+    });
+
+    await dynamoDb
+      .deleteTable({
+        TableName: CONFIG_TABLE_NAME,
+      })
+      .promise();
+  });
+
   test("dynamoUtil - runScan", async () => {
+    const utils = require("../lambda/dynamoUtil");
+
     let queryObj = {
-        TableName: TABLE_NAME
+      TableName: TABLE_NAME,
     };
     queryObj.FilterExpression = "pk = :pk";
     queryObj.ExpressionAttributeValues = {};
-    queryObj.ExpressionAttributeValues[':pk'] = { S: `park` };
+    queryObj.ExpressionAttributeValues[":pk"] = { S: `park` };
 
-    const result = await utils.runScan(queryObj, null)
+    const result = await utils.runScan(queryObj, null);
 
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          parkName: PARKSLIST[0].parkName
+          parkName: PARKSLIST[0].parkName,
         }),
         expect.objectContaining({
-          parkName: PARKSLIST[1].parkName
+          parkName: PARKSLIST[1].parkName,
         }),
       ])
     );
   });
 
   test("dynamoUtil - getParks", async () => {
-    const result = await utils.getParks()
+    const utils = require("../lambda/dynamoUtil");
+
+    const result = await utils.getParks();
 
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          parkName: PARKSLIST[0].parkName
+          parkName: PARKSLIST[0].parkName,
         }),
         expect.objectContaining({
-          parkName: PARKSLIST[1].parkName
+          parkName: PARKSLIST[1].parkName,
         }),
       ])
     );
   });
 
   test("dynamoUtil - getSubAreas", async () => {
-    let orc = '0041'
+    const utils = require("../lambda/dynamoUtil");
+
+    let orc = "0041";
     let specificSubAreas = [];
     for (const area of SUBAREAS) {
       if (area.pk === `park::${orc}`) {
         specificSubAreas.push(area);
       }
     }
-    const result = await utils.getSubAreas(orc)
+    const result = await utils.getSubAreas(orc);
 
     expect(result).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          subAreaName: specificSubAreas[0].subAreaName
+          subAreaName: specificSubAreas[0].subAreaName,
         }),
         expect.objectContaining({
-          subAreaName: specificSubAreas[1].subAreaName
+          subAreaName: specificSubAreas[1].subAreaName,
         }),
       ])
     );
   });
 
   test("dynamoUtil - getRecords", async () => {
-    const result = await utils.getRecords(SUBAREAS[0])
+    const utils = require("../lambda/dynamoUtil");
+
+    const result = await utils.getRecords(SUBAREAS[0]);
 
     expect(result).toEqual(
       expect.not.arrayContaining([
         expect.not.objectContaining({
-          orcs: SUBAREAS[0].pk.split("::")[1]
-        })
+          orcs: SUBAREAS[0].pk.split("::")[1],
+        }),
       ])
     );
   });
 
   test("dynamoUtil - incrementAndGetNextSubAreaID works with and without an entry in the DB", async () => {
+    const utils = require("../lambda/dynamoUtil");
+
     const result = await utils.incrementAndGetNextSubAreaID();
-    expect(result).toEqual('1');
+    expect(result).toEqual("1");
 
     const result2 = await utils.incrementAndGetNextSubAreaID();
-    expect(result2).toEqual('2');
+    expect(result2).toEqual("2");
   });
 });

@@ -3,13 +3,11 @@ const s3 = new AWS.S3();
 const fs = require("fs");
 const writeXlsxFile = require("write-excel-file/node");
 const {
-  runScan,
   runQuery,
   TABLE_NAME,
   getParks,
   getSubAreas,
   getRecords,
-  getOne,
 } = require("../../dynamoUtil");
 const {
   EXPORT_NOTE_KEYS,
@@ -147,13 +145,13 @@ async function getAllRecords(roles = null) {
           // We have access to the park.
           const parkSubAreas = await getSubAreas(park.sk);
           parkSubAreas.filter((subAreaItem) => {
-            const found = subAreaItem.roles.some(r => roles.indexOf(r) >= 0);
+            const found = subAreaItem.roles.some((r) => roles.indexOf(r) >= 0);
             if (found) {
               subareas = subareas.concat(subAreaItem);
             }
           });
         } else {
-          logger.info(`Skipping ${park.sk}`)
+          logger.info(`Skipping ${park.sk}`);
         }
       } else {
         // Sysadmin
