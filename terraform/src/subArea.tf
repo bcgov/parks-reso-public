@@ -82,7 +82,7 @@ resource "aws_lambda_permission" "subAreaPostPermission" {
 
 #putSubArea
 resource "aws_lambda_function" "subAreaPutLambda" {
-  function_name = "subArea-post-${random_string.postfix.result}"
+  function_name = "subArea-put-${random_string.postfix.result}"
 
   filename         = "artifacts/subAreaPut.zip"
   source_code_hash = filebase64sha256("artifacts/subAreaPut.zip")
