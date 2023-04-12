@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "ar_table" {
-  name           = aws_dynamodb_table.ar_table.name
+  name           = data.aws_ssm_parameter.db_name.value
   hash_key       = "pk"
   range_key      = "sk"
   billing_mode   = "PAY_PER_REQUEST"
