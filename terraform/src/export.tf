@@ -9,7 +9,7 @@ resource "aws_lambda_function" "exportInvokableLambda" {
   runtime = "nodejs14.x"
   publish = "true"
 
-  timeout = 300
+  timeout = 900
   memory_size = 2048
 
   environment {

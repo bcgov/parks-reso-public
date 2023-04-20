@@ -138,7 +138,8 @@ async function runScan(query, paginated = false) {
 }
 
 // returns all parks in the database.
-async function getParks() {
+// includeLegacy = false will only return parks that are not marked as legacy.
+async function getParks(includeLegacy = true) {
   const parksQuery = {
     TableName: TABLE_NAME,
     KeyConditionExpression: "pk = :pk",
@@ -146,11 +147,16 @@ async function getParks() {
       ":pk": { S: "park" },
     },
   };
+  if (!includeLegacy) {
+    parksQuery.FilterExpression = "isLegacy = :legacy OR attribute_not_exists(isLegacy)";
+    parksQuery.ExpressionAttributeValues[":legacy"] = { BOOL: false };
+  }
   return await runQuery(parksQuery);
 }
 
 // returns all subareas within an ORCS.
-async function getSubAreas(orcs) {
+// includeLegacy = false will only return subareas that are not marked as legacy.
+async function getSubAreas(orcs, includeLegacy = true) {
   const subAreaQuery = {
     TableName: TABLE_NAME,
     KeyConditionExpression: "pk = :pk",
@@ -158,13 +164,18 @@ async function getSubAreas(orcs) {
       ":pk": { S: `park::${orcs}` },
     },
   };
+  if (!includeLegacy) {
+    subAreaQuery.FilterExpression = "isLegacy = :legacy OR attribute_not_exists(isLegacy)";
+    subAreaQuery.ExpressionAttributeValues[":legacy"] = { BOOL: false };
+  }
   return await runQuery(subAreaQuery);
 }
 
 // returns all records within a subarea.
 // pass the full subarea object.
 // pass filter = false to look for every possible activity
-async function getRecords(subArea, filter = true) {
+// includeLegacy = false will only return records that are not marked as legacy.
+async function getRecords(subArea, filter = true, includeLegacy = true) {
   let records = [];
   let filteredActivityList = RECORD_ACTIVITY_LIST;
   if (filter && subArea.activites) {
@@ -178,6 +189,10 @@ async function getRecords(subArea, filter = true) {
         ":pk": { S: `${subArea.sk}::${activity}` },
       },
     };
+    if (!includeLegacy) {
+      recordQuery.FilterExpression = "isLegacy = :legacy OR attribute_not_exists(isLegacy)";
+      recordQuery.ExpressionAttributeValues[":legacy"] = { BOOL: false };
+    }
     // will return at most 1 record.
     const record = await runQuery(recordQuery);
     records = records.concat(record);

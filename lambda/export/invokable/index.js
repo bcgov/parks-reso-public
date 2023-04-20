@@ -137,13 +137,13 @@ async function getAllRecords(roles = null) {
   let records = [];
   let subareas = [];
   try {
-    const parks = await getParks();
+    const parks = await getParks(false);
     for (const park of parks) {
       if (roles !== null) {
         let result = roles.filter((item) => item.startsWith(park.sk));
         if (result.length > 0) {
           // We have access to the park.
-          const parkSubAreas = await getSubAreas(park.sk);
+          const parkSubAreas = await getSubAreas(park.sk, false);
           parkSubAreas.filter((subAreaItem) => {
             const found = subAreaItem.roles.some((r) => roles.indexOf(r) >= 0);
             if (found) {
@@ -155,12 +155,12 @@ async function getAllRecords(roles = null) {
         }
       } else {
         // Sysadmin
-        const parkSubAreas = await getSubAreas(park.sk);
+        const parkSubAreas = await getSubAreas(park.sk, false);
         subareas = subareas.concat(parkSubAreas);
       }
     }
     for (const subarea of subareas) {
-      const subAreaRecords = await getRecords(subarea, true);
+      const subAreaRecords = await getRecords(subarea, true, false);
       records = records.concat(subAreaRecords);
     }
     return records;
