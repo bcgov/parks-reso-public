@@ -448,7 +448,7 @@ const schema = {
     type: Number,
     activity: activitiesEnum[1],
     hasMatch: true,
-    fieldMap: 'otherRevenueGrossSani',
+    fieldMap: 'otherRevenueShower',
     fieldName: 'Frontcountry Camping - Other - Gross shower revenue'
   },
   'Net Shower Revenue': {
