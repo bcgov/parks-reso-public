@@ -335,5 +335,52 @@ describe('FacilitySelectComponent', () => {
       const textElement = fixture.debugElement.query(By.css('[data-testid="day-availability-text"]'));
       expect(textElement.nativeElement.textContent).toContain('Pass availability - Full');
     });
+
+    it('should test the 12 hour time string function', () => {
+      expect(component.to12hTimeString(11)).toBe("11am")
+      expect(component.to12hTimeString(12)).toBe("12pm")
+      expect(component.to12hTimeString(23)).toBe("11pm")
+    })
+
+    it('should test the submit function', () => {
+      let emitSpy = spyOn(component.emitter, 'emit').and.callThrough();
+      component.submit()
+
+      expect(component.myForm.get('visitTime').value).toBeNull()
+      expect(component.myForm.get('passType').value).toBe('')
+      expect(component.myForm.get('passCount').value).toBe('')
+
+      expect(emitSpy).toHaveBeenCalledTimes(1);
+    })
+
+    it('should test AM departure text', async () => {
+      component.defaultAMOpeningHour = 7
+      component.timeConfig.AM.offered = true;
+
+      await fixture.detectChanges()
+
+      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-AM"]'));
+
+      expect(textElement.nativeElement.textContent).toContain('1pm (Depart by 1pm)');
+      expect(component.to12hTimeString(component.defaultAMOpeningHour)).toBe(component.defaultAMOpeningHour.toString()+"am");
+      expect(true).toBeTrue()
+    })
+
+    it('should test PM arrival text', () => {
+      component.timeConfig.PM.offered = true;
+      fixture.detectChanges()
+
+      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-PM"]'));
+      expect(textElement.nativeElement.textContent).toContain('Arrive after 1pm');
+    })
+
+    it('should test DAY arrival text', () => {
+      component.timeConfig.DAY.offered = true;
+      fixture.detectChanges()
+
+      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-DAY"]'));
+      expect(textElement.nativeElement.textContent).toContain('Arrive and depart within park operating hours.');
+    })
+
   });
 });
