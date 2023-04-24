@@ -63,9 +63,13 @@ exports.handler = async (event, context) => {
       };
       const configData = (await runQuery(configObj))[0];
 
-      const { pk, sk, ...otherProps } = configData;
       logger.info("Activity Get returning.");
-      return sendResponse(200, { ...parkData, config: otherProps }, context);
+      if (configData) {
+          const { pk, sk, ...otherProps } = configData;
+          return sendResponse(200, { ...parkData, config: otherProps }, context);
+      } else {
+        return sendResponse(200, { ...parkData, config: 'none' }, context);
+      }
     } else {
       throw "Invalid parameter call.";
     }

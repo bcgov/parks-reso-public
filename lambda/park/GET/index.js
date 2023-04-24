@@ -28,10 +28,7 @@ exports.handler = async (event, context) => {
       // Get me a list of parks, with subareas
       queryObj.ExpressionAttributeValues = {};
       queryObj.ExpressionAttributeValues[":pk"] = { S: "park" };
-      queryObj.ExpressionAttributeValues[":isLegacy"] = { BOOL: false };
       queryObj.KeyConditionExpression = "pk =:pk";
-      queryObj.FilterExpression =
-        "attribute_not_exists(isLegacy) OR isLegacy = :isLegacy";
       let results = [];
       let parkData;
       do {
