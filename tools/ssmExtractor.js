@@ -8,9 +8,9 @@ main();
 
 async function main() {
   // Get System Manager Parameter Store Items
-  let apiParameters = await getSMParametersByPath('/parks-reso-api');
-  let adminParameters = await getSMParametersByPath('/parks-reso-admin');
-  let publicParameters = await getSMParametersByPath('/parks-reso-public');
+  let apiParameters = await getSMParametersByPath('/parks-ar-api');
+  let adminParameters = await getSMParametersByPath('/parks-ar-admin');
+  let publicParameters = await getSMParametersByPath('/parks-ar-public');
 
   const apiData = apiParameters.map((item) => { return { Name: item.Name, Value: item.Value } });
   const adminData = adminParameters.map((item) => { return { Name: item.Name, Value: item.Value } });

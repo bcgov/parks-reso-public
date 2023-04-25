@@ -126,6 +126,12 @@ functions:
           cors: true
 
   ###########
+  # Cloudwatch Alarm
+  ###########
+  cloudwatchAlarm:
+    handler: lambda/cloudwatchAlarm/index.handler
+
+  ###########
   # Export
   ###########
   exportInvokable:
