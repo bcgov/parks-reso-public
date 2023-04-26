@@ -84,7 +84,7 @@ export class TableRowDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }
