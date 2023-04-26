@@ -1,6 +1,6 @@
 service: bcparks-ar-api
 
-frameworkVersion: "3"
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -11,6 +11,8 @@ provider:
 
 package:
   individually: true
+  exclude:
+    - './*' # This causes Serverless to only package referenced source files
 
 plugins:
   - serverless-offline
