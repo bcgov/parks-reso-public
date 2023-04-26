@@ -359,7 +359,7 @@ describe('FacilitySelectComponent', () => {
 
       await fixture.detectChanges()
 
-      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-AM"]'));
+      const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-AM"));
 
       expect(textElement.nativeElement.textContent).toContain('1pm (Depart by 1pm)');
       expect(component.to12hTimeString(component.defaultAMOpeningHour)).toBe(component.defaultAMOpeningHour.toString()+"am");
@@ -370,7 +370,7 @@ describe('FacilitySelectComponent', () => {
       component.timeConfig.PM.offered = true;
       fixture.detectChanges()
 
-      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-PM"]'));
+      const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-PM"));
       expect(textElement.nativeElement.textContent).toContain('Arrive after 1pm');
     })
 
@@ -378,7 +378,7 @@ describe('FacilitySelectComponent', () => {
       component.timeConfig.DAY.offered = true;
       fixture.detectChanges()
 
-      const textElement = fixture.debugElement.query(By.css('[data-testid="arrive-departure-text-DAY"]'));
+      const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-DAY"));
       expect(textElement.nativeElement.textContent).toContain('Arrive and depart within park operating hours.');
     })
 
