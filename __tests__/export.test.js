@@ -170,7 +170,7 @@ describe("Export Report", () => {
       }
     };
 
-    const exportFUNCTIONS = require("../lambda/export/functions");
+    const exportFUNCTIONS = require("../lambda/functions");
     await exportFUNCTIONS.updateJobEntry(MOCKJOB, TABLE_NAME)
     const utils = require("../lambda/dynamoUtil");
     const result = await utils.runQuery(query)
