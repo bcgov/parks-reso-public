@@ -14,7 +14,7 @@ const {
   EXPORT_MONTHS,
   CSV_SYSADMIN_SCHEMA,
   STATE_DICTIONARY,
-} = require("../constants");
+} = require("../../constants");
 const { updateJobEntry } = require("../../functions");
 const { logger } = require("../../logger");
 
