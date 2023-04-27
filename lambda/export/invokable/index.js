@@ -15,7 +15,7 @@ const {
   CSV_SYSADMIN_SCHEMA,
   STATE_DICTIONARY,
 } = require("../constants");
-const { updateJobEntry } = require("../functions");
+const { updateJobEntry } = require("../../functions");
 const { logger } = require("../../logger");
 
 const {

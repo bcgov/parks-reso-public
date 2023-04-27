@@ -15,7 +15,7 @@ const lambda = new AWS.Lambda(options);
 const { runQuery, dynamodb, TABLE_NAME } = require("../../dynamoUtil");
 const { sendResponse } = require("../../responseUtil");
 const { decodeJWT, resolvePermissions } = require("../../permissionUtil");
-const { convertRolesToMD5 } = require("../functions");
+const { convertRolesToMD5 } = require("../../functions");
 const { logger } = require("../../logger");
 
 const EXPORT_FUNCTION_NAME =

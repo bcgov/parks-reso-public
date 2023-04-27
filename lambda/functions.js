@@ -1,5 +1,5 @@
 const AWS = require("aws-sdk");
-const { dynamodb } = require("../dynamoUtil");
+const { dynamodb } = require("./dynamoUtil");
 const crypto = require("crypto");
 
 function convertRolesToMD5(roles, prefix = "") {
