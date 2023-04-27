@@ -11,9 +11,9 @@ provider:
 package:
   individually: true
   patterns:
-    - 'lambda/**'
-    - 'node_modules/**'
     - '!./**'
+    - 'lambda/*'
+    - 'node_modules/**'
 
 plugins:
   - serverless-offline
