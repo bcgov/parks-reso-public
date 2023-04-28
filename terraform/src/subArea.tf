@@ -121,6 +121,47 @@ resource "aws_lambda_permission" "subAreaPutPermission" {
   source_arn    = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/PUT/subArea"
 }
 
+#deleteSubArea
+resource "aws_lambda_function" "subAreaDeleteLambda" {
+  function_name = "subArea-delete-${random_string.postfix.result}"
+
+  filename         = "artifacts/subAreaDelete.zip"
+  source_code_hash = filebase64sha256("artifacts/subAreaDelete.zip")
+
+  handler = "lambda/subArea/DELETE/index.handler"
+  runtime = "nodejs14.x"
+  timeout = 30
+  publish = "true"
+
+  memory_size = 128
+
+  role = aws_iam_role.databaseReadRole.arn
+
+  environment {
+    variables = {
+      SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
+      SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
+      SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
+      TABLE_NAME  = aws_dynamodb_table.ar_table.name,
+      LOG_LEVEL   = "info"
+    }
+  }
+}
+
+resource "aws_lambda_alias" "subAreaDeleteLambdaLatest" {
+  name             = "latest"
+  function_name    = aws_lambda_function.subAreaDeleteLambda.function_name
+  function_version = aws_lambda_function.subAreaDeleteLambda.version
+}
+
+resource "aws_lambda_permission" "subAreaDeletePermission" {
+  statement_id  = "subAreaDeletePermissionInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.subAreaDeleteLambda.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/DELETE/subArea"
+}
+
 # Resources - subAreas
 module "subAreaResource" {
   source               = "./modules/cors-enabled-api-resource"
@@ -184,4 +225,23 @@ resource "aws_api_gateway_integration" "subAreaPutIntegration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.subAreaPutLambda.invoke_arn
+}
+
+// Defines the HTTP DELETE /subArea API
+resource "aws_api_gateway_method" "subAreaDelete" {
+  rest_api_id   = aws_api_gateway_rest_api.apiLambda.id
+  resource_id   = module.subAreaResource.resource.id
+  http_method   = "DELETE"
+  authorization = "NONE"
+}
+
+// Integrates the APIG to Lambda via POST method
+resource "aws_api_gateway_integration" "subAreaDeleteIntegration" {
+  rest_api_id = aws_api_gateway_rest_api.apiLambda.id
+  resource_id = module.subAreaResource.resource.id
+  http_method = aws_api_gateway_method.subAreaDelete.http_method
+
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.subAreaDeleteLambda.invoke_arn
 }

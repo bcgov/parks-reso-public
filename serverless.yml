@@ -84,6 +84,14 @@ functions:
           path: /subArea
           cors: true
 
+  subAreaDelete:
+    handler: lambda/subArea/DELETE/index.handler
+    events:
+      - http:
+          method: DELETE
+          path: /subArea
+          cors: true
+
   ###########
   # Activity
   ###########
@@ -108,6 +116,14 @@ functions:
     events:
       - http:
           method: PUT
+          path: /activity
+          cors: true
+
+  activityDelete:
+    handler: lambda/activity/DELETE/index.handler
+    events:
+      - http:
+          method: DELETE
           path: /activity
           cors: true
 
