@@ -1825,10 +1825,15 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-1.3.2.tgz#93e25bf9ee75fe0fd80b594bc4feb0e862111b5a"
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
-"@types/node@*", "@types/node@>=10.0.0", "@types/node@^18.16.1":
+"@types/node@*", "@types/node@>=10.0.0":
   version "18.16.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.1.tgz#5db121e9c5352925bb1f1b892c4ae620e3526799"
   integrity sha512-DZxSZWXxFfOlx7k7Rv4LAyiMroaxa3Ly/7OOzZO8cBNho0YzAi4qlbrx8W27JGqG57IgR/6J7r+nOJWw6kcvZA==
+
+"@types/node@^18.16.2":
+  version "18.16.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.16.2.tgz#2f610ea71034b3971c312192377f8a7178eb57f1"
+  integrity sha512-GQW/JL/5Fz/0I8RpeBG9lKp0+aNcXEaVL71c0D2Q0QHDTFvlYKT7an0onCUXj85anv7b4/WesqdfchLc0jtsCg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -5037,10 +5042,10 @@ make-fetch-happen@^11.0.0, make-fetch-happen@^11.0.1:
     socks-proxy-agent "^7.0.0"
     ssri "^10.0.0"
 
-material-icons@^1.13.5:
-  version "1.13.5"
-  resolved "https://registry.yarnpkg.com/material-icons/-/material-icons-1.13.5.tgz#a16adfea9a5db602d3acae64adeb1c55b8bcf84f"
-  integrity sha512-LIgq4E21ifLiEsBY+44OSZNvsZHLTnFMrYsFDTfS6wovo9kpABnDTfYwJxAqPr1cL5YLZyf2nWoYUR/dNZp/Ow==
+material-icons@^1.13.6:
+  version "1.13.6"
+  resolved "https://registry.yarnpkg.com/material-icons/-/material-icons-1.13.6.tgz#ff1d63bfe58300bd3c3c3a790b33625fc862eac5"
+  integrity sha512-I9NjTMwdmq7QECY92ReLqbhWtUZmjlE0eX9UbIHFsSbT7wRp3aj/3ZbuHLFb9w96HG0S4pWbVQjwTQLxyfYyEg==
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -6243,10 +6248,17 @@ rxjs@6.6.7:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.5.5, rxjs@~7.8.0:
+rxjs@^7.5.5:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
   integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
+  dependencies:
+    tslib "^2.1.0"
+
+rxjs@~7.8.1:
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
+  integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
   dependencies:
     tslib "^2.1.0"
 
