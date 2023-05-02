@@ -97,15 +97,13 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get bookingOpeningHour(): number {
-    // As a temporary work-around, date rules for each park are currently based on
-    // the first open facility at the park. See BRS-570 for details
-    const facility = this.facilities?.find(f => f.status.state === 'open');
+    const facility = this.myForm.get('passType').value;
     let bookingOpeningHour = this.defaultAMOpeningHour;
 
     if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
       bookingOpeningHour = facility.bookingOpeningHour;
     }
-
+    
     return bookingOpeningHour;
   }
 
