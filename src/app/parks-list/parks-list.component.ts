@@ -31,26 +31,30 @@ export class ParksListComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(
-    private changeDetectionRef: ChangeDetectorRef,
-    private parkService: ParkService
-  ) { }
+  constructor(private changeDetectionRef: ChangeDetectorRef, private parkService: ParkService) {}
 
   ngOnInit() {
-    let tempList = [];
     let tabIndex = 10;
 
-    this.parkService.getListValue()
+    this.parkService
+      .getListValue()
       .pipe(takeWhile(() => this.alive))
       .subscribe(res => {
+        console.log(res);
         if (res) {
           if (res === 'error') {
             this.error = true;
           } else {
+            let tempList = [];
+            let tempClosedList = [];
             res.forEach(park => {
-              tempList.push({ ...park, ...{ tabindex: tabIndex } });
+              if (park.status === 'closed') {
+                tempClosedList.push({ ...park, ...{ tabindex: tabIndex } });
+              } else {
+                tempList.push({ ...park, ...{ tabindex: tabIndex } });
+              }
             });
-            this.data = [{ rowData: tempList }];
+            this.data = [{ rowData: [...tempList, ...tempClosedList] }];
             this.totalListItems = res.length;
           }
           this.loading = false;
