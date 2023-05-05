@@ -31,6 +31,16 @@ export class ParksListComponent implements OnInit, OnDestroy {
     }
   ];
 
+  private parkNameSortFunction = function (a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  };
+
   constructor(private changeDetectionRef: ChangeDetectorRef, private parkService: ParkService) {}
 
   ngOnInit() {
@@ -40,7 +50,6 @@ export class ParksListComponent implements OnInit, OnDestroy {
       .getListValue()
       .pipe(takeWhile(() => this.alive))
       .subscribe(res => {
-        console.log(res);
         if (res) {
           if (res === 'error') {
             this.error = true;
@@ -54,6 +63,10 @@ export class ParksListComponent implements OnInit, OnDestroy {
                 tempList.push({ ...park, ...{ tabindex: tabIndex } });
               }
             });
+
+            tempList.sort(this.parkNameSortFunction);
+            tempClosedList.sort(this.parkNameSortFunction);
+
             this.data = [{ rowData: [...tempList, ...tempClosedList] }];
             this.totalListItems = res.length;
           }
