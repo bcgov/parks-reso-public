@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^15.0.4",
     "@angular/router": "^15.0.4",
     "@angular/service-worker": "^15.0.4",
-    "@digitalspace/bcparks-bootstrap-theme": "^1.0.6",
+    "@digitalspace/bcparks-bootstrap-theme": "^1.2.33",
     "@ng-bootstrap/ng-bootstrap": "^14.0.0",
     "@popperjs/core": "^2.10.2",
     "angularx-qrcode": "^15.0.1",

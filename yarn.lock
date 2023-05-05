@@ -1280,7 +1280,7 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@digitalspace/bcparks-bootstrap-theme@^1.0.6":
+"@digitalspace/bcparks-bootstrap-theme@^1.2.33":
   version "1.2.33"
   resolved "https://registry.yarnpkg.com/@digitalspace/bcparks-bootstrap-theme/-/bcparks-bootstrap-theme-1.2.33.tgz#ffacb88d3a577bd6e7dfb0acaba2c2e1b83dace2"
   integrity sha512-8szQPrufi8hgV1Dx7DtQYSEh5pM+xnju7Z4UtJkOXdmNpvx1HBC9WqOoV4ob8JW6RKmXAlkl3XxKCxh772SZUw==
