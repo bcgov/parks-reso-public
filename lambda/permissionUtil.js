@@ -155,3 +155,29 @@ exports.resolvePermissions = function (token) {
     isAuthenticated: isAuthenticated
   }
 }
+
+// Helper function to send a response back to the caller.
+exports.requirePermissions = async function (event, permissionSet) {
+  const token = await exports.decodeJWT(event);
+  const permissionObject = exports.resolvePermissions(token);
+
+  // Are we requiring authentication for this call?
+  if (permissionSet.isAuthenticated && !permissionObject.isAuthenticated) {
+    logger.info("**NOT AUTHENTICATED, PUBLIC**");
+    throw {
+      statusCode: 403,
+      msg: "Unauthenticated."
+    };
+  }
+
+  // Are we requiring admin permissions?
+  if (permissionSet.isAdmin && !permissionObject.isAdmin) {
+    logger.info("Not authorized.");
+    throw {
+      statusCode: 403,
+      msg: "Not authorized."
+    };
+  }
+
+  return { token, permissionObject };
+}

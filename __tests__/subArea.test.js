@@ -16,7 +16,6 @@ const token = jwt.sign(tokenContent, "defaultSecret");
 
 const suffix = "-subAreaTest";
 const testParkList = [];
-// const testSubAreaList = [];
 
 async function setupDb() {
   new AWS.DynamoDB({
@@ -29,17 +28,73 @@ async function setupDb() {
     convertEmptyValues: true,
   });
 
-  for (let park of PARKSLIST) {
+  for await (let park of PARKSLIST) {
     park.sk = park.sk + suffix;
     park.orcs = park.orcs + suffix;
+    subAreaParkIdToDelete = park;
 
     let modifiedSubAreas = [];
-    for (let subArea of park.subAreas) {
+    for await (let subArea of park.subAreas) {
       subArea.id = subArea.id + suffix;
+      subAreaToDelete = subArea;
       modifiedSubAreas.push(subArea);
+
+      // Add the sub area record
+      console.log("subarea record:", {
+        pk: `park::${park.orcs}`,
+        sk: `${subArea.id}`,
+        activities: docClient.createSet([
+          'Day Use'
+        ])
+      });
+      await docClient
+        .put({
+          TableName: TABLE_NAME,
+          Item: {
+            pk: `park::${park.orcs}`,
+            sk: `${subArea.id}`,
+            activities: docClient.createSet([
+              'Day Use'
+            ])
+          }
+        })
+        .promise();
+      
+      // Add the activity config
+      await docClient
+        .put({
+          TableName: TABLE_NAME,
+          Item: {
+            pk: `config::${subArea.id}`,
+            sk: `Day Use`
+          }
+        })
+        .promise();
+
+      console.log("activity config", {
+        pk: `config::${subArea.id}`,
+        sk: `Day Use`
+      })
+
+      // Add the activity record
+      await docClient
+        .put({
+          TableName: TABLE_NAME,
+          Item: {
+            pk: `${subArea.id}::Day Use`,
+            sk: `202201`
+          }
+        })
+        .promise();
+
+      console.log("activity record", {
+        pk: `${subArea.id}::Day Use`,
+        sk: `202201`
+      })
     }
     park.subAreas = modifiedSubAreas;
 
+    // Add the park record
     await docClient
       .put({
         TableName: TABLE_NAME,
@@ -366,5 +421,160 @@ describe("Sub Area Test", () => {
     );
     expect(response.statusCode).toBe(400);
     expect(response.body).toBe('{"msg":"Invalid request"}');
+  });
+
+  test("Handler - 400 Sub Area DELETE Bad Request", async () => {
+    // Returns if there are no query string parameters
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+    });
+    expect(response.statusCode).toBe(400);
+  });
+
+  test("Handler - 403 Sub Area DELETE Not Admin", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return {
+        requirePermissions: () => {
+          throw {
+            statusCode: 403,
+            msg: "Not authorized."
+          }
+        }
+      };
+    });
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        queryStringParameters: {
+          orcs: "0041" + suffix,
+          archive: "false",
+          subAreaId: "fakeSubAreaId"
+        },
+      },
+      null
+    );
+    expect(response.statusCode).toBe(403);
+    expect(response.body).toBe("\"Not authorized.\"");
+  });
+
+  test("Handler - 403 Sub Area DELETE Unauthenticated", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return {
+        requirePermissions: () =>  {
+          throw {
+            statusCode: 403,
+            msg: "Unauthenticated."
+          }
+        }
+      };
+    });
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        queryStringParameters: {
+          orcs: "0041" + suffix,
+          archive: "false",
+          subAreaId: "fakeSubAreaId"
+        },
+      },
+      null
+    );
+    expect(response.statusCode).toBe(403);
+    expect(response.body).toBe("\"Unauthenticated.\"");
+  });
+
+  test("Handler - 501  Sub Area soft DELETE Not Implemented", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return {
+        requirePermissions: () => {
+          return {
+            isAdmin: true,
+            isSysadmin: true,
+          };
+        },
+      };
+    });
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        queryStringParameters: {
+          orcs: "0041" + suffix,
+          archive: "true",
+          subAreaId: "fakeSubAreaId"
+        },
+      },
+      null
+    );
+    expect(response.statusCode).toBe(501);
+    expect(response.body).toBe("{\"msg\":\"SubArea archived\"}");
+  });
+
+  test("Handler - 200 Sub Area hard DELETE Success", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return {
+        requirePermissions: () => {
+          return {
+            isAdmin: true,
+            isSysadmin: true,
+          };
+        },
+      };
+    });
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+
+    // Delete the first subarea from PARKSLIST
+    const parkObject = PARKSLIST[0];
+    const qsp = {
+      orcs: parkObject.orcs,
+      archive: "false",
+      subAreaId: parkObject.subAreas[0].id
+    };
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        queryStringParameters: qsp,
+      },
+      null
+    );
+    expect(response.statusCode).toBe(200);
   });
 });
