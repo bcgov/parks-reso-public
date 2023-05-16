@@ -505,7 +505,7 @@ describe("Sub Area Test", () => {
     expect(response.body).toBe("\"Unauthenticated.\"");
   });
 
-  test("Handler - 501  Sub Area soft DELETE Not Implemented", async () => {
+  test("Handler - 404 Sub Area soft DELETE not found", async () => {
     const axios = require("axios");
     jest.mock("axios");
     axios.delete.mockImplementation(() =>
@@ -536,7 +536,44 @@ describe("Sub Area Test", () => {
       },
       null
     );
-    expect(response.statusCode).toBe(501);
+    expect(response.statusCode).toBe(404);
+    expect(response.body).toBe("{\"msg\":\"SubAreaId fakeSubAreaId not found\"}");
+  });
+
+  test("Handler - 200 Sub Area soft DELETE success", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return {
+        requirePermissions: () => {
+          return {
+            isAdmin: true,
+            isSysadmin: true,
+          };
+        },
+      };
+    });
+    const subAreaDELETE = require("../lambda/subArea/DELETE/index");
+    const parkObject = PARKSLIST[1];
+    const qsp = {
+      orcs: parkObject.orcs,
+      archive: "true",
+      subAreaId: parkObject.subAreas[0].id
+    };
+    const response = await subAreaDELETE.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        queryStringParameters: qsp,
+      },
+      null
+    );
+    expect(response.statusCode).toBe(200);
     expect(response.body).toBe("{\"msg\":\"SubArea archived\"}");
   });
 

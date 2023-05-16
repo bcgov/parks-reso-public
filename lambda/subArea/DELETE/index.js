@@ -34,7 +34,7 @@ exports.handler = async (event, context) => {
       return await deleteSubArea(event.queryStringParameters.subAreaId, event.queryStringParameters.orcs, context);
     }
   } catch (e) {
-    logger.error(e)
+    logger.error(JSON.stringify(e))
     return sendResponse(e.statusCode || 400, { msg: e.msg }, context);
   }
 };
@@ -109,6 +109,7 @@ async function deleteActivityRecord(pk, sk) {
   logger.info("Response:", response);
   return response;
 }
+
 async function deleteSubAreaRecords(subAreaId, orcs, context) {
   // delete all items in dynamodb matching pk = `park::${orcs}` and sk = `${subAreaId}`
   const params = {
@@ -123,6 +124,27 @@ async function deleteSubAreaRecords(subAreaId, orcs, context) {
   const response = await dynamodb.deleteItem(params).promise();
   logger.info("Activities deleted:", response.Attributes?.activities.SS);
   return response.Attributes?.activities.SS;
+}
+
+async function archiveSubAreaRecord(subAreaId, orcs, context) {
+  logger.info("Archiving subareas")
+  // update all items in dynamodb matching pk = `park::${orcs}` and sk = `${subAreaId}`
+  const params = {
+    TableName: TABLE_NAME,
+    Key: {
+      pk: { S: `park::${orcs}` },
+      sk: { S: `${subAreaId}` }
+    },
+    ExpressionAttributeValues: {
+      ':archived': AWS.DynamoDB.Converter.input(true),
+    },
+    UpdateExpression: `SET archived =:archived`,
+    ReturnValues: 'ALL_NEW'
+  };
+  logger.info("Archiving subArea records:", params);
+  const response = await dynamodb.updateItem(params).promise();
+  logger.info("response:", response);
+  return response;
 }
 
 async function deleteSubAreaFromPark(subAreaId, orcs, context) {
@@ -160,6 +182,14 @@ async function deleteSubAreaFromPark(subAreaId, orcs, context) {
 }
 
 async function archiveSubArea(subAreaId, orcs, context) {
-  // TODO: Implement
-  return sendResponse(501, { msg: "SubArea archived" }, context);
+  // Update the park object by removing the subarea.
+  logger.info("Removing subarea from park")
+  await deleteSubAreaFromPark(subAreaId, orcs, context);
+  logger.info("Removed.  Archiving Subarea.")
+
+  // Go throught the subarea records and flag them as archived.
+  await archiveSubAreaRecord(subAreaId, orcs, context);
+  logger.info("Archived.")
+
+  return sendResponse(200, { msg: "SubArea archived" }, context);
 };
