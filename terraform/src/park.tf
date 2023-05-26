@@ -30,7 +30,7 @@ resource "aws_lambda_function" "parkPostLambda" {
   filename         = "artifacts/parkPost.zip"
   source_code_hash = filebase64sha256("artifacts/parkPost.zip")
 
-  handler = "lambda/park/GET/index.handler"
+  handler = "lambda/park/POST/index.handler"
   runtime = "nodejs14.x"
   timeout = 30
   publish = "true"
