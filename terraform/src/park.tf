@@ -105,7 +105,7 @@ resource "aws_api_gateway_integration" "parkPostIntegration" {
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.parkGetLambda.invoke_arn
+  uri                     = aws_lambda_function.parkPostLambda.invoke_arn
 }
 
 resource "aws_lambda_permission" "parkGetPermission" {
