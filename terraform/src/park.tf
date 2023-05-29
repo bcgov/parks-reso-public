@@ -119,7 +119,7 @@ resource "aws_lambda_permission" "parkGetPermission" {
 resource "aws_lambda_permission" "parkPostPermission" {
   statement_id  = "parkPostPermissionInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.parkGetLambda.function_name
+  function_name = aws_lambda_function.parkPostLambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/POST/park"
 }
