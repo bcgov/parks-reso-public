@@ -101,7 +101,7 @@ exports.handler = async (event, context) => {
       SSO_ORIGIN,
       SSO_CLIENT_ID,
       event.headers.Authorization.replace("Bearer ", ""),
-      `${subAreaObj.orcs}::${subAreaId}`,
+      `${subAreaObj.orcs}:${subAreaId}`,
       `${park.parkName}:${subAreaObj.subAreaName}`
     );
     logger.debug("kcRes:", kcRes);
