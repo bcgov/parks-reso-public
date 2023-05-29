@@ -83,6 +83,14 @@ resource "aws_iam_role_policy" "databaseReadRolePolicy" {
             "dynamodb:PutItem"
         ],
         "Resource": "${aws_dynamodb_table.ar_table.arn}"
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+            "dynamodb:DescribeTable",
+            "dynamodb:UpdateItem"
+        ],
+        "Resource": "${aws_dynamodb_table.ar_config_table.arn}"
       }
   ]
 }
