@@ -21,7 +21,7 @@ const config = {
  * @returns {Promise<AxiosResponse>} The HTTP response from the server.
  * @throws {Error} If the operation fails.
  */
-createKeycloakRole = async function (
+const createKeycloakRole = async function (
   ssoURL,
   ssoClientID,
   token,
@@ -59,7 +59,7 @@ createKeycloakRole = async function (
  * @returns {Promise<AxiosResponse>} The HTTP response from the server.
  * @throws {Error} If the operation fails.
  */
-deleteKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
+const deleteKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
   const url = `${ssoURL}/auth/admin/realms/bcparks-service-transformation/clients/${ssoClientID}/roles/${role}`;
   try {
     logger.info("Calling Keycloak Service");
@@ -85,7 +85,7 @@ deleteKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
  * @returns {Promise<AxiosResponse>} The HTTP response from the server.
  * @throws {Error} If the operation fails.
  */
-getKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
+const getKeycloakRole = async function (ssoURL, ssoClientID, token, role) {
   const url = `${ssoURL}/auth/admin/realms/bcparks-service-transformation/clients/${ssoClientID}/roles/${role}`;
   try {
     logger.info("Calling Keycloak Service");
