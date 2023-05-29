@@ -14,7 +14,7 @@ const {
   createPutSubAreaObj,
 } = require("../../subAreaUtils");
 
-const SSO_URL = process.env.SSO_URL;
+const SSO_ORIGIN = process.env.SSO_ORIGIN;
 const SSO_CLIENT_ID = process.env.SSO_CLIENT_ID;
 
 exports.handler = async (event, context) => {
@@ -98,7 +98,7 @@ exports.handler = async (event, context) => {
 
     // Add Keycloak role
     const kcRes = await createKeycloakRole(
-      SSO_URL,
+      SSO_ORIGIN,
       SSO_CLIENT_ID,
       event.headers.Authorization.replace("Bearer ", ""),
       `${subAreaObj.orcs}::${subAreaId}`,

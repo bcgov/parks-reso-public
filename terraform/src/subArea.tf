@@ -16,11 +16,12 @@ resource "aws_lambda_function" "subAreaGetLambda" {
 
   environment {
     variables = {
-      SSO_ISSUER  = data.aws_ssm_parameter.sso_issuer.value,
-      SSO_ORIGIN  = data.aws_ssm_parameter.sso_origin.value,
-      SSO_JWKSURI = data.aws_ssm_parameter.sso_jwksuri.value,
-      TABLE_NAME  = aws_dynamodb_table.ar_table.name,
-      LOG_LEVEL   = "info"
+      SSO_ISSUER    = data.aws_ssm_parameter.sso_issuer.value,
+      SSO_ORIGIN    = data.aws_ssm_parameter.sso_origin.value,
+      SSO_JWKSURI   = data.aws_ssm_parameter.sso_jwksuri.value,
+      SSO_CLIENT_ID = data.aws_ssm_parameter.keycloak_client_id.value,
+      TABLE_NAME    = aws_dynamodb_table.ar_table.name,
+      LOG_LEVEL     = "info"
     }
   }
 }
