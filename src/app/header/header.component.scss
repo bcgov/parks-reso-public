@@ -245,59 +245,7 @@
     white-space: normal;
 }
 
-.bc-gov-logo {
-    height: 60%;
-    margin: 10px 13px 0 0;
-    padding-right: 10px;
-    border-right: 1px solid #ffffff;
+.bc-parks-logo {
+    height: 100%;
 }
 
-.bc-parks-title {
-    height: 60%;
-    margin-top: 10px;
-    margin-left: 10px;
-    padding-left: 10px;
-    border-left: 1px solid $bcgold;
-}
-
-.navbar-brand__title {
-    display: inline-block;
-    color: #fff;
-    margin-left: 10px;
-    line-height: 1.2rem;
-    font-weight: 800;
-    font-size: 3rem;
-    margin-top: 17px;
-    font: bc-sans;
-    .wb {
-        display: block;
-    }
-}
-
-.navbar-brand__version {
-    margin-top: -0.1rem;
-    display: inline-block;
-    color: $bcgold;
-    font-size: 0.5rem;
-    font-weight: 700;
-    vertical-align: top;
-}
-
-@media (min-width: 576px) {
-    .navbar-brand {
-        white-space: normal;
-        margin-bottom: 5px;
-    }
-
-    .navbar-brand__title {
-        margin-left: 10px;
-        line-height: 1.2rem;
-        font-weight: 800;
-        font-size: 3rem;
-        margin-top: 17px;
-    }
-
-    .navbar-brand__version {
-        font-size: 0.6rem;
-    }
-}
