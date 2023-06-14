@@ -1,6 +1,6 @@
 service: bcparks-ar-api
 
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -11,7 +11,7 @@ provider:
 package:
   individually: true
   patterns:
-    - '!./**'
+    - "!./**"
 
 plugins:
   - serverless-offline
@@ -185,6 +185,33 @@ functions:
       - http:
           method: POST
           path: /fiscalYearEnd/unlock
+          cors: true
+
+  ###########
+  # Variance
+  ###########
+  varianceGet:
+    handler: lambda/variance/GET/index.handler
+    events:
+      - http:
+          method: GET
+          path: /variance
+          cors: true
+
+  variancePost:
+    handler: lambda/variance/POST/index.handlePost
+    events:
+      - http:
+          method: POST
+          path: /variance
+          cors: true
+
+  variancePut:
+    handler: lambda/variance/PUT/index.handler
+    events:
+      - http:
+          method: PUT
+          path: /variance
           cors: true
 
 resources:

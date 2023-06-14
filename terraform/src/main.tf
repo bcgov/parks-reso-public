@@ -39,7 +39,10 @@ resource "aws_api_gateway_deployment" "apideploy" {
     aws_api_gateway_integration.exportGetIntegration,
     aws_api_gateway_integration.fiscalYearEndGetIntegration,
     aws_api_gateway_integration.fiscalYearEndLockIntegration,
-    aws_api_gateway_integration.fiscalYearEndUnlockIntegration
+    aws_api_gateway_integration.fiscalYearEndUnlockIntegration,
+    aws_api_gateway_integration.varianceGetIntegration,
+    aws_api_gateway_integration.variancePostIntegration,
+    aws_api_gateway_integration.variancePutIntegration,
   ]
 
   rest_api_id = aws_api_gateway_rest_api.apiLambda.id
