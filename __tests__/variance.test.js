@@ -1,16 +1,16 @@
 const AWS = require("aws-sdk");
 const { DocumentClient } = require("aws-sdk/clients/dynamodb");
-const { REGION, ENDPOINT, TABLE_NAME } = require("./global/settings");
-const { PARKSLIST } = require("./global/data.json");
+const {
+  REGION,
+  ENDPOINT,
+  TABLE_NAME
+} = require("./global/settings");
 
 const jwt = require("jsonwebtoken");
 const tokenContent = {
   resource_access: { "attendance-and-revenue": { roles: ["sysadmin"] } },
 };
 const token = jwt.sign(tokenContent, "defaultSecret");
-
-const suffix = "-varianceTest";
-const testParkList = [];
 
 async function setupDb() {
   new AWS.DynamoDB({
@@ -82,20 +82,6 @@ describe("Variance Test", () => {
     }),
   };
 
-  const mockedUnauthenticatedUser = {
-    decodeJWT: jest.fn((event) => {}),
-    resolvePermissions: jest.fn((token) => {
-      return {
-        isAdmin: false,
-        roles: [],
-        isAuthenticated: false,
-      };
-    }),
-    getParkAccess: jest.fn((orcs, permissionObject) => {
-      return {};
-    }),
-  };
-
   const mockedSysadmin = {
     decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
@@ -125,12 +111,6 @@ describe("Variance Test", () => {
   });
 
   test("Variance GET Single SK Success", async () => {
-    const axios = require("axios");
-    jest.mock("axios");
-    axios.post.mockImplementation(() =>
-      Promise.resolve({ statusCode: 200, data: {} })
-    );
-
     jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
@@ -155,12 +135,6 @@ describe("Variance Test", () => {
   });
 
   test("Variance GET FAIL 403 limited user", async () => {
-    const axios = require("axios");
-    jest.mock("axios");
-    axios.post.mockImplementation(() =>
-      Promise.resolve({ statusCode: 200, data: {} })
-    );
-
     jest.mock("../lambda/permissionUtil", () => {
       return mockedLimitedUser;
     });
@@ -185,12 +159,6 @@ describe("Variance Test", () => {
   });
 
   test("Variance GET FAIL 403 public user", async () => {
-    const axios = require("axios");
-    jest.mock("axios");
-    axios.post.mockImplementation(() =>
-      Promise.resolve({ statusCode: 200, data: {} })
-    );
-
     jest.mock("../lambda/permissionUtil", () => {
       return mockedUnauthenticatedInvalidUser;
     });
@@ -215,12 +183,6 @@ describe("Variance Test", () => {
   });
 
   test("Variance GET FAIL invalid params", async () => {
-    const axios = require("axios");
-    jest.mock("axios");
-    axios.post.mockImplementation(() =>
-      Promise.resolve({ statusCode: 200, data: {} })
-    );
-
     jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
@@ -268,5 +230,94 @@ describe("Variance Test", () => {
       varianceTriggered: true,
       percentageChange: 0.25,
     });
+  });
+
+  test("Variance PUT FAIL invalid params", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedSysadmin;
+    });
+
+    const variancePUT = require("../lambda/variance/PUT/index");
+    const response = await variancePUT.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      },
+      null
+    );
+    const body = JSON.parse(response.body);
+    expect(response.statusCode).toBe(400);
+    expect(response.body === "{ msg: 'Invalid request.' }")
+  });
+
+  test("Variance PUT FAIL 403 public user", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedUnauthenticatedInvalidUser;
+    });
+
+    const variancePUT = require("../lambda/variance/PUT/index");
+    const response = await variancePUT.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      },
+      null
+    );
+    const body = JSON.parse(response.body);
+    expect(response.statusCode).toBe(403);
+    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }")
+  });
+
+  test("Variance PUT FAIL 403 limited user", async () => {
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedLimitedUser;
+    });
+
+    const variancePUT = require("../lambda/variance/PUT/index");
+    const response = await variancePUT.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      },
+      null
+    );
+    const body = JSON.parse(response.body);
+    expect(response.statusCode).toBe(403);
+    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }")
+  });
+
+  test("Variance PUT Success", async () => {
+    const axios = require("axios");
+    jest.mock("axios");
+    axios.post.mockImplementation(() =>
+      Promise.resolve({ statusCode: 200, data: {} })
+    );
+
+    jest.mock("../lambda/permissionUtil", () => {
+      return mockedSysadmin;
+    });
+
+    const variancePUT = require("../lambda/variance/PUT/index");
+    const response = await variancePUT.handler(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          subAreaId: "0001",
+          activity: "Day Use",
+          date: "2022-01-01",
+          fields: ["Some Field"],
+          resolve: true,
+          note: "Some Note"
+        }),
+      },
+      null
+    );
+    const body = JSON.parse(response.body);
+    expect(response.statusCode).toBe(200);
   });
 });
