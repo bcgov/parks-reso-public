@@ -1,10 +1,6 @@
 const AWS = require("aws-sdk");
 const { DocumentClient } = require("aws-sdk/clients/dynamodb");
-const {
-  REGION,
-  ENDPOINT,
-  TABLE_NAME
-} = require("./global/settings");
+const { REGION, ENDPOINT, TABLE_NAME } = require("./global/settings");
 const { PARKSLIST } = require("./global/data.json");
 
 const jwt = require("jsonwebtoken");
@@ -33,12 +29,10 @@ async function setupDb() {
       Item: {
         pk: `variance::0001::Day Use`,
         sk: `2022-01-01`,
-        fields: docClient.createSet([
-          'peopleAndVehiclesVehicle'
-        ]),
-        note: 'A Note',
-        resolved: false
-      }
+        fields: docClient.createSet(["peopleAndVehiclesVehicle"]),
+        note: "A Note",
+        resolved: false,
+      },
     })
     .promise();
 
@@ -48,19 +42,17 @@ async function setupDb() {
       Item: {
         pk: `variance::0001::Day Use`,
         sk: `2022-01-02`,
-        fields: docClient.createSet([
-          'peopleAndVehiclesVehicle'
-        ]),
-        note: 'A Note',
-        resolved: false
-      }
+        fields: docClient.createSet(["peopleAndVehiclesVehicle"]),
+        note: "A Note",
+        resolved: false,
+      },
     })
     .promise();
 }
 
 describe("Variance Test", () => {
   const mockedUnauthenticatedInvalidUser = {
-    decodeJWT: jest.fn((event) => { }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
@@ -74,7 +66,7 @@ describe("Variance Test", () => {
   };
 
   const mockedLimitedUser = {
-    decodeJWT: jest.fn((event) => { }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
@@ -91,7 +83,7 @@ describe("Variance Test", () => {
   };
 
   const mockedUnauthenticatedUser = {
-    decodeJWT: jest.fn((event) => { }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: false,
@@ -105,7 +97,7 @@ describe("Variance Test", () => {
   };
 
   const mockedSysadmin = {
-    decodeJWT: jest.fn((event) => { }),
+    decodeJWT: jest.fn((event) => {}),
     resolvePermissions: jest.fn((token) => {
       return {
         isAdmin: true,
@@ -152,8 +144,8 @@ describe("Variance Test", () => {
         queryStringParameters: {
           activity: "Day Use",
           date: "2022-01-01",
-          subAreaId: "0001"
-        }
+          subAreaId: "0001",
+        },
       },
       null
     );
@@ -182,14 +174,14 @@ describe("Variance Test", () => {
         queryStringParameters: {
           activity: "Day Use",
           date: "2022-01-01",
-          subAreaId: "0001"
-        }
+          subAreaId: "0001",
+        },
       },
       null
     );
     const body = JSON.parse(response.body);
     expect(response.statusCode).toBe(403);
-    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }")
+    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }");
   });
 
   test("Variance GET FAIL 403 public user", async () => {
@@ -212,14 +204,14 @@ describe("Variance Test", () => {
         queryStringParameters: {
           activity: "Day Use",
           date: "2022-01-01",
-          subAreaId: "0001"
-        }
+          subAreaId: "0001",
+        },
       },
       null
     );
     const body = JSON.parse(response.body);
     expect(response.statusCode).toBe(403);
-    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }")
+    expect(response.body === "{ msg: 'Error: UnAuthenticated.' }");
   });
 
   test("Variance GET FAIL invalid params", async () => {
@@ -239,13 +231,42 @@ describe("Variance Test", () => {
         headers: {
           Authorization: "Bearer " + token,
         },
-        queryStringParameters: {
-        }
+        queryStringParameters: {},
       },
       null
     );
     const body = JSON.parse(response.body);
     expect(response.statusCode).toBe(400);
-    expect(response.body === "{ msg: 'Invalid request.' }")
+    expect(response.body === "{ msg: 'Invalid request.' }");
+  });
+
+  test("Variance should triggered", async () => {
+    const { calculateVariance } = require("../lambda/varianceUtils");
+    const res = calculateVariance(8, 8, 8, 10, 0.2);
+    expect(res).toEqual({
+      varianceMessage: "Variance triggered: +25%",
+      varianceTriggered: true,
+      percentageChange: 0.25,
+    });
+  });
+
+  test("Variance should not triggered", async () => {
+    const { calculateVariance } = require("../lambda/varianceUtils");
+    const res = calculateVariance(10, 10, 10, 10, 0.2);
+    expect(res).toEqual({
+      varianceMessage: "Variance triggered: +0%",
+      varianceTriggered: false,
+      percentageChange: 0,
+    });
+  });
+
+  test("Variance should calculate variance with two years", async () => {
+    const { calculateVariance } = require("../lambda/varianceUtils");
+    const res = calculateVariance(8, 8, null, 10, 0.2);
+    expect(res).toEqual({
+      varianceMessage: "Variance triggered: +25%",
+      varianceTriggered: true,
+      percentageChange: 0.25,
+    });
   });
 });

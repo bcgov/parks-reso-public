@@ -6,3 +6,5 @@ terraform/sandbox/.terragrunt-cache/
 terraform/sandbox/.terraform.lock.hcl
 terraform/sandbox/artifacts/
 .env
+terraform/tools/.terraform.lock.hcl
+terraform/tools/.terragrunt-cache/
