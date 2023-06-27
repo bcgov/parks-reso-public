@@ -37,7 +37,9 @@ function calculateVariance(
   // If negative, variance is triggered
   let varianceTriggered =
     variancePercentage - percentageChangeAbs < 0 ? true : false;
-  logger.debug("Variance triggered?", varianceTriggered);
+  logger.info("Variance percentageChangeAbs?", percentageChangeAbs);
+  logger.info("Variance variancePercentage?", variancePercentage);
+  logger.info("Variance 3?", percentageChangeAbs < 0);
 
   const res = {
     varianceMessage: varianceMessage,

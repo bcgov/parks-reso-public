@@ -8,6 +8,63 @@ const EXPORT_NOTE_KEYS = {
   Boating: "notes_boating",
 };
 
+const EXPORT_VARIANCE_CONFIG = {
+  'Backcountry Cabins': {
+    peopleAdult: 0.2,
+    peopleChild: 0.2,
+    peopleFamily: 0.2,
+    revenueFamily: 0.2,
+  },
+  'Backcountry Camping': {
+    people: 0.2,
+    grossCampingRevenue: 0.2,
+  },
+  'Boating': {
+    boatAttendanceNightsOnDock: 0.2,
+    boatAttendanceNightsOnBouys: 0.2,
+    boatAttendanceMiscellaneous: 0.2,
+    boatRevenueGross: 0.2,
+  },
+  'Day Use': {
+    peopleAndVehiclesTrail: 0.2,
+    peopleAndVehiclesVehicle: 0.2,
+    peopleAndVehiclesBus: 0.2,
+    picnicRevenueShelter: 0.2,
+    picnicShelterPeople: 0.2,
+    picnicRevenueGross: 0.2,
+    otherDayUsePeopleHotSprings: 0.2,
+    otherDayUseRevenueHotSprings: 0.2,
+  },
+  'Frontcountry Cabins': {
+    totalAttendanceParties: 0.2,
+    revenueGrossCamping: 0.2,
+  },
+  'Frontcountry Camping': {
+    campingPartyNightsAttendanceStandard: 0.2,
+    campingPartyNightsAttendanceSenior: 0.2,
+    campingPartyNightsAttendanceSocial: 0.2,
+    campingPartyNightsAttendanceLongStay: 0.2,
+    campingPartyNightsRevenueGross: 0.2,
+    secondCarsAttendanceStandard: 0.2,
+    secondCarsAttendanceSenior: 0.2,
+    secondCarsAttendanceSocial: 0.2,
+    secondCarsRevenueGross: 0.2,
+    otherRevenueGrossSani: 0.2,
+    otherRevenueElectrical: 0.2,
+    otherRevenueShower: 0.2,
+  },
+  'Group Camping': {
+    standardRateGroupsTotalPeopleStandard: 0.2,
+    standardRateGroupsTotalPeopleAdults: 0.2,
+    standardRateGroupsTotalPeopleYouth: 0.2,
+    standardRateGroupsTotalPeopleKids: 0.2,
+    standardRateGroupsRevenueGross: 0.2,
+    youthRateGroupsAttendanceGroupNights: 0.2,
+    youthRateGroupsAttendancePeople: 0.2,
+    youthRateGroupsRevenueGross: 0.2,
+  },
+};
+
 const EXPORT_MONTHS = {
   "01": "Jan",
   "02": "Feb",
@@ -671,6 +728,7 @@ const CSV_SYSADMIN_SCHEMA = [
 
 module.exports = {
   EXPORT_NOTE_KEYS,
+  EXPORT_VARIANCE_CONFIG,
   EXPORT_MONTHS,
   CSV_SYSADMIN_SCHEMA,
   STATE_DICTIONARY,

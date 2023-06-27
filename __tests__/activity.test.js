@@ -187,11 +187,12 @@ describe("Activity Test", () => {
     expect(response.statusCode).toBe(400);
   });
 
-  test("HandlePost - 200 POST handle Activity", async () => {
+  test("HandlePost - 200 POST handle Activity/Variances", async () => {
     jest.mock("../lambda/permissionUtil", () => {
       return mockedSysadmin;
     });
     const activityPOST = require("../lambda/activity/POST/index");
+    // Setup the first record
     const response = await activityPOST.handlePost(
       {
         headers: {
@@ -199,14 +200,79 @@ describe("Activity Test", () => {
         },
         body: JSON.stringify({
           orcs: SUBAREA_ENTRIES[0].orcs,
+          parkName: SUBAREA_ENTRIES[0].parkName,
           subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
           activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
           date: "202201",
+          peopleAndVehiclesTrail: 3,
+          picnicRevenueGross: 50,
+          peopleAndVehiclesVehicle: 5,
+          peopleAndVehiclesBus: 5,
+          picnicRevenueShelter: 5,
+          picnicShelterPeople: 5,
+          otherDayUsePeopleHotSprings: 5,
+          otherDayUseRevenueHotSprings: 5,
+          subAreaName: "TBD"
         }),
       },
       null
     );
     expect(response.statusCode).toBe(200);
+
+    // Expect no variance to be created
+    const doc = await docClient.get({
+      TableName: TABLE_NAME,
+      Key: {
+        pk: `variance::${SUBAREA_ENTRIES[0].pk.split("::")[0]}::${SUBAREA_ENTRIES[0].pk.split("::")[1]}`,
+        sk: "202201"
+      },
+    }).promise();
+    expect(doc).toEqual({});
+
+    // Change year and create a new record
+    const secondResponse = await activityPOST.handlePost(
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          orcs: SUBAREA_ENTRIES[0].orcs,
+          parkName: SUBAREA_ENTRIES[0].parkName,
+          subAreaId: SUBAREA_ENTRIES[0].pk.split("::")[0],
+          activity: SUBAREA_ENTRIES[0].pk.split("::")[1],
+          date: "202301",
+          peopleAndVehiclesTrail: 3,
+          picnicRevenueGross: 5005,
+          peopleAndVehiclesVehicle: 5,
+          peopleAndVehiclesBus: 5,
+          picnicRevenueShelter: 5,
+          picnicShelterPeople: 5,
+          otherDayUsePeopleHotSprings: 5,
+          otherDayUseRevenueHotSprings: 5,
+          subAreaName: "TBD"
+        }),
+      },
+      null
+    );
+    expect(secondResponse.statusCode).toBe(200);
+
+    // Expect variance to be created
+    const doc2 = await docClient.get({
+      TableName: TABLE_NAME,
+      Key: {
+        pk: `variance::${SUBAREA_ENTRIES[0].pk.split("::")[0]}::${SUBAREA_ENTRIES[0].pk.split("::")[1]}`,
+        sk: "202301"
+      },
+    }).promise();
+    expect(doc2.Item).toEqual({
+      parkName: 'Cultus Lake Park',
+      orcs: '0041',
+      sk: '202301',
+      pk: 'variance::0087::Day Use',
+      fields: ['picnicRevenueGross'],
+      resolved: false,
+      subAreaName: 'TBD'
+    });
   });
 
   test("Handler - 403 POST Not Authenticated", async () => {
