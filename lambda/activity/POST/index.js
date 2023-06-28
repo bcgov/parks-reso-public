@@ -170,6 +170,11 @@ async function checkVarianceTrigger(body) {
   // Pull up to the last 3 years for this activity type and date.
   let records = await getPreviousYearData(3, subAreaId, activity, date);
 
+  if (records.length === 0) {
+    // Nothing to validate against
+    return;
+  }
+
   for (const field in fieldsToCheck) {
     logger.info(`Checking ${fieldsToCheck[field]}`);
     let current = body?.[fieldsToCheck[field]];
@@ -180,11 +185,11 @@ async function checkVarianceTrigger(body) {
     // Grabs the field percentage from the object
     logger.info(`Calculating variance ${first}, ${second}, ${third}, ${current}, ${varianceConfig[fieldsToCheck[field]]}`);
 
-    if (!current || !first) {
-      // We couldn't pull any records for this date
-      logger.info('No records found - cleaning up existing variance records.');
-      await deleteVariance(subAreaId, activity, date);
-      return;
+    if (!current === undefined || !first === undefined) {
+      // We skip comparing against fields that are undefined. TBD Business logic.
+      // Move onto the next field
+      logger.info('Undefined field - skipping.');
+      continue;
     }
 
     const res = calculateVariance(first, second, third, current, varianceConfig[fieldsToCheck[field]]);
