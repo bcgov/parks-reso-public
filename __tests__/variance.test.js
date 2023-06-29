@@ -30,7 +30,7 @@ async function setupDb() {
         pk: `variance::0001::Day Use`,
         sk: `2022-01-01`,
         fields: docClient.createSet(["peopleAndVehiclesVehicle"]),
-        note: "A Note",
+        notes: "A Note",
         resolved: false,
       },
     })
@@ -43,7 +43,7 @@ async function setupDb() {
         pk: `variance::0001::Day Use`,
         sk: `2022-01-02`,
         fields: docClient.createSet(["peopleAndVehiclesVehicle"]),
-        note: "A Note",
+        notes: "A Note",
         resolved: false,
       },
     })
@@ -312,7 +312,7 @@ describe("Variance Test", () => {
           date: "2022-01-01",
           fields: ["Some Field"],
           resolve: true,
-          note: "Some Note"
+          notes: "Some Note"
         }),
       },
       null

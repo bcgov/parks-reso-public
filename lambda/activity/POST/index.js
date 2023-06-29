@@ -152,7 +152,7 @@ async function checkVarianceTrigger(body) {
   const subAreaId   = body.subAreaId;
   const activity    = body.activity;
   const date        = body.date;
-  const note        = body.note;
+  const notes       = body.notes;
   const orcs        = body.orcs;
   const subAreaName = body.subAreaName;
   const parkName    = body.parkName;
@@ -204,21 +204,21 @@ async function checkVarianceTrigger(body) {
   logger.info(fields);
 
   if (varianceWasTriggered) {
-    await createVariance(subAreaId, activity, date, fields, note, orcs, parkName, subAreaName);
+    await createVariance(subAreaId, activity, date, fields, notes, orcs, parkName, subAreaName);
   } else {
     // Attempt to delete any previous variances
     await deleteVariance(subAreaId, activity, date);
   }
 }
 
-async function createVariance(subAreaId, activity, date, fields, note, orcs, parkName, subAreaName) {
-  logger.info('Creating Variance:', subAreaId, activity, date, fields, note)
+async function createVariance(subAreaId, activity, date, fields, notes, orcs, parkName, subAreaName) {
+  logger.info('Creating Variance:', subAreaId, activity, date, fields, notes)
   try {
     const newObject = {
       pk:`variance::${subAreaId}::${activity}`,
       sk: date,
       fields: fields,
-      note: note,
+      notes: notes,
       resolved: false,
       orcs: orcs,
       parkName: parkName,

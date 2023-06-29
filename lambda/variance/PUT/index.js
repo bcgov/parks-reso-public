@@ -33,9 +33,9 @@ exports.handler = async (event, context) => {
         pk: { S: `variance::${body.subAreaId}::${body.activity}` },
         sk: { S: body.date }
       },
-      UpdateExpression: `SET note =:note, resolved =:resolved, #roles =:roles`,
+      UpdateExpression: `SET notes =:notes, resolved =:resolved, #roles =:roles`,
       ExpressionAttributeValues: {
-        ':note': { S: body.note },
+        ':notes': { S: body.notes },
         ':resolved': { BOOL: body.resolved ? body.resolved : false },
         ':roles': { SS: ["sysadmin"] }
       },
