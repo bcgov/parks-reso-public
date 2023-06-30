@@ -1,10 +1,20 @@
 # Parks Reservation - Public
 ![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)
 
+# Introduction
+
+This repository is the public facing front end for the BC Parks Day Use Pass reservation system. Everything you see when you enter https://reserve.bcparks.ca/dayuse/ is what this repository works on.
+
 Associated repos:
 * https://github.com/bcgov/parks-reso-public
 * https://github.com/bcgov/parks-reso-admin
 * https://github.com/bcgov/parks-reso-api
+
+
+# Contribution Guidelines
+
+Follow the steps to collaborate on our code: https://bcgov.github.io/bcparks/collaborate
+
 
 # Deployment Pipeline
 
