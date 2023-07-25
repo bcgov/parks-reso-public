@@ -11,10 +11,14 @@ on:
 
 env:
   TF_VERSION: 0.14.7
-  TG_VERSION: 0.26.7
+  TG_VERSION: 0.37.1
   TG_SRC_PATH: terraform
   TFC_WORKSPACE: prod
   TARGET_ENV: prod
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   deploy:
@@ -41,10 +45,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN_TO_USE }}
           role-duration-seconds: 900
           role-session-name: parks-reso-public-prod-gh-action
           role-skip-session-tagging: true
@@ -77,7 +79,6 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
-          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
 
       - name: Setup Terragrunt
         uses: autero1/action-terragrunt@v1.3.0
@@ -98,4 +99,4 @@ jobs:
           auth_user: ${{ secrets.BASIC_AUTH_USER }}
           auth_pass: ${{ secrets.BASIC_AUTH_PASS }}
           ssl_cert_arn: ${{ secrets.PARKS_SSL_CERT_ARN }}
-        run: terragrunt apply-all --terragrunt-non-interactive
+        run: terragrunt apply -auto-approve --terragrunt-non-interactive -var target_aws_account_id=${{ vars.ACCOUNT_ID }} -var target_env=prod
