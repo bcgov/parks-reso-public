@@ -106,4 +106,4 @@ jobs:
           api_gateway_origin_id: ${{ env.API_GATEWAY_ORIGIN_ID }}
           api_gateway_path_pattern: ${{ env.API_GATEWAY_PATH_PATTERN }}
           origin_id_assets: ${{ env.ORIGIN_ID_ASSETS }}
-        run: terragrunt force-unlock -force 4dbacd71-d0fc-9a94-8365-8af8d226e950 --terragrunt-non-interactive && terragrunt apply -auto-approve --terragrunt-non-interactive -var aws_region=${{ secrets.AWS_REGION }} -var target_aws_account_id=${{ vars.ACCOUNT_ID }} -var target_env=dev
+        run: terragrunt apply -auto-approve --terragrunt-non-interactive -var aws_region=${{ secrets.AWS_REGION }} -var target_aws_account_id=${{ vars.ACCOUNT_ID }} -var target_env=dev
