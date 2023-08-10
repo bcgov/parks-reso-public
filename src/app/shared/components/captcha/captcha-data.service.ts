@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
+import { firstValueFrom } from 'rxjs';
 
 // payload returned from the server
 @Injectable()
@@ -24,15 +25,15 @@ export class CaptchaDataService {
     this.env = this.configService.config['ENVIRONMENT'];
   }
 
-  getCaptcha(): Promise<any> {
-    return this.http.post<any>(`${this.apiPath}/captcha`, null, {}).toPromise();
+  getCaptcha(facility: string, orcs: string): Promise<any> {
+    return firstValueFrom(this.http.post<any>(`${this.apiPath}/captcha`, { facility, orcs }, {}));
   }
 
   getCaptchaAudio(validation: any): Promise<any> {
-    return this.http.post<any>(`${this.apiPath}/captcha/audio`, { validation }, {}).toPromise();
+    return firstValueFrom(this.http.post<any>(`${this.apiPath}/captcha/audio`, { validation }, {}));
   }
 
   verifyCaptcha(validation: any, answer: string): Promise<any> {
-    return this.http.post<any>(`${this.apiPath}/captcha/verify`, { validation, answer }, {}).toPromise();
+    return firstValueFrom(this.http.post<any>(`${this.apiPath}/captcha/verify`, { validation, answer }, {}));
   }
 }
