@@ -21,6 +21,15 @@ describe('ContactFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactFormComponent);
     component = fixture.componentInstance;
+    component.passData = {
+      passType: {
+        name: 'Test Name',
+        type: 'Trail'
+      }
+    };
+    component.park = {
+      orcs: '0001'
+    };
     fixture.detectChanges();
   });
 

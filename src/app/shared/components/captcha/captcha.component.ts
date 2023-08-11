@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CaptchaDataService } from './captcha-data.service';
 
@@ -10,6 +19,8 @@ import { CaptchaDataService } from './captcha-data.service';
 export class CaptchaComponent implements OnInit {
   @ViewChild('audioElement') audioElement: ElementRef;
   @Output() validAnswerEvent = new EventEmitter<string>();
+  @Input() facility;
+  @Input() orcs;
 
   public answer: string;
   public captchaImage: SafeHtml;
@@ -51,8 +62,7 @@ export class CaptchaComponent implements OnInit {
       this.state = 'loading';
       this.captchaAudio = null;
       this.answer = null;
-
-      const res = await this.captchaService.getCaptcha();
+      const res = await this.captchaService.getCaptcha(this.facility, this.orcs);
       this.captchaData = res;
       this.state = 'ready';
 

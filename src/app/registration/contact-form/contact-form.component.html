@@ -140,7 +140,10 @@
       </div>
 
       <div class="mb-4">
-        <app-captcha (validAnswerEvent)="captchaValidated($event)"></app-captcha>
+        <app-captcha
+          (validAnswerEvent)="captchaValidated($event)"
+          [facility]="passData.passType.sk"
+          [orcs]="park.orcs"></app-captcha>
       </div>
 
       <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
