@@ -38,8 +38,8 @@ export class CaptchaComponent implements OnInit {
     private changeDetectionRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    this.fetchCaptcha();
+  async ngOnInit() {
+    await this.fetchCaptcha();
   }
 
   async answerChanged() {
