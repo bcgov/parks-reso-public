@@ -25,8 +25,8 @@ export class CaptchaDataService {
     this.env = this.configService.config['ENVIRONMENT'];
   }
 
-  getCaptcha(facility: string, orcs: string): Promise<any> {
-    return firstValueFrom(this.http.post<any>(`${this.apiPath}/captcha`, { facility, orcs }, {}));
+  getCaptcha(facility: string, orcs: string, bookingDate: string, passType: string): Promise<any> {
+    return firstValueFrom(this.http.post<any>(`${this.apiPath}/captcha`, { facility, orcs, bookingDate, passType }, {}));
   }
 
   getCaptchaAudio(validation: any): Promise<any> {

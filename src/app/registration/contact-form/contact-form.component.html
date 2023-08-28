@@ -143,7 +143,10 @@
         <app-captcha
           (validAnswerEvent)="captchaValidated($event)"
           [facility]="passData.passType.sk"
-          [orcs]="park.orcs"></app-captcha>
+          [orcs]="park.orcs"
+          [bookingDate]="passData.visitDate"
+          [passType]="passData.visitTime">
+        </app-captcha>
       </div>
 
       <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
