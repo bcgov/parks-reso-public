@@ -21,6 +21,8 @@ export class CaptchaComponent implements OnInit {
   @Output() validAnswerEvent = new EventEmitter<string>();
   @Input() facility;
   @Input() orcs;
+  @Input() bookingDate;
+  @Input() passType
 
   public answer: string;
   public captchaImage: SafeHtml;
@@ -36,8 +38,8 @@ export class CaptchaComponent implements OnInit {
     private changeDetectionRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-    this.fetchCaptcha();
+  async ngOnInit() {
+    await this.fetchCaptcha();
   }
 
   async answerChanged() {
@@ -62,7 +64,7 @@ export class CaptchaComponent implements OnInit {
       this.state = 'loading';
       this.captchaAudio = null;
       this.answer = null;
-      const res = await this.captchaService.getCaptcha(this.facility, this.orcs);
+      const res = await this.captchaService.getCaptcha(this.facility, this.orcs, this.formatBookingDate(this.bookingDate), this.passType);
       this.captchaData = res;
       this.state = 'ready';
 
@@ -70,6 +72,10 @@ export class CaptchaComponent implements OnInit {
     } catch (err) {
       this.state = 'error';
     }
+  }
+
+  formatBookingDate(date) {
+    return new Date(date.year, date.month - 1, date.day).toISOString();
   }
 
   async fetchAudio() {

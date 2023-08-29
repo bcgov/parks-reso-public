@@ -19,11 +19,17 @@ describe('CaptchaComponent', () => {
       imports: [HttpClientTestingModule, FormsModule],
       providers: [ConfigService, { provide: CaptchaDataService, useValue: captchaServiceSpy }]
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CaptchaComponent);
     component = fixture.componentInstance;
+    component.facility = 'test-facility';
+    component.orcs = '1234';
+    component.bookingDate = {
+      year: '2023',
+      month: 2,
+      day: '1'
+    };
+    component.passType = 'Trail';
     fixture.detectChanges();
   });
 
