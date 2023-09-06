@@ -54,7 +54,7 @@ jobs:
 
       ### Get environment variables from AWS Parameter Store ###
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ vars.AWS_ROLE_ARN_TO_USE }}
