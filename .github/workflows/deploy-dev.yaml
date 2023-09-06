@@ -22,7 +22,7 @@ jobs:
     environment: dev
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -45,6 +45,8 @@ jobs:
           key: ${{ github.sha }}-dist
       - name: Run Build
         if: steps.cache-build.outputs.cache-hit != 'true'
+        env:
+          GITHUB_SHA_SHORT: ${{ github.sha }}
         run: |
           sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GITHUB_SHA_SHORT"'@g' > src/env.js
           yarn build

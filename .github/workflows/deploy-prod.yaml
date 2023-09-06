@@ -27,20 +27,37 @@ jobs:
     environment: prod
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.releaseTag }}
 
-      # Get build from cache
-      - name: Restore cached build
-        uses: actions/cache/restore@v3
+      ### Install if no cache exists ###
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn install --silent --frozen-lockfile
+
+      ### Build if no cache exists ###
+      - name: Cache Build
+        id: cache-build
+        uses: actions/cache@v3
         with:
           path: |
             **/dist
           key: ${{ github.sha }}-dist
+      - name: Run Build
+        if: steps.cache-build.outputs.cache-hit != 'true'
+        env:
+          GITHUB_SHA_SHORT: ${{ github.sha }}
+        run: |
+          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GITHUB_SHA_SHORT"'@g' > src/env.js
+          yarn build
+          ./node_modules/.bin/ngsw-config dist/parks-reso-public/ ./ngsw-config.json /dayuse
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
