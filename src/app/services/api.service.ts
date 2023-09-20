@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { ConfigService } from '../shared/services/config.service';
 import { SwUpdate } from '@angular/service-worker';
 import { ToastService } from './toast.service';
 import { Constants } from '../shared/utils/constants';
 import { LoggerService } from './logger.service';
+import { concat, first, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class ApiService {
   env: 'local' | 'dev' | 'test' | 'prod';
 
   constructor(
+    appRef: ApplicationRef,
     readonly updates: SwUpdate,
     private toastService: ToastService,
     private http: HttpClient,
@@ -48,6 +50,28 @@ export class ApiService {
           break;
         case 'NO_NEW_VERSION_DETECTED':
           this.loggerService.info('No new version detected.')
+      }
+    });
+
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const everySixHours$ = interval(6 * 60 * 60 * 1000);
+    const everySixHoursOnceAppIsStable$ = concat(appIsStable$, everySixHours$);
+
+    everySixHoursOnceAppIsStable$.subscribe(async () => {
+      this.loggerService.info("Checking for update")
+      try {
+        const bUpdateFound = await updates.checkForUpdate();
+        this.loggerService.info(`Update Found?:${bUpdateFound}`)
+
+        if (bUpdateFound) {
+          this.toastService.addMessage(
+            `Please reload your browser, there is an update available.`,
+            `Update detected`,
+            Constants.ToastTypes.INFO
+          );
+        }
+      } catch (e) {
+        this.loggerService.error(e);
       }
     });
   }
