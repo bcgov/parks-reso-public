@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApplicationRef, Injectable } from '@angular/core';
 import { ConfigService } from '../shared/services/config.service';
 import { SwUpdate } from '@angular/service-worker';
@@ -16,6 +16,7 @@ export class ApiService {
 
   apiPath: string;
   env: 'local' | 'dev' | 'test' | 'prod';
+  headers: HttpHeaders;
 
   constructor(
     appRef: ApplicationRef,
@@ -27,6 +28,7 @@ export class ApiService {
   ) {
     this.apiPath = this.configService.config['API_LOCATION'] + this.configService.config['API_PUBLIC_PATH'];
     this.env = this.configService.config['ENVIRONMENT'];
+    this.headers = new HttpHeaders().set('X-App-Version', this.configService.config.hashVersion);
 
     this.loggerService.info(`Update checking enabled? (${updates.isEnabled})`);
 
@@ -83,16 +85,16 @@ export class ApiService {
 
   get(endpoint, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.get<any>(`${this.apiPath}/${endpoint}?${queryString}`, {}).toPromise();
+    return this.http.get<any>(`${this.apiPath}/${endpoint}?${queryString}`, { headers: this.headers }).toPromise();
   }
 
   delete(endpoint, queryParamsObject = null): Promise<any> {
     let queryString = this.generateQueryString(queryParamsObject);
-    return this.http.delete<any>(`${this.apiPath}/${endpoint}?${queryString}`, {}).toPromise();
+    return this.http.delete<any>(`${this.apiPath}/${endpoint}?${queryString}`, { headers: this.headers }).toPromise();
   }
 
   getList(endpoint): Promise<any> {
-    return this.http.get<any>(`${this.apiPath}/${endpoint}`, {}).toPromise();
+    return this.http.get<any>(`${this.apiPath}/${endpoint}`, { headers: this.headers }).toPromise();
   }
 
   private generateQueryString(queryParamsObject) {
