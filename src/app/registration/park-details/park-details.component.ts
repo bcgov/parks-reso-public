@@ -49,4 +49,9 @@ export class ParkDetailsComponent implements OnInit {
       window.open(this.park.mapLink);
     }
   }
+  openVideo(): void {
+    if (this.park?.videoLink) {
+      window.open(this.park.videoLink);
+    }
+  }
 }

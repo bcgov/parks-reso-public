@@ -28,3 +28,21 @@
         </div>
     </button>
 </div>
+<div class="mb-3" *ngIf="park?.videoLink" (click)="openVideo()">
+    <button class="btn btn-primary p-3 w-100 justify-content-between parking-button">
+        <div class="row align-items-center">
+            <div class="col-8 justify-content-right">
+                <h2 class="mb-0">Park Safety Video <span class="material-icons rotate-45 d-none d-md-inline-block">link</span></h2>
+                <p class="my-0 d-none d-md-block mt-1">Learn how to prepare for your visit</p>
+            </div>
+            <div class="col-4">
+                <div class="float-end">
+                    <span class="material-icons parking-icon p-2">
+                        play_circle_filled
+                        </span>
+                </div>
+            </div>
+        </div>
+    </button>
+</div>
+
