@@ -361,7 +361,7 @@ describe('FacilitySelectComponent', () => {
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-AM"));
 
-      expect(textElement.nativeElement.textContent).toContain('1pm (Depart by 1pm)');
+      expect(textElement.nativeElement.textContent).toContain('12pm (Depart by 12pm)');
       expect(component.to12hTimeString(component.defaultAMOpeningHour)).toBe(component.defaultAMOpeningHour.toString()+"am");
       expect(true).toBeTrue()
     })
@@ -371,7 +371,7 @@ describe('FacilitySelectComponent', () => {
       fixture.detectChanges()
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-PM"));
-      expect(textElement.nativeElement.textContent).toContain('Arrive after 1pm');
+      expect(textElement.nativeElement.textContent).toContain('Arrive after 12pm');
     })
 
     it('should test DAY arrival text', () => {
