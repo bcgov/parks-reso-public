@@ -1,11 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ContactFormComponent } from './contact-form.component';
 import { CaptchaDataService } from '../../shared/components/captcha/captcha-data.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { UntypedFormBuilder } from '@angular/forms';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
 import { RegistrationModule } from '../registration.module';
 describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
@@ -53,7 +52,6 @@ describe('ContactFormComponent', () => {
 
   it('should not allow phone number without to be over 12 characters', fakeAsync(() => {
     const enablePhoneCheckbox = component.myForm.get('enablePhone');
-    const phoneControl = component.myForm.get('phone');
     const phoneInput = fixture.nativeElement.querySelector('#phone');
     enablePhoneCheckbox.setValue(true);
     fixture.detectChanges();

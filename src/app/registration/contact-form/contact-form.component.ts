@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, Directive, ElementRef, HostListener} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -29,7 +29,7 @@ export class ContactFormComponent implements OnInit {
   public saving = false;
   public captchaJwt: string;
   public displayWinterWarning = false;
-  public isPhoneRequired: boolean = false;
+  public isPhoneRequired = false;
 
   public months = [
     'January',
