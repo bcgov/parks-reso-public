@@ -13,7 +13,7 @@ import { DatePickerModule } from '../shared/components/date-picker/date-picker.m
 import { RegistrationDetailsComponent } from './registration-details/registration-details.component';
 import { CaptchaModule } from '../shared/components/captcha/captcha.module';
 import { QRCodeModule } from 'angularx-qrcode';
-
+import { PhoneFormatDirective } from '../shared/components/phone-number-formater/phoneFormat';
 @NgModule({
   declarations: [
     RegistrationComponent,
@@ -23,7 +23,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     SuccessComponent,
     FailureComponent,
     GuidelinesComponent,
-    RegistrationDetailsComponent
+    RegistrationDetailsComponent,
+    PhoneFormatDirective
   ],
   imports: [
     CommonModule,

@@ -27,6 +27,10 @@
       </div>
     </div>
     <div class="col-md-12 col-lg-6 right-col">
+      <div class="container-md rounded py-3 details-container">
+        <p><i><b>NEW</b> - Text message reminders with cancellation links can now be recieved by including your mobile phone number below.</i></p>
+      </div>
+      <br>
       <form [formGroup]="myForm">
         <div class="form-group">
           <label class="mb-2" for="firstName">
@@ -79,7 +83,35 @@
             visit.
           </small>
         </div>
-        <!-- Optional phone number field removed -->
+        <div class="form-group">
+          <label class="mb-2" for="enablePhone">
+            <input type="checkbox" [(ngModel)]="isPhoneRequired" id="enablePhone" formControlName="enablePhone"> I would like to also receive notications by text message.
+          </label>
+          <small class="text-muted">
+            <br>(You will receive reminders, confirmation and the ability to cancel a pass through text)
+          </small>
+        </div>
+        <div class="form-group">
+          <label class="mb-2" for="phone">
+            Phone Number:
+          </label>
+          <input 
+            class="form-control mb-1" 
+            type="tel" 
+            formControlName="phone" 
+            id="phone" 
+            name="phone" 
+            placeholder="111-222-3333"
+            maxlength="12"
+            appPhoneFormat 
+            />
+          <div *ngIf="myForm.errors?.['phoneRequired']">
+            <small *ngIf="myForm.errors?.['phoneRequired']" class="text-danger">*Your Phone Number is Required</small>
+          </div>
+          <div *ngIf="((phone.invalid) && phone.dirty) && enablePhone">
+            <small *ngIf="phone.errors?.pattern" class="text-danger">*You have selected to be notifyied by SMS. You must enter a valid phone number.</small>
+          </div>
+        </div>
       </form>
 
       <div class="mb-4">
