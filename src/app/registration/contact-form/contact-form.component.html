@@ -109,7 +109,7 @@
             <small *ngIf="myForm.errors?.['phoneRequired']" class="text-danger">*Your Phone Number is Required</small>
           </div>
           <div *ngIf="((phone.invalid) && phone.dirty) && enablePhone">
-            <small *ngIf="phone.errors?.pattern" class="text-danger">*You have selected to be notifyied by SMS. You must enter a valid phone number.</small>
+            <small *ngIf="phone.errors?.pattern" class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone number.</small>
           </div>
         </div>
       </form>
