@@ -14,7 +14,7 @@ import { Constants } from 'src/app/shared/utils/constants';
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+  styleUrls: ['./contact-form.component.scss' ]
 })
 export class ContactFormComponent implements OnInit {
   @Input() passData;
@@ -29,6 +29,7 @@ export class ContactFormComponent implements OnInit {
   public saving = false;
   public captchaJwt: string;
   public displayWinterWarning = false;
+  public isPhoneRequired = false;
 
   public months = [
     'January',
@@ -55,6 +56,25 @@ export class ContactFormComponent implements OnInit {
     this.initForm();
     this.displayWinterWarning = this.park?.winterWarning;
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
+    this.myForm.get('enablePhone').valueChanges.subscribe((value) => {
+      this.isPhoneRequired = value;
+      const phoneControl = this.myForm.get('phone');
+      if (value) {
+        phoneControl.enable();
+      } else {
+        phoneControl.disable();
+        phoneControl.setValue('');
+      }
+    });
+    this.myForm.get('enablePhone').valueChanges.subscribe((enablePhoneValue) => {
+      const phoneControl = this.myForm.get('phone');
+      if (enablePhoneValue) {
+        phoneControl.setValidators([Validators.required, Validators.pattern(Constants.phoneValidationRegex)]);
+      } else {
+        phoneControl.setValidators([Validators.required]);
+      }
+      phoneControl.updateValueAndValidity();
+    });
   }
 
   initForm(): void {
@@ -62,7 +82,10 @@ export class ContactFormComponent implements OnInit {
       firstName: new UntypedFormControl(),
       lastName: new UntypedFormControl(),
       email: new UntypedFormControl(),
-      emailCheck: new UntypedFormControl()
+      emailCheck: new UntypedFormControl(),
+      phone: new UntypedFormControl(),
+      enablePhone: new UntypedFormControl(),
+      phoneInvalid: new UntypedFormControl()
     });
     this.myForm = this.fb.group(
       {
@@ -70,10 +93,11 @@ export class ContactFormComponent implements OnInit {
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(Constants.emailValidationRegex)]],
         emailCheck: ['', [Validators.required]],
-        phone: ['', [Validators.pattern(Constants.phoneValidationRegex)]]
+        phone: ['', [Validators.required]],
+        enablePhone: ['', [Validators.required]]
       },
       {
-        validator: this.checkMatchEmails('email', 'emailCheck')
+        validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone') ],
       } as AbstractControlOptions
     );
   }
@@ -84,6 +108,12 @@ export class ContactFormComponent implements OnInit {
 
   get emailCheck() {
     return this.myForm.get('emailCheck');
+  }
+  get phone() {
+    return this.myForm.get('phone');
+  }
+  get enablePhone() {
+    return this.myForm.get('enablePhone');
   }
 
   keyPressNumbers(event) {
@@ -97,8 +127,23 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
+  justNumbers(phoneNumber): string{
+    return phoneNumber.replace(/\D/g, '')
+  }
+
   getMonthString(monthNo): string {
     return this.months[monthNo - 1];
+  }
+
+  checkPhoneNumber(phone: string, enablePhone: string) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      let phoneVal: string | null = control.get(phone).value;
+      let enablePhoneVal: boolean | null = control.get(enablePhone).value;
+      if (enablePhoneVal && !phoneVal) {
+        return { phoneRequired: true };
+      }
+      return null;
+    };
   }
 
   checkMatchEmails(email: string, emailCheck: string) {
@@ -121,7 +166,7 @@ export class ContactFormComponent implements OnInit {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
       email: this.myForm.get('email').value,
-      phone: this.myForm.get('phone').value,
+      phone: this.justNumbers(this.myForm.get('phone').value),
       captchaJwt: this.captchaJwt
     };
     this.emitter.emit(obj);
