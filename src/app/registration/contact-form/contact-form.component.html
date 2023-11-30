@@ -84,12 +84,20 @@
           </small>
         </div>
         <div class="form-group">
-          <label class="mb-2" for="enablePhone">
-            <input type="checkbox" [(ngModel)]="isPhoneRequired" id="enablePhone" formControlName="enablePhone"> I would like to also receive notications by text message.
-          </label>
-          <small class="text-muted">
-            <br>(You will receive reminders, confirmation and the ability to cancel a pass through text)
-          </small>
+          <div class="row">
+            <div class="col-1 col-md-1">
+              <label class="mb-2" for="enablePhone">
+              <input type="checkbox" [(ngModel)]="isPhoneRequired" id="enablePhone" formControlName="enablePhone"> </label>
+            </div>
+            <div class="col-11 col-md-11">
+              <small class="text-muted">
+                <div id="raiseText">
+                  <b>I would like to receive reminders via text message.</b><br>
+                  <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
+                </div>
+              </small>
+            </div>
+          </div>
         </div>
         <div class="form-group">
           <label class="mb-2" for="phone">
