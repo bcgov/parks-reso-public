@@ -103,25 +103,36 @@
           <label class="mb-2" for="phone">
             Phone Number:
           </label>
-          <input 
-            class="form-control mb-1" 
-            type="tel" 
-            formControlName="phone" 
-            id="phone" 
-            name="phone" 
-            placeholder="111-222-3333"
-            maxlength="12"
-            appPhoneFormat 
-            />
-          <div *ngIf="myForm.errors?.['phoneRequired']">
-            <small *ngIf="myForm.errors?.['phoneRequired']" class="text-danger">*Your Phone Number is Required</small>
+        <ngx-intl-tel-input
+            #phoneInput
+            [cssClass]="'custom'"
+            [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
+            [enableAutoCountrySelect]="false"
+            [enablePlaceholder]="true"
+            [searchCountryFlag]="true"
+            [searchCountryField]="false"
+            [selectFirstCountry]="false"
+            [selectedCountryISO]="CountryISO.Canada"
+            [maxLength]="maxLength"
+            [phoneValidation]="true"
+            [separateDialCode]="true"
+            [phoneValidation]="true"
+            id="phone"
+            name="phone"
+            formControlName="phone"
+            [excludeCountries]="[CountryISO.Russia]"
+            (countryChange)="onCountryChange($event)"
+            appPhoneFormat
+          ></ngx-intl-tel-input>
+          <div *ngIf="myForm.get('phone').hasError('required') && myForm.get('phone').dirty">
+            <small class="text-danger">*Your Phone Number is Required</small>
           </div>
-          <div *ngIf="((phone.invalid) && phone.dirty) && enablePhone">
-            <small *ngIf="phone.errors?.pattern" class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone number.</small>
+          <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
+            <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone number.</small>
           </div>
         </div>
       </form>
-
+      
       <div class="mb-4">
         <p>
           This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of Information and

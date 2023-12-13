@@ -14,6 +14,8 @@ import { RegistrationDetailsComponent } from './registration-details/registratio
 import { CaptchaModule } from '../shared/components/captcha/captcha.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { PhoneFormatDirective } from '../shared/components/phone-number-formater/phoneFormat';
+import { NgxIntlTelInputModule } from '@moddi3/ngx-intl-tel-input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     RegistrationComponent,
@@ -33,7 +35,9 @@ import { PhoneFormatDirective } from '../shared/components/phone-number-formater
     ImportantBookingInfoModule,
     DatePickerModule,
     CaptchaModule,
-    QRCodeModule
+    QRCodeModule,
+    NgxIntlTelInputModule,
+    BrowserAnimationsModule
   ],
   providers: []
 })
