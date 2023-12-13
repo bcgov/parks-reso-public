@@ -11,7 +11,6 @@ export class PhoneFormatDirective {
   @HostListener('keydown', ['$event'])
   @HostListener('paste', ['$event'])
   onInput(event: any) {
-    let input = event.target;
     if (event.type === 'paste') {
       event.preventDefault();
     }
