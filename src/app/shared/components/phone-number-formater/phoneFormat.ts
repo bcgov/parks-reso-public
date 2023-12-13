@@ -12,11 +12,8 @@ export class PhoneFormatDirective {
   @HostListener('paste', ['$event'])
   onInput(event: any) {
     let input = event.target;
-    const inputValue = input.value;
-    let cursorPosition = input.selectionStart;
     if (event.type === 'paste') {
       event.preventDefault();
-      return;
     }
   }
 }

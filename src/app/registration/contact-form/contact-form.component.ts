@@ -10,8 +10,7 @@ import {
 } from '@angular/forms';
 import {
   CountryISO,
-  SearchCountryField,
-  PhoneNumberFormat
+  SearchCountryField
 } from "@moddi3/ngx-intl-tel-input";
 import { PhoneNumberUtil, PhoneNumber } from 'google-libphonenumber';
 import { ConfigService } from 'src/app/shared/services/config.service';
@@ -222,7 +221,7 @@ export class ContactFormComponent implements OnInit {
 
   phoneValidator = (control: AbstractControl): ValidationErrors | null => {
     const phoneInput = control.parent.get('phone').value;
-    if (!phoneInput || !phoneInput.number) {
+    if (!phoneInput?.number) {
       return { invalidPhoneNumber: true, message: 'Phone number is required' };
     }
     const sanitizedPhone = phoneInput.number.replace(/\D/g, '');
