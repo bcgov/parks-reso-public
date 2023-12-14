@@ -52,16 +52,22 @@ describe('ContactFormComponent', () => {
 
   it('should not allow phone number without to be over 12 characters', fakeAsync(() => {
     const enablePhoneCheckbox = component.myForm.get('enablePhone');
+    const phoneFormControl = component.myForm.get('phone');
     const phoneInput = fixture.nativeElement.querySelector('#phone');
+  
     enablePhoneCheckbox.setValue(true);
     fixture.detectChanges();
+  
     const testPhoneNumber = '250-555-11111111115555';
-    phoneInput.value= testPhoneNumber;
+    phoneInput.value = testPhoneNumber;
+  
     const keyEvent = new KeyboardEvent('keydown', {
       key: '1'
     });
+  
     phoneInput.dispatchEvent(keyEvent);
-    fixture.detectChanges(); 
-    expect(phoneInput.value.length).toEqual(12);
+    fixture.detectChanges();
+  
+    expect(phoneFormControl.hasError('invalidPhoneNumber')).toBeTruthy();
   }));
 });
