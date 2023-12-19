@@ -36,3 +36,46 @@
   margin-top: -2%;
   margin-left: -5%;
 }
+
+
+.phone{
+  border: none !important;
+}
+
+:host ::ng-deep .iti {
+  width: 100%;
+}
+// .iti--allow-dropdown {
+//   width: 100%;
+//   border: none !important;
+// }
+// .intl-tel-input {
+// 	display: block !important;
+//   border: none !important;
+// }
+
+// .intl-tel-input .country-list {
+// 	border-top-left-radius: 0px;
+// 	border-top-right-radius: 0px;
+// 	box-shadow: none;
+// 	border-color: #c7cace;
+// 	font-size: 14px;
+// 	margin-left: 0;
+// 	margin-top: -1px;
+// 	width: 265px;
+//   border: none !important;
+// }
+
+// .flag-container.open + input {
+// 	border-bottom-left-radius: 0px;
+// 	border-bottom-right-radius: 0px;
+//   border: none !important;
+// }
+
+// :host{
+//   ::ng-deep{
+//     .mystyle {
+//       border: none;
+//     }
+//   }
+// }

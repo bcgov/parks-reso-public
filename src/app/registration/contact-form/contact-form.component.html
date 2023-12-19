@@ -87,7 +87,7 @@
           <div class="row">
             <div class="col-1 col-md-1">
               <label class="mb-2" for="enablePhone">
-              <input type="checkbox" [(ngModel)]="isPhoneRequired" id="enablePhone" formControlName="enablePhone"> </label>
+              <input type="checkbox" id="enablePhone" formControlName="enablePhone"> </label>
             </div>
             <div class="col-11 col-md-11">
               <small class="text-muted">
@@ -105,7 +105,6 @@
           </label>
         <ngx-intl-tel-input
             #phoneInput
-            [cssClass]="'custom'"
             [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
             [enableAutoCountrySelect]="false"
             [enablePlaceholder]="true"
@@ -124,9 +123,6 @@
             (countryChange)="onCountryChange($event)"
             appPhoneFormat
           ></ngx-intl-tel-input>
-          <div *ngIf="myForm.get('phone').hasError('required') && myForm.get('phone').dirty">
-            <small class="text-danger">*Your Phone Number is Required</small>
-          </div>
           <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
             <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone number.</small>
           </div>

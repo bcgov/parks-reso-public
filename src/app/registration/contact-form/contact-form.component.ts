@@ -73,9 +73,9 @@ export class ContactFormComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.displayWinterWarning = this.park?.winterWarning;
+    this.myForm.get('phone').disable()
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
     this.myForm.get('enablePhone').valueChanges.subscribe((value) => {
-      this.isPhoneRequired = value;
       const phoneControl = this.myForm.get('phone');
       if (value) {
         phoneControl.enable();
@@ -141,7 +141,6 @@ export class ContactFormComponent implements OnInit {
   }
   
   onCountryChange(event: any): void{
-    console.log("event: ", event);
     this.countryName = event.name;
     this.dialCode = `+${event.dialCode}`;
     this.updateMaxLength(event.placeHolder);

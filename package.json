@@ -29,6 +29,7 @@
     "@popperjs/core": "^2.10.2",
     "angularx-qrcode": "^15.0.1",
     "google-libphonenumber": "^3.2.33",
+    "intl-tel-input": "^17.0.3",
     "guid-typescript": "^1.0.9",
     "luxon": "^3.3.0",
     "material-icons": "^1.13.6",

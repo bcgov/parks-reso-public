@@ -4515,6 +4515,11 @@ internal-slot@^1.0.4:
     hasown "^2.0.0"
     side-channel "^1.0.4"
 
+intl-tel-input@^17.0.3:
+  version "17.0.21"
+  resolved "https://registry.yarnpkg.com/intl-tel-input/-/intl-tel-input-17.0.21.tgz#2d69777ecf5fd188d545f7e482cefe4d3523645b"
+  integrity sha512-TfyPxLe41QZPOf6RqBxRE2dpQ0FThB/PBD/gRbxVhGW7IuYg30QD90x/vjmEo4vkZw7j8etxpVcjIZVRcG+Otw==
+
 ip@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ip/-/ip-2.0.0.tgz#4cf4ab182fee2314c75ede1276f8c80b479936da"
