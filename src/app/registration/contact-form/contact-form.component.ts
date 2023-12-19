@@ -8,6 +8,11 @@ import {
   ValidationErrors,
   AbstractControlOptions
 } from '@angular/forms';
+import {
+  CountryISO,
+  SearchCountryField
+} from "@moddi3/ngx-intl-tel-input";
+import { PhoneNumberUtil, PhoneNumber } from 'google-libphonenumber';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { Constants } from 'src/app/shared/utils/constants';
 
@@ -30,7 +35,12 @@ export class ContactFormComponent implements OnInit {
   public captchaJwt: string;
   public displayWinterWarning = false;
   public isPhoneRequired = false;
-
+  public placeholderFormat = "+1 506-234-5678";
+  public countryName = "Canada";
+  public dialCode = "+1";
+  public maxLength = 12;
+  public phoneNumber = '';
+  public iso2 = "ca"
   public months = [
     'January',
     'February',
@@ -46,18 +56,26 @@ export class ContactFormComponent implements OnInit {
     'December'
   ];
 
+  separateDialCode = false;
+  SearchCountryField = SearchCountryField;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [
+    CountryISO.UnitedStates,
+    CountryISO.UnitedKingdom
+  ];
+
   constructor(
     private fb: UntypedFormBuilder,
     private configService: ConfigService,
-    private changeDetectionRef: ChangeDetectorRef
+    private changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.displayWinterWarning = this.park?.winterWarning;
+    this.myForm.get('phone').disable()
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
     this.myForm.get('enablePhone').valueChanges.subscribe((value) => {
-      this.isPhoneRequired = value;
       const phoneControl = this.myForm.get('phone');
       if (value) {
         phoneControl.enable();
@@ -69,10 +87,10 @@ export class ContactFormComponent implements OnInit {
     this.myForm.get('enablePhone').valueChanges.subscribe((enablePhoneValue) => {
       const phoneControl = this.myForm.get('phone');
       if (enablePhoneValue) {
-        phoneControl.setValidators([Validators.required, Validators.pattern(Constants.phoneValidationRegex)]);
+        phoneControl.setValidators([Validators.required, this.phoneValidator]);
       } else {
         phoneControl.setValidators([Validators.required]);
-      }
+      } 
       phoneControl.updateValueAndValidity();
     });
   }
@@ -114,6 +132,19 @@ export class ContactFormComponent implements OnInit {
   }
   get enablePhone() {
     return this.myForm.get('enablePhone');
+  }
+
+  updateMaxLength(placeholder: string): void {
+    const placeholderWithoutDialCode = placeholder.slice(this.dialCode.length + 1);
+    this.maxLength = placeholderWithoutDialCode.length;
+    console.log("MAX LENGTH: ", this.maxLength);
+  }
+  
+  onCountryChange(event: any): void{
+    this.countryName = event.name;
+    this.dialCode = `+${event.dialCode}`;
+    this.updateMaxLength(event.placeHolder);
+    this.iso2 = event.iso2;
   }
 
   keyPressNumbers(event) {
@@ -161,12 +192,13 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(): void {
+    const combinedValue = this.dialCode + this.myForm.get('phone').value.number;
     this.saving = true;
     const obj = {
       firstName: this.myForm.get('firstName').value,
       lastName: this.myForm.get('lastName').value,
       email: this.myForm.get('email').value,
-      phone: this.justNumbers(this.myForm.get('phone').value),
+      phone: `+${this.justNumbers(combinedValue)}`,
       captchaJwt: this.captchaJwt
     };
     this.emitter.emit(obj);
@@ -185,4 +217,23 @@ export class ContactFormComponent implements OnInit {
       return true;
     }
   }
+
+  phoneValidator = (control: AbstractControl): ValidationErrors | null => {
+    const phoneInput = control.parent.get('phone').value;
+    if (!phoneInput?.number) {
+      return { invalidPhoneNumber: true, message: 'Phone number is required' };
+    }
+    const sanitizedPhone = phoneInput.number.replace(/\D/g, '');
+    const phoneNumberUtil = PhoneNumberUtil.getInstance();
+    try {
+      const parsedNumber: PhoneNumber = phoneNumberUtil.parse(sanitizedPhone, this.iso2);
+      if (!phoneNumberUtil.isValidNumber(parsedNumber)) {
+        return { invalidPhoneNumber: true, message: 'Invalid phone number for the selected region' };
+      }
+    } catch (error) {
+      return { invalidPhoneNumber: true, message: 'Error parsing the phone number' };
+    }
+    return null;
+  }
+  
 }

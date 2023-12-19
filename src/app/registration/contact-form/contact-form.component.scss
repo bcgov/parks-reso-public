@@ -36,3 +36,12 @@
   margin-top: -2%;
   margin-left: -5%;
 }
+
+
+.phone{
+  border: none !important;
+}
+
+:host ::ng-deep .iti {
+  width: 100%;
+}
