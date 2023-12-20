@@ -53,7 +53,8 @@
             "namedChunks": true,
             "allowedCommonJsDependencies": [
               "guid-typescript",
-              "qrcode"
+              "qrcode",
+              "google-libphonenumber"
             ]
           },
           "configurations": {
