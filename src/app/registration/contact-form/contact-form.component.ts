@@ -84,9 +84,9 @@ export class ContactFormComponent implements OnInit {
         phoneControl.setValue('');
       }
     });
-    this.myForm.get('enablePhone').valueChanges.subscribe((enablePhoneValue) => {
+    this.myForm.get('enablePhone').valueChanges.subscribe((enablePhone) => {
       const phoneControl = this.myForm.get('phone');
-      if (enablePhoneValue) {
+      if (enablePhone) {
         phoneControl.setValidators([Validators.required, this.phoneValidator]);
       } else {
         phoneControl.setValidators([Validators.required]);
@@ -111,8 +111,8 @@ export class ContactFormComponent implements OnInit {
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(Constants.emailValidationRegex)]],
         emailCheck: ['', [Validators.required]],
-        phone: ['', [Validators.required]],
-        enablePhone: ['', [Validators.required]]
+        phone: [''],
+        enablePhone: [false]
       },
       {
         validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone') ],
@@ -192,16 +192,27 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(): void {
-    const combinedValue = this.dialCode + this.myForm.get('phone').value.number;
-    this.saving = true;
-    const obj = {
-      firstName: this.myForm.get('firstName').value,
-      lastName: this.myForm.get('lastName').value,
-      email: this.myForm.get('email').value,
-      phone: `+${this.justNumbers(combinedValue)}`,
-      captchaJwt: this.captchaJwt
-    };
+    if (this.myForm.get('enablePhone').value) {
+      const combinedValue = this.dialCode + this.myForm.get('phone').value.number;
+      this.saving = true;
+      const obj = {
+        firstName: this.myForm.get('firstName').value,
+        lastName: this.myForm.get('lastName').value,
+        email: this.myForm.get('email').value,
+        phone: `+${this.justNumbers(combinedValue)}`,
+        captchaJwt: this.captchaJwt
+      };
     this.emitter.emit(obj);
+    } else {
+      this.saving = true;
+      const obj = {
+        firstName: this.myForm.get('firstName').value,
+        lastName: this.myForm.get('lastName').value,
+        email: this.myForm.get('email').value,
+        captchaJwt: this.captchaJwt
+      };
+      this.emitter.emit(obj);
+      }   
   }
 
   captchaValidated(event): void {
