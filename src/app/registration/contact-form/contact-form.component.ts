@@ -73,8 +73,8 @@ export class ContactFormComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.displayWinterWarning = this.park?.winterWarning;
-    this.myForm.get('phone').disable()
-    this.myForm.get('enablePhone').setValue(false)
+    this.myForm.get('phone').disable();
+    this.myForm.get('enablePhone').setValue(false);
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
     this.myForm.get('enablePhone').valueChanges.subscribe((value) => {
       const phoneControl = this.myForm.get('phone');
