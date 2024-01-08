@@ -111,8 +111,8 @@ export class ContactFormComponent implements OnInit {
         lastName: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(Constants.emailValidationRegex)]],
         emailCheck: ['', [Validators.required]],
-        phone: ['', [Validators.required]],
-        enablePhone: [false, [Validators.required]]
+        phone: [''],
+        enablePhone: [false]
       },
       {
         validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone') ],
