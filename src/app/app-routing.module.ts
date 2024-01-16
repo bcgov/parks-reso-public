@@ -8,7 +8,7 @@ import { ParksListResolverService } from './parks-list/parks-list-resolver.servi
 import { PassLookupComponent } from './pass-lookup/pass-lookup.component';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
 import { RegistrationComponent } from './registration/registration.component';
-
+import { FaqComponent } from './faq/faq.component'
 
 const routes: Routes = [
   {
@@ -28,6 +28,10 @@ const routes: Routes = [
   {
     path: 'pass-lookup',
     component: PassLookupComponent,
+  }, 
+  {
+    path: 'faq',
+    component: FaqComponent,
   },
   {
     path: '**', pathMatch: 'full',
