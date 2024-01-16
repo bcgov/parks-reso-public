@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PostPass } from '../models/pass';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
 import { LoggerService } from './logger.service';

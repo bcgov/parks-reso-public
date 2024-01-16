@@ -1,7 +1,5 @@
-import { formatDate } from '@angular/common';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Pass } from '../models/pass';
 import { FaqService } from '../services/faq.service';
 import { ToastService } from '../services/toast.service';
 
