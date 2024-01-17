@@ -19,7 +19,7 @@ export class FaqService {
     try {
       this.loggerService.debug(`GETTING FAQ: }`);
       res = await this.apiService.get('readfaq', { faq: 'faq' });
-      console.log(JSON.stringify(res))
+      return res[0].text;
     } catch (e) {
       this.loggerService.error(`${e}`);
       this.eventService.setError(
@@ -31,7 +31,5 @@ export class FaqService {
       );
       throw e;
     }
-    return res[0].text;
   }
-
 }
