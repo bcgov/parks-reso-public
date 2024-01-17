@@ -168,4 +168,8 @@ export class RegistrationComponent implements OnInit {
       delete obj.phone;
     }
   }
+
+  openFAQ(){
+    this.router.navigate(['./faq']);
+  }
 }
