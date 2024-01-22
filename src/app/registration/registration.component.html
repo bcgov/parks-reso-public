@@ -57,4 +57,17 @@
   <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
     <app-failure [errorContent]="errorContent"></app-failure>
   </div>
+  
+  <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
+    <div class="container-md mb-2">
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-lg-6">
+          <p>You can visit our FAQ page to find common solutions:
+            <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
