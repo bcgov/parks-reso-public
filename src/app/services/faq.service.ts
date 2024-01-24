@@ -18,7 +18,7 @@ export class FaqService {
     let res = null;
     try {
       this.loggerService.debug(`GETTING FAQ: }`);
-      res = await this.apiService.get('readfaq', { faq: 'faq' });
+      res = await this.apiService.get('faq', { faq: 'faq' });
       return res[0].text;
     } catch (e) {
       this.loggerService.error(`${e}`);
