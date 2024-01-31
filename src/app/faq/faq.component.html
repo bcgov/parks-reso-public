@@ -1,4 +1,11 @@
 <div class="container-md my-5">
+    <button type="button" class="btn btn-link home-button" (click)="navigate()">
+        <span class="material-icons md-36">arrow_back</span>
+        &nbsp;
+        <span>
+          {{ backButtonText }}
+        </span>
+    </button>
     <div class="p-4 row gx-5">
         <h1>
             {{title}}
