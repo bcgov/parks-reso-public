@@ -41,6 +41,6 @@ export class FaqComponent implements OnInit {
   }
 
   navigate(): void {
-    this.router.navigate(['']);
+    this.router.navigate(['./']);
   }
 }
