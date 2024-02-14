@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FaqService } from '../services/faq.service';
 import { ToastService } from '../services/toast.service';
+import { Constants } from '../shared/utils/constants';
 
 @Component({
   selector: 'app-pass-lookup',
@@ -18,18 +19,29 @@ export class FaqComponent implements OnInit {
   public faqData = '';
   public validationData = '';
   public cancelledPassData = null;
+  public isLoading:boolean; 
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private faqService: FaqService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   async ngOnInit() {
+    this.isLoading = true;
     this.scrollToTop();
-    this.faqData = await this.faqService.getFaq();
-    document.getElementById('faqData').innerHTML = this.faqData;
+    try {
+      this.faqData = await this.faqService.getFaq();
+      document.getElementById('faqData').innerHTML = this.faqData;
+    } catch (error) {
+      this.isLoading = false;
+      this.toastService.addMessage("Failed to retrieve Frequently Asked Questions",`No Response`, Constants.ToastTypes.ERROR);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   scrollToTop() {
