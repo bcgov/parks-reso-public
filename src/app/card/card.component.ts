@@ -15,6 +15,7 @@ export class CardComponent implements OnInit {
   @Input() data: any;
   public altText = 'Park Image';
   public url = '';
+  public specialClosureText = '';
 
   constructor(
     private router: Router,
@@ -26,10 +27,14 @@ export class CardComponent implements OnInit {
       this.altText = this.data.name + ' Image';
       this.url = this.configService.config['ASSETS_S3_URL'];
       this.url += `/images/${this.data.sk}/card.webp`;
+      if (this.data.specialClosureText){
+        this.specialClosureText = this.data.specialClosureText;
+      }
     }
+    
   }
 
   navigate(park): void {
-    this.router.navigate(['registration'], { state: { park } });
+    this.router.navigate(['registration'], { state: { park } }); 
   }
 }
