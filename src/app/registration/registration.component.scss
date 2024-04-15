@@ -20,6 +20,11 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
+    .registration-container{
+        margin-top: 1rem !important;
+        margin-bottom: 0 !important;
+    }
 }
 
 .home-button{
@@ -28,4 +33,9 @@
     .material-icons{
         vertical-align: middle !important;
     }
+}
+
+.registration-container{
+    margin-top: 5rem;
+    margin-bottom: 4rem;
 }

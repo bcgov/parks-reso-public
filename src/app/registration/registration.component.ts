@@ -99,17 +99,25 @@ export class RegistrationComponent implements OnInit {
   }
 
   getFacilityFormObj(event): void {
-    this.facilityFormObj = event;
-    this.state = 'contact-form';
-    this.scrollToTop();
-    this.backButtonText = 'Facilities';
+    if (!event) {
+      this.navigate();
+    } else {
+      this.facilityFormObj = event;
+      this.state = 'contact-form';
+      this.scrollToTop();
+      this.backButtonText = 'Facilities';
+    }
   }
 
   getContactFormObj(event): void {
-    this.contactFormObj = event;
-    this.regData = { ...this.facilityFormObj, ...this.contactFormObj };
-    this.regData['registrationNumber'] = '1234asdf';
-    this.submit();
+    if (!event) {
+      this.navigate();
+    } else {
+      this.contactFormObj = event;
+      this.regData = { ...this.facilityFormObj, ...this.contactFormObj };
+      this.regData['registrationNumber'] = '1234asdf';
+      this.submit();
+    }
   }
 
   async submit() {
@@ -169,7 +177,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  openFAQ(){
+  openFAQ() {
     this.router.navigate(['./faq']);
   }
 }

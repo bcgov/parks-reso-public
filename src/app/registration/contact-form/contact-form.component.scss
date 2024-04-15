@@ -38,10 +38,14 @@
 }
 
 
-.phone{
+.phone {
   border: none !important;
 }
 
 :host ::ng-deep .iti {
   width: 100%;
+}
+
+.material-icons {
+  vertical-align: middle !important;
 }

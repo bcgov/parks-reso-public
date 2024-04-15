@@ -191,7 +191,11 @@
     </div>
   </div>
 </form>
-<div class="d-flex justify-content-end">
+<div class="d-flex justify-content-between flex-wrap">
+  <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" (click)="navigate()">
+    <span class="material-icons md-24">arrow_back</span>
+    Back
+  </button>
   <button type="button" [disabled]="myForm.status === 'INVALID'" class="btn btn-primary" (click)="submit()">
     Next
   </button>

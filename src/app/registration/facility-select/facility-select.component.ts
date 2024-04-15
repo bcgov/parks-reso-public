@@ -4,6 +4,7 @@ import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { DateTime } from 'luxon';
 import { Constants } from '../../shared/utils/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-facility-select',
@@ -62,7 +63,7 @@ export class FacilitySelectComponent implements OnInit {
   // Initial state
   public state = 0;
 
-  constructor(private fb: UntypedFormBuilder, private configService: ConfigService) {}
+  constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.configService) {
@@ -457,5 +458,10 @@ export class FacilitySelectComponent implements OnInit {
       passCount: parseInt(this.myForm.get('passCount').value, 10)
     };
     this.emitter.emit(obj);
+  }
+
+  navigate(): void {
+    // Emit back to registration component
+    this.emitter.emit(null);
   }
 }

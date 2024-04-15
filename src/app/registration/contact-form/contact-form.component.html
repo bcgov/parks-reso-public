@@ -28,7 +28,8 @@
     </div>
     <div class="col-md-12 col-lg-6 right-col">
       <div class="container-md rounded py-3 details-container">
-        <p><i><b>NEW</b> - Text message reminders with cancellation links can now be recieved by including your mobile phone number below.</i></p>
+        <p><i><b>NEW</b> - Text message reminders with cancellation links can now be recieved by including your mobile
+            phone number below.</i></p>
       </div>
       <br>
       <form [formGroup]="myForm">
@@ -87,7 +88,7 @@
           <div class="row">
             <div class="col-1 col-md-1">
               <label class="mb-2" for="enablePhone">
-              <input type="checkbox" id="enablePhone" formControlName="enablePhone"> </label>
+                <input type="checkbox" id="enablePhone" formControlName="enablePhone"> </label>
             </div>
             <div class="col-11 col-md-11">
               <small class="text-muted">
@@ -103,8 +104,7 @@
           <label class="mb-2" for="phone">
             Phone Number:
           </label>
-        <ngx-intl-tel-input
-            #phoneInput
+          <ngx-intl-tel-input #phoneInput
             [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
             [enableAutoCountrySelect]="false"
             [enablePlaceholder]="true"
@@ -121,14 +121,14 @@
             formControlName="phone"
             [excludeCountries]="[CountryISO.Russia]"
             (countryChange)="onCountryChange($event)"
-            appPhoneFormat
-          ></ngx-intl-tel-input>
+            appPhoneFormat></ngx-intl-tel-input>
           <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
-            <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone number.</small>
+            <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone
+              number.</small>
           </div>
         </div>
       </form>
-      
+
       <div class="mb-4">
         <p>
           This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of Information and
@@ -197,14 +197,14 @@
       </div>
 
       <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
-      <div class="d-flex justify-content-end">
-        <button
-          type="button"
-          [disabled]="
+      <div class="d-flex justify-content-between flex-wrap">
+        <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" (click)="navigate()">
+          <span class="material-icons md-24">arrow_back</span>
+          Back
+        </button>
+        <button type="button" [disabled]="
             myForm.status === 'INVALID' || !collectionNoticeCheck || !captchaCheck || !winterWaiverCheck() || saving
-          "
-          class="btn btn-primary"
-          (click)="submit()">
+          " class="btn btn-primary" (click)="submit()">
           <span *ngIf="!saving">Submit</span>
           <span *ngIf="saving" class="material-icons rotating">autorenew</span>
         </button>

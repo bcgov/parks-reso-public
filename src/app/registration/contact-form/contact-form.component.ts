@@ -8,6 +8,7 @@ import {
   ValidationErrors,
   AbstractControlOptions
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   CountryISO,
   SearchCountryField
@@ -19,7 +20,7 @@ import { Constants } from 'src/app/shared/utils/constants';
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss' ]
+  styleUrls: ['./contact-form.component.scss']
 })
 export class ContactFormComponent implements OnInit {
   @Input() passData;
@@ -68,7 +69,8 @@ export class ContactFormComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private configService: ConfigService,
     private changeDetectionRef: ChangeDetectorRef,
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -90,7 +92,7 @@ export class ContactFormComponent implements OnInit {
         phoneControl.setValidators([Validators.required, this.phoneValidator]);
       } else {
         phoneControl.setValidators([Validators.required]);
-      } 
+      }
       phoneControl.updateValueAndValidity();
     });
   }
@@ -115,7 +117,7 @@ export class ContactFormComponent implements OnInit {
         enablePhone: [false]
       },
       {
-        validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone') ],
+        validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone')],
       } as AbstractControlOptions
     );
   }
@@ -139,8 +141,8 @@ export class ContactFormComponent implements OnInit {
     this.maxLength = placeholderWithoutDialCode.length;
     console.log("MAX LENGTH: ", this.maxLength);
   }
-  
-  onCountryChange(event: any): void{
+
+  onCountryChange(event: any): void {
     this.countryName = event.name;
     this.dialCode = `+${event.dialCode}`;
     this.updateMaxLength(event.placeHolder);
@@ -158,7 +160,7 @@ export class ContactFormComponent implements OnInit {
     }
   }
 
-  justNumbers(phoneNumber): string{
+  justNumbers(phoneNumber): string {
     return phoneNumber.replace(/\D/g, '')
   }
 
@@ -202,7 +204,7 @@ export class ContactFormComponent implements OnInit {
         phone: `+${this.justNumbers(combinedValue)}`,
         captchaJwt: this.captchaJwt
       };
-    this.emitter.emit(obj);
+      this.emitter.emit(obj);
     } else {
       this.saving = true;
       const obj = {
@@ -212,7 +214,7 @@ export class ContactFormComponent implements OnInit {
         captchaJwt: this.captchaJwt
       };
       this.emitter.emit(obj);
-      }   
+    }
   }
 
   captchaValidated(event): void {
@@ -246,5 +248,9 @@ export class ContactFormComponent implements OnInit {
     }
     return null;
   }
-  
+
+  navigate(): void {
+    // Emit back to registration component
+    this.emitter.emit(null);
+  }
 }
