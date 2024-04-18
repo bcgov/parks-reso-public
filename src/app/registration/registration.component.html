@@ -1,22 +1,13 @@
-<div class="d-flex flex-column h-100 mt-4" [ngClass]="{ 'pb-4': !(state === 'facility-select' && !error) }">
-  <div *ngIf="state !== 'success'" class="container-md mb-2">
-    <button type="button" class="btn btn-link home-button" (click)="navigate()">
-      <span class="material-icons md-36">arrow_back</span>
-      &nbsp;
-      <span>
-        {{ backButtonText }}
-      </span>
-    </button>
-  </div>
-
+<div class="d-flex flex-column h-100 registration-container"
+  [ngClass]="{ 'pb-4': !(state === 'facility-select' && !error) }">
   <div *ngIf="error">
-      <div class="container-md mb-2">
-        <div class="gov-links"> You have experienced an issue. Please visit our FAQ page to find common solutions:
-          <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
-        </div>
+    <div class="container-md mb-2">
+      <div class="gov-links"> You have experienced an issue. Please visit our FAQ page to find common solutions:
+        <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
+      </div>
     </div>
   </div>
-  
+
   <!-- Facility select page -->
   <div *ngIf="state === 'facility-select' && !error">
     <div class="container-md">
@@ -25,9 +16,7 @@
           <app-park-details [park]="park"></app-park-details>
         </div>
         <div class="col-md-12 col-lg-6 right-col">
-          <app-facility-select
-            *ngIf="!loading"
-            [facilities]="facilities"
+          <app-facility-select *ngIf="!loading" [facilities]="facilities"
             (emitter)="getFacilityFormObj($event)"></app-facility-select>
           <div *ngIf="loading" class="text-center loading-container">
             <span class="material-icons md-48 spinner rotating">autorenew</span>
@@ -40,10 +29,7 @@
   </div>
 
   <!-- Contact information page -->
-  <app-contact-form
-    [park]="park"
-    [passData]="facilityFormObj"
-    (emitter)="getContactFormObj($event)"
+  <app-contact-form [park]="park" [passData]="facilityFormObj" (emitter)="getContactFormObj($event)"
     *ngIf="state === 'contact-form' && !error"></app-contact-form>
 
   <!-- Success -->
@@ -52,7 +38,7 @@
   <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
     <app-failure [errorContent]="errorContent"></app-failure>
   </div>
-  
+
   <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
     <div class="container-md mb-2">
       <div class="row">
