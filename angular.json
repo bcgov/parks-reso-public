@@ -65,7 +65,14 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -91,19 +98,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "parks-reso-public:build",
-            "port": 4300
+            "port": 4300,
+            "buildTarget": "parks-reso-public:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "parks-reso-public:build:production"
+              "buildTarget": "parks-reso-public:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "parks-reso-public:build"
+            "buildTarget": "parks-reso-public:build"
           }
         },
         "test": {
