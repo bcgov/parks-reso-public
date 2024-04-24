@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Resolve, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FacilityService } from '../services/facility.service';
 
 @Injectable()
-export class FacilitiesResolverService implements Resolve<void> {
+export class FacilitiesResolverService  {
   constructor(private facilityService: FacilityService, private router: Router) {}
 
   resolve() {
