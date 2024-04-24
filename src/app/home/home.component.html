@@ -2,15 +2,14 @@
   <div class="container-md">
     <div class="row p-2 p-md-4">
       <div class="col-xl-4 col-lg-12">
-        <h1 class="mb-4">Reserve a Day-Use Pass</h1>
+        <h1 class="mb-4">Reserve a day-use pass</h1>
         <p class="lead">
-          BC Parks requires that park users reserve a day-use pass during the summer and winter periods at select parks
-          to help manage visitation levels at popular day use areas.
+          Day-use passes are required at some popular BC Parks during the summer and winter seasons. Reserving a pass 
+          helps us manage the number of park visitors, so we can protect the park and you can have a better visiting 
+          experience. 
         </p>
         <p class="lead">
-          Visitors are required to reserve an AM, PM, or All-Day pass for their visit to the parks listed below, as
-          these parks will have <span class="fw-bold">no</span> available first come, first served parking during the
-          day. If no parks are currently listed, the day-use pass program is inactive.
+          There is no available first come, first served parking, so book ahead to avoid disappointment.
         </p>
       </div>
       <div class="col-xl-8 col-lg-12 camp-car-container">
@@ -19,16 +18,17 @@
         </div>
         <div class="img-blurb p-3">
           <strong>
-            <p>Day-Use Pass</p>
+            <p>Day-use pass</p>
           </strong>
           <div class="row mx-4">
             <ul>
-              <li>Vehicle passes are valid for a maximum of 12 people (adult or child) travelling in the same vehicle per
-                pass per day.
+              <li>Some parks require vehicle passes. These are valid for up to 12 people (adults and children) 
+                travelling in the same vehicle. 
               </li>
               <li>
-                Trail passes must be booked for each individual person per day. A maximum of 4 passes may be booked per
-                transaction. Children 18 and under who are accompanied by an adult do not require a pass.
+                Other parks require trail passes. These must be booked for each individual person, per day. 
+                A maximum of 4 passes may be booked per reservation. Children 12 and under accompanied by an 
+                adult do not require a pass. 
               </li>
             </ul>
           </div>
@@ -48,8 +48,14 @@
 </div>
 
 <div class="text-center mb-4">
-  <p class="mb-0"><strong>Need to cancel an active pass?</strong></p>
-  <a [routerLink]="['/pass-lookup/']">Click here</a>
+  <h2 class="text-muted">Need to cancel an active pass?</h2>
+  <button
+    class="btn btn-primary p-3 cancel-button"
+    type="button"
+    attr.aria-label="Click here to cancel an active pass"
+    (click)="cancelPass()">
+    Cancel my pass
+  </button>
 </div>
 
 <div class="mb-0 mb-md-4">
