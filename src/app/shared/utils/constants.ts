@@ -14,6 +14,8 @@ export class Constants {
     ]
   };
 
+  public static readonly DEFAULT_PM_OPENING_HOUR = 13;
+
   public static readonly DEFAULT_NOT_REQUIRED_TEXT = `<p>You don't need a day-use pass for this date and pass type. Passes may be required on other days and at other parks.</p>`;
 
   public static readonly mockPass1 = {

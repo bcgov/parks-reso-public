@@ -51,7 +51,7 @@ export class FacilitySelectComponent implements OnInit {
   // typically imported from configService, below are default values if no configService
   // PM opening hour is used to determine when AM time slot closes (in 24h time)
   public defaultAMOpeningHour = 7;
-  public defaultPMOpeningHour = 12;
+  public defaultPMOpeningHour = Constants.DEFAULT_PM_OPENING_HOUR;
   public defaultDateLimit = 1;
   public trailPassLimit = 4;
   public parkingPassLimit = 1;
