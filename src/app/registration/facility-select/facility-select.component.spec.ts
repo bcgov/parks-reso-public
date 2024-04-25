@@ -354,8 +354,9 @@ describe('FacilitySelectComponent', () => {
     })
 
     it('should test AM departure text', async () => {
-      component.defaultAMOpeningHour = 7
+      component.defaultAMOpeningHour = 7;
       component.timeConfig.AM.offered = true;
+      component.defaultPMOpeningHour = 12;
 
       await fixture.detectChanges()
 
@@ -368,6 +369,7 @@ describe('FacilitySelectComponent', () => {
 
     it('should test PM arrival text', () => {
       component.timeConfig.PM.offered = true;
+      component.defaultPMOpeningHour = 12;
       fixture.detectChanges()
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-PM"));

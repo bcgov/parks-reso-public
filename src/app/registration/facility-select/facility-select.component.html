@@ -23,7 +23,7 @@
       formControlName="passType"
       id="passType"
       (change)="setState('time')"
-      *ngIf="!isDisabled('facility')"      
+      *ngIf="!isDisabled('facility')"
       data-testid="passtype-select">
       <option hidden disabled selected value>--Select a pass type--</option>
       <option *ngFor="let facility of openFacilities" [ngValue]="facility">
@@ -76,7 +76,7 @@
               Pass availability -
               <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
             </p>
-            <p class="card-text" id="arrive-departure-text-AM">{{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;12pm (Depart by 12pm)</p>
+            <p class="card-text" id="arrive-departure-text-AM">{{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;{{to12hTimeString(defaultPMOpeningHour)}} (Depart by {{to12hTimeString(defaultPMOpeningHour)}})</p>
           </div>
         </div>
       </label>
@@ -110,7 +110,7 @@
               Pass availability -
               <span [ngClass]="timeConfig.PM.text">{{ timeConfig.PM.text }}</span>
             </p>
-            <p class="card-text" id="arrive-departure-text-PM">Arrive after 12pm</p>
+            <p class="card-text" id="arrive-departure-text-PM">Arrive after {{to12hTimeString(defaultPMOpeningHour)}}</p>
           </div>
         </div>
       </label>
