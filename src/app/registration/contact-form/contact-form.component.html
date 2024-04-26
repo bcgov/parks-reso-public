@@ -85,20 +85,13 @@
           </small>
         </div>
         <div class="form-group">
-          <div class="row">
-            <div class="col-1 col-md-1">
-              <label class="mb-2" for="enablePhone">
-                <input type="checkbox" id="enablePhone" formControlName="enablePhone"> </label>
-            </div>
-            <div class="col-11 col-md-11">
-              <small class="text-muted">
-                <div id="raiseText">
-                  <b>I would like to receive reminders via text message.</b><br>
-                  <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
-                </div>
-              </small>
-            </div>
-          </div>
+          <label class="d-flex align-items-center" for="enablePhone" id="raiseText">
+            <input type="checkbox" class="col-2" id="enablePhone" formControlName="enablePhone">
+            <small class="col-10 mx-2 text-muted">
+              <strong>I would like to receive reminders via text message.</strong><br>
+              <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
+            </small>
+          </label>
         </div>
         <div class="form-group">
           <label class="mb-2" for="phone">
@@ -138,12 +131,10 @@
           <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">ParkInfo&#64;gov.bc.ca</a>
           .
         </p>
-
-        <div class="mt-3">
-          <label class="ml-2">
-            <input type="checkbox" [(ngModel)]="collectionNoticeCheck" [ngModelOptions]="{ standalone: true }" />
-            &nbsp;I have read and agree to the above notice&nbsp;
-            <span class="asteriks">*</span>
+        <div>
+          <label class="d-flex align-items-center">
+            <input type="checkbox" class="col-2" [(ngModel)]="collectionNoticeCheck" [ngModelOptions]="{ standalone: true }" />
+            <div class="col-10 mx-2">I have read and agree to the above notice <span class="asteriks">*</span></div>
           </label>
         </div>
       </div>
@@ -160,13 +151,10 @@
             winter conditions.
           </p>
 
-          <div class="mt-3">
-            <label class="ml-2">
-              <input type="checkbox" [(ngModel)]="weatherStatementCheck" [ngModelOptions]="{ standalone: true }" />
-              &nbsp;Please tick this box to acknowledge the above statement&nbsp;
-              <span class="asteriks">*</span>
+            <label class="d-flex align-items-center">
+              <input type="checkbox" class="col-2" [(ngModel)]="weatherStatementCheck" [ngModelOptions]="{ standalone: true }" />
+              <div class="col-10 mx-2">Please tick this box to acknowledge the above statement <span class="asteriks">*</span></div>
             </label>
-          </div>
         </div>
 
         <div class="mb-4">
@@ -176,11 +164,10 @@
             </a>
           </p>
 
-          <div class="mt-3">
-            <label class="ml-2">
-              <input type="checkbox" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
-              &nbsp; I have read and agree to the Exclusion of Liability Notice above&nbsp;
-              <span class="asteriks">*</span>
+          <div>
+            <label class="d-flex align-items-center">
+              <input type="checkbox" class="col-2" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
+              <div class="col-10 mx-2">I have read and agree to the Exclusion of Liability Notice above <span class="asteriks">*</span></div>
             </label>
           </div>
         </div>

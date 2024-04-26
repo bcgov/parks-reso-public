@@ -32,11 +32,14 @@
   background-color: $bg-info;
 }
 
-#raiseText {
-  margin-top: -2%;
-  margin-left: -5%;
+#raiseText i {
+  font-weight: normal;
 }
 
+input[type=checkbox] {
+  width: 44px;
+  height: 44px;
+}
 
 .phone {
   border: none !important;
