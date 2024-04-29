@@ -30,11 +30,11 @@ class="my-3">
           <strong class="text-override">Passes not required</strong>
         </span>
         <span *ngIf="data?.specialClosure === true && data?.status === 'closed'" class="text-danger d-flex align-items-center">
-          <div class="specialClosure-circle"></div>
+          <div class="closed-circle"></div>
           <strong class="text-override">Closed</strong>
         </span>
         <span *ngIf="data?.specialClosure === true && data?.status === 'open'" class="text-danger d-flex align-items-center">
-          <div class="specialClosure-circle"></div>
+          <div class="closed-circle"></div>
           <strong class="text-override">Closed</strong>
         </span>
       </div>
