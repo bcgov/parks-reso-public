@@ -37,4 +37,8 @@ export class SuccessComponent implements OnInit {
   navigate(): void {
     this.router.navigate(['']);
   }
+
+  uriEncode(str: string): string {
+    return encodeURI(str);
+  }
 }
