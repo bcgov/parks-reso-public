@@ -16,6 +16,7 @@ import { PhoneFormatDirective } from '../shared/components/phone-number-formater
 import { NgxIntlTelInputModule } from '@moddi3/ngx-intl-tel-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxTurnstileModule } from "ngx-turnstile";
+import { TimerComponent } from './timer/timer.component';
 @NgModule({
   declarations: [
     RegistrationComponent,
@@ -26,7 +27,8 @@ import { NgxTurnstileModule } from "ngx-turnstile";
     FailureComponent,
     GuidelinesComponent,
     RegistrationDetailsComponent,
-    PhoneFormatDirective
+    PhoneFormatDirective,
+    TimerComponent
   ],
   imports: [
     CommonModule,

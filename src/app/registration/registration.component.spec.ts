@@ -7,6 +7,7 @@ import { ParkDetailsComponent } from './park-details/park-details.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 import { RegistrationComponent } from './registration.component';
+import { BehaviorSubject } from 'rxjs';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -32,5 +33,20 @@ describe('RegistrationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should deactivate when time is not expired and state is contact-form', () => {
+    // Arrange
+    const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
+    const deactivateSubject = new BehaviorSubject<boolean>(true);
+    component.timeExpired = false;
+    component.state = 'contact-form';
+
+    // Act
+    const result = component.canDeactivate();
+
+    // Assert
+    expect(confirmSpy).toHaveBeenCalledWith('"If you leave this page, you will lose any passes currently being held for you. Are you sure you want to leave?"');
+    expect(result).toBe(true);
   });
 });
