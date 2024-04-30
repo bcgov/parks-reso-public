@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12 col-lg-6 left-col mb-4">
       <div>
-        <h1>Success, your reservation has been completed!</h1>
+        <h1>Success! Your reservation is complete.</h1>
       </div>
 
       <div class="mt-4 mt-lg-4">
@@ -15,7 +15,7 @@
       </div>
 
       <div>
-        <p class="mb-1">Your Reservation Number</p>
+        <p class="mb-1">Your reservation number</p>
         <p>
           <strong>{{ regData?.registrationNumber ? regData.registrationNumber : '-' }}</strong>
         </p>
@@ -25,7 +25,7 @@
         <!-- QR CODE -->
         <div>
           <p>
-            Please have the following QR code saved and ready for check-in.
+            Save or print this QR code, and have it ready for check-in.
           </p>
         </div>
         <div class="d-flex justify-content-center qr-container">
@@ -71,11 +71,14 @@
           <a href="mailto:parkinfo@gov.bc.ca ">parkinfo&#64;gov.bc.ca</a>
           for assistance.
         </p>
-        <p>Please print or save a copy of your pass to your phone.</p>
-        <p>Please check for updates (notices, closures, trail conditions) on the park webpage.</p>
+        <p>Print your pass or save a copy to your phone.</p>
         <p>
-          If you do not intend on using your reservation, please cancel your booking &mdash; a link will be provided in
-          your email receipt.
+          Please check for notices, closures, and trail conditions on the 
+          <a [href]="'https://bcparks.ca/find-a-park/?q=' + uriEncode(regData?.parkName)" target="_blank">
+            park webpage</a>.
+        </p>
+        <p>
+          If you no longer need your reservation, please cancel it using the link in your confirmation email.
         </p>
       </div>
 
