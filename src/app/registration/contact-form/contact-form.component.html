@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12 col-lg-6 left-col mb-4">
       <h1>Contact Information</h1>
-      <p>Please provide the following information to complete your reservation and receive your pass via email.</p>
+      <p>Please provide your contact information to complete your reservation and receive your pass by email.</p>
       <div class="container-md rounded py-3 details-container">
         <div class="border-bottom border-secondary">
           <p>Facility Name</p>
@@ -19,7 +19,7 @@
         </div>
         <div class="my-3">
           <p *ngIf="passData?.passType?.type === 'Trail'">Number of Trail Passes (1 per person)</p>
-          <p *ngIf="passData?.passType?.type === 'Parking'">Number of Parking Passes (1 per vehicle)</p>
+          <p *ngIf="passData?.passType?.type === 'Parking'">Number of parking passes (1 per vehicle)</p>
           <h3>
             {{ passData?.passCount }}
           </h3>
@@ -35,22 +35,22 @@
       <form [formGroup]="myForm">
         <div class="form-group">
           <label class="mb-2" for="firstName">
-            First Name
-            <span class="asteriks">*</span>
+            First name
+           <span class="asteriks">&nbsp;*</span>
           </label>
           <input type="text" class="form-control mb-1" formControlName="firstName" id="firstName" />
         </div>
         <div class="form-group">
           <label class="mb-2" for="lastName">
-            Last Name
-            <span class="asteriks">*</span>
+            Last name
+           <span class="asteriks">&nbsp;*</span>
           </label>
           <input type="text" class="form-control mb-1" formControlName="lastName" id="lastName" />
         </div>
         <div class="form-group">
           <label class="mb-2" for="email">
-            Email Address
-            <span class="asteriks">*</span>
+            Email address
+           <span class="asteriks">&nbsp;*</span>
           </label>
           <input
             [class.is-invalid]="email.invalid && email.touched"
@@ -66,8 +66,7 @@
         </div>
         <div class="form-group">
           <label class="mb-2" for="emailCheck">
-            Please Re-Type Your Email Address
-            <span class="asteriks">*</span>
+            Please re-type your email address<span class="asteriks">&nbsp;*</span>
           </label>
           <input
             id="emailCheck"
@@ -126,15 +125,16 @@
         <p>
           This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of Information and
           Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use location and to
-          evaluate the reservation system and process. Questions regarding this collection can be directed to:
-          Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9,
-          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">ParkInfo&#64;gov.bc.ca</a>
+          evaluate the reservation system and process. Questions regarding this collection can be directed to
+          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">parkinfo&#64;gov.bc.ca</a> or 
+          Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9.
+          
           .
         </p>
         <div>
           <label class="d-flex align-items-center">
             <input type="checkbox" class="col-2" [(ngModel)]="collectionNoticeCheck" [ngModelOptions]="{ standalone: true }" />
-            <div class="col-10 mx-2">I have read and agree to the above notice <span class="asteriks">*</span></div>
+            <div class="col-10 mx-2">I have read and agree to the above notice<span class="asteriks">&nbsp;*</span></div>
           </label>
         </div>
       </div>
@@ -143,31 +143,32 @@
       <div *ngIf="displayWinterWarning">
         <div class="mb-4">
           <p>
-            Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can exist at any
+            Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can happen at any
             time and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing
-            and footwear for winter conditions (winter boots with grip and/or Yak Tracks). Weather and road surface
-            conditions can change quickly, be aware of your surroundings from the moment you exit your vehicle or the
+            and footwear for winter conditions (winter boots with grip and/or snow-traction cleats). Weather and road surface
+            conditions can change quickly. Be aware of your surroundings from the moment you exit your vehicle or the
             shuttle bus. Please ensure all members of your party are aware of the above information and are prepared for
             winter conditions.
           </p>
 
             <label class="d-flex align-items-center">
               <input type="checkbox" class="col-2" [(ngModel)]="weatherStatementCheck" [ngModelOptions]="{ standalone: true }" />
-              <div class="col-10 mx-2">Please tick this box to acknowledge the above statement <span class="asteriks">*</span></div>
+              <div class="col-10 mx-2">I have read and acknowledge the above statement<span class="asteriks">&nbsp;*</span></div>
             </label>
         </div>
 
         <div class="mb-4">
-          <p>
             <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">
-              Exclusion of Liability Notice
             </a>
-          </p>
 
           <div>
             <label class="d-flex align-items-center">
               <input type="checkbox" class="col-2" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
-              <div class="col-10 mx-2">I have read and agree to the Exclusion of Liability Notice above <span class="asteriks">*</span></div>
+              <div class="col-10 mx-2">
+                I have read and agree to the 
+                <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">Exclusion 
+                of Liability Notice</a><span class="asteriks">&nbsp;*</span>
+              </div>
             </label>
           </div>
         </div>
