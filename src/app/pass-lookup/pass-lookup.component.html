@@ -16,37 +16,25 @@
             <h1>
                 {{title}}
             </h1>
-            <p>
-                Please follow these steps to cancel your reservation:
-            </p>
             <p
                 [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
-                <strong>When you made your reservation, you should have received an email containing a cancellation
-                link. Please follow the link in the email to the cancellation page in order to cancel your
-                pass</strong>
+                Follow the cancellation link in your confirmation email.
             </p>
             <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
-                If you are arriving on this page from the cancellation link in your reservation email, please review the
-                information below relating to your reservation. If the information is correct, click '{{
-                verificationText }}'.
+                If you are arriving on this page through the cancellation link in your confirmation email, review 
+                your pass information below. If it is correct, click '{{ verificationText }}'.
             </p>
-
             <p *ngIf="state !== 'verified'">
-                You will be sent a second email containing a time-sensitive cancellation link. You will have a limited
-                time to click this cancellation link. This step is necessary to prevent someone else accidentally
-                cancelling your reservation.
+                You will receive a second email with a time-sensitive cancellation link. Follow this link to cancel 
+                your reservation. 
             </p>
             <p *ngIf="state === 'verified'">
                 You have been sent a second email containing a time-sensitive cancellation link. You have a limited
                 time to click this cancellation link. This step is necessary to prevent someone else accidentally
                 cancelling your reservation.
             </p>
-
-            <p *ngIf="state !== 'cancelled'">
-                You will be redirected back to this page where your reservation will be automatically cancelled.
-            </p>
             <p *ngIf="state === 'cancelled'">
-                Your reservation has been cancelled.
+                Thank you for cancelling and making your pass available to other visitors.
             </p>
 
             <div *ngIf="state === 'loading'" class=" text-center">
