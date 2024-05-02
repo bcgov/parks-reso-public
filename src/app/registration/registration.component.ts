@@ -30,6 +30,7 @@ export class RegistrationComponent implements OnInit {
   public error = false;
   public errorContent = {};
   public timeExpired = false;
+  public expiry;
 
   // States: facility-select, contact-form, success, failure
   public state = 'facility-select';
@@ -76,7 +77,7 @@ export class RegistrationComponent implements OnInit {
       if (this.state === 'contact-form') {
         e.preventDefault();
       }
-    })
+    });
     // get facilities
     this.facilityService
       .getListValue()
@@ -106,6 +107,8 @@ export class RegistrationComponent implements OnInit {
       this.router.navigate(['']);
     } else {
       this.facilityFormObj = event;
+      this.expiry = DateTime.fromSeconds(this.passService.getDecodedToken(this.facilityFormObj.token).exp);
+      console.log('fasdfasfasd', this.expiry.toISO());
       this.state = 'contact-form';
       this.scrollToTop();
       this.backButtonText = 'Facilities';

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { DateTime, Interval } from 'luxon';
 
@@ -8,11 +8,12 @@ import { DateTime, Interval } from 'luxon';
   styleUrl: './timer.component.scss'
 })
 export class TimerComponent implements OnInit, OnDestroy {
+  @Input() expiry;
   @Output() timerExpire = new EventEmitter;
   public timeLimit = {
     minutes: 5
   };
-  public timeRemaining = '5:00';
+  public timeRemaining = '7:00';
   public intervalTimer;
 
   constructor(
@@ -21,11 +22,10 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // TODO: refactor this to use an end time limit delivered from the api
-    let endTime = DateTime.now().plus(this.timeLimit);
-    const interval = Interval.fromDateTimes(DateTime.now(), endTime);
+    const interval = Interval.fromDateTimes(DateTime.now(), this.expiry);
     const remaining = interval.toDuration(['minutes', 'seconds']);
     this.timeRemaining = remaining.toFormat('m:ss');
-    this.setTimer(endTime);
+    this.setTimer(this.expiry);
   }
 
   setTimer(endDateTime) {
