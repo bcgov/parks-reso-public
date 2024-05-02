@@ -1,4 +1,4 @@
-<app-timer *ngIf="state === 'contact-form'" (timerExpire)="onTimerExpire()"></app-timer>
+<app-timer *ngIf="state === 'contact-form' && expiry" [expiry]="expiry" (timerExpire)="onTimerExpire()"></app-timer>
 <div class="d-flex flex-column h-100 registration-container"
   [ngClass]="{ 'pb-4': !(state === 'facility-select' && !error) }">
   <div *ngIf="error">

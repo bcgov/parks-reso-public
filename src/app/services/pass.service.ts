@@ -3,6 +3,7 @@ import { PostPass } from '../models/pass';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
 import { LoggerService } from './logger.service';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -180,7 +181,17 @@ export class PassService {
     try {
       return await this.apiService.post('pass', postObj);
     } catch (err) {
+      this.loggerService.debug(`${err}`);
       throw err;
+    }
+  }
+
+  getDecodedToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (err) {
+      this.loggerService.debug(`${err}`);
+      return null;
     }
   }
 }

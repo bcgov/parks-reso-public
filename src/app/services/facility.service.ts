@@ -89,7 +89,6 @@ export class FacilityService {
         });
       } catch (error) {
         this.loggerService.debug(`${error}`);
-        console.log(error);
         throw 'An error has occurred, please try again.';
       }
       facility.reservations = reservationRes;

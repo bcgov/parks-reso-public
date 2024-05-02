@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactFormComponent } from './contact-form.component';
-import { CaptchaDataService } from '../../shared/components/captcha/captcha-data.service';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { fakeAsync } from '@angular/core/testing';
@@ -14,7 +13,7 @@ describe('ContactFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [HttpClientTestingModule, RegistrationModule],
-      providers: [ConfigService, CaptchaDataService, UntypedFormBuilder]
+      providers: [ConfigService, UntypedFormBuilder]
     }).compileComponents();
   });
 
