@@ -172,15 +172,6 @@
         </div>
       </div>
 
-      <div class="mb-4">
-        <app-captcha
-          (validAnswerEvent)="captchaValidated($event)"
-          [facility]="passData.passType.sk"
-          [orcs]="park.orcs"
-          [bookingDate]="passData.visitDate"
-          [passType]="passData.visitTime">
-        </app-captcha>
-      </div>
 
       <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
       <div class="d-flex justify-content-between flex-wrap">
@@ -189,7 +180,7 @@
           Back
         </button>
         <button type="button" [disabled]="
-            myForm.status === 'INVALID' || !collectionNoticeCheck || !captchaCheck || !winterWaiverCheck() || saving
+            myForm.status === 'INVALID' || !collectionNoticeCheck || !winterWaiverCheck() || saving
           " class="btn btn-primary" (click)="submit()">
           <span *ngIf="!saving">Submit</span>
           <span *ngIf="saving" class="material-icons rotating">autorenew</span>
