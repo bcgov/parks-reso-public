@@ -35,6 +35,7 @@
     "ngx-bootstrap": "12.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^18.0.0",
+    "ngx-turnstile": "^0.2.1",
     "rxjs": "~7.8.1",
     "zone.js": "~0.14.4"
   },

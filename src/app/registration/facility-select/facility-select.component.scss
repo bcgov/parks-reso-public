@@ -81,15 +81,24 @@ input[type="radio"]:checked:after {
 .High {
     color: green;
 }
+
 .Moderate {
     color: orange;
 }
+
 .Low {
     color: red;
 }
+
 .Unavailable {
     color: grey;
 }
+
 .Full {
     color: grey;
+}
+
+.turnstile-modal {
+    background-color: transparent;
+    border: none;
 }

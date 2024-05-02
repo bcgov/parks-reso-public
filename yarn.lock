@@ -5710,6 +5710,13 @@ ngx-toastr@^18.0.0:
   dependencies:
     tslib "^2.3.0"
 
+ngx-turnstile@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ngx-turnstile/-/ngx-turnstile-0.2.1.tgz#4707962255fae8c2f93b3dc3ddd11a47359969da"
+  integrity sha512-HAhpjKarLfzJlSn1Z+SR8sseb5V0Dv+XyUTTVNZbF1QJp+Zd2yZ7gXutKBZveCGqGrdAOr812V41QywXXrAVug==
+  dependencies:
+    tslib "^2.5.2"
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -7359,7 +7366,7 @@ tsconfig-paths@^4.1.2:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@2.6.2, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0:
+tslib@2.6.2, tslib@^2.1.0, tslib@^2.3.0, tslib@^2.4.0, tslib@^2.5.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
