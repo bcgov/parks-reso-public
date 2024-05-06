@@ -93,6 +93,7 @@ describe('SuccessComponent', () => {
     } as unknown as Window;
     let dummyElement = document.createElement('div');
     document.getElementById = jasmine.createSpy('HTML Element').and.returnValue(dummyElement);
+    const mockEvent = new Event('load');
     let spy = spyOn(window, 'open').and.returnValue(windowMock)
     let spy2 = spyOn(windowMock, 'focus');
     let spy3 = spyOn(windowMock, 'print');
@@ -101,6 +102,7 @@ describe('SuccessComponent', () => {
     component.print();
     await fixture.detectChanges();
     await fixture.isStable();
+    windowMock.onload(mockEvent);
     expect(spy).toHaveBeenCalled();
     expect(spy2).toHaveBeenCalled();
     expect(spy3).toHaveBeenCalled();
