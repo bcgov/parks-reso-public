@@ -30,8 +30,11 @@ export class SuccessComponent implements OnInit {
     }
     WindowPrt.document.write(printContent.innerHTML);
     WindowPrt.document.close();
-    WindowPrt.focus();
-    WindowPrt.print();
+
+    WindowPrt.onload = () => {
+      WindowPrt.focus();
+      WindowPrt.print();
+    }
   }
 
   navigate(): void {
