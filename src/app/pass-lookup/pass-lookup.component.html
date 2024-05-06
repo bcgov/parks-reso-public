@@ -22,7 +22,7 @@
             </p>
             <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
                 If you are arriving on this page through the cancellation link in your confirmation email, review 
-                your pass information below. If it is correct, click '{{ verificationText }}'.
+                your pass information below. If it is correct, click '{{ verificationText }}.'
             </p>
             <p *ngIf="state !== 'verified'">
                 You will receive a second email with a time-sensitive cancellation link. Follow this link to cancel 
