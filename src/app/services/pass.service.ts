@@ -189,7 +189,8 @@ export class PassService {
   getDecodedToken(token: string): any {
     try {
       return jwtDecode(token);
-    } catch (Error) {
+    } catch (err) {
+      this.loggerService.debug(`${err}`);
       return null;
     }
   }
