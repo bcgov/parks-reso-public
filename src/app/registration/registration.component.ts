@@ -108,7 +108,6 @@ export class RegistrationComponent implements OnInit {
     } else {
       this.facilityFormObj = event;
       this.expiry = DateTime.fromSeconds(this.passService.getDecodedToken(this.facilityFormObj.token).exp);
-      console.log('fasdfasfasd', this.expiry.toISO());
       this.state = 'contact-form';
       this.scrollToTop();
       this.backButtonText = 'Facilities';

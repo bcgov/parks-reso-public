@@ -181,6 +181,7 @@ export class PassService {
     try {
       return await this.apiService.post('pass', postObj);
     } catch (err) {
+      this.loggerService.debug(`${err}`);
       throw err;
     }
   }

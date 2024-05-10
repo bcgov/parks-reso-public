@@ -134,7 +134,6 @@ export class ContactFormComponent implements OnInit {
   updateMaxLength(placeholder: string): void {
     const placeholderWithoutDialCode = placeholder.slice(this.dialCode.length + 1);
     this.maxLength = placeholderWithoutDialCode.length;
-    console.log("MAX LENGTH: ", this.maxLength);
   }
 
   onCountryChange(event: any): void {

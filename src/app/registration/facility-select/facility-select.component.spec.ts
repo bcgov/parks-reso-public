@@ -9,7 +9,6 @@ import { RegistrationModule } from '../registration.module';
 import { FacilitySelectComponent } from './facility-select.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { PassService } from 'src/app/services/pass.service';
-import { Constants } from 'src/app/shared/utils/constants';
 
 describe('FacilitySelectComponent', () => {
   let component: FacilitySelectComponent;

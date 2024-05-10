@@ -7,7 +7,6 @@ import { ParkDetailsComponent } from './park-details/park-details.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 import { RegistrationComponent } from './registration.component';
-import { BehaviorSubject } from 'rxjs';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -38,7 +37,6 @@ describe('RegistrationComponent', () => {
   it('should deactivate when time is not expired and state is contact-form', () => {
     // Arrange
     const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
-    const deactivateSubject = new BehaviorSubject<boolean>(true);
     component.timeExpired = false;
     component.state = 'contact-form';
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { DateTime, Interval } from 'luxon';
 
@@ -54,6 +54,4 @@ export class TimerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.intervalTimer);
   }
-
-
 }
