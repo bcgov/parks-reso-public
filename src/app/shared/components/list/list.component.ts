@@ -42,33 +42,13 @@ export class ListComponent implements OnChanges {
     switch (msg.label) {
       case 'pageNum':
         params['currentPage'] = msg.data;
-        // this.tableService.data[this.tableId].cachedConfig.currentPage = params['currentPage'];
         break;
       case 'pageSize':
         params['pageSize'] = msg.data.value;
-        if (params['pageSize'] === this.tableData.totalListItems) {
-          // this.loadingTableData = true;
-        }
         params['currentPage'] = 1;
-        // this.tableService.data[this.tableId].cachedConfig.pageSize = params['pageSize'];
-        // this.tableService.data[this.tableId].cachedConfig.currentPage = params['currentPage'];
         break;
       default:
         break;
     }
-    this.submit(params);
-  }
-
-  submit(params, filters = null) {
-    console.log(params, filters);
-    // this.router.navigate(
-    //   [],
-    //   {
-    //     queryParams: filters ? { ...params, ...filters } : params,
-    //     relativeTo: this.route,
-    //     queryParamsHandling: 'merge'
-    //   });
-    // this.loadingTableData = true;
-    // this.tableService.refreshData(this.tableId);
   }
 }

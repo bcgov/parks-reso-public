@@ -11,11 +11,12 @@ import { GuidelinesComponent } from './guidelines/guidelines.component';
 import { ImportantBookingInfoModule } from '../shared/components/important-booking-info/important-booking-info.module';
 import { DatePickerModule } from '../shared/components/date-picker/date-picker.module';
 import { RegistrationDetailsComponent } from './registration-details/registration-details.component';
-import { CaptchaModule } from '../shared/components/captcha/captcha.module';
 import { QRCodeModule } from 'angularx-qrcode';
 import { PhoneFormatDirective } from '../shared/components/phone-number-formater/phoneFormat';
 import { NgxIntlTelInputModule } from '@moddi3/ngx-intl-tel-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxTurnstileModule } from "ngx-turnstile";
+import { TimerComponent } from './timer/timer.component';
 @NgModule({
   declarations: [
     RegistrationComponent,
@@ -26,7 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FailureComponent,
     GuidelinesComponent,
     RegistrationDetailsComponent,
-    PhoneFormatDirective
+    PhoneFormatDirective,
+    TimerComponent
   ],
   imports: [
     CommonModule,
@@ -34,11 +36,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     ImportantBookingInfoModule,
     DatePickerModule,
-    CaptchaModule,
     QRCodeModule,
     NgxIntlTelInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxTurnstileModule
   ],
   providers: []
 })
-export class RegistrationModule {}
+export class RegistrationModule { }

@@ -32,7 +32,7 @@ import { ListModule } from './shared/components/list/list.module';
 import { Utils } from './shared/utils/utils';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { FaqModule } from './faq/faq.module'
+import { FaqModule } from './faq/faq.module';
 
 export function initConfig(configService: ConfigService) {
   return async () => {
@@ -96,4 +96,4 @@ export function initConfig(configService: ConfigService) {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
