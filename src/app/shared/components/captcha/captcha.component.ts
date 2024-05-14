@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CaptchaDataService } from './captcha-data.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-captcha',
@@ -29,6 +30,7 @@ export class CaptchaComponent implements OnInit {
   public captchaAudio: string;
   public state: 'loading' | 'ready' | 'verifying' | 'valid' | 'invalid' | 'error' = 'loading';
   public fetchingAudio = false;
+  public tz = 'America/Vancouver';
 
   public captchaData: any;
 
@@ -75,7 +77,18 @@ export class CaptchaComponent implements OnInit {
   }
 
   formatBookingDate(date) {
-    return new Date(date.year, date.month - 1, date.day).toISOString();
+    return DateTime.fromObject({
+      year: date.year,
+      month: date.month,
+      day: date.day,
+      hour: 12,
+      minute: 0,
+      second: 0
+    },
+      {
+        zone: this.tz
+      }
+    ).toISO();
   }
 
   async fetchAudio() {
