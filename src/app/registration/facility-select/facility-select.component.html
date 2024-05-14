@@ -23,7 +23,7 @@
       formControlName="passType"
       id="passType"
       (change)="setState('time')"
-      *ngIf="!isDisabled('facility')"      
+      *ngIf="!isDisabled('facility')"
       data-testid="passtype-select">
       <option hidden disabled selected value>--Select a pass type--</option>
       <option *ngFor="let facility of openFacilities" [ngValue]="facility">
@@ -166,7 +166,7 @@
             No availability at this time.
           </option>
         </select>
-        <label class="label-info mt-3" for="passCount">
+        <label class="label-info" for="passCount">
           One trail pass per person. You may book up to four trail passes at a time, if remaining capacity allows.
         </label>
         <label class="label-info" for="passCount">
@@ -191,31 +191,12 @@
     </div>
   </div>
 </form>
-
 <div class="d-flex justify-content-between flex-wrap">
-  <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" [disabled]="loading"
-    (click)="navigate()">
+  <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" (click)="navigate()">
     <span class="material-icons md-24">arrow_back</span>
     Back
   </button>
-  <button type="button" [disabled]="myForm.status === 'INVALID' || loading" class="btn btn-primary"
-    data-bs-toggle="modal" data-bs-target="#turnstileModal" (click)="showTurnstile()">
+  <button type="button" [disabled]="myForm.status === 'INVALID'" class="btn btn-primary" (click)="submit()">
     Next
   </button>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="turnstileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="turnstileModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content turnstile-modal">
-      <div class="modal-body text-center">
-        <button #closeModal type="button" class="btn-close invisible" data-bs-dismiss="modal"
-          aria-label="Close"></button>
-        <ngx-turnstile *ngIf="renderTurnstile" [siteKey]="siteKey" (resolved)="sendCaptchaResponse($event)"
-          errored="tokenError($event)" theme="light"
-          [tabIndex]="0"></ngx-turnstile>
-      </div>
-    </div>
-  </div>
 </div>

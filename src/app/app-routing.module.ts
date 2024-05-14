@@ -9,7 +9,6 @@ import { PassLookupComponent } from './pass-lookup/pass-lookup.component';
 import { FacilitiesResolverService } from './registration/facilities-resolver.service';
 import { RegistrationComponent } from './registration/registration.component';
 import { FaqComponent } from './faq/faq.component'
-import { navigationGuard } from './guards/navigation.guard';
 
 const routes: Routes = [
   {
@@ -22,7 +21,6 @@ const routes: Routes = [
   {
     path: 'registration',
     component: RegistrationComponent,
-    canDeactivate: [navigationGuard],
     resolve: [
       FacilitiesResolverService
     ]
@@ -30,7 +28,7 @@ const routes: Routes = [
   {
     path: 'pass-lookup',
     component: PassLookupComponent,
-  },
+  }, 
   {
     path: 'faq',
     component: FaqComponent,

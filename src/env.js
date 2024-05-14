@@ -15,8 +15,6 @@
   window.__env.API_PUBLIC_PATH = '/api';
   window.__env.ASSETS_S3_URL = 'https://d3ptawfth8sh71.cloudfront.net';
 
-  window.__env.TURNSTILE_SITE_KEY = '2x00000000000000000000AB';
-
   // Add any feature-toggles
   // window.__env.coolFeatureActive = false;
 
