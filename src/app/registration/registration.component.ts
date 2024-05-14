@@ -7,6 +7,8 @@ import { PassService } from '../services/pass.service';
 import { ToastService } from '../services/toast.service';
 import { Constants } from '../shared/utils/constants';
 import { DateTime } from 'luxon';
+import { CanDeactivateType } from '../guards/navigation.guard';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -27,6 +29,8 @@ export class RegistrationComponent implements OnInit {
   public regData;
   public error = false;
   public errorContent = {};
+  public timeExpired = false;
+  public expiry;
 
   // States: facility-select, contact-form, success, failure
   public state = 'facility-select';
@@ -51,8 +55,30 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  canDeactivate(): CanDeactivateType {
+    const deactivateSubject = new BehaviorSubject<boolean>(true);
+    if (!this.timeExpired && this.state === 'contact-form') {
+      if (!confirm('"If you leave this page, you will lose any passes currently being held for you. Are you sure you want to leave?"')) {
+        history.pushState(null, '');
+        deactivateSubject.next(false);
+      }
+    }
+    return deactivateSubject.value;
+  }
+
+  onTimerExpire() {
+    this.timeExpired = true;
+  }
+
   ngOnInit(): void {
     this.scrollToTop();
+    // prevent reload on contact info entry page
+    window.addEventListener("beforeunload", (e) => {
+      if (this.state === 'contact-form') {
+        e.preventDefault();
+      }
+    });
+    // get facilities
     this.facilityService
       .getListValue()
       .pipe(takeWhile(() => this.alive))
@@ -68,28 +94,6 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  navigate(): void {
-    if (
-      this.state !== 'failure' &&
-      confirm('Are you sure you want to leave? You will lose your data if you continue!')
-    ) {
-      switch (this.state) {
-        case 'facility-select':
-          this.router.navigate(['']);
-          break;
-        case 'contact-form':
-          this.state = 'facility-select';
-          this.scrollToTop();
-          this.backButtonText = 'Home';
-          break;
-        default:
-          break;
-      }
-    } else if (this.state === 'failure') {
-      this.router.navigate(['']);
-    }
-  }
-
   scrollToTop() {
     window.scroll({
       top: 0,
@@ -100,9 +104,10 @@ export class RegistrationComponent implements OnInit {
 
   getFacilityFormObj(event): void {
     if (!event) {
-      this.navigate();
+      this.router.navigate(['']);
     } else {
       this.facilityFormObj = event;
+      this.expiry = DateTime.fromSeconds(this.passService.getDecodedToken(this.facilityFormObj.token).exp);
       this.state = 'contact-form';
       this.scrollToTop();
       this.backButtonText = 'Facilities';
@@ -111,7 +116,7 @@ export class RegistrationComponent implements OnInit {
 
   getContactFormObj(event): void {
     if (!event) {
-      this.navigate();
+      this.router.navigate(['']);
     } else {
       this.contactFormObj = event;
       this.regData = { ...this.facilityFormObj, ...this.contactFormObj };
@@ -157,7 +162,7 @@ export class RegistrationComponent implements OnInit {
     );
     const visitUTCISODate = visitDateTime.toUTC().toISO();
     // Mandatory fields:
-    obj.parkOrcs = this.park.sk
+    obj.parkOrcs = this.park.sk;
     obj.firstName = this.regData.firstName;
     obj.lastName = this.regData.lastName;
     obj.facilityName = this.regData.passType.name;
@@ -167,7 +172,8 @@ export class RegistrationComponent implements OnInit {
     obj.type = this.regData.visitTime;
     obj.parkName = this.park.name;
     obj.facilityType = this.regData.passType.type;
-    obj.captchaJwt = this.regData.captchaJwt;
+    obj.token = this.regData.token;
+    obj.commit = this.regData.commit;
 
     // Optional fields:
     if (this.regData.phone) {

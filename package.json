@@ -30,11 +30,13 @@
     "google-libphonenumber": "^3.2.34",
     "guid-typescript": "^1.0.9",
     "intl-tel-input": "^18.2.1",
+    "jwt-decode": "^4.0.0",
     "luxon": "^3.4.4",
     "material-icons": "^1.13.12",
     "ngx-bootstrap": "12.0.0",
     "ngx-pagination": "^6.0.3",
     "ngx-toastr": "^18.0.0",
+    "ngx-turnstile": "^0.2.1",
     "rxjs": "~7.8.1",
     "zone.js": "~0.14.4"
   },
