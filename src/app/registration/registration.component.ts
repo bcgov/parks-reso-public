@@ -107,10 +107,19 @@ export class RegistrationComponent implements OnInit {
       this.router.navigate(['']);
     } else {
       this.facilityFormObj = event;
-      this.expiry = DateTime.fromSeconds(this.passService.getDecodedToken(this.facilityFormObj.token).exp);
-      this.state = 'contact-form';
-      this.scrollToTop();
-      this.backButtonText = 'Facilities';
+      const decodedToken = this.passService.getDecodedToken(this.facilityFormObj.token);
+      if (!decodedToken) {
+        this.toastService.addMessage(
+          `Please refresh the page.`,
+          `Error holding pass`,
+          Constants.ToastTypes.ERROR
+        );
+      } else {
+        this.expiry = DateTime.fromSeconds(decodedToken.exp);
+        this.state = 'contact-form';
+        this.scrollToTop();
+        this.backButtonText = 'Facilities';
+      }
     }
   }
 
