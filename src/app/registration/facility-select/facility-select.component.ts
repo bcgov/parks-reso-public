@@ -1,11 +1,10 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { DatePickerComponent } from 'src/app/shared/components/date-picker/date-picker.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { DateTime } from 'luxon';
 import { Constants } from '../../shared/utils/constants';
-import { ToastService } from 'src/app/services/toast.service';
-import { PassService } from 'src/app/services/pass.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-facility-select',
@@ -13,11 +12,9 @@ import { PassService } from 'src/app/services/pass.service';
   styleUrls: ['./facility-select.component.scss']
 })
 export class FacilitySelectComponent implements OnInit {
-  @Input() facilities;
   @Output() emitter: EventEmitter<any> = new EventEmitter<any>();
-
   @ViewChild(DatePickerComponent) dateFormChild: DatePickerComponent;
-  @ViewChild('closeModal') closeModal: ElementRef;
+  @Input() facilities;
 
   public myForm: UntypedFormGroup;
   public canSubmit = false;
@@ -29,15 +26,6 @@ export class FacilitySelectComponent implements OnInit {
   public expiredText = 'This time slot has expired';
   public notRequiredText = Constants.DEFAULT_NOT_REQUIRED_TEXT;
   public showAsUnbookable = false;
-  public loading = false;
-
-  public token = null;
-  public renderTurnstile = false;
-  public siteKey = this.configService.config['TURNSTILE_SITE_KEY'];
-  // Always block
-  // public siteKey = "2x00000000000000000000AB"
-  // Force challenge
-  // public siteKey = "3x00000000000000000000FF"
 
   public timeConfig = {
     AM: {
@@ -75,7 +63,7 @@ export class FacilitySelectComponent implements OnInit {
   // Initial state
   public state = 0;
 
-  constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private toastService: ToastService, private passService: PassService) { }
+  constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.configService) {
@@ -462,78 +450,18 @@ export class FacilitySelectComponent implements OnInit {
     this.myForm.controls['visitDate'].setValue(this.initDate);
   }
 
-  async submit() {
-    // Validate token and hold pass
-    try {
-      const passCount = parseInt(this.myForm.get('passCount').value, 10);
-      const visitDateTime = DateTime.fromObject(
-        {
-          year: this.myForm.get('visitDate').value.year,
-          month: this.myForm.get('visitDate').value.month,
-          day: this.myForm.get('visitDate').value.day,
-          hour: 12,
-          minute: 0,
-          second: 0,
-          millisecond: 0
-        },
-        {
-          zone: 'America/Vancouver'
-        }
-      );
-      const postObj =
-      {
-        commit: false,
-        token: this.token,
-        parkOrcs: this.myForm.get('passType').value.pk.substring(this.myForm.get('passType').value.pk.indexOf('::') + 2),
-        facilityName: this.myForm.get('passType').value.name,
-        date: visitDateTime.toUTC().toISO(),
-        type: this.myForm.get('visitTime').value,
-        numberOfGuests: passCount
-      };
-      const resToken = await this.passService.holdPass(postObj);
-      const obj = {
-        visitDate: this.myForm.get('visitDate').value,
-        visitTime: this.myForm.get('visitTime').value,
-        passType: this.myForm.get('passType').value,
-        passCount: passCount,
-        token: resToken
-      };
-      this.emitter.emit(obj);
-    } catch (err) {
-      this.toastService.addMessage(
-        `Please refresh the page.`,
-        `Error holding pass`,
-        Constants.ToastTypes.ERROR
-      );
-    }
-    this.closeModal.nativeElement.click();
-    this.renderTurnstile = false;
-    this.loading = false;
+  submit(): void {
+    const obj = {
+      visitDate: this.myForm.get('visitDate').value,
+      visitTime: this.myForm.get('visitTime').value,
+      passType: this.myForm.get('passType').value,
+      passCount: parseInt(this.myForm.get('passCount').value, 10)
+    };
+    this.emitter.emit(obj);
   }
 
   navigate(): void {
     // Emit back to registration component
     this.emitter.emit(null);
-  }
-
-  async sendCaptchaResponse(captchaResponse: string) {
-    this.token = captchaResponse;
-    await this.submit();
-  }
-
-
-  tokenError(captchaResponse: string) {
-    this.token = null;
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
-    this.toastService.addMessage(
-      `Please refresh the page.`,
-      `Error holding pass`,
-      Constants.ToastTypes.ERROR
-    );
-  }
-
-  showTurnstile() {
-    this.renderTurnstile = true;
-    this.loading = true;
   }
 }

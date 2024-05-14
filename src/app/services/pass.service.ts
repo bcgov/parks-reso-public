@@ -3,7 +3,6 @@ import { PostPass } from '../models/pass';
 import { ApiService } from './api.service';
 import { EventKeywords, EventObject, EventService } from './event.service';
 import { LoggerService } from './logger.service';
-import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -163,35 +162,6 @@ export class PassService {
     }
     if (obj.facilityType === '' || !obj.facilityType) {
       throw ('You must provide a pass facility type');
-    }
-    if (obj.token === '' || !obj.token) {
-      throw ('You must provide a token');
-    }
-    if (obj.commit === '' || !obj.commit) {
-      throw ('You must provide the commit attribute');
-    }
-  }
-
-  // Hold pass logic
-  async holdPass(postObj) {
-    postObj['commit'] = false;
-
-    // TODO: Validate we have all required attrs
-
-    try {
-      return await this.apiService.post('pass', postObj);
-    } catch (err) {
-      this.loggerService.debug(`${err}`);
-      throw err;
-    }
-  }
-
-  getDecodedToken(token: string): any {
-    try {
-      return jwtDecode(token);
-    } catch (err) {
-      this.loggerService.debug(`${err}`);
-      return null;
     }
   }
 }

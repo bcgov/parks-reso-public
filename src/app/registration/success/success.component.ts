@@ -12,7 +12,7 @@ export class SuccessComponent implements OnInit {
 
   public qrColourLight = '#f1f1f1';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     if (this.regData) {

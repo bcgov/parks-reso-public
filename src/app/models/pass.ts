@@ -52,8 +52,7 @@ export class PostPass {
     facilityName: string;
     parkOrcs: string;
 
-    token: string;
-    commit: boolean;
+    captchaJwt: string;
 
     constructor(obj?: any) {
         this.email = obj && obj.email || null;
@@ -70,7 +69,6 @@ export class PostPass {
         this.parkName = obj && obj.parkName || null;
         this.parkOrcs = obj && obj.parkOrcs || null;
 
-        this.token = obj?.token || null;
-        this.commit = obj?.commit || null;
+        this.captchaJwt = obj?.captchaJwt || null;
     }
 }

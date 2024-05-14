@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -8,6 +8,7 @@ import {
   ValidationErrors,
   AbstractControlOptions
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   CountryISO,
   SearchCountryField
@@ -29,8 +30,10 @@ export class ContactFormComponent implements OnInit {
   public collectionNoticeCheck = false;
   public weatherStatementCheck = false;
   public liabilityNoticeCheck = false;
+  public captchaCheck = false;
   public assetsUrl;
   public saving = false;
+  public captchaJwt: string;
   public displayWinterWarning = false;
   public isPhoneRequired = false;
   public placeholderFormat = "+1 506-234-5678";
@@ -38,7 +41,7 @@ export class ContactFormComponent implements OnInit {
   public dialCode = "+1";
   public maxLength = 12;
   public phoneNumber = '';
-  public iso2 = "ca";
+  public iso2 = "ca"
   public months = [
     'January',
     'February',
@@ -65,12 +68,14 @@ export class ContactFormComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private configService: ConfigService,
+    private changeDetectionRef: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.initForm();
     this.displayWinterWarning = this.park?.winterWarning;
-    this.myForm.get('phone').disable();
+    this.myForm.get('phone').disable()
     this.assetsUrl = this.configService.config['ASSETS_S3_URL'];
     this.myForm.get('enablePhone').valueChanges.subscribe((value) => {
       const phoneControl = this.myForm.get('phone');
@@ -134,6 +139,7 @@ export class ContactFormComponent implements OnInit {
   updateMaxLength(placeholder: string): void {
     const placeholderWithoutDialCode = placeholder.slice(this.dialCode.length + 1);
     this.maxLength = placeholderWithoutDialCode.length;
+    console.log("MAX LENGTH: ", this.maxLength);
   }
 
   onCountryChange(event: any): void {
@@ -155,7 +161,7 @@ export class ContactFormComponent implements OnInit {
   }
 
   justNumbers(phoneNumber): string {
-    return phoneNumber.replace(/\D/g, '');
+    return phoneNumber.replace(/\D/g, '')
   }
 
   getMonthString(monthNo): string {
@@ -196,8 +202,7 @@ export class ContactFormComponent implements OnInit {
         lastName: this.myForm.get('lastName').value,
         email: this.myForm.get('email').value,
         phone: `+${this.justNumbers(combinedValue)}`,
-        token: this.passData.token,
-        commit: true
+        captchaJwt: this.captchaJwt
       };
       this.emitter.emit(obj);
     } else {
@@ -206,13 +211,17 @@ export class ContactFormComponent implements OnInit {
         firstName: this.myForm.get('firstName').value,
         lastName: this.myForm.get('lastName').value,
         email: this.myForm.get('email').value,
-        token: this.passData.token,
-        commit: true
+        captchaJwt: this.captchaJwt
       };
       this.emitter.emit(obj);
     }
   }
 
+  captchaValidated(event): void {
+    this.captchaJwt = event;
+    this.captchaCheck = true;
+    this.changeDetectionRef.detectChanges();
+  }
 
   winterWaiverCheck(): boolean {
     if (this.displayWinterWarning) {
@@ -238,7 +247,7 @@ export class ContactFormComponent implements OnInit {
       return { invalidPhoneNumber: true, message: 'Error parsing the phone number' };
     }
     return null;
-  };
+  }
 
   navigate(): void {
     // Emit back to registration component

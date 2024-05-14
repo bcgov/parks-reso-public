@@ -33,18 +33,4 @@ describe('RegistrationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should deactivate when time is not expired and state is contact-form', () => {
-    // Arrange
-    const confirmSpy = spyOn(window, 'confirm').and.returnValue(true);
-    component.timeExpired = false;
-    component.state = 'contact-form';
-
-    // Act
-    const result = component.canDeactivate();
-
-    // Assert
-    expect(confirmSpy).toHaveBeenCalledWith('"If you leave this page, you will lose any passes currently being held for you. Are you sure you want to leave?"');
-    expect(result).toBe(true);
-  });
 });
