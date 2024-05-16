@@ -305,7 +305,7 @@ export class FacilitySelectComponent implements OnInit {
           facility.reservations[date][time].max
         ) {
           // if so, check the remaining space available.
-          numberAvailable = facility.reservations[date][time].max;
+          numberAvailable = Math.min(facility.reservations[date][time].max, facility.bookingTimes[time].max);
         } else {
           numberAvailable = 0;
         }
