@@ -101,6 +101,8 @@ S3 requires the static files generated from Angular. To get these files we ```ya
 
 This creates several things in AWS:
 
+#comment
+
 * DynamoDB
 * Cloudfront Distribution
 * Connections among S3, Cloudfront, DynamoDB and API Gateway.
