@@ -112,7 +112,10 @@ export class ContactFormComponent implements OnInit {
         enablePhone: [false]
       },
       {
-        validators: [this.checkMatchEmails('email', 'emailCheck'), this.checkPhoneNumber('phone', 'enablePhone')],
+        validators: [
+          this.checkMatchEmails('email', 'emailCheck'),
+          this.checkPhoneNumber('phone', 'enablePhone')
+        ],
       } as AbstractControlOptions
     );
   }
@@ -181,6 +184,9 @@ export class ContactFormComponent implements OnInit {
 
         if (emailVal !== '' && emailVal !== emailCheckVal) {
           return { notTheSame: true };
+        }
+        if (emailVal && /(\.\.)+/.test(emailVal)) {
+          return { notValid: true };
         }
         return null;
       }

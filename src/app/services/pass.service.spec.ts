@@ -3,7 +3,7 @@ import { ApiService } from './api.service';
 import { EventService } from './event.service';
 import { LoggerService } from './logger.service';
 
-fdescribe('PassService', () => {
+describe('PassService', () => {
     let passService: PassService;
     let apiService: ApiService;
     let eventService: EventService;
