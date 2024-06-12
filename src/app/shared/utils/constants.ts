@@ -130,6 +130,6 @@ export class Constants {
     ERROR: 3
   };
 
-  public static readonly emailValidationRegex = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+  public static readonly emailValidationRegex = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   public static readonly phoneValidationRegex = '^[0-9-]{12}$';
 }

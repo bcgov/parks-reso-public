@@ -6,7 +6,7 @@ fdescribe('Constants', () => {
     const validEmails = [
       'test@example.com',
       'john.doe@gmail.com',
-      'jane_doe123@yahoo.co.uk',,
+      'jane_doe123@yahoo.co.uk',
       'user-name@example-domain.com',
     ];
     const invalidEmails = [
