@@ -1,44 +1,28 @@
 @import "@digitalspace/bcparks-bootstrap-theme/dist/scss/variables";
 
-$info: #e3f2ff;
-$dark: #003366;
-$bg-dark: $dark;
+$bg-dark: $primary;
 $bg-info: $info;
 $bg-header-secondary: #d7dee8;
 $text-default: #494949;
-$error: #D8292F;
+$error: $danger;
 
 // Background Colors
-$bg-default: #f1f1f1;
-
-// Links
-$link-color: #1a5a96;
+$bg-default: $form-grey;
 
 // Header
-$header-font-color: #fff;
+$header-font-color: $light;
 $header-bg: $bg-dark;
-$header-h1: #1a5a96;
+$header-h1: $blue;
 
 // Footer
 $footer-bg: $bg-dark;
-$footer-color: #fff;
+$footer-color: $light;
 $bg-dark-border-color: #5475a7;
 
 // Main navigation
-$mn-color: #fff;
+$mn-color: $light;
 $mn-border-color: #5f79a2;
 $mn-hover-bg: #2b4777;
 $mn-hover-color: $bcgold;
 $mn-toggle-color: $bcgold;
 $mn-dropdown-bg: #2b4777;
-
-$custom-colors: (
-    "white": #fff,
-);
-
-$theme-colors: (
-    "info": $info,
-    "dark": $dark,
-);
-// Merge the maps
-$theme-colors: map-merge($theme-colors, $custom-colors);
