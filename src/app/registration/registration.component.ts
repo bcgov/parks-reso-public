@@ -110,8 +110,8 @@ export class RegistrationComponent implements OnInit {
       const decodedToken = this.passService.getDecodedToken(this.facilityFormObj.token);
       if (!decodedToken) {
         this.toastService.addMessage(
-          `Please refresh the page.`,
-          `Error holding pass`,
+          `Sorry, all passes for this time and date have been reserved. Please make a new selection or try again later.`,
+          ``,
           Constants.ToastTypes.ERROR
         );
       } else {
