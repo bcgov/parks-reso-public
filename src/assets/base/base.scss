@@ -45,7 +45,7 @@ $footer-height: 13.75rem;
 }
 
 .btn-primary {
-    background-color: #003366;
+    background-color: $primary;
     font-weight: bold;
     padding-left: 4rem;
     padding-right: 4rem;
@@ -66,21 +66,21 @@ $footer-height: 13.75rem;
 .error-container {
     background-color: #f2dede;
     border: 1px solid #ebccd1;
-    color: #a12622;
+    color: $danger;
     border-radius: 4px;
 }
 
 .warning-container {
     background-color: #f9f1c6;
     border: 1px solid #faebcc;
-    color: #6c4a00;
+    color: $warning;
     border-radius: 4px;
 }
 
 .success-container {
     background-color: #dff0d8;
     border: 1px solid #d6e9c6;
-    color: #2d4821;
+    color: $success;
     border-radius: 4px;
 }
 
