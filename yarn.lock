@@ -1343,10 +1343,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@digitalspace/bcparks-bootstrap-theme@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@digitalspace/bcparks-bootstrap-theme/-/bcparks-bootstrap-theme-1.4.4.tgz#ffef0d363aa653546767074d307ec8a3cfa27b85"
-  integrity sha512-+79t/LKDQGFEHQfvT+jVCvgqOmDTb5WXTv4B60Ve3mukimjlHVNvE5KMwVfCQNLhAYTYgfi3Gpl6ANtyDE+wuQ==
+"@digitalspace/bcparks-bootstrap-theme@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@digitalspace/bcparks-bootstrap-theme/-/bcparks-bootstrap-theme-1.4.6.tgz#25f379c26f8fbc24c286f1ae70cdaf17f6e14b28"
+  integrity sha512-/C/SSBVKpCHTEbegvEyOEloNUcy1EnLxtLUOqQPafetT54fPmVdg92yvq9Eyjea1qSVOYT+nE4h6hiGLS7Qebw==
   dependencies:
     "@popperjs/core" "^2.11.8"
     bootstrap "^5.3.3"
