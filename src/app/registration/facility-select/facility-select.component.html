@@ -23,7 +23,7 @@
       formControlName="passType"
       id="passType"
       (change)="setState('time')"
-      *ngIf="!isDisabled('facility')"      
+      *ngIf="!isDisabled('facility')"
       data-testid="passtype-select">
       <option hidden disabled selected value>--Select a pass type--</option>
       <option *ngFor="let facility of openFacilities" [ngValue]="facility">
@@ -46,7 +46,7 @@
       <p [innerHTML]="notRequiredText"></p>
     </div>
     <div class="row row-cols-1 row cols-md-3 g-4" *ngIf="!showAsUnbookable">
-      <label class="col-lg-12 fw-normal" *ngIf="timeConfig.AM.offered">
+      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.AM.offered">
         <div
           class="card h-100 card-primary card-input"
           [class.enable-pointer]="!timeConfig.AM.disabled"
@@ -68,7 +68,7 @@
                 (change)="onTimeChange('AM')" />
             </span>
             &nbsp;
-            <span class="ml-2 time-header"><strong>AM</strong></span>
+            <span class="ml-2"><strong>AM</strong></span>
           </div>
           <div class="card-body" [class.card-body-disabled]="timeConfig.AM.disabled">
             <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('AM')">-</p>
@@ -76,11 +76,13 @@
               Pass availability -
               <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
             </p>
-            <p class="card-text" id="arrive-departure-text-AM">{{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;{{to12hTimeString(defaultPMOpeningHour)}} (Depart by {{to12hTimeString(defaultPMOpeningHour)}})</p>
+            <p class="card-text" id="arrive-departure-text-AM">
+              {{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;{{to12hTimeString(defaultPMOpeningHour)}}
+              (Depart by {{to12hTimeString(defaultPMOpeningHour)}})</p>
           </div>
         </div>
       </label>
-      <label class="col-lg-12 fw-normal" *ngIf="timeConfig.PM.offered">
+      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.PM.offered">
         <div
           class="card h-100 card-primary card-input"
           [class.enable-pointer]="!timeConfig.PM.disabled"
@@ -102,7 +104,7 @@
                 (change)="onTimeChange('PM')" />
             </span>
             &nbsp;
-            <span class="ml-2 time-header"><strong>PM</strong></span>
+            <span class="ml-2"><strong>PM</strong></span>
           </div>
           <div class="card-body" [class.card-body-disabled]="timeConfig.PM.disabled">
             <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('PM')">-</p>
@@ -110,11 +112,12 @@
               Pass availability -
               <span [ngClass]="timeConfig.PM.text">{{ timeConfig.PM.text }}</span>
             </p>
-            <p class="card-text" id="arrive-departure-text-PM">Arrive after {{to12hTimeString(defaultPMOpeningHour)}}</p>
+            <p class="card-text" id="arrive-departure-text-PM">Arrive after {{to12hTimeString(defaultPMOpeningHour)}}
+            </p>
           </div>
         </div>
       </label>
-      <label class="col-lg-12 fw-normal" *ngIf="timeConfig.DAY.offered">
+      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.DAY.offered">
         <div
           class="card h-100 card-primary card-input"
           [class.enable-pointer]="!timeConfig.DAY.disabled"
@@ -137,7 +140,7 @@
                 (change)="onTimeChange('DAY')" />
             </span>
             &nbsp;
-            <span class="ml-2 time-header"><strong>ALL DAY</strong></span>
+            <span class="ml-2"><strong>ALL DAY</strong></span>
           </div>
           <div class="card-body" [class.card-body-disabled]="timeConfig.DAY.disabled">
             <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('DAY')">-</p>
@@ -170,7 +173,7 @@
           One trail pass per person. You may book up to four trail passes at a time, if remaining capacity allows.
         </label>
         <label class="label-info" for="passCount">
-          Those 12 and under 
+          Those 12 and under
           <strong>do not require a pass</strong>
           when accompanied by a parent or guardian
         </label>
@@ -180,8 +183,8 @@
       <ul>
         <li>
           <p class="fw-bold">
-            Maximum of one vehicle pass per transaction. The vehicle pass is valid for all individuals within the 
-            vehicle, up to 12 persons. 
+            Maximum of one vehicle pass per transaction. The vehicle pass is valid for all individuals within the
+            vehicle, up to 12 persons.
           </p>
         </li>
         <li>
