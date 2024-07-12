@@ -1,12 +1,12 @@
 @import "/src/assets/themes/default.scss";
 
-@import "/src/assets/base/base.scss";
 
 /* Importing Bootstrap SCSS file. */
 @import "@digitalspace/bcparks-bootstrap-theme/dist/scss/bootstrap-theme.scss";
+
+@import "/src/assets/base/base.scss";
 
 // Material Icons
 @import "/src/assets/base/material-icons.scss";
 
 @import "ngx-toastr/toastr";
-
