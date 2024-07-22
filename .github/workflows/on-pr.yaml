@@ -2,6 +2,9 @@ name: PR Checks
 
 on: [pull_request]
 
+env:
+  FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+
 jobs:
   install:
     name: Install
