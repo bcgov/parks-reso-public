@@ -18,15 +18,13 @@ jobs:
 
       ### Install if no cache exists ###
       - name: Setup node
-        env:
-          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
       - run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}"
+          npm config set '//npm.fontawesome.com/:_authToken' "${FONTAWESOME_PACKAGE_TOKEN}"
           yarn install --silent --frozen-lockfile
 
   lint:
