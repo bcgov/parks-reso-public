@@ -2,6 +2,9 @@ name: PR Checks
 
 on: [pull_request]
 
+env:
+  FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+
 jobs:
   install:
     name: Install
@@ -19,6 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      - run: npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+      - run: npm config set "//npm.fontawesome.com/:_authToken" "${FONTAWESOME_PACKAGE_TOKEN}"
       - run: yarn install --silent --frozen-lockfile
 
   lint:
