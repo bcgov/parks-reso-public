@@ -19,6 +19,8 @@ jobs:
       ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
+        env:
+          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
