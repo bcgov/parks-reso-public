@@ -2,8 +2,6 @@ name: PR Checks
 
 on: [pull_request]
 
-
-
 jobs:
   install:
     name: Install
@@ -18,14 +16,14 @@ jobs:
       ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
-        env:
-          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+        env:
+          FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
       - run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "$FONTAWESOME_PACKAGE_TOKEN"
+          npm config set "//npm.fontawesome.com/:_authToken" "$FONTAWESOME_PACKAGE_TOKEN"
           yarn install --silent --frozen-lockfile
 
   lint:
@@ -76,7 +74,7 @@ jobs:
           cache: 'yarn'
       - run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}"
+          npm config set '//npm.fontawesome.com/:_authToken' "$FONTAWESOME_PACKAGE_TOKEN"
           yarn install --silent --frozen-lockfile
 
       - run: yarn test-ci
