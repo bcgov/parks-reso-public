@@ -24,7 +24,7 @@ jobs:
           cache: 'yarn'
       - run: |
           npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "${FONTAWESOME_PACKAGE_TOKEN}"
+          npm config set '//npm.fontawesome.com/:_authToken' "$FONTAWESOME_PACKAGE_TOKEN"
           yarn install --silent --frozen-lockfile
 
   lint:
