@@ -44,6 +44,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      - run: npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+      - run: npm config set "//npm.fontawesome.com/:_authToken" "${FONTAWESOME_PACKAGE_TOKEN}"
       - run: yarn install --silent --frozen-lockfile
 
       - run: yarn lint
@@ -65,6 +67,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
+      - run: npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+      - run: npm config set "//npm.fontawesome.com/:_authToken" "${FONTAWESOME_PACKAGE_TOKEN}"
       - run: yarn install --silent --frozen-lockfile
 
       - run: yarn test-ci
