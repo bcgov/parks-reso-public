@@ -1,21 +1,21 @@
 name: PR Checks
 
-on: [pull_request]
+on: [pull_request_target]
 
+env:
+  FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
 
 jobs:
   install:
     name: Install
     runs-on: ubuntu-latest
-    env:
-      FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
+
     strategy:
       matrix:
         node-version: [18.x]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       ### Install if no cache exists ###
       - name: Setup node
         uses: actions/setup-node@v3
@@ -30,8 +30,6 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    env:
-      FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
     needs: install
     strategy:
       matrix:
@@ -57,8 +55,6 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    env:
-      FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
     needs: install
     strategy:
       matrix:
