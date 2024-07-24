@@ -13,6 +13,7 @@ env:
   TG_SRC_PATH: terraform
   TFC_WORKSPACE: test
   TARGET_ENV: test
+  FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
 
 permissions:
   id-token: write
@@ -38,7 +39,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: yarn install --silent --frozen-lockfile
+      - run: |
+          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+          npm config set "//npm.fontawesome.com/:_authToken" "${FONTAWESOME_PACKAGE_TOKEN}"
+          yarn install --silent --frozen-lockfile
 
       ### Build if no cache exists ###
       - name: Cache Build
@@ -119,4 +123,4 @@ jobs:
         uses: chetan/invalidate-cloudfront-action@v2
         env:
           DISTRIBUTION: ${{ secrets.DISTRIBUTION }}
-          PATHS: "/*"
+          PATHS: '/*'

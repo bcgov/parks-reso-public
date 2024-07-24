@@ -23,6 +23,8 @@
     "@angular/router": "^17.3.5",
     "@angular/service-worker": "^17.3.5",
     "@digitalspace/bcparks-bootstrap-theme": "^1.4.6",
+    "@fortawesome/angular-fontawesome": "^0.15.0",
+    "@fortawesome/pro-regular-svg-icons": "^6.6.0",
     "@moddi3/ngx-intl-tel-input": "^3.3.7",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@popperjs/core": "^2.11.8",

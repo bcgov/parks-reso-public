@@ -1,6 +1,6 @@
 import { Constants } from "./constants";
 
-fdescribe('Constants', () => {
+describe('Constants', () => {
   it('should have a valid email validation regex', () => {
     const emailRegex = Constants.emailValidationRegex;
     const validEmails = [
