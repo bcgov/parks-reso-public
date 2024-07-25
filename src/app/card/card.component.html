@@ -23,11 +23,11 @@ class="my-3">
         <h2>{{ data?.name }}</h2>
         <span *ngIf="data?.status === 'open' && !data?.specialClosure" class="text-success d-flex align-items-center">
           <div class="open-circle"></div>
-          <strong class="text-override">Passes required</strong>
+          <strong class="text-override">Day-use pass required</strong>
         </span>
         <span *ngIf="data?.status === 'closed' && !data?.specialClosure" class="text-danger d-flex align-items-center">
           <div class="closed-circle"></div>
-          <strong class="text-override">Passes not required</strong>
+          <strong class="text-override">Day-use pass not required</strong>
         </span>
         <span *ngIf="data?.specialClosure === true && data?.status === 'closed'" class="text-danger d-flex align-items-center">
           <div class="closed-circle"></div>
