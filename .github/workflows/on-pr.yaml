@@ -9,9 +9,6 @@ on:
     - cron: "0 11 * * 0" # 3 AM PST = 12 PM UDT, runs sundays
   workflow_dispatch:
 
-env:
-  FONTAWESOME_PACKAGE_TOKEN: ${{ secrets.FONTAWESOME_PACKAGE_TOKEN }}
-
 jobs:
   install:
     name: Install
@@ -28,10 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: |
-          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set "//npm.fontawesome.com/:_authToken" "$FONTAWESOME_PACKAGE_TOKEN"
-          yarn install --silent --frozen-lockfile
+      - run: yarn install --silent --frozen-lockfile
 
   lint:
     name: Lint
@@ -51,10 +45,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: |
-          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "$FONTAWESOME_PACKAGE_TOKEN"
-          yarn install --silent --frozen-lockfile
+      - run: yarn install --silent --frozen-lockfile
 
       - run: yarn lint
 
@@ -75,9 +66,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: |
-          npm config set "@fortawesome:registry" https://npm.fontawesome.com/
-          npm config set '//npm.fontawesome.com/:_authToken' "$FONTAWESOME_PACKAGE_TOKEN"
-          yarn install --silent --frozen-lockfile
+      - run: yarn install --silent --frozen-lockfile
 
       - run: yarn test-ci
