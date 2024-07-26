@@ -1,12 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faListCheck } from '@fortawesome/pro-regular-svg-icons';
-import { faTriangleExclamation} from '@fortawesome/pro-regular-svg-icons';
-import { faCircleParking } from '@fortawesome/pro-regular-svg-icons';
-import { faBird } from '@fortawesome/pro-regular-svg-icons';
-import { faMusic } from '@fortawesome/pro-regular-svg-icons';
-import { faTrashCan } from '@fortawesome/pro-regular-svg-icons';
-import { faDogLeashed } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-success',
@@ -18,15 +11,8 @@ export class SuccessComponent implements OnInit {
   @Input() park;
 
   public qrColourLight = '#f1f1f1';
-  public parkLink = 'https://bcparks.ca/joffre-lakes-park/'
+  public parkLink = 'https://bcparks.ca/joffre-lakes-park/';
   public isJoffreLakes = false;
-  public faListCheck = faListCheck;
-  public faTriangleExclamation = faTriangleExclamation;
-  public faCircleParking = faCircleParking;
-  public faBird = faBird;
-  public faMusic = faMusic;
-  public faTrashCan = faTrashCan;
-  public faDogLeashed = faDogLeashed
 
   constructor(private router: Router) { }
 
@@ -54,7 +40,7 @@ export class SuccessComponent implements OnInit {
     WindowPrt.onload = () => {
       WindowPrt.focus();
       WindowPrt.print();
-    }
+    };
   }
 
   navigate(): void {
