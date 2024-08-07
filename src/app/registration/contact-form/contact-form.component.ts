@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -31,6 +31,7 @@ export class ContactFormComponent implements OnInit {
   public liabilityNoticeCheck = false;
   public assetsUrl;
   public saving = false;
+  public allowPhoneNumber = true;
   public displayWinterWarning = false;
   public isPhoneRequired = false;
   public placeholderFormat = "+1 506-234-5678";
@@ -65,6 +66,7 @@ export class ContactFormComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private configService: ConfigService,
+    private cd: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -90,6 +92,11 @@ export class ContactFormComponent implements OnInit {
       }
       phoneControl.updateValueAndValidity();
     });
+    if ( Constants.excludePhoneNumbers.includes(this.passData?.passType?.name)){
+      console.log("array contains fac name");
+      this.allowPhoneNumber = false;
+      this.cd.detectChanges();
+    }
   }
 
   initForm(): void {

@@ -132,4 +132,7 @@ export class Constants {
 
   public static readonly emailValidationRegex = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
   public static readonly phoneValidationRegex = '^[0-9-]{12}$';
+
+  //Add facilities to this array to not give users option to input phone number
+  public static readonly excludePhoneNumbers = ['Alouette Lake South Beach Day-Use Parking Lot'];
 }

@@ -116,3 +116,7 @@ Prod pipeline is triggered by removing the ```pre-release``` tag from a release.
 Config service is used to alter frontend via DynamoDB. In Dynamo, an item with the PK and SK of config must exist. Within the attributes, you are able to set certain configurations such as ```KEYCLOAK_ENABLED```, ```API_LOCATION```, and ```debugMode```.
 
 This item is request by the front ends upon client connection.
+
+# Working with CloudFront
+
+CloudFront is set to deny all requests. Change the API key in the env.js file to what is required for your local configuration.  
