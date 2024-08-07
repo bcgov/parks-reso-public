@@ -17,7 +17,12 @@ import { NgxIntlTelInputModule } from '@moddi3/ngx-intl-tel-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxTurnstileModule } from "ngx-turnstile";
 import { TimerComponent } from './timer/timer.component';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { JoffreLakesComponent } from './success/facilityConfirmation/joffreLakes/joffreLakes.component';
+import { GaribaldiConfirmationComponent } from './success/facilityConfirmation/garibaldi/garibaldiConfirmation.component';
+import { RubbleCreekConfirmationComponent } from './success/facilityConfirmation/garibaldi/rubbleCreek/rubbleCreekConfirmation.component';
+import { CheakamusConfirmationComponent } from './success/facilityConfirmation/garibaldi/cheakamus/cheakamusConfirmation.component';
+import { DiamondHeadConfirmationComponent } from './success/facilityConfirmation/diamondHead/diamondHeadConfirmation.component';
 @NgModule({
   declarations: [
     RegistrationComponent,
@@ -29,7 +34,12 @@ import { TimerComponent } from './timer/timer.component';
     GuidelinesComponent,
     RegistrationDetailsComponent,
     PhoneFormatDirective,
-    TimerComponent
+    TimerComponent,
+    JoffreLakesComponent,
+    GaribaldiConfirmationComponent,
+    RubbleCreekConfirmationComponent,
+    CheakamusConfirmationComponent,
+    DiamondHeadConfirmationComponent,
   ],
   imports: [
     CommonModule,
