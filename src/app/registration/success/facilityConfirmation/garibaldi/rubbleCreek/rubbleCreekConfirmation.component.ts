@@ -1,16 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { faListCheck } from '@fortawesome/pro-regular-svg-icons';
-import { faTriangleExclamation} from '@fortawesome/pro-regular-svg-icons';
-import { faCircleParking } from '@fortawesome/pro-regular-svg-icons';
-import { faBird } from '@fortawesome/pro-regular-svg-icons';
-import { faMusic } from '@fortawesome/pro-regular-svg-icons';
-import { faTrashCan } from '@fortawesome/pro-regular-svg-icons';
-import { faDogLeashed } from '@fortawesome/pro-regular-svg-icons';
-import { faClipboardList } from '@fortawesome/pro-regular-svg-icons';
-import { faPawClaws } from '@fortawesome/pro-regular-svg-icons';
-import { faPersonHiking } from '@fortawesome/pro-regular-svg-icons';
-import { faDroplet } from '@fortawesome/pro-solid-svg-icons';
 
 @Component({
   selector: 'app-rubbleCreekConfirmation',
@@ -19,21 +8,9 @@ import { faDroplet } from '@fortawesome/pro-solid-svg-icons';
 }) 
 export class RubbleCreekConfirmationComponent {
     @Input() regData: any;
-
     public parkLink = 'https://bcparks.ca/garibaldi-park/';
     public tripPlanLink = 'https://www.adventuresmart.ca/trip-plan-app/';
     public bearLink = 'https://bcparks.ca/plan-your-trip/visit-responsibly/wildlife-safety/#bears';
-    public faListCheck = faListCheck;
-    public faTriangleExclamation = faTriangleExclamation;
-    public faCircleParking = faCircleParking;
-    public faBird = faBird;
-    public faMusic = faMusic;
-    public faTrashCan = faTrashCan;
-    public faDogLeashed = faDogLeashed;
-    public faClipboardList = faClipboardList;
-    public faPawClaws = faPawClaws;
-    public faPersonHiking = faPersonHiking;
-    public faDroplet = faDroplet;
 
     constructor(private router: Router) { }
     

@@ -1,12 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { faListCheck } from '@fortawesome/pro-regular-svg-icons';
-import { faTriangleExclamation} from '@fortawesome/pro-regular-svg-icons';
-import { faCircleParking } from '@fortawesome/pro-regular-svg-icons';
-import { faBird } from '@fortawesome/pro-regular-svg-icons';
-import { faMusic } from '@fortawesome/pro-regular-svg-icons';
-import { faTrashCan } from '@fortawesome/pro-regular-svg-icons';
-import { faDogLeashed } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-joffreLakes',
@@ -17,13 +10,6 @@ export class JoffreLakesComponent {
     @Input() regData: any;
     public isJoffreLakes: boolean = true;
     public parkLink = 'https://bcparks.ca/joffre-lakes-park/' 
-    public faListCheck = faListCheck;
-    public faTriangleExclamation = faTriangleExclamation;
-    public faCircleParking = faCircleParking;
-    public faBird = faBird;
-    public faMusic = faMusic;
-    public faTrashCan = faTrashCan;
-    public faDogLeashed = faDogLeashed
 
     constructor(private router: Router) { }
     

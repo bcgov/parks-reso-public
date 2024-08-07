@@ -14,14 +14,6 @@ export class SuccessComponent implements OnInit {
   public parkLink = 'https://bcparks.ca/joffre-lakes-park/'
   public isJoffreLakes = false;
   public isGaribaldi = false;
-  public faListCheck = faListCheck;
-  public faTriangleExclamation = faTriangleExclamation;
-  public faCircleParking = faCircleParking;
-  public faBird = faBird;
-  public faMusic = faMusic;
-  public faTrashCan = faTrashCan;
-  public faDogLeashed = faDogLeashed;
-
 
   constructor(private router: Router) { }
 
