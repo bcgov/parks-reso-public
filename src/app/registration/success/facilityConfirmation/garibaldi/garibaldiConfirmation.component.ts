@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
 export class GaribaldiConfirmationComponent {
     @Input() regData: any;
     @Input() park: any;
-    public isRubbleCreek: boolean = false;
-    public isCheakamus: boolean = false;
-    public isDiamondHead: boolean = false;
+    public isRubbleCreek = false;
+    public isCheakamus = false;
+    public isDiamondHead = false;
 
     ngOnInit(): void {
       if (this.regData?.facilityName === 'Rubble Creek') {

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class JoffreLakesComponent {
     @Input() regData: any;
-    public isJoffreLakes: boolean = true;
+    public isJoffreLakes = true;
     public parkLink = 'https://bcparks.ca/joffre-lakes-park/' 
 
     constructor(private router: Router) { }
