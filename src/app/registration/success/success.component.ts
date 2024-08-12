@@ -11,8 +11,9 @@ export class SuccessComponent implements OnInit {
   @Input() park;
 
   public qrColourLight = '#f1f1f1';
-  public parkLink = 'https://bcparks.ca/joffre-lakes-park/';
+  public parkLink = 'https://bcparks.ca/joffre-lakes-park/'
   public isJoffreLakes = false;
+  public isGaribaldi = false;
 
   constructor(private router: Router) { }
 
@@ -23,6 +24,8 @@ export class SuccessComponent implements OnInit {
     if (this.park && this.park.orcs === '0363') {
       // Change success layout for Joffre lakes
       this.isJoffreLakes = true;
+    } else if (this.park && this.park.orcs === '0007'){
+      this.isGaribaldi = true;
     }
   }
 
