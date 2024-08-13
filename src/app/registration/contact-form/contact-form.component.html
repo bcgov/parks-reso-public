@@ -27,10 +27,13 @@
       </div>
     </div>
     <div class="col-md-12 col-lg-6 right-col">
-      <div class="container-md rounded py-3 details-container">
-        <p><i><b>NEW</b> - Text message reminders with cancellation links can now be received by including your mobile
-            phone number below.</i></p>
+      <div *ngIf="allowPhoneNumber"> 
+        <div class="container-md rounded py-3 details-container">
+          <p><i><b>NEW</b> - Text message reminders with cancellation links can now be received by including your mobile
+              phone number below.</i></p>
+        </div>
       </div>
+
       <br>
       <form [formGroup]="myForm">
         <div class="form-group">
@@ -84,41 +87,43 @@
             visit.
           </small>
         </div>
-        <div class="form-group">
-          <label class="d-flex align-items-center" for="enablePhone" id="raiseText">
-            <input type="checkbox" class="col-2" id="enablePhone" formControlName="enablePhone">
-            <small class="col-10 mx-2 text-muted">
-              <strong>I would like to receive reminders via text message.</strong><br>
-              <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
-            </small>
-          </label>
-        </div>
-        <div class="form-group">
-          <label class="mb-2" for="phone">
-            Phone Number:
-          </label>
-          <ngx-intl-tel-input #phoneInput
-            [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
-            [enableAutoCountrySelect]="false"
-            [enablePlaceholder]="true"
-            [searchCountryFlag]="true"
-            [searchCountryField]="false"
-            [selectFirstCountry]="false"
-            [selectedCountryISO]="CountryISO.Canada"
-            [maxLength]="maxLength"
-            [phoneValidation]="true"
-            [separateDialCode]="true"
-            [phoneValidation]="true"
-            id="phone"
-            name="phone"
-            formControlName="phone"
-            [excludeCountries]="[CountryISO.Russia]"
-            (countryChange)="onCountryChange($event)"
-            appPhoneFormat></ngx-intl-tel-input>
-          <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
-            <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone
-              number.</small>
+        <div *ngIf="allowPhoneNumber"> 
+          <div class="form-group">
+            <label class="d-flex align-items-center" for="enablePhone" id="raiseText">
+              <input type="checkbox" class="col-2" id="enablePhone" formControlName="enablePhone">
+              <small class="col-10 mx-2 text-muted">
+                <strong>I would like to receive reminders via text message.</strong><br>
+                <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
+              </small>
+            </label>
           </div>
+          <div class="form-group">
+            <label class="mb-2" for="phone">
+              Phone Number:
+            </label>
+            <ngx-intl-tel-input #phoneInput
+              [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
+              [enableAutoCountrySelect]="false"
+              [enablePlaceholder]="true"
+              [searchCountryFlag]="true"
+              [searchCountryField]="false"
+              [selectFirstCountry]="false"
+              [selectedCountryISO]="CountryISO.Canada"
+              [maxLength]="maxLength"
+              [phoneValidation]="true"
+              [separateDialCode]="true"
+              [phoneValidation]="true"
+              id="phone"
+              name="phone"
+              formControlName="phone"
+              [excludeCountries]="[CountryISO.Russia]"
+              (countryChange)="onCountryChange($event)"
+              appPhoneFormat></ngx-intl-tel-input>
+            <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
+              <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone
+                number.</small>
+            </div>
+          </div>  
         </div>
       </form>
 
