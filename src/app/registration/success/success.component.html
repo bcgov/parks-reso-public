@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-12 col-lg-6 left-col mb-4">
         <div class="mt-4 mt-lg-4">
-          <p class="mb-1">We hope you enjoy your visit,</p>
+          <p class="mb-1">We hope you enjoy your visit, </p>
           <p>
             <strong>
               {{ regData?.firstName ? regData.firstName : '-' }} {{ regData?.lastName ? regData.lastName : '-' }}
@@ -68,25 +68,27 @@
           <button
             id="qrCodePrintButton"
             type="button"
-            class="btn btn-primary"
+            class="btn btn-primary mb-3"
             (click)="print()"
           >Print</button>
         </div>
+      </div>
+
+      <div class="d-lg-none mt-4">
+        <button
+          type="button"
+          class="btn btn-primary mb-3"
+          (click)="print()"
+        >Print</button>
       </div>
 
       <!--Load lists for specific facility-->
       <div class="col-mg-12 col-lg-6 right-col">
       <app-joffreLakes *ngIf="isJoffreLakes" [regData]="regData"></app-joffreLakes>
       <app-garibaldiConfirmation *ngIf="isGaribaldi" [regData]="regData"></app-garibaldiConfirmation>
-      
+        
       <!-- After lists for -->
-      <div class="d-lg-none mt-4">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="print()"
-        >Print</button>
-      </div>
+
 
       <div class="mt-5">
         <h5 class="mb-3">Next steps</h5>
@@ -131,8 +133,7 @@
   <div class="row">
     <div class="col-md-12 col-lg-6 left-col mb-4">
       <div class="mt-4 mt-lg-4 d-flex">
-        <p class="mb-1 align-content-center">We hope you enjoy your visit,</p>
-        <p>
+        <p class="mb-1 align-content-center">We hope you enjoy your visit, &nbsp; 
           <strong>
             {{ regData?.firstName ? regData.firstName : '-' }} {{ regData?.lastName ? regData.lastName : '-' }}
           </strong>
@@ -187,7 +188,7 @@
         <button
           id="qrCodePrintButton"
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mb-3"
           (click)="print()"
         >Print</button>
       </div>
@@ -201,7 +202,7 @@
       <div class="d-lg-none mt-4">
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mb-3"
           (click)="print()"
         >Print</button>
       </div>
