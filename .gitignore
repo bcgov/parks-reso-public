@@ -5,6 +5,10 @@
 /tmp
 /out-tsc
 
+#Sam build files
+.aws-sam
+.angular/cache
+.nx
 # dependencies
 /node_modules
 
@@ -57,3 +61,5 @@ Thumbs.db
 # Terraform and Terragrunt
 *.lock.hcl
 .terragrunt-cache
+
+
