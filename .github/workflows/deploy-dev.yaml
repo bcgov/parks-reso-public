@@ -5,7 +5,7 @@ run-name: Deploying ${{ github.ref_name }} (Public) to dev
 on:
   push:
     branches: [main]
-    paths: "dup-public/**"
+    paths: "**"
   workflow_dispatch:
 
 permissions:
