@@ -56,18 +56,22 @@ export class ParksListComponent implements OnInit, OnDestroy {
           } else {
             let tempList = [];
             let tempClosedList = [];
+            let specialClosureList = [];
             res.forEach(park => {
               if (park.status === 'closed') {
                 tempClosedList.push({ ...park, ...{ tabindex: tabIndex } });
+              } else if (park.specialClosure === true ) {
+                specialClosureList.push({ ...park, ...{ tabindex: tabIndex } });
               } else {
                 tempList.push({ ...park, ...{ tabindex: tabIndex } });
               }
             });
 
             tempList.sort(this.parkNameSortFunction);
+            specialClosureList.sort(this.parkNameSortFunction);
             tempClosedList.sort(this.parkNameSortFunction);
 
-            this.data = [{ rowData: [...tempList, ...tempClosedList] }];
+            this.data = [{ rowData: [...tempList, ...specialClosureList, ...tempClosedList] }];
             this.totalListItems = res.length;
           }
           this.loading = false;
