@@ -112,7 +112,7 @@ jobs:
       - name: Deploy to S3
         env:
           S3_BUCKET: ${{ vars.DUP_PUBLIC_PROJECT_NAME }}-${{ vars.ENVIRONMENT_STAGE }}
-          DIR_NAME: ${{ github.event.release.tag_name }}
+          DIR_NAME: ${{ github.event.inputs.releaseTag || github.sha }}
           WORKING_DIRECTORY: ${{ vars.DUP_PUBLIC_DIRECTORY }}
         run: |
           aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/$DIR_NAME
