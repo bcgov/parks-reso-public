@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  deploy-admin:
+  deploy-public:
     runs-on: ubuntu-latest
     environment: dev
     strategy:
@@ -22,7 +22,7 @@ jobs:
         node-version: [18.x]
     defaults:
       run:
-        working-directory: "./${{ vars.DUP_PUBLIC_DIRECTORY }}"
+        working-directory: "./"
     steps:
       ### Checkout GitHub Repo
       - name: Checkout repo
@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-          cache-dependency-path: "${{ vars.DUP_PUBLIC_DIRECTORY }}/yarn.lock"
+          cache-dependency-path: "./yarn.lock"
       - run: yarn install --silent --frozen-lockfile
 
       ### Build if no cache exists ###
@@ -49,8 +49,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            **${{ vars.DUP_PUBLIC_DIRECTORY }}/dist
-          key: ${{ github.sha }}-${{ vars.DUP_PUBLIC_DIRECTORY }}-dist
+            ./dist
+          key: ${{ github.sha }}-dist
       - name: Run yarn build
         if: steps.cache-admin-build.outputs.cache-hit != 'true'
         env:
@@ -79,8 +79,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            **${{ vars.DUP_PUBLIC_DIRECTORY }}/.aws-sam
-          key: ${{ github.sha }}-${{ vars.DUP_PUBLIC_DIRECTORY }}-sam-cache
+            ./.aws-sam
+          key: ${{ github.sha }}-sam-cache
       - name: Run sam build
         if: steps.cache-sam-build.outputs.cache-hit != 'true'
         run: |
@@ -98,7 +98,7 @@ jobs:
           API_STAGE: ${{ vars.DUP_API_STAGE }}
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
           AWS_CERTIFICATE_ARN: ${{ vars.AWS_CERTIFICATE_ARN }}
-          BASE_HREF: "admin/"
+          BASE_HREF: "dayuse/"
         run: |
           sam deploy --stack-name $STACK_NAME --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides \
           "ProjectName=$PROJECT_NAME \
@@ -116,11 +116,11 @@ jobs:
         env:
           S3_BUCKET: ${{ vars.DUP_PUBLIC_PROJECT_NAME }}-${{ vars.ENVIRONMENT_STAGE }}
           DIR_NAME: ${{ github.event.release.tag_name }}
-          WORKING_DIRECTORY: ${{ vars.DUP_PUBLIC_DIRECTORY }}
+          WORKING_DIRECTORY: "./"
         run: |
           aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/$DIR_NAME
-          aws s3 rm s3://$S3_BUCKET/ --recursive --exclude "*" --include "latest/admin/*"
-          aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/latest/admin
+          aws s3 rm s3://$S3_BUCKET/ --recursive --exclude "*" --include "latest/*"
+          aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/latest/
 
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
