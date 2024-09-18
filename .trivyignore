@@ -1,0 +1,20 @@
+# CloudFront distribution does not have a WAF in front
+AVD-AWS-0011
+# CloudFront distribution uses outdated SSL/TLS protocols
+AVD-AWS-0013
+# S3 Access block should block public ACL
+AVD-AWS-0086
+# S3 Access block should block public policy
+AVD-AWS-0087
+# Unencrypted S3 bucket
+AVD-AWS-0088
+# S3 Data should be versioned
+AVD-AWS-0090
+# S3 Access Block should Ignore Public Acl
+AVD-AWS-0091
+# S3 Access block should restrict public bucket to limit access
+AVD-AWS-0093
+# S3 buckets should each define an aws_s3_bucket_public_access_block
+AVD-AWS-0094
+# S3 encryption should use Customer Managed Keys
+AVD-AWS-0132

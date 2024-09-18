@@ -1,0 +1,249 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'dup-public build
+
+  SAM Template for Angular Public Frontend
+
+  '
+Parameters:
+  ProjectName:
+    Type: String
+    Description: Name of the project.
+  Env:
+    Type: String
+    Description: Staging environment.
+  AWSRegion:
+    Type: String
+    Default: ca-central-1
+    Description: AWS Region.
+  BaseHref:
+    Type: String
+    Default: dayuse/
+    Description: Base href to use for cloudfront.
+  DistOriginPath:
+    Type: String
+    Default: latest
+    Description: Cloudfront distribution origin path.
+  ApiGatewayId:
+    Type: String
+    Description: ID for rest API.
+  ApiStage:
+    Type: String
+    Default: api
+    Description: API stage.
+  EnvDomainName:
+    Type: String
+    Default: dev-dup.bcparks.ca
+  DomainCertificateArn:
+    Type: String
+    Default: arn:aws:acm:us-east-1:039380614566:certificate/5a037801-5b7e-45ac-b87d-ccddc5182177
+Resources:
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: CloudFront access identity
+    Metadata:
+      SamResourceId: CloudFrontOriginAccessIdentity
+  CloudFrontAPICachePolicy:
+    Type: AWS::CloudFront::CachePolicy
+    Properties:
+      CachePolicyConfig:
+        Comment: Custom CloudFront Caching Policy to allow the Authorization header
+          through to the Origins.
+        DefaultTTL: 1
+        MaxTTL: 1
+        MinTTL: 1
+        Name:
+          Fn::Sub: ${ApiGatewayId}-CFCachePolicy
+        ParametersInCacheKeyAndForwardedToOrigin:
+          CookiesConfig:
+            CookieBehavior: none
+          EnableAcceptEncodingBrotli: false
+          EnableAcceptEncodingGzip: false
+          HeadersConfig:
+            HeaderBehavior: none
+          QueryStringsConfig:
+            QueryStringBehavior: all
+    Metadata:
+      SamResourceId: CloudFrontAPICachePolicy
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: blacklist
+            Locations:
+            - BY
+            - CF
+            - CN
+            - CD
+            - IR
+            - IQ
+            - KP
+            - LB
+            - LY
+            - ML
+            - MM
+            - NI
+            - RU
+            - SO
+            - SS
+            - SD
+            - SY
+            - UA
+            - VE
+            - YE
+            - ZW
+        PriceClass: PriceClass_100
+        CustomErrorResponses:
+        - ErrorCode: 404
+          ResponseCode: 200
+          ResponsePagePath:
+            Fn::Sub: /${BaseHref}index.html
+        - ErrorCode: 403
+          ResponseCode: 200
+          ResponsePagePath:
+            Fn::Sub: /${BaseHref}index.html
+        Aliases:
+        - Ref: EnvDomainName
+        ViewerCertificate:
+          AcmCertificateArn:
+            Ref: DomainCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1
+        Comment:
+          Fn::Sub: CloudFront distribution for ${AWS::StackName}
+        DefaultRootObject:
+          Fn::Sub: ${BaseHref}index.html
+        Enabled: true
+        HttpVersion: http2
+        Origins:
+        - Id:
+            Ref: DistS3Bucket
+          DomainName:
+            Fn::GetAtt:
+            - DistS3Bucket
+            - RegionalDomainName
+          S3OriginConfig:
+            OriginAccessIdentity:
+              Fn::Sub: origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}
+          OriginPath:
+            Fn::Sub: /${DistOriginPath}
+        - Id:
+            Fn::Sub: ${ApiGatewayId}
+          DomainName:
+            Fn::Sub: ${ApiGatewayId}.execute-api.${AWSRegion}.amazonaws.com
+          CustomOriginConfig:
+            HTTPSPort: 443
+            OriginProtocolPolicy: https-only
+            OriginSSLProtocols:
+            - TLSv1.2
+        DefaultCacheBehavior:
+          Compress: true
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          TargetOriginId:
+            Ref: DistS3Bucket
+          ViewerProtocolPolicy: redirect-to-https
+          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+        CacheBehaviors:
+        - PathPattern:
+            Fn::Sub: /${ApiStage}/*
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          - PUT
+          - POST
+          - PATCH
+          - DELETE
+          CachePolicyId:
+            Ref: CloudFrontAPICachePolicy
+          TargetOriginId:
+            Fn::Sub: ${ApiGatewayId}
+          ViewerProtocolPolicy: redirect-to-https
+          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+        - PathPattern:
+            Fn::Sub: ${BaseHref}*
+          Compress: true
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          TargetOriginId:
+            Ref: DistS3Bucket
+          ViewerProtocolPolicy: redirect-to-https
+          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+        Logging:
+          Bucket:
+            Fn::GetAtt:
+            - LogsS3Bucket
+            - DomainName
+          IncludeCookies: false
+          Prefix:
+            Fn::Sub: ${AWS::StackName}-${Env}-logs
+    Metadata:
+      SamResourceId: CloudFrontDistribution
+  DistS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Fn::Sub: ${AWS::StackName}-${Env}
+    Metadata:
+      SamResourceId: DistS3Bucket
+  DistS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: DistS3Bucket
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS:
+              Fn::Sub: arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity
+                ${CloudFrontOriginAccessIdentity}
+          Action: s3:GetObject
+          Resource:
+            Fn::Sub: arn:aws:s3:::${DistS3Bucket}/*
+    Metadata:
+      SamResourceId: DistS3BucketPolicy
+  LogsS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Fn::Sub: ${AWS::StackName}-${Env}-logs
+      OwnershipControls:
+        Rules:
+        - ObjectOwnership: BucketOwnerPreferred
+    Metadata:
+      SamResourceId: LogsS3Bucket
+  LogsS3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: LogsS3Bucket
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS:
+              Fn::Sub: arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity
+                ${CloudFrontOriginAccessIdentity}
+          Action: s3:GetObject
+          Resource:
+            Fn::Sub: arn:aws:s3:::${LogsS3Bucket}/*
+    Metadata:
+      SamResourceId: LogsS3BucketPolicy
+Outputs:
+  Website:
+    Value:
+      Fn::GetAtt:
+      - CloudFrontDistribution
+      - DomainName
