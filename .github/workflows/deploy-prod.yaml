@@ -116,8 +116,8 @@ jobs:
           WORKING_DIRECTORY: "./"
         run: |
           aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/$DIR_NAME
-          aws s3 rm s3://$S3_BUCKET/ --recursive --exclude "*" --include "latest/dayuse/*"
-          aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/latest/dayuse
+          aws s3 rm s3://$S3_BUCKET/ --recursive --exclude "*" --include "latest/*"
+          aws s3 sync dist/$WORKING_DIRECTORY s3://$S3_BUCKET/latest/
 
       - name: Invalidate CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
