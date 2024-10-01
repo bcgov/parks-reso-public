@@ -74,17 +74,23 @@ export class FacilitySelectComponent implements OnInit {
   public stateOrder = ['blank', 'date', 'facility', 'time', 'passes', 'complete'];
   // Initial state
   public state = 0;
+  public systemTime: Date;
+  public systemTimePST: DateTime | null;
+  public allowedToBook: boolean;
+  public validBookingTime: boolean = true;
+  public formattedBookingTime: string | null;
 
   constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private toastService: ToastService, private passService: PassService) { }
 
   ngOnInit(): void {
     if (this.configService) {
-      this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT'];
+      this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT']; 
       this.parkingPassLimit = this.configService.config['PARKING_PASS_LIMIT'];
       this.defaultDateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
       this.defaultAMOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
     }
-    const today = this.getPSTDateTime();
+    this.getSystemTime();
+    const today = this.getPSTDateTime(); 
     this.initDate = {
       year: today.get('year'),
       month: today.get('month'),
@@ -112,20 +118,25 @@ export class FacilitySelectComponent implements OnInit {
   get bookingOpeningHour(): number {
     // As a temporary work-around, date rules for each park are currently based on
     // the first open facility at the park. See BRS-570 for details
+    // Use formatted booking time for warning when out booking window. 
     const facility = this.facilities?.find(f => f.status.state === 'open');
     let bookingOpeningHour = this.defaultAMOpeningHour;
-
     if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
       bookingOpeningHour = facility.bookingOpeningHour;
     }
-
+    const dateTime = DateTime.fromObject(
+      { hour: this.defaultAMOpeningHour, minute: 0 },
+      { zone: 'America/Vancouver' } // PST zone
+    );
+    this.formattedBookingTime = dateTime.toFormat("h:mm a 'PDT'");
     return bookingOpeningHour;
   }
 
-  get isOpeningHourPast(): boolean {
-    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
-    const currentHour = this.getPSTDateTime().get('hour');
-    return Boolean(parseInt(currentHour, 10) >= this.bookingOpeningHour);
+  get isOpeningHourPast(): boolean { 
+    if (this.systemTimePST != null){
+      this.allowedToBook = Boolean(parseInt(this.systemTimePST.get('hour'), 10) >= this.bookingOpeningHour);
+    }
+      return this.allowedToBook;
   }
 
   get isAMSlotExpired(): boolean {
@@ -259,6 +270,21 @@ export class FacilitySelectComponent implements OnInit {
 
   getPSTDateTime() {
     return DateTime.now().setZone('America/Vancouver');
+  }
+
+  async getSystemTime(){
+      const facilityWithCurrentTime = this.facilities.find(facility => facility.currentTime);
+      this.systemTime = facilityWithCurrentTime ? facilityWithCurrentTime.currentTime : null;
+      this.systemTimePST = this.convertUTCToPST(this.systemTime);
+      if (!this.isOpeningHourPast){
+        this.validBookingTime = false;
+      } 
+  }
+
+  convertUTCToPST(utcTime){
+    const utcDateTime = DateTime.fromISO(utcTime, { zone: 'utc' });
+    const pstDateTime = utcDateTime.setZone('America/Vancouver');
+    return pstDateTime;
   }
 
   getBookingDate() {

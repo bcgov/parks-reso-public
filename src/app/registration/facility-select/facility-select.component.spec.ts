@@ -38,6 +38,7 @@ describe('FacilitySelectComponent', () => {
       // initialize the component
       component.facilities = facilities;
       component.ngOnInit();
+      component.validBookingTime = true;
       fixture.detectChanges();
 
       // set the visit date
@@ -89,7 +90,7 @@ describe('FacilitySelectComponent', () => {
               '6': true,
             },
             bookableHolidays: [],
-            bookingDaysRichText: ''
+            bookingDaysRichText: '',
           }
         ],
         new Date('2021-11-23T20:02:00.000-08:00')
@@ -329,7 +330,7 @@ describe('FacilitySelectComponent', () => {
               '6': true,
             },
             bookableHolidays: [],
-            bookingDaysRichText: ''
+            bookingDaysRichText: '',
           }
         ],
         date
