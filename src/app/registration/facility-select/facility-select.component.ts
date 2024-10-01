@@ -77,7 +77,7 @@ export class FacilitySelectComponent implements OnInit {
   public systemTime: Date;
   public systemTimePST: DateTime | null;
   public allowedToBook: boolean;
-  public validBookingTime: boolean = true;
+  public validBookingTime = true;
   public formattedBookingTime: string | null;
 
   constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private toastService: ToastService, private passService: PassService) { }
