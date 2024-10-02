@@ -84,7 +84,7 @@ export class FacilitySelectComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.configService) {
-      this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT']; 
+      this.trailPassLimit = this.configService.config['TRAIL_PASS_LIMIT'];
       this.parkingPassLimit = this.configService.config['PARKING_PASS_LIMIT'];
       this.defaultDateLimit = this.configService.config['ADVANCE_BOOKING_LIMIT'];
       this.defaultAMOpeningHour = this.configService.config['ADVANCE_BOOKING_HOUR'];
@@ -133,7 +133,7 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get isOpeningHourPast(): boolean { 
-    if (this.systemTimePST != null){
+    if (this.systemTimePST != null) {
       this.allowedToBook = Boolean(parseInt(this.systemTimePST.get('hour'), 10) >= this.bookingOpeningHour);
     }
       return this.allowedToBook;
@@ -272,16 +272,16 @@ export class FacilitySelectComponent implements OnInit {
     return DateTime.now().setZone('America/Vancouver');
   }
 
-  async getSystemTime(){
-      const facilityWithCurrentTime = this.facilities.find(facility => facility.currentTime);
-      this.systemTime = facilityWithCurrentTime ? facilityWithCurrentTime.currentTime : null;
-      this.systemTimePST = this.convertUTCToPST(this.systemTime);
-      if (!this.isOpeningHourPast){
-        this.validBookingTime = false;
-      } 
+  async getSystemTime() {
+    const facilityWithCurrentTime = this.facilities.find(facility => facility.currentTime);
+    this.systemTime = facilityWithCurrentTime ? facilityWithCurrentTime.currentTime : null;
+    this.systemTimePST = this.convertUTCToPST(this.systemTime);
+    if (!this.isOpeningHourPast) {
+      this.validBookingTime = false;
+    } 
   }
 
-  convertUTCToPST(utcTime){
+  convertUTCToPST(utcTime) {
     const utcDateTime = DateTime.fromISO(utcTime, { zone: 'utc' });
     const pstDateTime = utcDateTime.setZone('America/Vancouver');
     return pstDateTime;
