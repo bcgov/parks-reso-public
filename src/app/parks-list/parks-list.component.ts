@@ -58,10 +58,10 @@ export class ParksListComponent implements OnInit, OnDestroy {
             let tempClosedList = [];
             let specialClosureList = [];
             res.forEach(park => {
-              if (park.status === 'closed') {
-                tempClosedList.push({ ...park, ...{ tabindex: tabIndex } });
-              } else if (park.specialClosure === true ) {
+              if (park.specialClosure === true ) {
                 specialClosureList.push({ ...park, ...{ tabindex: tabIndex } });
+              } else if (park.status === 'closed') {
+                tempClosedList.push({ ...park, ...{ tabindex: tabIndex } });
               } else {
                 tempList.push({ ...park, ...{ tabindex: tabIndex } });
               }
