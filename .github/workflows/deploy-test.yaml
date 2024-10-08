@@ -58,9 +58,9 @@ jobs:
       - name: Run yarn build
         if: steps.cache-public-build.outputs.cache-hit != 'true'
         env:
-          GH_HASH: ${{ github.sha }}
+          GH_HASH: ${{ github.event.inputs.releaseTag || github.sha }}
         run: |
-          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@localGHHash@'"$GH_HASH"'@g' > src/env.js
+          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GH_HASH"'@g' > src/env.js
           yarn build
 
       ### Setup AWS SAM
