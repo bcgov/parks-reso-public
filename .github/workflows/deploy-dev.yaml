@@ -56,7 +56,7 @@ jobs:
         env:
           GH_HASH: ${{ github.sha }}
         run: |
-          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@localGHHash@'"$GH_HASH"'@g' > src/env.js
+          sed 's@localConfigEndpoint@'true'@g' src/env.js.template | sed 's@gitHubHash@'"$GH_HASH"'@g' > src/env.js
           yarn build
 
       ### Setup AWS SAM
