@@ -210,7 +210,7 @@
     <span class="material-icons md-24">arrow_back</span>
     Back
   </button>
-  <button type="button" [disabled]="myForm.status === 'INVALID' || loading || validBookingTime" class="btn btn-primary"
+  <button type="button" [disabled]="myForm.status === 'INVALID' || loading || !validBookingTime" class="btn btn-primary"
     data-bs-toggle="modal" data-bs-target="#turnstileModal" (click)="showTurnstile()">
     Next
   </button>
