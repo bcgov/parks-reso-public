@@ -121,10 +121,6 @@ export class FacilitySelectComponent implements OnInit {
     if (facility && (facility.bookingOpeningHour || facility.bookingOpeningHour === 0)) {
       bookingOpeningHour = facility.bookingOpeningHour;
     }
-    const dateTime = DateTime.fromObject(
-      { hour: this.defaultAMOpeningHour, minute: 0 },
-      { zone: 'America/Vancouver' } // PST zone
-    );
     return bookingOpeningHour;
   }
 
