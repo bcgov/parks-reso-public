@@ -43,7 +43,6 @@ describe('FacilitySelectComponent', () => {
       // initialize the component
       component.facilities = facilities;
       component.ngOnInit();
-      component.validBookingTime = true;
       fixture.detectChanges();
 
       // set the visit date
