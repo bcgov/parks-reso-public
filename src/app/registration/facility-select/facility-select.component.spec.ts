@@ -9,6 +9,7 @@ import { RegistrationModule } from '../registration.module';
 import { FacilitySelectComponent } from './facility-select.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { PassService } from 'src/app/services/pass.service';
+import { DateTime } from 'luxon';
 
 describe('FacilitySelectComponent', () => {
   let component: FacilitySelectComponent;
@@ -26,6 +27,10 @@ describe('FacilitySelectComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacilitySelectComponent);
     component = fixture.componentInstance;
+    component.systemTimePST = DateTime.fromObject(
+      { year: 2021, month: 11, day: 23, hour: 20, minute: 2, second: 0, millisecond: 0 },
+      { zone: 'America/Vancouver' } // Set to PST
+    );
     fixture.detectChanges();
   });
 

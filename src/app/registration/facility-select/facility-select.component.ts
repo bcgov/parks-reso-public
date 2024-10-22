@@ -76,9 +76,6 @@ export class FacilitySelectComponent implements OnInit {
   public state = 0;
   public systemTime: Date;
   public systemTimePST: DateTime | null;
-  public allowedToBook: boolean;
-  public validBookingTime = true;
-  public formattedBookingTime: string | null;
 
   constructor(private fb: UntypedFormBuilder, private configService: ConfigService, private toastService: ToastService, private passService: PassService) { }
 
@@ -128,22 +125,19 @@ export class FacilitySelectComponent implements OnInit {
       { hour: this.defaultAMOpeningHour, minute: 0 },
       { zone: 'America/Vancouver' } // PST zone
     );
-    this.formattedBookingTime = dateTime.toFormat("h:mm a 'PDT'");
     return bookingOpeningHour;
   }
 
   get isOpeningHourPast(): boolean { 
     if (this.systemTimePST != null) {
-      this.allowedToBook = Boolean(parseInt(this.systemTimePST.get('hour'), 10) >= this.bookingOpeningHour);
+      return Boolean(parseInt(this.systemTimePST.get('hour'), 10) >= this.bookingOpeningHour);
     }
-      return this.allowedToBook;
   }
 
   get isAMSlotExpired(): boolean {
     const localDate = this.getPSTDateTime();
     const currentHour = parseInt(localDate.get('hour'), 10);
     const bookingDate = this.getBookingDate();
-    // check the current time in the America/Vancouver TZ (must do this step to acct for PST/PDT)
     if (localDate.toISODate() === bookingDate.toISODate() && currentHour >= this.defaultPMOpeningHour) {
       return true;
     }
@@ -155,7 +149,8 @@ export class FacilitySelectComponent implements OnInit {
   }
 
   get maxDate(): Date {
-    const curDate = this.getPSTDateTime().startOf('day');
+    //TODO: Make toast for no time referance.  
+    const curDate = this.systemTimePST.startOf('day');
     let maxFutureDate = curDate;
     const bookingDaysAhead = this.bookingDaysAhead;
     // if it is after the opening time in America/Vancouver, allow booking the full window.
@@ -275,10 +270,9 @@ export class FacilitySelectComponent implements OnInit {
   async getSystemTime() {
     const facilityWithCurrentTime = this.facilities.find(facility => facility.currentTime);
     this.systemTime = facilityWithCurrentTime ? facilityWithCurrentTime.currentTime : null;
-    this.systemTimePST = this.convertUTCToPST(this.systemTime);
-    if (!this.isOpeningHourPast) {
-      this.validBookingTime = false;
-    } 
+    if (this.systemTime){
+      this.systemTimePST = this.convertUTCToPST(this.systemTime);
+    }
   }
 
   convertUTCToPST(utcTime) {
