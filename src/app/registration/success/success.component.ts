@@ -14,6 +14,7 @@ export class SuccessComponent implements OnInit {
   public parkLink = 'https://bcparks.ca/joffre-lakes-park/'
   public isJoffreLakes = false;
   public isGaribaldi = false;
+  public isMountSeymour
 
   constructor(private router: Router) { }
 
@@ -21,11 +22,18 @@ export class SuccessComponent implements OnInit {
     if (this.regData) {
       this.regData['park'] = this.park || null;
     }
-    if (this.park && this.park.orcs === '0363') {
-      // Change success layout for Joffre lakes
-      this.isJoffreLakes = true;
-    } else if (this.park && this.park.orcs === '0007'){
-      this.isGaribaldi = true;
+    switch (this.park?.orcs) {
+      case '0363':
+        this.isJoffreLakes = true;
+        break;
+      case '0007':
+        this.isGaribaldi = true;
+        break;
+      case '0015':
+        this.isMountSeymour = true;
+        break;
+      default:
+        break;
     }
   }
 

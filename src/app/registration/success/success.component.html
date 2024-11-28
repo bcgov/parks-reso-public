@@ -2,7 +2,7 @@
   <h1>Success! Your reservation is complete.</h1>
 </div>
 <!-- If Joffre Lake -->
- <div *ngIf="isJoffreLakes || isGaribaldi">
+ <div *ngIf="isJoffreLakes || isGaribaldi || isMountSeymour">
 
   <div class="container-md my-4 my-lg-5">
     <div class="row">
@@ -86,6 +86,7 @@
       <div class="col-mg-12 col-lg-6 right-col">
       <app-joffreLakes *ngIf="isJoffreLakes" [regData]="regData"></app-joffreLakes>
       <app-garibaldiConfirmation *ngIf="isGaribaldi" [regData]="regData"></app-garibaldiConfirmation>
+      <app-mountSeymour *ngIf="isMountSeymour" [regData]="regData"></app-mountSeymour>
         
       <!-- After lists for -->
 
@@ -127,7 +128,7 @@
 <!---->
 <!-- Everything else -->
 <div
-  *ngIf="!isJoffreLakes && !isGaribaldi"
+  *ngIf="!isJoffreLakes && !isGaribaldi && !isMountSeymour"
   class="container-md my-4 my-lg-5"
 >
   <div class="row">

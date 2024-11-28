@@ -17,6 +17,7 @@ import { NgxIntlTelInputModule } from '@moddi3/ngx-intl-tel-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxTurnstileModule } from "ngx-turnstile";
 import { TimerComponent } from './timer/timer.component';
+import { MountSeymourComponent } from './success/facilityConfirmation/mountSeymour/mountSeymour.component';
 import { JoffreLakesComponent } from './success/facilityConfirmation/joffreLakes/joffreLakes.component';
 import { GaribaldiConfirmationComponent } from './success/facilityConfirmation/garibaldi/garibaldiConfirmation.component';
 import { RubbleCreekConfirmationComponent } from './success/facilityConfirmation/garibaldi/rubbleCreek/rubbleCreekConfirmation.component';
@@ -39,6 +40,7 @@ import { DiamondHeadConfirmationComponent } from './success/facilityConfirmation
     RubbleCreekConfirmationComponent,
     CheakamusConfirmationComponent,
     DiamondHeadConfirmationComponent,
+    MountSeymourComponent,
   ],
   imports: [
     CommonModule,
