@@ -1,20 +1,21 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContactFormComponent } from './contact-form.component';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { UntypedFormBuilder } from '@angular/forms';
 import { fakeAsync } from '@angular/core/testing';
 import { RegistrationModule } from '../registration.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 describe('ContactFormComponent', () => {
   let component: ContactFormComponent;
   let fixture: ComponentFixture<ContactFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [],
-      imports: [HttpClientTestingModule, RegistrationModule],
-      providers: [ConfigService, UntypedFormBuilder]
-    }).compileComponents();
+    declarations: [],
+    imports: [RegistrationModule],
+    providers: [ConfigService, UntypedFormBuilder, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
   });
 
   beforeEach(() => {

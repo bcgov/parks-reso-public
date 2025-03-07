@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ConfigService } from '../shared/services/config.service';
@@ -7,6 +7,7 @@ import { ParkDetailsComponent } from './park-details/park-details.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 
 import { RegistrationComponent } from './registration.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -14,14 +15,11 @@ describe('RegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegistrationComponent, ParkDetailsComponent, GuidelinesComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
-      ],
-      providers: [ConfigService, SwUpdate]
-    }).compileComponents();
+    declarations: [RegistrationComponent, ParkDetailsComponent, GuidelinesComponent],
+    imports: [RouterTestingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })],
+    providers: [ConfigService, SwUpdate, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
   });
 
   beforeEach(() => {

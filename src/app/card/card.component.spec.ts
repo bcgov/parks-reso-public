@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Location } from "@angular/common";
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,6 +6,7 @@ import { RegistrationComponent } from '../registration/registration.component';
 import { ConfigService } from '../shared/services/config.service';
 
 import { CardComponent } from './card.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('CardComponent', () => {
   let component: CardComponent;
@@ -23,18 +24,13 @@ describe('CardComponent', () => {
     }
 
     await TestBed.configureTestingModule({
-      declarations: [CardComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes(
-          [{ path: 'registration', component: RegistrationComponent }]
-        )
-      ],
-      providers: [ {
-        provide: ConfigService, useValue: mockConfigService
-      }]
-    }).compileComponents();
+    declarations: [CardComponent],
+    imports: [RouterTestingModule,
+        RouterTestingModule.withRoutes([{ path: 'registration', component: RegistrationComponent }])],
+    providers: [{
+            provide: ConfigService, useValue: mockConfigService
+        }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     component.data = { "name": "Some Name", "sk": "SomeSK"};
