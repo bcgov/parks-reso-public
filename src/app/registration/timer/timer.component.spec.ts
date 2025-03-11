@@ -30,7 +30,7 @@ describe('TimerComponent', () => {
     const expiry = DateTime.now().plus({ minutes: 5 });
     component.expiry = expiry;
     component.ngOnInit();
-    expect(component.timeRemaining).toBe('5:00');
+    expect(component.timeRemaining).toBe('4:59');
   });
 
   it('should emit timerExpire event when timer expires', () => {

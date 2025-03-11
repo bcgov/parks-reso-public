@@ -27,8 +27,9 @@ describe('TipsComponent', () => {
 });
 
 @Component({
-  selector: 'app-tips',
-  template: ''
+    selector: 'app-tips',
+    template: '',
+    standalone: false
 })
 class MockTipsComponent {
 }

@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -72,12 +72,10 @@ export function initConfig(configService: ConfigService) {
             registrationStrategy: 'registerWhenStable:30000'
         }),
         FaqModule], providers: [
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initConfig,
-            deps: [ConfigService],
-            multi: true
-        },
+        provideAppInitializer(() => {
+        const initializerFn = (initConfig)(inject(ConfigService));
+        return initializerFn();
+      }),
         ParksListResolverService,
         ConfigService,
         LoggerService,

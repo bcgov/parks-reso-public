@@ -24,9 +24,10 @@ export interface IPageSizePickerOption {
 }
 
 @Component({
-  selector: 'lib-page-size-picker',
-  templateUrl: './page-size-picker.component.html',
-  styleUrls: ['./page-size-picker.component.scss']
+    selector: 'lib-page-size-picker',
+    templateUrl: './page-size-picker.component.html',
+    styleUrls: ['./page-size-picker.component.scss'],
+    standalone: false
 })
 export class PageSizePickerComponent {
   @Input() isDisabled = false;

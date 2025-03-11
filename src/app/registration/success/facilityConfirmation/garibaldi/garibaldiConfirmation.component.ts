@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-garibaldiConfirmation',
-  templateUrl: './garibaldiConfirmation.component.html',
-  styleUrls: ['./garibaldiConfirmation.component.scss']
+    selector: 'app-garibaldiConfirmation',
+    templateUrl: './garibaldiConfirmation.component.html',
+    styleUrls: ['./garibaldiConfirmation.component.scss'],
+    standalone: false
 })
 export class GaribaldiConfirmationComponent implements OnInit {
   @Input() regData: any;

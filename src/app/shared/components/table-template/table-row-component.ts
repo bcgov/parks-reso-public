@@ -31,7 +31,8 @@ export interface ITableMessage {
  * @class TableRowComponent
  */
 @Component({
-  template: ''
+    template: '',
+    standalone: false
 })
 export class TableRowComponent {
   /**
