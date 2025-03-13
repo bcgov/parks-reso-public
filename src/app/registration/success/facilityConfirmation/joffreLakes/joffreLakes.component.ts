@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-joffreLakes',
-  templateUrl: './joffreLakes.component.html',
-  styleUrls: ['./joffreLakes.component.scss']
+    selector: 'app-joffreLakes',
+    templateUrl: './joffreLakes.component.html',
+    styleUrls: ['./joffreLakes.component.scss'],
+    standalone: false
 })
 export class JoffreLakesComponent {
     @Input() regData: any;

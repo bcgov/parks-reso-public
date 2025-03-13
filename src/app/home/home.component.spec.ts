@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ParksListComponent } from '../parks-list/parks-list.component';
@@ -9,6 +9,7 @@ import { ConfigService } from '../shared/services/config.service';
 import { TipsComponent } from '../tips/tips.component';
 import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
 import { HomeComponent } from './home.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -16,14 +17,11 @@ describe('HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HomeComponent, ImportantBookingInfoComponent, ParksListComponent, TipsComponent],
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })
-      ],
-      providers: [ParkService, ApiService, ConfigService, SwUpdate]
-    }).compileComponents();
+    declarations: [HomeComponent, ImportantBookingInfoComponent, ParksListComponent, TipsComponent],
+    imports: [RouterTestingModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })],
+    providers: [ParkService, ApiService, ConfigService, SwUpdate, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
   });
 
   beforeEach(() => {

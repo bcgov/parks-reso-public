@@ -9,9 +9,10 @@ import { Constants } from '../shared/utils/constants';
 import { PassLookupFormComponent } from './pass-lookup-form/pass-lookup-form.component';
 
 @Component({
-  selector: 'app-pass-lookup',
-  templateUrl: './pass-lookup.component.html',
-  styleUrls: ['./pass-lookup.component.scss']
+    selector: 'app-pass-lookup',
+    templateUrl: './pass-lookup.component.html',
+    styleUrls: ['./pass-lookup.component.scss'],
+    standalone: false
 })
 export class PassLookupComponent implements OnInit {
   @Input() pass: Pass;

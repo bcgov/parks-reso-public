@@ -3,9 +3,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-failure',
-  templateUrl: './failure.component.html',
-  styleUrls: ['./failure.component.scss']
+    selector: 'app-failure',
+    templateUrl: './failure.component.html',
+    styleUrls: ['./failure.component.scss'],
+    standalone: false
 })
 export class FailureComponent implements OnInit {
   @Input() errorContent = {

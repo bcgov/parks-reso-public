@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-mountSeymour',
-  templateUrl: './mountSeymour.component.html',
-  styleUrls: ['./mountSeymour.component.scss']
+    selector: 'app-mountSeymour',
+    templateUrl: './mountSeymour.component.html',
+    styleUrls: ['./mountSeymour.component.scss'],
+    standalone: false
 })
 export class MountSeymourComponent {
     

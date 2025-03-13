@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { ConfigService } from '../shared/services/config.service';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+    selector: 'app-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
+    standalone: false
 })
 
 /**

@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appPhoneFormat]'
+    selector: '[appPhoneFormat]',
+    standalone: false
 })
 export class PhoneFormatDirective {
 

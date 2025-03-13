@@ -4,9 +4,10 @@ import { TableObject } from './table-object';
 import { ITableMessage } from './table-row-component';
 
 @Component({
-  selector: 'app-table-template',
-  templateUrl: './table-template.component.html',
-  styleUrls: ['./table-template.component.scss']
+    selector: 'app-table-template',
+    templateUrl: './table-template.component.html',
+    styleUrls: ['./table-template.component.scss'],
+    standalone: false
 })
 export class TableTemplateComponent implements OnChanges {
   @Input() data: TableObject;

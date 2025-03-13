@@ -5,9 +5,10 @@ import { IColumnObject } from '../shared/components/table-template/table-object'
 import { ParksTableRowComponent } from './parks-table-row/parks-table-row.component';
 
 @Component({
-  selector: 'app-parks-list',
-  templateUrl: './parks-list.component.html',
-  styleUrls: ['./parks-list.component.scss']
+    selector: 'app-parks-list',
+    templateUrl: './parks-list.component.html',
+    styleUrls: ['./parks-list.component.scss'],
+    standalone: false
 })
 export class ParksListComponent implements OnInit, OnDestroy {
   private alive = true;

@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
-  selector: 'lib-page-count-display',
-  templateUrl: './page-count-display.component.html',
-  styleUrls: ['./page-count-display.component.scss']
+    selector: 'lib-page-count-display',
+    templateUrl: './page-count-display.component.html',
+    styleUrls: ['./page-count-display.component.scss'],
+    standalone: false
 })
 export class PageCountDisplayComponent implements OnChanges {
   @Input() isHidden = false;

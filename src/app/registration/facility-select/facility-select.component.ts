@@ -8,9 +8,10 @@ import { ToastService } from 'src/app/services/toast.service';
 import { PassService } from 'src/app/services/pass.service';
 
 @Component({
-  selector: 'app-facility-select',
-  templateUrl: './facility-select.component.html',
-  styleUrls: ['./facility-select.component.scss']
+    selector: 'app-facility-select',
+    templateUrl: './facility-select.component.html',
+    styleUrls: ['./facility-select.component.scss'],
+    standalone: false
 })
 export class FacilitySelectComponent implements OnInit {
   @Input() facilities;

@@ -11,9 +11,10 @@ import { CanDeactivateType } from '../guards/navigation.guard';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+    selector: 'app-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.scss'],
+    standalone: false
 })
 export class RegistrationComponent implements OnInit {
   private alive = true;

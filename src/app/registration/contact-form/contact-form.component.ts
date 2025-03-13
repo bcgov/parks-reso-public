@@ -17,9 +17,10 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { Constants } from 'src/app/shared/utils/constants';
 
 @Component({
-  selector: 'app-contact-form',
-  templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+    selector: 'app-contact-form',
+    templateUrl: './contact-form.component.html',
+    styleUrls: ['./contact-form.component.scss'],
+    standalone: false
 })
 export class ContactFormComponent implements OnInit {
   @Input() passData;

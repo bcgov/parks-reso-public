@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cheakamusConfirmation',
-  templateUrl: './cheakamusConfirmation.component.html',
-  styleUrls: ['./cheakamusConfirmation.component.scss']
+    selector: 'app-cheakamusConfirmation',
+    templateUrl: './cheakamusConfirmation.component.html',
+    styleUrls: ['./cheakamusConfirmation.component.scss'],
+    standalone: false
 }) 
 export class CheakamusConfirmationComponent {
     @Input() regData: any;

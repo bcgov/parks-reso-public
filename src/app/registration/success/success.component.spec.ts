@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { ConfigService } from 'src/app/shared/services/config.service';
 import { RegistrationDetailsComponent } from '../registration-details/registration-details.component';
 
 import { SuccessComponent } from './success.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('SuccessComponent', () => {
   let component: SuccessComponent;
@@ -15,10 +16,10 @@ describe('SuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SuccessComponent, RegistrationDetailsComponent],
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [ConfigService]
-    })
+    declarations: [SuccessComponent, RegistrationDetailsComponent],
+    imports: [RouterTestingModule],
+    providers: [ConfigService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
     .compileComponents();
   });
 

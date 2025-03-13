@@ -18,7 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 import { InjectComponentService } from '../../services/inject-component.service';
 
 @Directive({
-  selector: '[libTableRow]'
+    selector: '[libTableRow]',
+    standalone: false
 })
 export class TableRowDirective implements OnInit, OnChanges, OnDestroy {
   @Input('libTableRow') rowObject: IRowObject;
