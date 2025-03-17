@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { ParksListComponent } from './parks-list/parks-list.component';
 import { ParksTableRowComponent } from './parks-list/parks-table-row/parks-table-row.component';
 import { ParksListResolverService } from './parks-list/parks-list-resolver.service';
 import { ConfigService } from './shared/services/config.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LoggerService } from './services/logger.service';
 import { ApiService } from './services/api.service';
 import { EventService } from './services/event.service';
@@ -40,60 +40,52 @@ export function initConfig(configService: ConfigService) {
   };
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    FooterComponent,
-    HeaderComponent,
-    CardComponent,
-    BreadcrumbComponent,
-    ParksListComponent,
-    ParksTableRowComponent,
-    TipsComponent,
-    NotFoundComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule,
-    RegistrationModule,
-    BrowserAnimationsModule,
-    PassLookupModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-center'
-    }),
-    FormsModule,
-    ImportantBookingInfoModule,
-    ListModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    FaqModule
-  ],
-  exports: [CardComponent],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initConfig,
-      deps: [ConfigService],
-      multi: true
-    },
-    ParksListResolverService,
-    ConfigService,
-    LoggerService,
-    ApiService,
-    EventService,
-    ParkService,
-    FacilitiesResolverService,
-    ToastService,
-    ConfigService,
-    Utils
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomeComponent,
+        FooterComponent,
+        HeaderComponent,
+        CardComponent,
+        BreadcrumbComponent,
+        ParksListComponent,
+        ParksTableRowComponent,
+        TipsComponent,
+        NotFoundComponent,
+    ],
+    exports: [CardComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        NgbModule,
+        RegistrationModule,
+        BrowserAnimationsModule,
+        PassLookupModule,
+        ToastrModule.forRoot({
+            positionClass: 'toast-top-center'
+        }),
+        FormsModule,
+        ImportantBookingInfoModule,
+        ListModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        FaqModule], providers: [
+        provideAppInitializer(() => {
+        const initializerFn = (initConfig)(inject(ConfigService));
+        return initializerFn();
+      }),
+        ParksListResolverService,
+        ConfigService,
+        LoggerService,
+        ApiService,
+        EventService,
+        ParkService,
+        FacilitiesResolverService,
+        ToastService,
+        ConfigService,
+        Utils,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

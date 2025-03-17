@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-diamondHeadConfirmation',
-  templateUrl: './diamondHeadConfirmation.component.html',
-  styleUrls: ['./diamondHeadConfirmation.component.scss']
+    selector: 'app-diamondHeadConfirmation',
+    templateUrl: './diamondHeadConfirmation.component.html',
+    styleUrls: ['./diamondHeadConfirmation.component.scss'],
+    standalone: false
 }) 
 export class DiamondHeadConfirmationComponent {
     @Input() regData: any;

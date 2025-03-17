@@ -2,9 +2,10 @@ import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-pass-lookup-form',
-  templateUrl: './pass-lookup-form.component.html',
-  styleUrls: ['./pass-lookup-form.component.scss']
+    selector: 'app-pass-lookup-form',
+    templateUrl: './pass-lookup-form.component.html',
+    styleUrls: ['./pass-lookup-form.component.scss'],
+    standalone: false
 })
 export class PassLookupFormComponent implements OnInit {
   @Input() urlData: any;

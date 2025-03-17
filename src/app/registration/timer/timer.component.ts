@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { DateTime, Interval } from 'luxon';
 
 @Component({
-  selector: 'app-timer',
-  templateUrl: './timer.component.html',
-  styleUrl: './timer.component.scss'
+    selector: 'app-timer',
+    templateUrl: './timer.component.html',
+    styleUrl: './timer.component.scss',
+    standalone: false
 })
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() expiry;

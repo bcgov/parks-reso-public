@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-success',
-  templateUrl: './success.component.html',
-  styleUrls: ['./success.component.scss']
+    selector: 'app-success',
+    templateUrl: './success.component.html',
+    styleUrls: ['./success.component.scss'],
+    standalone: false
 })
 export class SuccessComponent implements OnInit {
   @Input() regData;

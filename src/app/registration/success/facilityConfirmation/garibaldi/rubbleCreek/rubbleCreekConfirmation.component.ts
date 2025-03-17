@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-rubbleCreekConfirmation',
-  templateUrl: './rubbleCreekConfirmation.component.html',
-  styleUrls: ['./rubbleCreekConfirmation.component.scss']
+    selector: 'app-rubbleCreekConfirmation',
+    templateUrl: './rubbleCreekConfirmation.component.html',
+    styleUrls: ['./rubbleCreekConfirmation.component.scss'],
+    standalone: false
 }) 
 export class RubbleCreekConfirmationComponent {
     @Input() regData: any;
