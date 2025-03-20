@@ -19,7 +19,8 @@
           "options": {
             "baseHref": "/dayuse/",
             "outputPath": {
-              "base": "dist/dayuse"
+              "base": "dist/dayuse",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": [
