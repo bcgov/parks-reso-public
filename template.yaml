@@ -96,7 +96,7 @@ Resources:
           Items:
             - Header: X-Robots-Tag
               Value: 
-                Ref: ${RobotHeadersPolicyValue}
+                Fn::Sub: ${RobotHeadersPolicyValue}
               Override: true
 
   CloudFrontDistribution:
