@@ -37,6 +37,9 @@ Parameters:
   DomainCertificateArn:
     Type: String
     Default: arn:aws:acm:us-east-1:039380614566:certificate/5a037801-5b7e-45ac-b87d-ccddc5182177
+  RobotHeadersPolicyValue:
+    Type: String
+    Default: allow
 Resources:
   CloudFrontOriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
@@ -67,6 +70,22 @@ Resources:
             QueryStringBehavior: all
     Metadata:
       SamResourceId: CloudFrontAPICachePolicy
+  
+  CloudFrontResponseHeadersPolicy:
+    Type: AWS::CloudFront::ResponseHeadersPolicy
+    Properties:
+      ResponseHeadersPolicyConfig:
+        Name: RobotHeadersPolicy
+        Comment: Policy to stop Google from caching
+        CustomHeadersConfig:
+          Items:
+            - Header: X-Robots-Tag
+              Value: ${RobotHeadersPolicyValue}
+              Override: true
+            - Header: Access-Control-Allow-Origin
+              Value: '*'
+              Override: true
+
   CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
@@ -150,7 +169,8 @@ Resources:
           TargetOriginId:
             Ref: DistS3Bucket
           ViewerProtocolPolicy: redirect-to-https
-          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+          ResponseHeadersPolicyId:
+            Ref: CloudFrontResponseHeadersPolicy
         CacheBehaviors:
         - PathPattern:
             Fn::Sub: /${ApiStage}/*
@@ -167,7 +187,8 @@ Resources:
           TargetOriginId:
             Fn::Sub: ${ApiGatewayId}
           ViewerProtocolPolicy: redirect-to-https
-          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+          ResponseHeadersPolicyId:
+            Ref: CloudFrontResponseHeadersPolicy
         - PathPattern:
             Fn::Sub: ${BaseHref}*
           Compress: true
@@ -179,7 +200,8 @@ Resources:
           TargetOriginId:
             Ref: DistS3Bucket
           ViewerProtocolPolicy: redirect-to-https
-          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+          ResponseHeadersPolicyId:
+            Ref: CloudFrontResponseHeadersPolicy
         Logging:
           Bucket:
             Fn::GetAtt:
