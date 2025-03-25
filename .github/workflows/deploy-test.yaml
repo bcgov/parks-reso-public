@@ -103,6 +103,7 @@ jobs:
           DOMAIN_NAME: ${{ vars.DOMAIN_NAME }}
           AWS_CERTIFICATE_ARN: ${{ vars.AWS_CERTIFICATE_ARN }}
           BASE_HREF: "dayuse/"
+          ROBOT_HEADERS_POLICY_VALUE: "noindex"
         run: |
           sam deploy --stack-name $STACK_NAME --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides \
           "ProjectName=$PROJECT_NAME \
@@ -113,7 +114,8 @@ jobs:
           ApiStage=$API_STAGE \
           EnvDomainName=$DOMAIN_NAME \
           DomainCertificateArn=$AWS_CERTIFICATE_ARN \
-          BaseHref=$BASE_HREF"
+          BaseHref=$BASE_HREF \
+          RobotHeadersPolicyValue=$ROBOT_HEADERS_POLICY_VALUE"
 
       ### Upload dist to S3 ###
       - name: Deploy to S3
