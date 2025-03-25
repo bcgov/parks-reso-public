@@ -77,13 +77,25 @@ Resources:
       ResponseHeadersPolicyConfig:
         Name: RobotHeadersPolicy
         Comment: Policy to stop Google from caching
+        CorsConfig:
+          AccessControlAllowCredentials: false
+          AccessControlAllowHeaders:
+            Items:
+              - "*"
+          AccessControlAllowMethods:
+            Items:
+              - ALL
+          AccessControlAllowOrigins:
+            Items:
+              - "*"
+          AccessControlExposeHeaders:
+            Items:
+              - "*"
+          OriginOverride: true
         CustomHeadersConfig:
           Items:
             - Header: X-Robots-Tag
               Value: ${RobotHeadersPolicyValue}
-              Override: true
-            - Header: Access-Control-Allow-Origin
-              Value: '*'
               Override: true
 
   CloudFrontDistribution:
