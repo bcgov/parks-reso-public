@@ -95,7 +95,8 @@ Resources:
         CustomHeadersConfig:
           Items:
             - Header: X-Robots-Tag
-              Value: ${RobotHeadersPolicyValue}
+              Value: 
+                Ref: ${RobotHeadersPolicyValue}
               Override: true
 
   CloudFrontDistribution:
