@@ -5,9 +5,10 @@ import { IColumnObject } from '../shared/components/table-template/table-object'
 import { ParksTableRowComponent } from './parks-table-row/parks-table-row.component';
 
 @Component({
-  selector: 'app-parks-list',
-  templateUrl: './parks-list.component.html',
-  styleUrls: ['./parks-list.component.scss']
+    selector: 'app-parks-list',
+    templateUrl: './parks-list.component.html',
+    styleUrls: ['./parks-list.component.scss'],
+    standalone: false
 })
 export class ParksListComponent implements OnInit, OnDestroy {
   private alive = true;
@@ -56,8 +57,11 @@ export class ParksListComponent implements OnInit, OnDestroy {
           } else {
             let tempList = [];
             let tempClosedList = [];
+            let specialClosureList = [];
             res.forEach(park => {
-              if (park.status === 'closed') {
+              if (park.specialClosure === true ) {
+                specialClosureList.push({ ...park, ...{ tabindex: tabIndex } });
+              } else if (park.status === 'closed') {
                 tempClosedList.push({ ...park, ...{ tabindex: tabIndex } });
               } else {
                 tempList.push({ ...park, ...{ tabindex: tabIndex } });
@@ -65,9 +69,10 @@ export class ParksListComponent implements OnInit, OnDestroy {
             });
 
             tempList.sort(this.parkNameSortFunction);
+            specialClosureList.sort(this.parkNameSortFunction);
             tempClosedList.sort(this.parkNameSortFunction);
 
-            this.data = [{ rowData: [...tempList, ...tempClosedList] }];
+            this.data = [{ rowData: [...tempList, ...specialClosureList, ...tempClosedList] }];
             this.totalListItems = res.length;
           }
           this.loading = false;

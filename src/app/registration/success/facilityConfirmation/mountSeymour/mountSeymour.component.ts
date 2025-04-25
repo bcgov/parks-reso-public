@@ -2,17 +2,17 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-cheakamusConfirmation',
-    templateUrl: './cheakamusConfirmation.component.html',
-    styleUrls: ['./cheakamusConfirmation.component.scss'],
+    selector: 'app-mountSeymour',
+    templateUrl: './mountSeymour.component.html',
+    styleUrls: ['./mountSeymour.component.scss'],
     standalone: false
-}) 
-export class CheakamusConfirmationComponent {
+})
+export class MountSeymourComponent {
+    
     @Input() regData: any;
-
-    public parkLink = 'https://bcparks.ca/garibaldi-park/';
-    public tripPlanLink = 'https://www.adventuresmart.ca/trip-plan-app/';
-    public bearLink = 'https://bcparks.ca/plan-your-trip/visit-responsibly/wildlife-safety/#bears';
+    public isMountSeymour = true;
+    public parkLink = 'https://bcparks.ca/mount-seymour-park/#advisories'
+    public avalancheLink = 'https://avalanche.ca/map/forecasts/9115d426-7872-4b62-bdd8-234a94ae0ab9_fc022cc076b5327b78b2e1d6fbfd8d1d49dec6a1260f070359a9704acaa9fdaa?panel=null'
 
     constructor(private router: Router) { }
     
