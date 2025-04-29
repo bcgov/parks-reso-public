@@ -353,13 +353,13 @@ describe('FacilitySelectComponent', () => {
     it('should test AM departure text', async () => {
       component.defaultAMOpeningHour = 7;
       component.timeConfig.AM.offered = true;
-      component.defaultPMOpeningHour = 12;
+      component.defaultPMOpeningHour = 13;
 
       await fixture.detectChanges();
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-AM"));
 
-      expect(textElement.nativeElement.textContent).toContain('12pm (Depart by 12pm)');
+      expect(textElement.nativeElement.textContent).toContain('1pm (Depart by 1pm)');
       expect(component.to12hTimeString(component.defaultAMOpeningHour)).toBe(component.defaultAMOpeningHour.toString() + "am");
       expect(true).toBeTrue();
     });
