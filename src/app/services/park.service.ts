@@ -57,7 +57,7 @@ export class ParkService {
       }
     } catch (e) {
       this.loggerService.error(`${e}`);
-      this.toastService.addMessage(`Please refresh the page.`, `Error getting ${errorSubject}`, Constants.ToastTypes.ERROR);
+      this.toastService.addMessage(`Passes are currently sold out. Please refresh or check back soon.`, `Error getting ${errorSubject}`, Constants.ToastTypes.ERROR);
       this.eventService.setError(
         new EventObject(
           EventKeywords.ERROR,
