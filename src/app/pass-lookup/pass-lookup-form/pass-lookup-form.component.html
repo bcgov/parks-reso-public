@@ -31,7 +31,9 @@
         <div *ngIf="urlData?.park">
             <label for="park">Park:</label>
             <div class="input-group mb-3">
-                <input type="text" id="park" placeholder="Park" class="form-control" formControlName="park" required>
+                <input type="text" id="park" placeholder="Park" class="form-control" 
+                    [value]="parkName || urlData?.park" readonly disabled>
+                <input type="hidden" formControlName="park">
             </div>
         </div>
     </form>

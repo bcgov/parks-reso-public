@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ParkService } from '../../services/park.service';
 
 @Component({
     selector: 'app-pass-lookup-form',
@@ -11,6 +12,7 @@ export class PassLookupFormComponent implements OnInit {
   @Input() urlData: any;
   @Output() submitEvent = new EventEmitter<any>();
 
+  public parkName = '';
   public formData = {
     passId: '',
     email: '',
@@ -27,6 +29,8 @@ export class PassLookupFormComponent implements OnInit {
     type: new UntypedFormControl('', Validators.required)
   });
 
+  constructor(private parkService: ParkService) {}
+
   ngOnInit(): void {
     this.disableForm();
     if (this.urlData) {
@@ -42,10 +46,24 @@ export class PassLookupFormComponent implements OnInit {
     this.lookupForm.enable();
   }
 
-  populateForm(data): void {
+  async populateForm(data: any): Promise<void> {
     for (let key in data){
-      if (this.lookupForm.get(key)){
-        this.lookupForm.controls[key].setValue(data[key]);
+      const control = this.lookupForm.get(key);
+      if (control && data[key] !== undefined){
+        control.setValue(data[key]);
+      }
+    }
+    // Fetch and display park name if park ORCS is provided
+    if (data?.park) {
+      try {
+        await this.parkService.fetchData(data.park);
+        this.parkService.getItemValue().subscribe(parkData => {
+          if (parkData?.name) {
+            this.parkName = parkData.name;
+          }
+        });
+      } catch (e) {
+        console.error('Failed to fetch park details:', e);
       }
     }
   }
@@ -60,11 +78,11 @@ export class PassLookupFormComponent implements OnInit {
   }
 
   updateFormData(): void {
-    this.formData.passId = this.lookupForm.get('passId').value;
-    this.formData.email = this.lookupForm.get('email').value;
-    this.formData.park = this.lookupForm.get('park').value;
-    this.formData.date = this.lookupForm.get('date').value;
-    this.formData.type = this.lookupForm.get('type').value;
+    this.formData.passId = this.lookupForm.get('passId')?.value || '';
+    this.formData.email = this.lookupForm.get('email')?.value || '';
+    this.formData.park = this.lookupForm.get('park')?.value || '';
+    this.formData.date = this.lookupForm.get('date')?.value || '';
+    this.formData.type = this.lookupForm.get('type')?.value || '';
   }
 
 }
