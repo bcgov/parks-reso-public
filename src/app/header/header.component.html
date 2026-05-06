@@ -1,7 +1,11 @@
+<div class="skip-link-container">
+  <a href="#main-content" (click)="skipToMainContent($event)" class="skip-to-main-content btn btn-primary p-2 p-md-3 text-white text-decoration-none fw-bold">Skip to main content</a>
+</div>
 <nav class="navbar">
     <div class="container py-3">
         <a class="navbar-brand"
             title="BC Parks Reservations"
+            tabindex="-1"
             [routerLink]="['/']" target="_blank">
             <img src="assets/images/BCParks_Primary_Reversed.webp"
                 class="bc-parks-logo" 
