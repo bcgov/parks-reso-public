@@ -8,9 +8,9 @@ label {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2), 0 2px 5px 0 rgba(0, 0, 0, 0.19);
 }
 
-input[type="radio"] {
-    visibility: hidden;
-}
+// input[type="radio"] {
+//     visibility: hidden;
+// }
 
 input[type="radio"]:after {
     width: 1rem;
