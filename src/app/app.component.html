@@ -2,10 +2,12 @@
   <div class="header">
     <app-header></app-header>
   </div>
-  <div class="content"
-    fxFlex
-    fxLayout="column">
-    <router-outlet></router-outlet>
+  <div id="main-content" class="main-content" tabindex="-1">
+    <div class="content"
+      fxFlex
+      fxLayout="column">
+      <router-outlet></router-outlet>
+    </div>
   </div>
   <div class="footer">
     <app-footer></app-footer>

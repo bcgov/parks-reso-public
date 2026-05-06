@@ -1,6 +1,46 @@
 @import "/src/assets/themes/default.scss";
 @import "/src/assets/base/base.scss";
 
+:host {
+    display: block;
+    position: relative;
+}
+
+.skip-link-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 0;
+    overflow: visible;
+}
+
+.skip-to-main-content {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+    white-space: nowrap;
+    transition: top 0.3s ease-in-out;
+    
+    &:focus {
+        top: 0;
+        outline: 3px solid #ffd47e;
+        outline-offset: 2px;
+    }
+
+    &:focus-visible {
+        top: 0;
+        outline: 3px solid #ffd47e;
+        outline-offset: 2px;
+    }
+
+    &:hover:focus {
+        opacity: 0.9;
+    }
+}
+
 .env-banner {
     padding: 5px 10px;
     z-index: 10000;
