@@ -11,7 +11,7 @@ export class DiamondHeadConfirmationComponent {
     @Input() regData: any;
 
     public parkLink = 'https://bcparks.ca/garibaldi-park/';
-    public tripPlanLink = 'https://www.adventuresmart.ca/trip-plan-app/';
+    public tripPlanLink = 'https://www.adventuresmart.ca/trip-plan/';
     public bearLink = 'https://bcparks.ca/plan-your-trip/visit-responsibly/wildlife-safety/#bears';
 
     constructor(private router: Router) { }
@@ -20,6 +20,10 @@ export class DiamondHeadConfirmationComponent {
         const qrContent = document.getElementById('qr-code');
         const printContent = document.getElementById('registration');
         const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+        if (!WindowPrt || !printContent) {
+          console.error('Failed to open print window or find content');
+          return;
+        }
         WindowPrt.document.write('<h4> BC Parks Day Pass Reservation System </h4>');
         if (qrContent) {
           WindowPrt.document.write(qrContent.innerHTML);
