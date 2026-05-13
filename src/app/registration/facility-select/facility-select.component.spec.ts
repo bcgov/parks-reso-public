@@ -366,11 +366,11 @@ describe('FacilitySelectComponent', () => {
 
     it('should test PM arrival text', () => {
       component.timeConfig.PM.offered = true;
-      component.defaultPMOpeningHour = 12;
+      component.defaultPMOpeningHour = 13;
       fixture.detectChanges();
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-PM"));
-      expect(textElement.nativeElement.textContent).toContain('Arrive after 12pm');
+      expect(textElement.nativeElement.textContent).toContain('Arrive after 1pm');
     });
 
     it('should test DAY arrival text', () => {
