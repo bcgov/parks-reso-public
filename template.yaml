@@ -144,7 +144,7 @@ Resources:
           AcmCertificateArn:
             Ref: DomainCertificateArn
           SslSupportMethod: sni-only
-          MinimumProtocolVersion: TLSv1
+          MinimumProtocolVersion: TLSv1.2_2021
         Comment:
           Fn::Sub: CloudFront distribution for ${AWS::StackName}
         DefaultRootObject:
@@ -195,13 +195,11 @@ Resources:
           - POST
           - PATCH
           - DELETE
-          CachePolicyId:
-            Ref: CloudFrontAPICachePolicy
+          CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
           TargetOriginId:
             Fn::Sub: ${ApiGatewayId}
           ViewerProtocolPolicy: redirect-to-https
-          ResponseHeadersPolicyId:
-            Ref: CloudFrontResponseHeadersPolicy
         - PathPattern:
             Fn::Sub: ${BaseHref}*
           Compress: true
