@@ -70,33 +70,6 @@ Resources:
             QueryStringBehavior: all
     Metadata:
       SamResourceId: CloudFrontAPICachePolicy
-  CloudFrontApiOriginRequestPolicy:
-    Type: AWS::CloudFront::OriginRequestPolicy
-    Properties:
-      OriginRequestPolicyConfig:
-        Comment: Forward required viewer headers (excluding Host so API Gateway routes
-          correctly) plus CloudFront JA3 fingerprint, viewer address and ASN to the API origin.
-        Name:
-          Fn::Sub: ${ApiGatewayId}-CFApiOriginRequestPolicy
-        HeadersConfig:
-          HeaderBehavior: whitelist
-          Headers:
-          - Authorization
-          - Accept
-          - Content-Type
-          - Origin
-          - Referer
-          - User-Agent
-          - x-origin-verify
-          - CloudFront-Viewer-Address
-          - CloudFront-Viewer-ASN
-          - CloudFront-Viewer-JA3-Fingerprint
-        CookiesConfig:
-          CookieBehavior: all
-        QueryStringsConfig:
-          QueryStringBehavior: all
-    Metadata:
-      SamResourceId: CloudFrontApiOriginRequestPolicy
 
   CloudFrontResponseHeadersPolicy:
     Type: AWS::CloudFront::ResponseHeadersPolicy
@@ -223,8 +196,7 @@ Resources:
           - PATCH
           - DELETE
           CachePolicyId: 4135ea2d-6df8-44a3-9df3-4b5a84be39ad
-          OriginRequestPolicyId:
-            Ref: CloudFrontApiOriginRequestPolicy
+          OriginRequestPolicyId: b689b0a8-53d0-40ab-baf2-68738e2966ac
           TargetOriginId:
             Fn::Sub: ${ApiGatewayId}
           ViewerProtocolPolicy: redirect-to-https
