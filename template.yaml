@@ -74,14 +74,14 @@ Resources:
     Type: AWS::CloudFront::OriginRequestPolicy
     Properties:
       OriginRequestPolicyConfig:
-        Comment: Forward viewer headers plus CloudFront JA4 fingerprint, viewer address
+        Comment: Forward viewer headers plus CloudFront JA3 fingerprint, viewer address
           and ASN to the API origin.
         Name:
           Fn::Sub: ${ApiGatewayId}-CFApiOriginRequestPolicy
         HeadersConfig:
           HeaderBehavior: allViewerAndWhitelistCloudFront
           Headers:
-          - CloudFront-Viewer-JA4Fingerprint
+          - CloudFront-Viewer-JA3-Fingerprint
           - CloudFront-Viewer-Address
           - CloudFront-Viewer-ASN
         CookiesConfig:
