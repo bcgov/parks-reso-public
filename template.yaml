@@ -74,16 +74,23 @@ Resources:
     Type: AWS::CloudFront::OriginRequestPolicy
     Properties:
       OriginRequestPolicyConfig:
-        Comment: Forward viewer headers plus CloudFront JA3 fingerprint, viewer address
-          and ASN to the API origin.
+        Comment: Forward required viewer headers (excluding Host so API Gateway routes
+          correctly) plus CloudFront JA3 fingerprint, viewer address and ASN to the API origin.
         Name:
           Fn::Sub: ${ApiGatewayId}-CFApiOriginRequestPolicy
         HeadersConfig:
-          HeaderBehavior: allViewerAndWhitelistCloudFront
+          HeaderBehavior: whitelist
           Headers:
-          - CloudFront-Viewer-JA3-Fingerprint
+          - Authorization
+          - Accept
+          - Content-Type
+          - Origin
+          - Referer
+          - User-Agent
+          - x-origin-verify
           - CloudFront-Viewer-Address
           - CloudFront-Viewer-ASN
+          - CloudFront-Viewer-JA3-Fingerprint
         CookiesConfig:
           CookieBehavior: all
         QueryStringsConfig:
