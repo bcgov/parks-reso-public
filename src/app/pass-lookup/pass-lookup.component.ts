@@ -61,8 +61,13 @@ export class PassLookupComponent implements OnInit {
   checkUrlHeaders() {
     this.route.queryParams.subscribe(params => {
       for (let paramKey in params) {
-        if (this.urlData.hasOwnProperty(paramKey)) {
-          this.urlData[paramKey] = params[paramKey];
+        // Some email clients HTML-encode the ampersands in the cancellation
+        // link (& -> &amp;), so Angular parses keys as "amp;email", "amp;park",
+        // etc. and drops everything after the first param. Strip the stray
+        // "amp;" prefix so the remaining params are still recovered.
+        const normalizedKey = paramKey.replace(/^amp;/, '');
+        if (this.urlData.hasOwnProperty(normalizedKey)) {
+          this.urlData[normalizedKey] = params[paramKey];
         }
       }
     });
