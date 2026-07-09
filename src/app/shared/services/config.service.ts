@@ -30,8 +30,16 @@ export class ConfigService {
         // This will not work for local because it will try and get localhost:4200/api instead of 3000/api...
         this.configuration = await this.httpClient.get(`/api/config`).toPromise();
       } catch (e) {
-        // If all else fails, we'll just use the variables found in env.js
-        console.error('Error getting local configuration:', e);
+        // Config fetch failed: fall back to the serving origin, not the env.js localhost default.
+        console.error('Error getting configuration, falling back to serving origin:', e);
+        const host = window.location.hostname;
+        if (host !== 'localhost' && host !== '127.0.0.1') {
+          this.configuration = {
+            ...this.configuration,
+            API_LOCATION: window.location.origin,
+            ENVIRONMENT: 'prod'
+          };
+        }
       }
     }
 
