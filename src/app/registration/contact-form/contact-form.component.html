@@ -51,6 +51,23 @@
           <input type="text" class="form-control mb-1" formControlName="lastName" id="lastName" />
         </div>
         <div class="form-group">
+          <label class="mb-2" for="country">
+            Country
+           <span class="asteriks">&nbsp;*</span>
+          </label>
+          <select
+            id="country"
+            class="form-select mb-1"
+            formControlName="country"
+            [class.is-invalid]="country.invalid && country.touched">
+            <option value="" disabled selected>Select a country</option>
+            <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+          </select>
+          <div *ngIf="country.invalid && country.touched">
+            <small *ngIf="country.errors?.required" class="text-danger">*A country is required</small>
+          </div>
+        </div>
+        <div class="form-group">
           <label class="mb-2" for="email">
             Email address
            <span class="asteriks">&nbsp;*</span>

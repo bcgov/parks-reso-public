@@ -15,6 +15,7 @@ import {
 import { PhoneNumberUtil, PhoneNumber } from 'google-libphonenumber';
 import { ConfigService } from 'src/app/shared/services/config.service';
 import { Constants } from 'src/app/shared/utils/constants';
+import { COUNTRIES } from 'src/app/shared/data/countries.data';
 
 @Component({
     selector: 'app-contact-form',
@@ -37,6 +38,7 @@ export class ContactFormComponent implements OnInit {
   public isPhoneRequired = false;
   public placeholderFormat = "+1 506-234-5678";
   public countryName = "Canada";
+  public countries = COUNTRIES;
   public dialCode = "+1";
   public maxLength = 12;
   public phoneNumber = '';
@@ -114,6 +116,7 @@ export class ContactFormComponent implements OnInit {
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
+        country: ['', Validators.required],
         email: ['', [Validators.required, Validators.pattern(Constants.emailValidationRegex)]],
         emailCheck: ['', [Validators.required]],
         phone: [''],
@@ -126,6 +129,10 @@ export class ContactFormComponent implements OnInit {
         ],
       } as AbstractControlOptions
     );
+  }
+
+  get country() {
+    return this.myForm.get('country');
   }
 
   get email() {
@@ -208,6 +215,7 @@ export class ContactFormComponent implements OnInit {
       const obj = {
         firstName: this.myForm.get('firstName').value,
         lastName: this.myForm.get('lastName').value,
+        country: this.myForm.get('country').value,
         email: this.myForm.get('email').value,
         phone: `+${this.justNumbers(combinedValue)}`,
         token: this.passData.token,
@@ -219,6 +227,7 @@ export class ContactFormComponent implements OnInit {
       const obj = {
         firstName: this.myForm.get('firstName').value,
         lastName: this.myForm.get('lastName').value,
+        country: this.myForm.get('country').value,
         email: this.myForm.get('email').value,
         token: this.passData.token,
         commit: true
