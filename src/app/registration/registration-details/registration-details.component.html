@@ -1,60 +1,74 @@
 <!-- Order: Park, lot, date, name, reservation number, email -->
 <div class="reservation-info p-4" id="registration">
-    <div class='row' *ngIf="regData?.park?.name">
+  @if (regData?.park?.name) {
+    <div class='row'>
+      <p class="card-text">
+        Park Name
+      </p>
+      <h3>
+        {{ regData?.park?.name }}
+      </h3>
+      <hr>
+      </div>
+    }
+    @if (regData?.facilityName) {
+      <div class='row'>
         <p class="card-text">
-            Park Name
+          Facility Name
         </p>
         <h3>
-            {{ regData?.park?.name }}
+          {{ regData?.facilityName }} ({{ regData?.type }})
         </h3>
         <hr>
-    </div>
-    <div class='row' *ngIf="regData?.facilityName">
-        <p class="card-text">
-            Facility Name
-        </p>
-        <h3>
-            {{ regData?.facilityName }} ({{ regData?.type }})
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.date">
-        <p class="card-text">
+        </div>
+      }
+      @if (regData?.date) {
+        <div class='row'>
+          <p class="card-text">
             Date
-        </p>
-        <h3>
+          </p>
+          <h3>
             {{ regData?.shortPassDate | date : 'mediumDate' }}
-        </h3>
-        <hr>
-    </div>
-    <div class="row">
-        <p class="card-text" *ngIf="regData?.facilityType === 'Trail'">
-          Number of Trail Passes (1 per person)
-        </p>
-        <p class="card-text" *ngIf="regData?.facilityType === 'Parking'">
-          Number of Parking Passes (1 per vehicle)
-        </p>
-        <h3>
-          {{ regData?.numberOfGuests }}
-        </h3>
-        <hr />
-    </div>
-    <div class='row' *ngIf="regData?.firstName || regData?.lastName">
-        <p class="card-text">
-            Name
-        </p>
-        <h3>
-            {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
-            regData.lastName : '-'}}
-        </h3>
-        <hr>
-    </div>
-    <div class='row' *ngIf="regData?.registrationNumber">
-        <p class="card-text">
-            Reservation Number
-        </p>
-        <h3>
-            {{ regData?.registrationNumber }}
-        </h3>
-    </div>
-</div>
+          </h3>
+          <hr>
+          </div>
+        }
+        <div class="row">
+          @if (regData?.facilityType === 'Trail') {
+            <p class="card-text">
+              Number of Trail Passes (1 per person)
+            </p>
+          }
+          @if (regData?.facilityType === 'Parking') {
+            <p class="card-text">
+              Number of Parking Passes (1 per vehicle)
+            </p>
+          }
+          <h3>
+            {{ regData?.numberOfGuests }}
+          </h3>
+          <hr />
+        </div>
+        @if (regData?.firstName || regData?.lastName) {
+          <div class='row'>
+            <p class="card-text">
+              Name
+            </p>
+            <h3>
+              {{ regData?.firstName ? regData.firstName : '-'}} {{ regData?.lastName ?
+              regData.lastName : '-'}}
+            </h3>
+            <hr>
+            </div>
+          }
+          @if (regData?.registrationNumber) {
+            <div class='row'>
+              <p class="card-text">
+                Reservation Number
+              </p>
+              <h3>
+                {{ regData?.registrationNumber }}
+              </h3>
+            </div>
+          }
+        </div>

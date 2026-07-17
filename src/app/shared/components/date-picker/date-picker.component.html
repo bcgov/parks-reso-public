@@ -29,7 +29,9 @@
   </button>
 </fieldset>
 
-<div class="invalid-feedback"
-  *ngIf="isValidate && !isValidDate(ngbDate)">
-  Enter a valid date
-</div>
+@if (isValidate && !isValidDate(ngbDate)) {
+  <div class="invalid-feedback"
+    >
+    Enter a valid date
+  </div>
+}

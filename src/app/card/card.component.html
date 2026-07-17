@@ -3,7 +3,7 @@
   'card-disabled': data?.status === 'closed' && !data?.specialClosure, 
   'card': data?.status === 'open' 
 }" 
-class="my-3">
+  class="my-3">
 
   <div class="row flex-column flex-md-row">
 
@@ -21,41 +21,53 @@ class="my-3">
     <div class="col-md-4 col-sm-12 p-5 d-flex flex-column justify-content-between order-md-1">
       <div>
         <h2>{{ data?.name }}</h2>
-        <span *ngIf="data?.status === 'open' && !data?.specialClosure" class="text-success d-flex align-items-center">
-          <div class="open-circle"></div>
-          <strong class="text-override">Day-use pass required</strong>
-        </span>
-        <span *ngIf="data?.status === 'closed' && !data?.specialClosure" class="text-danger d-flex align-items-center">
-          <div class="closed-circle"></div>
-          <strong class="text-override">Day-use pass not required</strong>
-        </span>
-        <span *ngIf="data?.specialClosure === true && data?.status === 'closed'" class="text-danger d-flex align-items-center">
-          <div class="closed-circle"></div>
-          <strong class="text-override">Closed</strong>
-        </span>
-        <span *ngIf="data?.specialClosure === true && data?.status === 'open'" class="text-danger d-flex align-items-center">
-          <div class="closed-circle"></div>
-          <strong class="text-override">Closed</strong>
-        </span>
+        @if (data?.status === 'open' && !data?.specialClosure) {
+          <span class="text-success d-flex align-items-center">
+            <div class="open-circle"></div>
+            <strong class="text-override">Day-use pass required</strong>
+          </span>
+        }
+        @if (data?.status === 'closed' && !data?.specialClosure) {
+          <span class="text-danger d-flex align-items-center">
+            <div class="closed-circle"></div>
+            <strong class="text-override">Day-use pass not required</strong>
+          </span>
+        }
+        @if (data?.specialClosure === true && data?.status === 'closed') {
+          <span class="text-danger d-flex align-items-center">
+            <div class="closed-circle"></div>
+            <strong class="text-override">Closed</strong>
+          </span>
+        }
+        @if (data?.specialClosure === true && data?.status === 'open') {
+          <span class="text-danger d-flex align-items-center">
+            <div class="closed-circle"></div>
+            <strong class="text-override">Closed</strong>
+          </span>
+        }
       </div>
-      <div *ngIf="data?.status === 'open'" class="mt-3">
-        <button
-          class="btn btn-primary booking-button"
-          type="button"
-          attr.aria-label="Book a pass for {{ data?.name }}"
-          (click)="navigate(data)">
-          Book a Pass
-        </button>
-      </div>
+      @if (data?.status === 'open') {
+        <div class="mt-3">
+          <button
+            class="btn btn-primary booking-button"
+            type="button"
+            attr.aria-label="Book a pass for {{ data?.name }}"
+            (click)="navigate(data)">
+            Book a Pass
+          </button>
+        </div>
+      }
     </div>
 
     <div class="col-md-4 col-sm-12 p-5 d-flex flex-column justify-content-between order-md-2">
-      <span *ngIf="data?.specialClosure === true" class="text-danger d-flex align-items-center">
-        <strong class="text-override" [innerHTML]="specialClosureText"></strong>
-      </span>
+      @if (data?.specialClosure === true) {
+        <span class="text-danger d-flex align-items-center">
+          <strong class="text-override" [innerHTML]="specialClosureText"></strong>
+        </span>
+      }
     </div>
 
-    
+
 
   </div>
 </div>

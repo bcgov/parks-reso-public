@@ -1,6 +1,6 @@
-<ng-container *ngIf="!isHidden">
+@if (!isHidden) {
   <div class="lib-page-size-display">
-    <ng-container *ngFor="let sizeOption of sizeOptions">
+    @for (sizeOption of sizeOptions; track sizeOption) {
       <button [class.current]="isSizeOptionActive(sizeOption)"
         class="btn size-picker-option"
         (click)="sizeOptionChosen(sizeOption)"
@@ -8,6 +8,6 @@
         title="getTitle(sizeOption)">
         {{ sizeOption.displayText }}
       </button>
-    </ng-container>
+    }
   </div>
-</ng-container>
+}

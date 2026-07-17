@@ -1,3 +1,9 @@
-<app-rubbleCreekConfirmation *ngIf="isRubbleCreek" [regData]="regData"></app-rubbleCreekConfirmation>
-<app-cheakamusConfirmation *ngIf="isCheakamus" [regData]="regData"></app-cheakamusConfirmation>
-<app-diamondHeadConfirmation *ngIf="isDiamondHead" [regData]="regData"></app-diamondHeadConfirmation>
+@if (isRubbleCreek) {
+  <app-rubbleCreekConfirmation [regData]="regData"></app-rubbleCreekConfirmation>
+}
+@if (isCheakamus) {
+  <app-cheakamusConfirmation [regData]="regData"></app-cheakamusConfirmation>
+}
+@if (isDiamondHead) {
+  <app-diamondHeadConfirmation [regData]="regData"></app-diamondHeadConfirmation>
+}

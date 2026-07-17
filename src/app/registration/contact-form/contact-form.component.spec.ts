@@ -40,11 +40,14 @@ describe('ContactFormComponent', () => {
     const enablePhoneCheckbox = component.myForm.get('enablePhone');
     const phoneControl = component.myForm.get('phone');
     enablePhoneCheckbox.setValue(true);
+    fixture.componentRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     const testPhoneNumber = '250-555-5555';
     phoneControl.setValue(testPhoneNumber);
+    fixture.componentRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     enablePhoneCheckbox.setValue(false);
+    fixture.componentRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
     expect(phoneControl.value).toEqual('');
   });

@@ -1,40 +1,48 @@
 <div class="py-3 mb-2">
-    <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="from-group">
-        <label for="passId">Reservation Number:</label>
+  <form [formGroup]="lookupForm" (ngSubmit)="onSubmit()" class="from-group">
+    <label for="passId">Reservation Number:</label>
+    <div class="input-group mb-3">
+      <input type="text" id="passId" placeholder="Reservation number" class="form-control"
+        formControlName="passId" required>
+    </div>
+    <div class="row">
+      @if (urlData?.date) {
+        <div class="col">
+          <label for="date">Date:</label>
+          <div class="input-group mb-3">
+            <input type="text" id="date" placeholder="Reservation date" class="form-control"
+              formControlName="date">
+          </div>
+        </div>
+      }
+      @if (urlData?.type) {
+        <div class="col">
+          <label for="type">Type:</label>
+          <div class="input-group mb-3">
+            <input type="text" id="date" placeholder="Reservation type" class="form-control"
+              formControlName="type">
+          </div>
+        </div>
+      }
+    </div>
+    @if (urlData?.email) {
+      <div>
+        <label for="email">Email:</label>
         <div class="input-group mb-3">
-            <input type="text" id="passId" placeholder="Reservation number" class="form-control"
-                formControlName="passId" required>
+          <input type="email" id="email" placeholder="Associated email" class="form-control"
+            formControlName="email" required>
         </div>
-        <div class="row">
-            <div class="col" *ngIf="urlData?.date">
-                <label for="date">Date:</label>
-                <div class="input-group mb-3">
-                    <input type="text" id="date" placeholder="Reservation date" class="form-control"
-                        formControlName="date">
-                </div>
-            </div>
-            <div class="col" *ngIf="urlData?.type">
-                <label for="type">Type:</label>
-                <div class="input-group mb-3">
-                    <input type="text" id="date" placeholder="Reservation type" class="form-control"
-                        formControlName="type">
-                </div>
-            </div>
+      </div>
+    }
+    @if (urlData?.park) {
+      <div>
+        <label for="park">Park:</label>
+        <div class="input-group mb-3">
+          <input type="text" id="park" placeholder="Park" class="form-control"
+            [value]="parkName || urlData?.park" readonly disabled>
+          <input type="hidden" formControlName="park">
         </div>
-        <div *ngIf="urlData?.email">
-            <label for="email">Email:</label>
-            <div class="input-group mb-3">
-                <input type="email" id="email" placeholder="Associated email" class="form-control"
-                    formControlName="email" required>
-            </div>
-        </div>
-        <div *ngIf="urlData?.park">
-            <label for="park">Park:</label>
-            <div class="input-group mb-3">
-                <input type="text" id="park" placeholder="Park" class="form-control" 
-                    [value]="parkName || urlData?.park" readonly disabled>
-                <input type="hidden" formControlName="park">
-            </div>
-        </div>
-    </form>
+      </div>
+    }
+  </form>
 </div>

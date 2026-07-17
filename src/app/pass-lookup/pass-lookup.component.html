@@ -1,79 +1,101 @@
 <div class="container-md my-5">
-    <button type="button"
-        class="btn btn-link home-button"
-        (click)="navigate()">
-        <span class="material-icons md-36">
-            arrow_back
-        </span>
-        &nbsp;
-        <span>
-            {{backButtonText}}
-        </span>
-    </button>
+  <button type="button"
+    class="btn btn-link home-button"
+    (click)="navigate()">
+    <span class="material-icons md-36">
+      arrow_back
+    </span>
+    &nbsp;
+    <span>
+      {{backButtonText}}
+    </span>
+  </button>
 
-    <div class="p-4 row gx-5">
-        <div class="col-lg-6 col-md-12">
-            <h1>
-                {{title}}
-            </h1>
-            <p
-                [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
-                Follow the cancellation link in your confirmation email.
-            </p>
-            <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
-                If you are arriving on this page through the cancellation link in your confirmation email, review 
-                your pass information below. If it is correct, click '{{ verificationText }}.'
-            </p>
-            <p *ngIf="state !== 'verified'">
-                You will receive a second email with a time-sensitive cancellation link. Follow this link to cancel 
-                your reservation. 
-            </p>
-            <p *ngIf="state === 'verified'">
-                You have been sent a second email containing a time-sensitive cancellation link. You have a limited
-                time to click this cancellation link. This step is necessary to prevent someone else accidentally
-                cancelling your reservation.
-            </p>
-            <p *ngIf="state === 'cancelled'">
-                Thank you for cancelling and making your pass available to other visitors.
-            </p>
+  <div class="p-4 row gx-5">
+    <div class="col-lg-6 col-md-12">
+      <h1>
+        {{title}}
+      </h1>
+      <p
+        [ngClass]="{'font-weight-bold': state === 'blank' || state === 'not-verified' || state === 'not-cancelled'}">
+        Follow the cancellation link in your confirmation email.
+      </p>
+      <p [ngClass]="{'font-weight-bold': state === 'verify-populate'}">
+        If you are arriving on this page through the cancellation link in your confirmation email, review
+        your pass information below. If it is correct, click '{{ verificationText }}.'
+      </p>
+      @if (state !== 'verified') {
+        <p>
+          You will receive a second email with a time-sensitive cancellation link. Follow this link to cancel
+          your reservation.
+        </p>
+      }
+      @if (state === 'verified') {
+        <p>
+          You have been sent a second email containing a time-sensitive cancellation link. You have a limited
+          time to click this cancellation link. This step is necessary to prevent someone else accidentally
+          cancelling your reservation.
+        </p>
+      }
+      @if (state === 'cancelled') {
+        <p>
+          Thank you for cancelling and making your pass available to other visitors.
+        </p>
+      }
 
-            <div *ngIf="state === 'loading'" class=" text-center">
-                <span class="material-icons md-48 spinner rotating">
-                    autorenew
-                </span>
-            </div>
-            
-            <div *ngIf="state === 'not-verified'">
-                <app-alert [data]="passNotFound()"></app-alert>
-            </div>
-            
-            <div *ngIf="state === 'not-cancelled'">
-                <app-alert [data]="passNotCancelled()"></app-alert>
-            </div>
-
-            <div *ngIf="state === 'verified'">
-                <app-alert [data]="passSuccessfullyVerified()"></app-alert>
-            </div>
-            
-            <div *ngIf="state === 'cancelled'">
-                <app-alert [data]="passSuccessfullyCancelled()"></app-alert>
-            </div>
-            
-            <div *ngIf="state === 'verify-populate' || state === 'not-verified' || state === 'not-cancelled'">
-                <app-pass-lookup-form [urlData]="urlData"></app-pass-lookup-form>
-            </div>
-            
-            <div class="d-flex float-right mb-4" *ngIf="state === 'verify-populate'">
-                <button class="btn btn-primary w-100" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
-            </div>
-            
-            <div class="d-flex float-right my-3" *ngIf="state === 'not-verified' || state === 'not-cancelled'">
-                <button class="btn btn-primary w-100" (click)="navigate()">Home</button>
-            </div>
+      @if (state === 'loading') {
+        <div class=" text-center">
+          <span class="material-icons md-48 spinner rotating">
+            autorenew
+          </span>
         </div>
-        <div class="col-lg-6 d-none d-lg-block">
-            <img src="assets/images/WinterDUPxSL-6.webp"
-                class="img-fluid rounded"
-                alt="Day-use pass winter image">
+      }
+
+      @if (state === 'not-verified') {
+        <div>
+          <app-alert [data]="passNotFound()"></app-alert>
         </div>
-</div>
+      }
+
+      @if (state === 'not-cancelled') {
+        <div>
+          <app-alert [data]="passNotCancelled()"></app-alert>
+        </div>
+      }
+
+      @if (state === 'verified') {
+        <div>
+          <app-alert [data]="passSuccessfullyVerified()"></app-alert>
+        </div>
+      }
+
+      @if (state === 'cancelled') {
+        <div>
+          <app-alert [data]="passSuccessfullyCancelled()"></app-alert>
+        </div>
+      }
+
+      @if (state === 'verify-populate' || state === 'not-verified' || state === 'not-cancelled') {
+        <div>
+          <app-pass-lookup-form [urlData]="urlData"></app-pass-lookup-form>
+        </div>
+      }
+
+      @if (state === 'verify-populate') {
+        <div class="d-flex float-right mb-4">
+          <button class="btn btn-primary w-100" (click)="validateInfo()" [disabled]="!urlData">{{ verificationText }}</button>
+        </div>
+      }
+
+      @if (state === 'not-verified' || state === 'not-cancelled') {
+        <div class="d-flex float-right my-3">
+          <button class="btn btn-primary w-100" (click)="navigate()">Home</button>
+        </div>
+      }
+    </div>
+    <div class="col-lg-6 d-none d-lg-block">
+      <img src="assets/images/WinterDUPxSL-6.webp"
+        class="img-fluid rounded"
+        alt="Day-use pass winter image">
+    </div>
+  </div>
