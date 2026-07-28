@@ -40,6 +40,7 @@ export class PostPass {
     email: string;
     firstName: string;
     lastName: string;
+    country: string;
 
     type: string; // AM, PM, DAY
     numberOfGuests: number;
@@ -59,6 +60,7 @@ export class PostPass {
         this.email = obj && obj.email || null;
         this.firstName = obj && obj.firstName || null;
         this.lastName = obj && obj.lastName || null;
+        this.country = obj && obj.country || null;
 
         this.type = obj && obj.type || null;
         this.numberOfGuests = obj && obj.numberOfGuests || null;
