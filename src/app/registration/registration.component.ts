@@ -175,6 +175,7 @@ export class RegistrationComponent implements OnInit {
     obj.parkOrcs = this.park.sk;
     obj.firstName = this.regData.firstName;
     obj.lastName = this.regData.lastName;
+    obj.country = this.regData.country;
     obj.facilityName = this.regData.passType.name;
     obj.numberOfGuests = this.regData.passCount;
     obj.email = this.regData.email;

@@ -40,6 +40,30 @@ describe('PassService', () => {
 
             expect(apiService.post).toHaveBeenCalledWith('pass', jasmine.any(Object));
         });
+
+        it('should retain the country field on the posted pass', async () => {
+            const obj = {
+                parkOrcs: '1234',
+                numberOfGuests: 2,
+                lastName: 'joe',
+                facilityName: 'Facility A',
+                email: 'fresh@gmail.com',
+                firstName: 'fresh',
+                country: 'Canada',
+                date: new Date('2021-06-10T16:18:46.758Z'),
+                type: 'AM',
+                parkName: 'Rathtrevor',
+                phoneNumber: 1234567890,
+                facilityType: 'Trail',
+                token: 'testtoken',
+                commit: true,
+            };
+
+            await passService.createPass(obj, 'parkSk', 'facilitySk');
+
+            const postedPass = (apiService.post as jasmine.Spy).calls.mostRecent().args[1];
+            expect(postedPass.country).toBe('Canada');
+        });
     });
 
     describe('getPassToCancel', () => {
