@@ -19,7 +19,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        node-version: [18.x]
+        node-version: [22.x]
     defaults:
       run:
         working-directory: "./"
