@@ -26,11 +26,20 @@ describe('TimerComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // ngOnInit calls DateTime.now() again rather than reusing the instant the
+  // expiry was built from, so any elapsed time between the two reads truncates
+  // 4m59.99s down to "4:59". Freezing the clock keeps both reads identical.
   it('should set the time remaining based on the expiry input', () => {
-    const expiry = DateTime.now().plus({ minutes: 5 });
-    component.expiry = expiry;
-    component.ngOnInit();
-    expect(component.timeRemaining).toBe('5:00');
+    jasmine.clock().install();
+    try {
+      jasmine.clock().mockDate(new Date(2026, 0, 1, 12, 0, 0));
+      component.expiry = DateTime.now().plus({ minutes: 5 });
+      component.ngOnInit();
+
+      expect(component.timeRemaining).toBe('5:00');
+    } finally {
+      jasmine.clock().uninstall();
+    }
   });
 
   it('should emit timerExpire event when timer expires', () => {
