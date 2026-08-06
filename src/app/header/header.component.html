@@ -2,21 +2,23 @@
   <a href="#main-content" (click)="skipToMainContent($event)" class="skip-to-main-content btn btn-primary p-2 p-md-3 text-white text-decoration-none fw-bold">Skip to main content</a>
 </div>
 <nav class="navbar">
-    <div class="container py-3">
-        <a class="navbar-brand"
-            title="BC Parks Reservations"
-            tabindex="-1"
-            [routerLink]="['/']" target="_blank">
-            <img src="assets/images/BCParks_Primary_Reversed.webp"
-                class="bc-parks-logo" 
-                alt="BC Parks Logo">
-        </a>
-    </div>
-    <div class="sub-header">
-        <div *ngIf="showBanner"
-            class="env-banner text-center red">
-            This is the&nbsp;<strong>{{envName}}</strong>&nbsp;environment. The content you are viewing is not final and
-            subject to change.
-        </div>
-    </div>
+  <div class="container py-3">
+    <a class="navbar-brand"
+      title="BC Parks Reservations"
+      tabindex="-1"
+      [routerLink]="['/']" target="_blank">
+      <img src="assets/images/BCParks_Primary_Reversed.webp"
+        class="bc-parks-logo"
+        alt="BC Parks Logo">
+    </a>
+  </div>
+  <div class="sub-header">
+    @if (showBanner) {
+      <div
+        class="env-banner text-center red">
+        This is the&nbsp;<strong>{{envName}}</strong>&nbsp;environment. The content you are viewing is not final and
+        subject to change.
+      </div>
+    }
+  </div>
 </nav>

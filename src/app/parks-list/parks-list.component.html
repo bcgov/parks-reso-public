@@ -1,26 +1,36 @@
-<div *ngIf="loading"
+@if (loading) {
+  <div
     class=" text-center">
     <span class="material-icons md-48 spinner rotating">
-        autorenew
+      autorenew
     </span>
-</div>
-<app-list *ngIf="!loading"
+  </div>
+}
+@if (!loading) {
+  <app-list
     [tableRowComponent]="tableRowComponent"
     [tableColumns]="tableColumns"
     [data]="data"
     [totalListItems]="totalListItems"
     [options]="options">
-</app-list>
+  </app-list>
+}
 
-<div *ngIf="totalListItems === 0 && !loading">
+@if (totalListItems === 0 && !loading) {
+  <div>
     <p>
-        There are no parks to display.
+      There are no parks to display.
     </p>
-    <p *ngIf="!error">
+    @if (!error) {
+      <p>
         There are no day passes needed on provincial parks at this time.
-    </p>
-    <p *ngIf="error">
+      </p>
+    }
+    @if (error) {
+      <p>
         Please contact <a href="mailto:parkinfo@gov.bc.ca">parkinfo&#64;gov.bc.ca</a> if you continue to
         experience issues.
-    </p>
-</div>
+      </p>
+    }
+  </div>
+}

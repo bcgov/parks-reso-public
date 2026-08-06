@@ -35,6 +35,7 @@ describe('ParkDetailsComponent', () => {
   //Test the for video link to load when if criteria is met
   it('should display the video link when park has videoLink', () => {
     component.park = { videoLink: 'https://example.com' };
+    fixture.componentRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
 
     const videoLink = fixture.debugElement.query(By.css('.btn.btn-primary.p-3.w-100.justify-content-between.parking-button'));
@@ -50,6 +51,7 @@ describe('ParkDetailsComponent', () => {
   //Test for the parking map to appear when if criteria is met
   it('should display the Parking Map when park has mapLink', () => {
     component.park = { mapLink: 'https://example.com' };
+    fixture.componentRef.changeDetectorRef.markForCheck();
     fixture.detectChanges();
 
     const mapLink = fixture.debugElement.query(By.css('.btn.btn-primary.p-3.w-100.justify-content-between.parking-button'));

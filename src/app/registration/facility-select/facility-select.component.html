@@ -14,188 +14,235 @@
       [minDate]="minDate"
       (formChangeEvent)="onVisitDateChange()"
       (clearEvent)="resetTimeConfig()"
-      [maxDate]="maxDate"></app-date-picker>
+    [maxDate]="maxDate"></app-date-picker>
   </div>
   <fieldset class="form-group">
     <label class="mb-2" for="passType">Pass Type</label>
-    <div id="bookingTime2" *ngIf="isDisabled('facility')">
-      <p class="text-muted">Please select a date to see available pass types for that day.</p>
-    </div>
-    <select
-      class="form-control"
-      formControlName="passType"
-      id="passType"
-      (change)="setState('time')"
-      *ngIf="!isDisabled('facility')"
-      data-testid="passtype-select">
-      <option hidden disabled selected value>--Select a pass type--</option>
-      <option *ngFor="let facility of openFacilities" [ngValue]="facility">
-        {{ facility?.name }} - {{ facility?.type }}
-      </option>
-      <option disabled *ngFor="let facility of closedFacilities" [ngValue]="facility">
-        {{ facility?.name }} - Closed
-      </option>
-      <option disabled *ngIf="facilities?.length === 0" [ngValue]="facility">
-        Passes are not required at this park.
-      </option>
-    </select>
+    @if (isDisabled('facility')) {
+      <div id="bookingTime2">
+        <p class="text-muted">Please select a date to see available pass types for that day.</p>
+      </div>
+    }
+    @if (!isDisabled('facility')) {
+      <select
+        class="form-control"
+        formControlName="passType"
+        id="passType"
+        (change)="setState('time')"
+        data-testid="passtype-select">
+        <option hidden disabled selected value>--Select a pass type--</option>
+        @for (facility of openFacilities; track facility) {
+          <option [ngValue]="facility">
+            {{ facility?.name }} - {{ facility?.type }}
+          </option>
+        }
+        @for (facility of closedFacilities; track facility) {
+          <option disabled [ngValue]="facility">
+            {{ facility?.name }} - Closed
+          </option>
+        }
+        @if (facilities?.length === 0) {
+          <option disabled [ngValue]="facility">
+            Passes are not required at this park.
+          </option>
+        }
+      </select>
+    }
   </fieldset>
   <fieldset class="form-group" [disabled]="isDisabled('time')">
     <label class="mb-2" for="bookingTime">Booking Time</label>
-    <div id="bookingTime" *ngIf="!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered">
-      <p class="text-muted">Please select a pass type to see available passes for the selected date.</p>
-    </div>
-    <div *ngIf="showAsUnbookable">
-      <p [innerHTML]="notRequiredText"></p> 
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!showAsUnbookable">
-      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.AM.offered">
-        <div
-          class="card h-100 card-primary card-input"
-          [class.enable-pointer]="!timeConfig.AM.disabled"
-          [class.card-enabled]="!timeConfig.AM.disabled">
-          <div
-            class="card-header"
-            [class.card-header-selected]="timeConfig.AM.selected && !timeConfig.AM.disabled"
-            [class.card-header-enabled]="!timeConfig.AM.disabled && !timeConfig.AM.selected"
-            [class.card-header-disabled]="timeConfig.AM.disabled">
-            <span>
-              <input
-                type="radio"
-                id="visitTimeAM"
-                name="visitTime"
-                class="custom-control-label"
-                formControlName="visitTime"
-                value="AM"
-                [attr.disabled]="timeConfig.AM.disabled ? true : null"
-                (change)="onTimeChange('AM')" />
-            </span>
-            &nbsp;
-            <span class="ml-2"><strong>AM</strong></span>
-          </div>
-          <div class="card-body" [class.card-body-disabled]="timeConfig.AM.disabled">
-            <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('AM')">-</p>
-            <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('AM')">
-              Pass availability -
-              <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
-            </p>
-            <p class="card-text" id="arrive-departure-text-AM">
-              {{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;{{to12hTimeString(defaultPMOpeningHour)}}
-              (Depart by {{to12hTimeString(defaultPMOpeningHour)}})</p>
-          </div>
-        </div>
-      </label>
-      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.PM.offered">
-        <div
-          class="card h-100 card-primary card-input"
-          [class.enable-pointer]="!timeConfig.PM.disabled"
-          [class.card-enabled]="!timeConfig.PM.disabled">
-          <div
-            class="card-header"
-            [class.card-header-selected]="timeConfig.PM.selected && !timeConfig.PM.disabled"
-            [class.card-header-enabled]="!timeConfig.PM.disabled && !timeConfig.PM.selected"
-            [class.card-header-disabled]="timeConfig.PM.disabled">
-            <span>
-              <input
-                type="radio"
-                id="visitTimePM"
-                name="visitTime"
-                class="custom-control-label"
-                formControlName="visitTime"
-                value="PM"
-                [attr.disabled]="timeConfig.PM.disabled ? true : null"
-                (change)="onTimeChange('PM')" />
-            </span>
-            &nbsp;
-            <span class="ml-2"><strong>PM</strong></span>
-          </div>
-          <div class="card-body" [class.card-body-disabled]="timeConfig.PM.disabled">
-            <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('PM')">-</p>
-            <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('PM')">
-              Pass availability -
-              <span [ngClass]="timeConfig.PM.text">{{ timeConfig.PM.text }}</span>
-            </p>
-            <p class="card-text" id="arrive-departure-text-PM">Arrive after {{to12hTimeString(defaultPMOpeningHour)}}
-            </p>
-          </div>
-        </div>
-      </label>
-      <label class="col-lg-12 fw-normal fs-6" *ngIf="timeConfig.DAY.offered">
-        <div
-          class="card h-100 card-primary card-input"
-          [class.enable-pointer]="!timeConfig.DAY.disabled"
-          [class.card-enabled]="!timeConfig.DAY.disabled">
-          <div
-            class="card-header"
-            [class.card-header-selected]="timeConfig.DAY.selected && !timeConfig.DAY.disabled"
-            [class.card-header-enabled]="!timeConfig.DAY.disabled && !timeConfig.DAY.selected"
-            [class.card-header-disabled]="timeConfig.DAY.disabled">
-            <span>
-              <input
-                type="radio"
-                id="visitTimeDAY"
-                name="visitTime"
-                class="custom-control-label"
-                formControlName="visitTime"
-                value="DAY"
-                data-testid="day-input"
-                [attr.disabled]="timeConfig.DAY.disabled ? true : null"
-                (change)="onTimeChange('DAY')" />
-            </span>
-            &nbsp;
-            <span class="ml-2"><strong>ALL DAY</strong></span>
-          </div>
-          <div class="card-body" [class.card-body-disabled]="timeConfig.DAY.disabled">
-            <p class="card-text" data-testid="day-availability-text" *ngIf="!showTimeText('DAY')">-</p>
-            <p class="card-text" data-testid="day-availability-text" *ngIf="showTimeText('DAY')">
-              Pass availability -
-              <span [ngClass]="timeConfig.DAY.text">{{ timeConfig.DAY.text }}</span>
-            </p>
-            <p class="card-text" id="arrive-departure-text-DAY">Arrive and depart within park operating hours.</p>
-          </div>
-        </div>
-      </label>
-    </div>
+    @if (!timeConfig.AM.offered && !timeConfig.PM.offered && !timeConfig.DAY.offered) {
+      <div id="bookingTime">
+        <p class="text-muted">Please select a pass type to see available passes for the selected date.</p>
+      </div>
+    }
+    @if (showAsUnbookable) {
+      <div>
+        <p [innerHTML]="notRequiredText"></p>
+      </div>
+    }
+    @if (!showAsUnbookable) {
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        @if (timeConfig.AM.offered) {
+          <label class="col-lg-12 fw-normal fs-6">
+            <div
+              class="card h-100 card-primary card-input"
+              [class.enable-pointer]="!timeConfig.AM.disabled"
+              [class.card-enabled]="!timeConfig.AM.disabled">
+              <div
+                class="card-header"
+                [class.card-header-selected]="timeConfig.AM.selected && !timeConfig.AM.disabled"
+                [class.card-header-enabled]="!timeConfig.AM.disabled && !timeConfig.AM.selected"
+                [class.card-header-disabled]="timeConfig.AM.disabled">
+                <span>
+                  <input
+                    type="radio"
+                    id="visitTimeAM"
+                    name="visitTime"
+                    class="custom-control-label"
+                    formControlName="visitTime"
+                    value="AM"
+                    [attr.disabled]="timeConfig.AM.disabled ? true : null"
+                    (change)="onTimeChange('AM')" />
+                </span>
+                &nbsp;
+                <span class="ml-2"><strong>AM</strong></span>
+              </div>
+              <div class="card-body" [class.card-body-disabled]="timeConfig.AM.disabled">
+                @if (!showTimeText('AM')) {
+                  <p class="card-text" data-testid="day-availability-text">-</p>
+                }
+                @if (showTimeText('AM')) {
+                  <p class="card-text" data-testid="day-availability-text">
+                    Pass availability -
+                    <span [ngClass]="timeConfig.AM.text">{{ timeConfig.AM.text }}</span>
+                  </p>
+                }
+                <p class="card-text" id="arrive-departure-text-AM">
+                  {{to12hTimeString(defaultAMOpeningHour)}}&nbsp;&ndash;&nbsp;{{to12hTimeString(defaultPMOpeningHour)}}
+                (Depart by {{to12hTimeString(defaultPMOpeningHour)}})</p>
+              </div>
+            </div>
+          </label>
+        }
+        @if (timeConfig.PM.offered) {
+          <label class="col-lg-12 fw-normal fs-6">
+            <div
+              class="card h-100 card-primary card-input"
+              [class.enable-pointer]="!timeConfig.PM.disabled"
+              [class.card-enabled]="!timeConfig.PM.disabled">
+              <div
+                class="card-header"
+                [class.card-header-selected]="timeConfig.PM.selected && !timeConfig.PM.disabled"
+                [class.card-header-enabled]="!timeConfig.PM.disabled && !timeConfig.PM.selected"
+                [class.card-header-disabled]="timeConfig.PM.disabled">
+                <span>
+                  <input
+                    type="radio"
+                    id="visitTimePM"
+                    name="visitTime"
+                    class="custom-control-label"
+                    formControlName="visitTime"
+                    value="PM"
+                    [attr.disabled]="timeConfig.PM.disabled ? true : null"
+                    (change)="onTimeChange('PM')" />
+                </span>
+                &nbsp;
+                <span class="ml-2"><strong>PM</strong></span>
+              </div>
+              <div class="card-body" [class.card-body-disabled]="timeConfig.PM.disabled">
+                @if (!showTimeText('PM')) {
+                  <p class="card-text" data-testid="day-availability-text">-</p>
+                }
+                @if (showTimeText('PM')) {
+                  <p class="card-text" data-testid="day-availability-text">
+                    Pass availability -
+                    <span [ngClass]="timeConfig.PM.text">{{ timeConfig.PM.text }}</span>
+                  </p>
+                }
+                <p class="card-text" id="arrive-departure-text-PM">Arrive after {{to12hTimeString(defaultPMOpeningHour)}}
+                </p>
+              </div>
+            </div>
+          </label>
+        }
+        @if (timeConfig.DAY.offered) {
+          <label class="col-lg-12 fw-normal fs-6">
+            <div
+              class="card h-100 card-primary card-input"
+              [class.enable-pointer]="!timeConfig.DAY.disabled"
+              [class.card-enabled]="!timeConfig.DAY.disabled">
+              <div
+                class="card-header"
+                [class.card-header-selected]="timeConfig.DAY.selected && !timeConfig.DAY.disabled"
+                [class.card-header-enabled]="!timeConfig.DAY.disabled && !timeConfig.DAY.selected"
+                [class.card-header-disabled]="timeConfig.DAY.disabled">
+                <span>
+                  <input
+                    type="radio"
+                    id="visitTimeDAY"
+                    name="visitTime"
+                    class="custom-control-label"
+                    formControlName="visitTime"
+                    value="DAY"
+                    data-testid="day-input"
+                    [attr.disabled]="timeConfig.DAY.disabled ? true : null"
+                    (change)="onTimeChange('DAY')" />
+                </span>
+                &nbsp;
+                <span class="ml-2"><strong>ALL DAY</strong></span>
+              </div>
+              <div class="card-body" [class.card-body-disabled]="timeConfig.DAY.disabled">
+                @if (!showTimeText('DAY')) {
+                  <p class="card-text" data-testid="day-availability-text">-</p>
+                }
+                @if (showTimeText('DAY')) {
+                  <p class="card-text" data-testid="day-availability-text">
+                    Pass availability -
+                    <span [ngClass]="timeConfig.DAY.text">{{ timeConfig.DAY.text }}</span>
+                  </p>
+                }
+                <p class="card-text" id="arrive-departure-text-DAY">Arrive and depart within park operating hours.</p>
+              </div>
+            </div>
+          </label>
+        }
+      </div>
+    }
   </fieldset>
 
-  <div class="mb-4" *ngIf="state > getStateByString('time')">
-    <label for="passCount" class="mb-2">Number of Passes Required</label>
-    <fieldset class="form-group" *ngIf="checkPassType() !== 'Parking'">
-      <div *ngIf="state < getStateByString('passes') || !checkPassType()">
-        <input type="text" class="form-control" id="passCount" disabled />
-      </div>
-      <div *ngIf="state >= getStateByString('passes')">
-        <select class="form-control" formControlName="passCount" id="passCount" placeholder="Select Number of Passes">
-          <option [ngValue]="null" hidden disabled selected value>-- Select number of passes --</option>
-          <option *ngFor="let pass of passesAvailable" [value]="pass">{{ pass }}</option>
-          <option disabled *ngIf="passesAvailable.length < 1" [value]="notAvailable">
-            No availability at this time.
-          </option>
-        </select>
-        <label class="label-info mt-3" for="passCount">
-          One trail pass per person. You may book up to four trail passes at a time, if remaining capacity allows.
-        </label>
-        <label class="label-info" for="passCount">
-          Those 12 and under
-          <strong>do not require a pass</strong>
-          when accompanied by a parent or guardian
-        </label>
-      </div>
-    </fieldset>
-    <div *ngIf="checkPassType() === 'Parking' && state === getStateByString('passes')">
-      <ul>
-        <li>
-          <p class="fw-bold">
-            Maximum of one vehicle pass per transaction. The vehicle pass is valid for all individuals within the
-            vehicle, up to 12 persons.
-          </p>
-        </li>
-        <li>
-          <p class="fw-bold">Individual trail passes are not required.</p>
-        </li>
-      </ul>
+  @if (state > getStateByString('time')) {
+    <div class="mb-4">
+      <label for="passCount" class="mb-2">Number of Passes Required</label>
+      @if (checkPassType() !== 'Parking') {
+        <fieldset class="form-group">
+          @if (state < getStateByString('passes') || !checkPassType()) {
+            <div>
+              <input type="text" class="form-control" id="passCount" disabled />
+            </div>
+          }
+          @if (state >= getStateByString('passes')) {
+            <div>
+              <select class="form-control" formControlName="passCount" id="passCount" placeholder="Select Number of Passes">
+                <option [ngValue]="null" hidden disabled selected value>-- Select number of passes --</option>
+                @for (pass of passesAvailable; track pass) {
+                  <option [value]="pass">{{ pass }}</option>
+                }
+                @if (passesAvailable.length < 1) {
+                  <option disabled [value]="notAvailable">
+                    No availability at this time.
+                  </option>
+                }
+              </select>
+              <label class="label-info mt-3" for="passCount">
+                One trail pass per person. You may book up to four trail passes at a time, if remaining capacity allows.
+              </label>
+              <label class="label-info" for="passCount">
+                Those 12 and under
+                <strong>do not require a pass</strong>
+                when accompanied by a parent or guardian
+              </label>
+            </div>
+          }
+        </fieldset>
+      }
+      @if (checkPassType() === 'Parking' && state === getStateByString('passes')) {
+        <div>
+          <ul>
+            <li>
+              <p class="fw-bold">
+                Maximum of one vehicle pass per transaction. The vehicle pass is valid for all individuals within the
+                vehicle, up to 12 persons.
+              </p>
+            </li>
+            <li>
+              <p class="fw-bold">Individual trail passes are not required.</p>
+            </li>
+          </ul>
+        </div>
+      }
     </div>
-  </div>
+  }
 </form>
 
 <div class="d-flex justify-content-between flex-wrap">
@@ -217,10 +264,12 @@
     <div class="modal-content turnstile-modal">
       <div class="modal-body text-center">
         <button #closeModal type="button" class="btn-close invisible" data-bs-dismiss="modal"
-          aria-label="Close"></button>
-        <ngx-turnstile *ngIf="renderTurnstile" [siteKey]="siteKey" (resolved)="sendCaptchaResponse($event)"
-          errored="tokenError($event)" theme="light"
+        aria-label="Close"></button>
+        @if (renderTurnstile) {
+          <ngx-turnstile [siteKey]="siteKey" (resolved)="sendCaptchaResponse($event)"
+            errored="tokenError($event)" theme="light"
           [tabIndex]="0"></ngx-turnstile>
+        }
       </div>
     </div>
   </div>

@@ -18,8 +18,12 @@
           </h3>
         </div>
         <div class="my-3">
-          <p *ngIf="passData?.passType?.type === 'Trail'">Number of trail passes (1 per person)</p>
-          <p *ngIf="passData?.passType?.type === 'Parking'">Number of parking passes (1 per vehicle)</p>
+          @if (passData?.passType?.type === 'Trail') {
+            <p>Number of trail passes (1 per person)</p>
+          }
+          @if (passData?.passType?.type === 'Parking') {
+            <p>Number of parking passes (1 per vehicle)</p>
+          }
           <h3>
             {{ passData?.passCount }}
           </h3>
@@ -27,26 +31,28 @@
       </div>
     </div>
     <div class="col-md-12 col-lg-6 right-col">
-      <div *ngIf="allowPhoneNumber"> 
-        <div class="container-md rounded py-3 details-container">
-          <p><i><b>NEW</b> - Text message reminders with cancellation links can now be received by including your mobile
-              phone number below.</i></p>
+      @if (allowPhoneNumber) {
+        <div>
+          <div class="container-md rounded py-3 details-container">
+            <p><i><b>NEW</b> - Text message reminders with cancellation links can now be received by including your mobile
+          phone number below.</i></p>
         </div>
       </div>
+    }
 
-      <br>
+    <br>
       <form [formGroup]="myForm">
         <div class="form-group">
           <label class="mb-2" for="firstName">
             First name
-           <span class="asteriks">&nbsp;*</span>
+            <span class="asteriks">&nbsp;*</span>
           </label>
           <input type="text" class="form-control mb-1" formControlName="firstName" id="firstName" />
         </div>
         <div class="form-group">
           <label class="mb-2" for="lastName">
             Last name
-           <span class="asteriks">&nbsp;*</span>
+            <span class="asteriks">&nbsp;*</span>
           </label>
           <input type="text" class="form-control mb-1" formControlName="lastName" id="lastName" />
         </div>
@@ -61,16 +67,22 @@
             formControlName="country"
             [class.is-invalid]="country.invalid && country.touched">
             <option value="" disabled selected>Select a country</option>
-            <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+            @for (c of countries; track c) {
+              <option [value]="c">{{ c }}</option>
+            }
           </select>
-          <div *ngIf="country.invalid && country.touched">
-            <small *ngIf="country.errors?.required" class="text-danger">*A country is required</small>
-          </div>
+          @if (country.invalid && country.touched) {
+            <div>
+              @if (country.errors?.required) {
+                <small class="text-danger">*A country is required</small>
+              }
+            </div>
+          }
         </div>
         <div class="form-group">
           <label class="mb-2" for="email">
             Email address
-           <span class="asteriks">&nbsp;*</span>
+            <span class="asteriks">&nbsp;*</span>
           </label>
           <input
             [class.is-invalid]="email.invalid && email.touched"
@@ -79,11 +91,19 @@
             class="form-control mb-1"
             formControlName="email"
             placeholder="name@example.com" />
-          <div *ngIf="(email.invalid && email.touched) || email.dirty">
-            <small *ngIf="email.errors?.required" class="text-danger">*An email is required</small>
-            <small *ngIf="email.errors?.pattern" class="text-danger">*Please provide a valid email address</small>
-            <small *ngIf="myForm.errors?.['notValid']" class="text-danger">*Please provide a valid email address</small>
-          </div>
+          @if ((email.invalid && email.touched) || email.dirty) {
+            <div>
+              @if (email.errors?.required) {
+                <small class="text-danger">*An email is required</small>
+              }
+              @if (email.errors?.pattern) {
+                <small class="text-danger">*Please provide a valid email address</small>
+              }
+              @if (myForm.errors?.['notValid']) {
+                <small class="text-danger">*Please provide a valid email address</small>
+              }
+            </div>
+          }
         </div>
         <div class="form-group">
           <label class="mb-2" for="emailCheck">
@@ -96,52 +116,60 @@
             formControlName="emailCheck"
             placeholder="name@example.com"
             (paste)="$event.preventDefault()" />
-          <div *ngIf="(myForm.errors?.['notTheSame'] && emailCheck.invalid && emailCheck.touched) || emailCheck.dirty">
-            <small *ngIf="myForm.errors?.['notTheSame']" class="text-danger">*Your email addresses must match</small>
-          </div>
+          @if ((myForm.errors?.['notTheSame'] && emailCheck.invalid && emailCheck.touched) || emailCheck.dirty) {
+            <div>
+              @if (myForm.errors?.['notTheSame']) {
+                <small class="text-danger">*Your email addresses must match</small>
+              }
+            </div>
+          }
           <small class="text-muted">
             We’ll send you your pass by email. We may also email you with reminders or advisories that could impact your
             visit.
           </small>
         </div>
-        <div *ngIf="allowPhoneNumber"> 
-          <div class="form-group">
-            <label class="d-flex align-items-center" for="enablePhone" id="raiseText">
-              <input type="checkbox" class="col-2" id="enablePhone" formControlName="enablePhone">
-              <small class="col-10 mx-2 text-muted">
-                <strong>I would like to receive reminders via text message.</strong><br>
-                <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
-              </small>
-            </label>
-          </div>
-          <div class="form-group">
-            <label class="mb-2" for="phone">
-              Phone Number:
-            </label>
-            <ngx-intl-tel-input #phoneInput
-              [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
-              [enableAutoCountrySelect]="false"
-              [enablePlaceholder]="true"
-              [searchCountryFlag]="true"
-              [searchCountryField]="false"
-              [selectFirstCountry]="false"
-              [selectedCountryISO]="CountryISO.Canada"
-              [maxLength]="maxLength"
-              [phoneValidation]="true"
-              [separateDialCode]="true"
-              [phoneValidation]="true"
-              id="phone"
-              name="phone"
-              formControlName="phone"
-              [excludeCountries]="[CountryISO.Russia]"
-              (countryChange)="onCountryChange($event)"
-              appPhoneFormat></ngx-intl-tel-input>
-            <div *ngIf="myForm.get('phone').hasError('invalidPhoneNumber')">
-              <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone
-                number.</small>
+        @if (allowPhoneNumber) {
+          <div>
+            <div class="form-group">
+              <label class="d-flex align-items-center" for="enablePhone" id="raiseText">
+                <input type="checkbox" class="col-2" id="enablePhone" formControlName="enablePhone">
+                <small class="col-10 mx-2 text-muted">
+                  <strong>I would like to receive reminders via text message.</strong><br>
+                  <i>(pass reminders will be sent the day prior to arrival with a cancellation link)</i>
+                </small>
+              </label>
             </div>
-          </div>  
-        </div>
+            <div class="form-group">
+              <label class="mb-2" for="phone">
+                Phone Number:
+              </label>
+              <ngx-intl-tel-input #phoneInput
+                [preferredCountries]="[CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Canada]"
+                [enableAutoCountrySelect]="false"
+                [enablePlaceholder]="true"
+                [searchCountryFlag]="true"
+                [searchCountryField]="false"
+                [selectFirstCountry]="false"
+                [selectedCountryISO]="CountryISO.Canada"
+                [maxLength]="maxLength"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                [phoneValidation]="true"
+                id="phone"
+                name="phone"
+                formControlName="phone"
+                [excludeCountries]="[CountryISO.Russia]"
+                (countryChange)="onCountryChange($event)"
+              appPhoneFormat></ngx-intl-tel-input>
+              @if (myForm.get('phone').hasError('invalidPhoneNumber')) {
+                <div>
+                  <small class="text-danger">*You have selected to be notified by SMS. You must enter a valid phone
+                  number.</small>
+                </div>
+              }
+            </div>
+          </div>
+        }
       </form>
 
       <div class="mb-4">
@@ -149,7 +177,7 @@
           This information is collected by BC Parks, under Section 26(c) and 26(e) of the Freedom of Information and
           Protection of Privacy Act for the purpose of making and maintaining a reservation at a day use location and to
           evaluate the reservation system and process. Questions regarding this collection can be directed to
-          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">parkinfo&#64;gov.bc.ca</a> or 
+          <a href="mailto:parkinfo@gov.bc.ca?subject=Day-Use%20Pass%20Collection%20Notice">parkinfo&#64;gov.bc.ca</a> or
           Information Officer, BC Parks, PO Box 9398 Stn Prov Govt Victoria BC V8W 9M9.
         </p>
         <div>
@@ -161,54 +189,57 @@
       </div>
 
       <!--TEXT AND AKNOWLEDGEMENT FOR WINTER CONDITIONS-->
-      <div *ngIf="displayWinterWarning">
-        <div class="mb-4">
-          <p>
-            Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can happen at any
-            time, and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing
-            and footwear for winter conditions (winter boots with grip and/or snow-traction cleats). Weather and road surface
-            conditions can change quickly. Be aware of your surroundings from the moment you exit your vehicle or the
-            shuttle bus. Please ensure all members of your party are aware of the above information and are prepared for
-            winter conditions.
-          </p>
-
+      @if (displayWinterWarning) {
+        <div>
+          <div class="mb-4">
+            <p>
+              Plan ahead for variations in weather. Extreme winter conditions, including snow and ice, can happen at any
+              time, and can cause injury if not adequately prepared for. Dress appropriately, including suitable clothing
+              and footwear for winter conditions (winter boots with grip and/or snow-traction cleats). Weather and road surface
+              conditions can change quickly. Be aware of your surroundings from the moment you exit your vehicle or the
+              shuttle bus. Please ensure all members of your party are aware of the above information and are prepared for
+              winter conditions.
+            </p>
             <label class="d-flex align-items-center">
               <input type="checkbox" class="col-2" [(ngModel)]="weatherStatementCheck" [ngModelOptions]="{ standalone: true }" />
               <div class="col-10 mx-2">I have read and acknowledge the above statement<span class="asteriks">&nbsp;*</span></div>
             </label>
-        </div>
-
-        <div class="mb-4">
+          </div>
+          <div class="mb-4">
             <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">
             </a>
-
-          <div>
-            <label class="d-flex align-items-center">
-              <input type="checkbox" class="col-2" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
-              <div class="col-10 mx-2">
-                I have read and agree to the 
-                <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">Exclusion 
-                of Liability Notice</a><span class="asteriks">&nbsp;*</span>
+            <div>
+              <label class="d-flex align-items-center">
+                <input type="checkbox" class="col-2" [(ngModel)]="liabilityNoticeCheck" [ngModelOptions]="{ standalone: true }" />
+                <div class="col-10 mx-2">
+                  I have read and agree to the
+                  <a [href]="assetsUrl + '/Exclusion_of_Liability_-_BC.pdf'" target="_blank" rel="noreferrer noopener">Exclusion
+                    of Liability Notice</a><span class="asteriks">&nbsp;*</span>
+                  </div>
+                </label>
               </div>
-            </label>
+            </div>
           </div>
-        </div>
-      </div>
+        }
 
 
-      <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
-      <div class="d-flex justify-content-between flex-wrap">
-        <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" (click)="navigate()">
-          <span class="material-icons md-24">arrow_back</span>
-          Back
-        </button>
+        <!--weatherStatementCheck and liabilityNoticeCheck need to be included for winter booking-->
+        <div class="d-flex justify-content-between flex-wrap">
+          <button type="button" class="btn btn-outline-primary back-button mb-3 mb-md-0" (click)="navigate()">
+            <span class="material-icons md-24">arrow_back</span>
+            Back
+          </button>
         <button type="button" [disabled]="
             myForm.status === 'INVALID' || !collectionNoticeCheck || !winterWaiverCheck() || saving
           " class="btn btn-primary" (click)="submit()">
-          <span *ngIf="!saving">Submit</span>
-          <span *ngIf="saving" class="material-icons rotating">autorenew</span>
-        </button>
+            @if (!saving) {
+              <span>Submit</span>
+            }
+            @if (saving) {
+              <span class="material-icons rotating">autorenew</span>
+            }
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>

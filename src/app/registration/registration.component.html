@@ -1,55 +1,72 @@
-<app-timer *ngIf="state === 'contact-form' && expiry" [expiry]="expiry" (timerExpire)="onTimerExpire()"></app-timer>
+@if (state === 'contact-form' && expiry) {
+  <app-timer [expiry]="expiry" (timerExpire)="onTimerExpire()"></app-timer>
+}
 <div class="d-flex flex-column h-100 registration-container"
   [ngClass]="{ 'pb-4': !(state === 'facility-select' && !error) }">
-  <div *ngIf="error">
-    <div class="container-md mb-2">
-      <div class="gov-links"> You have experienced an issue. Please visit our FAQ page to find common solutions:
-        <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
+  @if (error) {
+    <div>
+      <div class="container-md mb-2">
+        <div class="gov-links"> You have experienced an issue. Please visit our FAQ page to find common solutions:
+          <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
+        </div>
       </div>
     </div>
-  </div>
+  }
 
   <!-- Facility select page -->
-  <div *ngIf="state === 'facility-select' && !error">
-    <div class="container-md">
-      <div class="row">
-        <div class="col-md-12 col-lg-6 left-col mb-4">
-          <app-park-details [park]="park"></app-park-details>
+  @if (state === 'facility-select' && !error) {
+    <div>
+      <div class="container-md">
+        <div class="row">
+          <div class="col-md-12 col-lg-6 left-col mb-4">
+            <app-park-details [park]="park"></app-park-details>
+          </div>
+          <div class="col-md-12 col-lg-6 right-col">
+            @if (!loading) {
+              <app-facility-select [facilities]="facilities"
+              (emitter)="getFacilityFormObj($event)"></app-facility-select>
+            }
+            @if (loading) {
+              <div class="text-center loading-container">
+                <span class="material-icons md-48 spinner rotating">autorenew</span>
+              </div>
+            }
+          </div>
         </div>
-        <div class="col-md-12 col-lg-6 right-col">
-          <app-facility-select *ngIf="!loading" [facilities]="facilities"
-            (emitter)="getFacilityFormObj($event)"></app-facility-select>
-          <div *ngIf="loading" class="text-center loading-container">
-            <span class="material-icons md-48 spinner rotating">autorenew</span>
+      </div>
+      <app-guidelines></app-guidelines>
+    </div>
+  }
+
+  <!-- Contact information page -->
+  @if (state === 'contact-form' && !error) {
+    <app-contact-form [park]="park" [passData]="facilityFormObj" (emitter)="getContactFormObj($event)"
+    ></app-contact-form>
+  }
+
+  <!-- Success -->
+  @if (state === 'success' && !error) {
+    <app-success [regData]="submitRes" [park]="park"></app-success>
+  }
+
+  @if (state === 'failure' && !error) {
+    <div class="flex-fill pb-4">
+      <app-failure [errorContent]="errorContent"></app-failure>
+    </div>
+  }
+
+  @if (state === 'failure' && !error) {
+    <div class="flex-fill pb-4">
+      <div class="container-md mb-2">
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-lg-6">
+            <p>You can visit our FAQ page to find common solutions:
+              <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
+            </p>
           </div>
         </div>
       </div>
     </div>
-
-    <app-guidelines></app-guidelines>
-  </div>
-
-  <!-- Contact information page -->
-  <app-contact-form [park]="park" [passData]="facilityFormObj" (emitter)="getContactFormObj($event)"
-    *ngIf="state === 'contact-form' && !error"></app-contact-form>
-
-  <!-- Success -->
-  <app-success [regData]="submitRes" [park]="park" *ngIf="state === 'success' && !error"></app-success>
-
-  <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
-    <app-failure [errorContent]="errorContent"></app-failure>
-  </div>
-
-  <div *ngIf="state === 'failure' && !error" class="flex-fill pb-4">
-    <div class="container-md mb-2">
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-lg-6">
-          <p>You can visit our FAQ page to find common solutions:
-            <a href="javascript:void(0);" (click)="openFAQ()">Frequently Asked Questions</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  }
 </div>

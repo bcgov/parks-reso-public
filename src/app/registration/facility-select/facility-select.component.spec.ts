@@ -43,6 +43,7 @@ describe('FacilitySelectComponent', () => {
       // initialize the component
       component.facilities = facilities;
       component.ngOnInit();
+      fixture.componentRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       // set the visit date
@@ -55,6 +56,7 @@ describe('FacilitySelectComponent', () => {
       });
       const datePickerComponent = fixture.debugElement.query(By.css('app-date-picker'));
       datePickerComponent.triggerEventHandler('formChangeEvent', null);
+      fixture.componentRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       // pick a facility
@@ -62,6 +64,7 @@ describe('FacilitySelectComponent', () => {
       const passTypeElement = facilityElement.query(By.css('[data-testid="passtype-select"]')).nativeElement;
       passTypeElement.value = passTypeElement.options[1].value;
       passTypeElement.dispatchEvent(new Event('change'));
+      fixture.componentRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
     }
 
@@ -355,6 +358,7 @@ describe('FacilitySelectComponent', () => {
       component.timeConfig.AM.offered = true;
       component.defaultPMOpeningHour = 13;
 
+      fixture.componentRef.changeDetectorRef.markForCheck();
       await fixture.detectChanges();
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-AM"));
@@ -367,6 +371,7 @@ describe('FacilitySelectComponent', () => {
     it('should test PM arrival text', () => {
       component.timeConfig.PM.offered = true;
       component.defaultPMOpeningHour = 13;
+      fixture.componentRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-PM"));
@@ -375,6 +380,7 @@ describe('FacilitySelectComponent', () => {
 
     it('should test DAY arrival text', () => {
       component.timeConfig.DAY.offered = true;
+      fixture.componentRef.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
       const textElement = fixture.debugElement.query(By.css("#arrive-departure-text-DAY"));

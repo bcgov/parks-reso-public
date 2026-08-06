@@ -1,7 +1,9 @@
 <div class="row">
-    <div *ngFor="let park of rowData"
-        class="col-12">
-        <app-card [data]="park">
-        </app-card>
+  @for (park of rowData; track park) {
+    <div
+      class="col-12">
+      <app-card [data]="park">
+      </app-card>
     </div>
+  }
 </div>
